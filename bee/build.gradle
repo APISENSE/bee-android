@@ -50,6 +50,7 @@ allprojects {
 artifactory {
     contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
+        contextUrl = "${artifactory_contextUrl}"
         repository {
             repoKey = 'lib-release'
             username = "${artifactory_user}"
@@ -59,6 +60,7 @@ artifactory {
         }
     }
     resolve {
+        contextUrl = "${artifactory_contextUrl}"
         repository {
             repoKey = 'repo'
             username = "${artifactory_user}"
