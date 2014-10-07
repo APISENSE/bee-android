@@ -1,4 +1,6 @@
+#Gradle
 .gradle
+gradle.properties
 
 #IntelliJ project config
 /.idea/**
