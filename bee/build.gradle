@@ -9,12 +9,12 @@ buildscript {
 apply plugin: 'com.android.application'
 
 repositories {
-        jcenter()
+    jcenter()
 }
 
 android {
-    compileSdkVersion 'android-L'
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 19
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
         applicationId "com.apisense.bee"
