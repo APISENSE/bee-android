@@ -1,7 +1,16 @@
 .gradle
+
+#IntelliJ project config
+/.idea/**
+**/*.iml
+**/*.iws
 /local.properties
-/out
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
+
 /build
+/gen
+/log
+/target
+/out
+
+#Mac
+.DS_Store
