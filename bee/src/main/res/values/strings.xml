@@ -11,4 +11,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="user_identity">Logged as: %1$s</string>
+
+    <string name="experiment_exception_on_closure">An experiment did not close correctly</string>
+    <string name="status_changed_to_anonymous">Your are now disconnected</string>
 </resources>
