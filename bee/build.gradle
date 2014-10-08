@@ -14,7 +14,8 @@ buildscript {
         classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.0.9')
     }
 }
-apply plugin: 'com.android.application'
+
+apply plugin: 'android'
 
 repositories {
     jcenter()
