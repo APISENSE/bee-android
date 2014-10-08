@@ -1,4 +1,4 @@
-package com.apisense.bee.ui;
+package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
