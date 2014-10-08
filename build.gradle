@@ -22,19 +22,6 @@ buildscript {
 
 allprojects {
     apply plugin: 'artifactory'
-/*
-    repositories {
-        mavenCentral()
-        jcenter()
-        maven {
-            url 'http://repo.apisense.com/apisense'
-            credentials {
-                username = "${artifactory_user}"
-                password = "${artifactory_password}"
-            }
-        }
-    }
-    */
 }
 
 artifactory {
@@ -46,7 +33,6 @@ artifactory {
             username = "${artifactory_user}"
             password = "${artifactory_password}"
             maven = true
-
         }
     }
     resolve {
@@ -56,7 +42,6 @@ artifactory {
             username = "${artifactory_user}"
             password = "${artifactory_password}"
             maven = true
-
         }
     }
 }

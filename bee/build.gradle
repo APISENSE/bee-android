@@ -1,7 +1,6 @@
-apply plugin: 'com.android.application'
+apply plugin: 'android'
 
 repositories{
-    mavenCentral()
     jcenter()
     maven {
         url 'http://repo.apisense.com/apisense'
@@ -14,9 +13,7 @@ repositories{
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile(group: 'junit', name: 'junit', version: '4.+')
-    compile(group: 'fr.inria.apisense', name: 'apisense-client', version: '2.1.0')
-    compile(group: 'fr.inria.asl', name: 'asl', version: '2.0.0', ext: 'pom')
+    compile(group: 'fr.inria.apisense', name: 'apisense-library', version: '2.1.0')
 }
 
 android {
