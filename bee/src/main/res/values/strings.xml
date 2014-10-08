@@ -2,7 +2,12 @@
 <resources>
 
     <string name="app_name">Bee</string>
-    <string name="title_activity_bee_application">BeeApplication</string>
+
+    <string name="title_activity_slideshow">Bee Application</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_store">StoreActivity</string>
+    <string name="title_activity_collect_details">CollectDetailsActivity</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
