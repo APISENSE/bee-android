@@ -77,7 +77,7 @@ public class SignInFragment extends Fragment {
         } else {
             SignInTask signInTask = new SignInTask(new AsyncTasksCallbacks() {
                 @Override
-                public void onTaskCompleted(String response) {
+                public void onTaskCompleted(Object response) {
                     Log.i(TAG, "Connection result: " + response);
                     if (response.equals("success")) {
                         mSignInBtn.setText("Disconnect");
