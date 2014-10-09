@@ -8,11 +8,11 @@ import fr.inria.bsense.appmodel.Experiment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RetrieveCollectsTask extends AsyncTask<Void, Void, List<Experiment>>{
+public class RetrieveExperimentsTask extends AsyncTask<Void, Void, List<Experiment>>{
     private final String TAG = this.getClass().getSimpleName();
     private AsyncTasksCallbacks listener;
 
-    public RetrieveCollectsTask(AsyncTasksCallbacks listener) {
+    public RetrieveExperimentsTask(AsyncTasksCallbacks listener) {
         this.listener = listener;
     }
 

@@ -66,8 +66,8 @@
             android:label="@string/title_activity_store" >
         </activity>
         <activity
-            android:name=".ui.activity.CollectDetailsActivity"
-            android:label="@string/title_activity_collect_details" >
+            android:name=".ui.activity.ExperimentDetailsActivity"
+            android:label="@string/title_activity_experiment_details" >
         </activity>
 
 

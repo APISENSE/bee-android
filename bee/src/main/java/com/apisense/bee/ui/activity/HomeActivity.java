@@ -2,7 +2,6 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,8 +10,8 @@ import android.view.View;
 import android.widget.*;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.RetrieveCollectsTask;
-import com.apisense.bee.ui.adapter.SubscribedCollectsListAdapter;
+import com.apisense.bee.backend.RetrieveExperimentsTask;
+import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
@@ -22,18 +21,18 @@ import java.util.List;
 
 public class HomeActivity extends Activity {
     private final String TAG = getClass().getSimpleName();
-    protected List<Experiment> collects = new ArrayList<Experiment>();
-    private RetrieveCollectsTask collectsRetrieval;
+    protected List<Experiment> experiments = new ArrayList<Experiment>();
+    private RetrieveExperimentsTask experimentsRetrieval;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ListView subscribedCollects = (ListView) findViewById(R.id.home_collect_lists);
-        ArrayAdapter experimentsAdapter = new SubscribedCollectsListAdapter(getBaseContext(),
-                                                                            R.layout.fragment_collectelement,
-                                                                            collects);
+        ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
+        ArrayAdapter experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
+                                                                            R.layout.fragment_experimentelement,
+                experiments);
         subscribedCollects.setAdapter(experimentsAdapter);
 
         updateUI();
@@ -54,17 +53,17 @@ public class HomeActivity extends Activity {
         if (isUserAuthenticated()) {
             loginButton.setText(getString(R.string.logout));
             user_identity.setText(getString(R.string.user_identity, "usernameToRetrieve"));
-            retrieveActiveCollects();
+            retrieveActiveExperiments();
         } else {
             loginButton.setText(R.string.login);
             user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
         }
     }
 
-    private void retrieveActiveCollects() {
-        if (collectsRetrieval == null) {
-            collectsRetrieval = new RetrieveCollectsTask(new CollectListRetrieved());
-            collectsRetrieval.execute();
+    private void retrieveActiveExperiments() {
+        if (experimentsRetrieval == null) {
+            experimentsRetrieval = new RetrieveExperimentsTask(new ExperimentListRetrieved());
+            experimentsRetrieval.execute();
         }
    }
 
@@ -101,17 +100,17 @@ public class HomeActivity extends Activity {
         }
     }
 
-    public class CollectListRetrieved implements AsyncTasksCallbacks {
+    public class ExperimentListRetrieved implements AsyncTasksCallbacks {
 
         @Override
         public void onTaskCompleted(Object response) {
-            collects = (List<Experiment>) response;
-            Log.i(TAG, "number of Active Experiments: " + collects.size());
+            experiments = (List<Experiment>) response;
+            Log.i(TAG, "number of Active Experiments: " + experiments.size());
         }
 
         @Override
         public void onTaskCanceled() {
-            collectsRetrieval = null;
+            experimentsRetrieval = null;
         }
     }
 }

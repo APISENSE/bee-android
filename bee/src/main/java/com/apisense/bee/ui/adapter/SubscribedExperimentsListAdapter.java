@@ -6,15 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.apisense.bee.R;
-import fr.inria.bsense.BeeSenseApplication;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BeeSenseServiceManager;
-import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SubscribedCollectsListAdapter extends ArrayAdapter<Experiment> {
+public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     private BeeSenseServiceManager apisense = null;
     private List<Experiment> data;
 
@@ -24,7 +21,7 @@ public class SubscribedCollectsListAdapter extends ArrayAdapter<Experiment> {
      * @param context
      * @param layoutResourceId
      */
-    public SubscribedCollectsListAdapter(Context context, int layoutResourceId) {
+    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId) {
         super(context, layoutResourceId);
         //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
     }
@@ -37,7 +34,7 @@ public class SubscribedCollectsListAdapter extends ArrayAdapter<Experiment> {
      * @param experiments
      *            list of experiments
      */
-    public SubscribedCollectsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
+    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
         super(context, layoutResourceId, experiments);
         //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
         data = experiments;
@@ -83,14 +80,14 @@ public class SubscribedCollectsListAdapter extends ArrayAdapter<Experiment> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_collectelement, parent);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experimentelement, parent);
 
         Experiment item = getItem(position);
 
-        TextView title = (TextView) convertView.findViewById(R.id.collectelement_sampletitle);
+        TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
         title.setText(item.name);
 
-        TextView description = (TextView) convertView.findViewById(R.id.collectelement_company);
+        TextView description = (TextView) convertView.findViewById(R.id.experimentelement_company);
         description.setText(item.organization);
 
         return convertView;

@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.apisense.bee.R;
 
-public class CollectListElementFragment extends Fragment {
+public class ExperimentListElementFragment extends Fragment {
 
-    public CollectListElementFragment() {
+    public ExperimentListElementFragment() {
         // Required empty public constructor
     }
 
