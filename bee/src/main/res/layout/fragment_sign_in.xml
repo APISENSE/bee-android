@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.apisense.bee.ui.fragment.SignInFragment">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
@@ -20,6 +24,7 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_marginLeft="10dip"/>
+
                 <TextView style="@style/ApisenseBigText"
                         android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
@@ -36,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dip"
                     android:layout_below="@id/header">
+
                 <!--  Email Label -->
                 <TextView style="@style/ApisenseText"
                           android:layout_width="fill_parent"
@@ -46,6 +52,7 @@
                           android:layout_marginTop="5dip"
                           android:layout_marginBottom="20dip"
                           android:singleLine="true"/>
+
                 <!--  Password Label -->
                 <TextView style="@style/ApisenseText"
                           android:layout_width="fill_parent"
@@ -56,6 +63,7 @@
                           android:layout_marginTop="5dip"
                           android:singleLine="true"
                           android:password="true"/>
+
                 <!-- Login button -->
                 <Button android:id="@+id/btnLogin"
                         android:layout_width="fill_parent"
@@ -67,4 +75,5 @@
             <!-- Login Form Ends -->
 
         </RelativeLayout>
+    </ScrollView>
 </FrameLayout>
