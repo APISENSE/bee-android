@@ -11,7 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.apisense.bee.R;
-import com.apisense.bee.ui.fragment.SlideshowFragment;
+import com.apisense.bee.ui.fragment.*;
 
 public class SlideshowActivity extends FragmentActivity {
 
@@ -85,7 +85,14 @@ public class SlideshowActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new SlideshowFragment();
+            switch (position) {
+                case 0: return new WhatFragment();
+                case 1: return new HowFragment();
+                case 2: return new RewardFragment();
+                case 3: return new SignInFragment();
+                case 4: return new RegisterFragment();
+                default: return new NotFoundFragment();
+            }
         }
 
         @Override
