@@ -28,7 +28,7 @@
                 <TextView style="@style/ApisenseBigText"
                         android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
-                          android:text="Welcome back !"/>
+                          android:text="@string/welcomeback"/>
 
             </LinearLayout>
             <!--  Header Ends -->
@@ -46,7 +46,7 @@
                 <TextView style="@style/ApisenseText"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
-                          android:text="Email"/>
+                          android:text="@string/email"/>
                 <EditText android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginTop="5dip"
@@ -57,7 +57,7 @@
                 <TextView style="@style/ApisenseText"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
-                          android:text="Password"/>
+                          android:text="@string/password"/>
                 <EditText android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginTop="5dip"
@@ -69,7 +69,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/api_button"
-                        android:text="Login"/>
+                        android:text="@string/login"/>
 
             </LinearLayout>
             <!-- Login Form Ends -->
