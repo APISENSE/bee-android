@@ -21,24 +21,23 @@ public class HomeActivity extends Activity {
 
         // Set up Apisense
         // Todo: Create APISENSEListener implementation elsewhere (move initialization to slideshow?)
-        if (! APISENSE.isInit()) {
+//        if (! APISENSE.isInit()) {
             APISENSE.init(getBaseContext(), new APISENSEListenner() {
                 @Override
                 public void onConnected(BeeSenseServiceManager beeSenseServiceManager) {
                     ;
                 }
             });
-        }
+//     }
         APISENSE.apisense(getBaseContext(),new APISENSEListenner() {
             @Override
             public void onConnected(BeeSenseServiceManager beeSenseServiceManager) {
                 Toast.makeText(getBaseContext(), "capisense initalized!", Toast.LENGTH_LONG);
             }
         });
-
         setContentView(R.layout.activity_home);
 
-        // Setting good text on login/logout button (may use an icon)
+        // Setting up strings, depending on the logged user
         Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
 //        if (isUserAuthenticated()) {
 //            loginButton.setText(R.string.logout);
@@ -60,7 +59,6 @@ public class HomeActivity extends Activity {
             }
             APISENSE.apisServerService().disconnect();
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
-
         } else {
             // TODO: Redirect to signin Activity / Fragment
             //Intent intent = new Intent(SettingsActivity.this, SigninActivity.class);

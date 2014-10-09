@@ -9,7 +9,7 @@ gradle.properties
 /local.properties
 
 /build
-/gen
+**/gen
 /log
 /target
 /out
