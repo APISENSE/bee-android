@@ -12,21 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.fragment.*;
 
 public class SlideshowActivity extends FragmentActivity {
 
     /**
-     * The number of pages (wizard steps) to show in this demo.
+     * The number of pages (wizard steps) to show
+     * Be careful if you are adding some slides, button listeners may not match
      */
     private static final int NUM_PAGES = 5;
 
-    /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
-     */
     private ViewPager mPager;
 
     /**
@@ -64,7 +60,6 @@ public class SlideshowActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.slideshow, menu);
         return true;
     }
@@ -93,10 +88,6 @@ public class SlideshowActivity extends FragmentActivity {
         }
     }
 
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
