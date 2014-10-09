@@ -19,7 +19,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/goto_first"
+            android:id="@+id/signIn"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="0.5"
@@ -28,7 +28,7 @@
         </Button>
 
         <Button
-            android:id="@+id/goto_last"
+            android:id="@+id/register"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="0.5"

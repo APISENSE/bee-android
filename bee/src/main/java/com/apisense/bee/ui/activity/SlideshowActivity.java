@@ -10,6 +10,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.fragment.*;
 
@@ -40,6 +43,22 @@ public class SlideshowActivity extends FragmentActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        // Add onClick listeners
+        Button signInBtn = (Button) findViewById(R.id.signIn);
+        Button registerBtn = (Button) findViewById(R.id.register);
+
+        signInBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mPager.setCurrentItem(3);
+            }
+        });
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mPager.setCurrentItem(4);
+            }
+        });
     }
 
 
