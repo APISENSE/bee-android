@@ -11,12 +11,15 @@
     <string name="action_privacy">Privacy</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="passwordConfirm">Confirm password</string>
+    <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="user_identity">%1$s</string>
     <string name="experiment_exception_on_closure">An experiment did not close correctly</string>
     <string name="status_changed_to_anonymous">Your are now disconnected</string>
-    <string name="welcomeback">Welcome back !</string>
+    <string name="welcomeback">Welcome back</string>
+    <string name="join_us">Join us</string>
 
     <string name="what_slide">APISENSE makes it easy to collect data with crowds of mobile phone sensors.
         Make sense and innovate on top of real world data feedback, in real time!</string>

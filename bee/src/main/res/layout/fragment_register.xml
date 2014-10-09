@@ -4,9 +4,79 @@
     android:layout_height="match_parent"
     tools:context="com.apisense.bee.ui.fragment.RegisterFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="register fragment" />
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin">
 
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+            <!--  Header Starts-->
+            <LinearLayout android:id="@+id/header"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+
+                <TextView style="@style/ApisenseBigText"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="@string/join_us"/>
+
+            </LinearLayout>
+            <!--  Header Ends -->
+
+            <!-- Login Form -->
+            <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/header">
+
+                <!--  Email Label -->
+                <TextView style="@style/ApisenseText"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/email"/>
+                <EditText android:id="@+id/registerEmail"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:singleLine="true"/>
+
+                <!--  Password Label -->
+                <TextView style="@style/ApisenseText"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/password"/>
+                <EditText android:id="@+id/registerPassword"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:singleLine="true"
+                          android:password="true"/>
+
+                <!--  Password confirm Label -->
+                <TextView style="@style/ApisenseText"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/passwordConfirm"/>
+                <EditText android:id="@+id/registerPasswordConfirm"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:singleLine="true"
+                          android:password="true"/>
+
+                <!-- Login button -->
+                <Button android:id="@+id/registerBtn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/api_button"
+                        android:text="@string/register"/>
+
+            </LinearLayout>
+            <!-- Login Form Ends -->
+
+        </RelativeLayout>
+    </ScrollView>
 </FrameLayout>

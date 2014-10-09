@@ -6,7 +6,8 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin">
 
         <RelativeLayout
                 android:layout_width="fill_parent"
@@ -16,17 +17,10 @@
             <LinearLayout android:id="@+id/header"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
-                          android:paddingTop="5dip"
-                          android:paddingBottom="5dip"
                           android:orientation="horizontal">
 
-                <ImageView android:src="@drawable/ic_launcher"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_marginLeft="10dip"/>
-
                 <TextView style="@style/ApisenseBigText"
-                        android:layout_width="fill_parent"
+                          android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="@string/welcomeback"/>
 
@@ -39,7 +33,6 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dip"
                     android:layout_below="@id/header">
 
                 <!--  Email Label -->
@@ -50,8 +43,6 @@
                 <EditText android:id="@+id/signInEmail"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
-                          android:layout_marginTop="5dip"
-                          android:layout_marginBottom="20dip"
                           android:singleLine="true"/>
 
                 <!--  Password Label -->
@@ -62,7 +53,6 @@
                 <EditText android:id="@+id/signInPassword"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
-                          android:layout_marginTop="5dip"
                           android:singleLine="true"
                           android:password="true"/>
 
