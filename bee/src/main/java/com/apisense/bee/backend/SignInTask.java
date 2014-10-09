@@ -11,7 +11,7 @@ import fr.inria.bsense.APISENSE;
 public class SignInTask extends AsyncTask<String, Void, String> {
     private final String TAG = this.getClass().getSimpleName();
     private AsyncTasksCallbacks listener;
-
+    private final String DEFAULT_URL = "http://beta.apisense.io/hive";
     public SignInTask(AsyncTasksCallbacks listener) {
         this.listener = listener;
     }
@@ -29,6 +29,8 @@ public class SignInTask extends AsyncTask<String, Void, String> {
         try {
             if (!params[2].isEmpty())
                 APISENSE.apisServerService().setCentralHost(params[2]);
+            else
+                APISENSE.apisServerService().setCentralHost(this.DEFAULT_URL);
             APISENSE.apisServerService().connect(params[0], params[1]);
         } catch (Exception e) {
             e.printStackTrace();

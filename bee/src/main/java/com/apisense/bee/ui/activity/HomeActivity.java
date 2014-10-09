@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,65 +14,43 @@ import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.SignInTask;
+import com.apisense.bee.ui.fragment.SignInFragment;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.APISENSEListenner;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BeeSenseServiceManager;
+import fr.inria.asl.rhino.RhinoEngineDescriptor;
+
 
 public class HomeActivity extends Activity {
-
+    private final String TAG = getClass().getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Set up Apisense
         // Todo: Create APISENSEListener implementation elsewhere (move initialization to slideshow?)
-        apisenseSetup();
 
         // Setting up actual UI
         setContentView(R.layout.activity_home);
+       // updateUI();
+    }
+
+    private void updateUI(){
         TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
         Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
 
         // Generating messages depending on the logged user
         if (isUserAuthenticated()) {
-             loginButton.setText(R.string.logout);
-             user_identity.setText(getString(R.string.user_identity, "usernameToRetrieve"));
+            loginButton.setText(getString(R.string.logout));
+            user_identity.setText(getString(R.string.user_identity, "usernameToRetrieve"));
         } else {
             loginButton.setText(R.string.login);
-            user_identity.setText(getString(R.string.user_identity, R.string.anonymous_user));
+            user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
         }
     }
 
-    /**
-     * init APISENSE
-     */
-    private void apisenseSetup() {
-        // Some magic needed?
-        APISENSE.init(this, new APISENSEListenner() {
-            @Override
-            public void onConnected(BeeSenseServiceManager apisense) {
-                if (!APISENSE.apisServerService().isConnected()) {
-                    Toast.makeText(getBaseContext(), "Not connected, redirecting (or not)", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getBaseContext(), "You ARE connected", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        APISENSE.apisense(getBaseContext(),new APISENSEListenner() {
-            @Override
-            public void onConnected(BeeSenseServiceManager beeSenseServiceManager) {
-                Toast.makeText(getBaseContext(), "apisense initalized!", Toast.LENGTH_LONG);
-            }
-        });
-
-    }
-
     private boolean isUserAuthenticated() {
-        return true;
-        //Crash at the moment :/
-//        return APISENSE.apisServerService().isConnected();
+        return APISENSE.apisServerService().isConnected();
     }
 
     @Override
@@ -101,13 +80,15 @@ public class HomeActivity extends Activity {
                 Toast.makeText(getApplicationContext(), R.string.experiment_exception_on_closure, Toast.LENGTH_SHORT).show();
             }
             APISENSE.apisServerService().disconnect();
+            updateUI();
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
         } else {
             // Hardcoded login
             SignInTask signInTest = new SignInTask(new AsyncTasksCallbacks() {
                 @Override
                 public void onTaskCompleted(String response) {
-                    Toast.makeText(getBaseContext(), "LoggedIn", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "Connection result:" + response);
+                    updateUI();
                 }
 
                 @Override
@@ -115,11 +96,12 @@ public class HomeActivity extends Activity {
 
                 }
             });
-            signInTest.execute("aveuiller", "password", "");
+            signInTest.execute("login", "password", "");
+
             // TODO: Redirect to signin Fragment (or make it appear on screen?)
-            //Intent intent = new Intent(SettingsActivity.this, SigninActivity.class);
-            //startActivity(intent);
-            //finish();
+            Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

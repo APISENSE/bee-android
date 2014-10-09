@@ -14,6 +14,9 @@ repositories{
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile(group: 'fr.inria.apisense', name: 'apisense-library', version: '2.1.0')
+    compile(group: 'fr.inria.asl', name: 'asl', version: '2.1.0', ext: 'pom')
+    compile(group: 'fr.inria.asl', name: 'asl-interpreter-javascript', version: '2.1.0')
+    compile(group: 'fr.inria.asl', name: 'asl-node-android-facade', version: '2.1.0')
 }
 
 android {
