@@ -8,9 +8,10 @@
     <string name="title_activity_collect_details">CollectDetailsActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_privacy">Privacy</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
-    <string name="user_identity">Logged as: %1$s</string>
+    <string name="user_identity">%1$s</string>
     <string name="experiment_exception_on_closure">An experiment did not close correctly</string>
     <string name="status_changed_to_anonymous">Your are now disconnected</string>
 
@@ -19,4 +20,6 @@
     <string name="how_slide">Share your data with us to get a better World :O</string>
     <string name="reward_slide">The more you give, the more you get ! Trade points for real stuff ! Amazing ;)</string>
 
+    <string name="anonymous_user">Unknown Bee</string>
+    
 </resources>
