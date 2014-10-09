@@ -14,4 +14,9 @@
     <string name="experiment_exception_on_closure">An experiment did not close correctly</string>
     <string name="status_changed_to_anonymous">Your are now disconnected</string>
 
+    <string name="what_slide">APISENSE makes it easy to collect data with crowds of mobile phone sensors.
+        Make sense and innovate on top of real world data feedback, in real time!</string>
+    <string name="how_slide">Share your data with us to get a better World :O</string>
+    <string name="reward_slide">The more you give, the more you get ! Trade points for real stuff ! Amazing ;)</string>
+
 </resources>
