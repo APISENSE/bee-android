@@ -4,9 +4,67 @@
     android:layout_height="match_parent"
     tools:context="com.apisense.bee.ui.fragment.SignInFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Sign in fragment" />
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
+            <!--  Header Starts-->
+            <LinearLayout android:id="@+id/header"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:paddingTop="5dip"
+                          android:paddingBottom="5dip"
+                          android:orientation="horizontal">
+
+                <ImageView android:src="@drawable/ic_launcher"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="10dip"/>
+                <TextView style="@style/ApisenseBigText"
+                        android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="Welcome back !"/>
+
+            </LinearLayout>
+            <!--  Header Ends -->
+
+            <!-- Login Form -->
+            <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dip"
+                    android:layout_below="@id/header">
+                <!--  Email Label -->
+                <TextView style="@style/ApisenseText"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="Email"/>
+                <EditText android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="5dip"
+                          android:layout_marginBottom="20dip"
+                          android:singleLine="true"/>
+                <!--  Password Label -->
+                <TextView style="@style/ApisenseText"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="Password"/>
+                <EditText android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="5dip"
+                          android:singleLine="true"
+                          android:password="true"/>
+                <!-- Login button -->
+                <Button android:id="@+id/btnLogin"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/api_button"
+                        android:text="Login"/>
+
+            </LinearLayout>
+            <!-- Login Form Ends -->
+
+        </RelativeLayout>
 </FrameLayout>

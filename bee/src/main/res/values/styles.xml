@@ -5,4 +5,17 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ApisenseSlideText" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="ApisenseBigText" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="ApisenseText" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

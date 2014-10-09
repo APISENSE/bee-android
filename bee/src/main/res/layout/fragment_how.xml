@@ -5,13 +5,11 @@
     tools:context="com.apisense.bee.ui.fragment.HowFragment">
 
     <TextView
+        style="@style/ApisenseSlideText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:fontFamily="sans-serif-light"
-        android:textColor="@color/white"
-        android:textSize="30sp"
         android:text="@string/how_slide" />
 
 </FrameLayout>
