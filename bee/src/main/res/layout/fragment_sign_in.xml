@@ -33,26 +33,30 @@
 
             <!--  Email Label -->
             <com.apisense.bee.widget.ApisenseTextView
-                      style="@style/ApisenseText"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:text="@string/email"/>
-            <EditText android:id="@+id/signInEmail"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:singleLine="true"/>
+                style="@style/ApisenseText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email"/>
+            <com.apisense.bee.widget.ApisenseEditText
+                style="@style/ApisenseEditText"
+                android:id="@+id/signInEmail"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"/>
 
             <!--  Password Label -->
             <com.apisense.bee.widget.ApisenseTextView
-                      style="@style/ApisenseText"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:text="@string/password"/>
-            <EditText android:id="@+id/signInPassword"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:singleLine="true"
-                      android:password="true"/>
+                style="@style/ApisenseText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/password"/>
+            <com.apisense.bee.widget.ApisenseEditText
+                style="@style/ApisenseEditText"
+                android:id="@+id/signInPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:password="true"/>
 
             <!-- Login button -->
             <Button android:id="@+id/signInLoginBtn"

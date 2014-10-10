@@ -8,6 +8,7 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <!-- TextView Styles -->
     <style name="ApisenseSlideText" parent="android:Widget.TextView">
         <item name="android:textSize">30sp</item>
         <item name="android:typeface">sans</item>
@@ -23,6 +24,13 @@
         <item name="android:typeface">sans</item>
     </style>
 
+    <!-- EditText Styles -->
+    <style name="ApisenseEditText" parent="android:Widget.EditText">
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+
+    <!-- Header style -->
     <style name="sectionHeader" parent="@android:style/Widget.TextView">
         <item name="android:drawableBottom">@drawable/section_header</item>
         <item name="android:drawablePadding">4dp</item>
