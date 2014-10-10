@@ -6,19 +6,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.apisense.bee.R;
 
-public class CollectDetailsActivity extends Activity {
+public class ExperimentDetailsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collect_details);
+        setContentView(R.layout.activity_experiment_details);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.collect_details, menu);
+        getMenuInflater().inflate(R.menu.experiment_details, menu);
         return true;
     }
 

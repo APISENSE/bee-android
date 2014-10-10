@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.apisense.bee" >
+
+    <!-- Force libraries to sync their target SDK on this manifest -->
+    <uses-sdk tools:node="replace"/>
 
     <!-- BEGIN APISENSE SETTINGS -->
     <uses-feature android:name="android.hardware.camera"/>
@@ -57,8 +62,8 @@
             android:label="@string/title_activity_store" >
         </activity>
         <activity
-            android:name=".ui.activity.CollectDetailsActivity"
-            android:label="@string/title_activity_collect_details" >
+            android:name=".ui.activity.ExperimentDetailsActivity"
+            android:label="@string/title_activity_experiment_details" >
         </activity>
 
 

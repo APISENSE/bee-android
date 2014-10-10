@@ -2,37 +2,47 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.SignInTask;
-import com.apisense.bee.ui.fragment.SignInFragment;
+import com.apisense.bee.backend.RetrieveExperimentsTask;
+import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.APISENSEListenner;
 import fr.inria.bsense.appmodel.Experiment;
-import fr.inria.bsense.service.BeeSenseServiceManager;
-import fr.inria.asl.rhino.RhinoEngineDescriptor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeActivity extends Activity {
     private final String TAG = getClass().getSimpleName();
+    protected List<Experiment> experiments = new ArrayList<Experiment>();
+    private RetrieveExperimentsTask experimentsRetrieval;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set up Apisense
-        // Todo: Create APISENSEListener implementation elsewhere (move initialization to slideshow?)
-
-        // Setting up actual UI
         setContentView(R.layout.activity_home);
-       // updateUI();
+
+        ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
+        ArrayAdapter experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
+                                                                            R.layout.fragment_experimentelement,
+                experiments);
+        subscribedCollects.setAdapter(experimentsAdapter);
+
+        updateUI();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
     }
 
     private void updateUI(){
@@ -43,21 +53,22 @@ public class HomeActivity extends Activity {
         if (isUserAuthenticated()) {
             loginButton.setText(getString(R.string.logout));
             user_identity.setText(getString(R.string.user_identity, "usernameToRetrieve"));
+            retrieveActiveExperiments();
         } else {
             loginButton.setText(R.string.login);
             user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
         }
     }
 
+    private void retrieveActiveExperiments() {
+        if (experimentsRetrieval == null) {
+            experimentsRetrieval = new RetrieveExperimentsTask(new ExperimentListRetrieved());
+            experimentsRetrieval.execute();
+        }
+   }
+
     private boolean isUserAuthenticated() {
         return APISENSE.apisServerService().isConnected();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
     }
 
     public void doLaunchSettings(MenuItem button){
@@ -83,25 +94,23 @@ public class HomeActivity extends Activity {
             updateUI();
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
         } else {
-            // Hardcoded login
-            SignInTask signInTest = new SignInTask(new AsyncTasksCallbacks() {
-                @Override
-                public void onTaskCompleted(String response) {
-                    Log.i(TAG, "Connection result:" + response);
-                    updateUI();
-                }
-
-                @Override
-                public void onTaskCanceled() {
-
-                }
-            });
-            signInTest.execute("login", "password", "");
-
-            // TODO: Redirect to signin Fragment (or make it appear on screen?)
             Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
             startActivity(intent);
             finish();
+        }
+    }
+
+    public class ExperimentListRetrieved implements AsyncTasksCallbacks {
+
+        @Override
+        public void onTaskCompleted(Object response) {
+            experiments = (List<Experiment>) response;
+            Log.i(TAG, "number of Active Experiments: " + experiments.size());
+        }
+
+        @Override
+        public void onTaskCanceled() {
+            experimentsRetrieval = null;
         }
     }
 }
