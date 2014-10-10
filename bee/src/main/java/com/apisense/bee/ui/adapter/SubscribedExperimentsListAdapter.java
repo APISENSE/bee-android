@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import fr.inria.bsense.service.BeeSenseServiceManager;
 import java.util.List;
 
 public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
+    private final String TAG = getClass().getSimpleName();
+
     private BeeSenseServiceManager apisense = null;
     private List<Experiment> data;
 
@@ -37,7 +40,16 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
         super(context, layoutResourceId, experiments);
         //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
-        data = experiments;
+        this.setDataSet(experiments);
+    }
+
+    /**
+     * Change the dataSet of the adapter
+     *
+     * @param dataSet
+     */
+    public void setDataSet(List<Experiment> dataSet){
+        this.data = dataSet;
     }
 
     /**
@@ -80,15 +92,20 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experimentelement, parent);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experimentelement, null);
 
         Experiment item = getItem(position);
 
-        TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
-        title.setText(item.name);
+        Log.v(TAG, "View asked (as a listItem)for Experiment: " + item);
 
-        TextView description = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        description.setText(item.organization);
+        TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
+        title.setText(item.niceName);
+
+        TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
+        company.setText(item.organization);
+
+        TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
+        description.setText(item.description);
 
         return convertView;
     }

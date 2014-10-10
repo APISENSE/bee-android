@@ -21,20 +21,22 @@ import java.util.List;
 
 public class HomeActivity extends Activity {
     private final String TAG = getClass().getSimpleName();
-    protected List<Experiment> experiments = new ArrayList<Experiment>();
+
+    // Data
+    protected SubscribedExperimentsListAdapter experimentsAdapter;
+
+   // Asynchronous Tasks
     private RetrieveExperimentsTask experimentsRetrieval;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
+                                                                  R.layout.fragment_experimentelement,
+                                                                  new ArrayList<Experiment>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
-        ArrayAdapter experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
-                                                                            R.layout.fragment_experimentelement,
-                experiments);
         subscribedCollects.setAdapter(experimentsAdapter);
-
         updateUI();
     }
 
@@ -45,15 +47,19 @@ public class HomeActivity extends Activity {
         return true;
     }
 
+    public void setExperiments(List<Experiment> experiments) {
+        this.experimentsAdapter.setDataSet(experiments);
+    }
+
     private void updateUI(){
         TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
         Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
 
+        retrieveActiveExperiments();
         // Generating messages depending on the logged user
         if (isUserAuthenticated()) {
             loginButton.setText(getString(R.string.logout));
             user_identity.setText(getString(R.string.user_identity, "usernameToRetrieve"));
-            retrieveActiveExperiments();
         } else {
             loginButton.setText(R.string.login);
             user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
@@ -62,7 +68,8 @@ public class HomeActivity extends Activity {
 
     private void retrieveActiveExperiments() {
         if (experimentsRetrieval == null) {
-            experimentsRetrieval = new RetrieveExperimentsTask(new ExperimentListRetrieved());
+            experimentsRetrieval = new RetrieveExperimentsTask(new ExperimentListRetrieved(),
+                                                               RetrieveExperimentsTask.GET_INSTALLED_EXPERIMENTS);
             experimentsRetrieval.execute();
         }
    }
@@ -104,8 +111,13 @@ public class HomeActivity extends Activity {
 
         @Override
         public void onTaskCompleted(Object response) {
-            experiments = (List<Experiment>) response;
-            Log.i(TAG, "number of Active Experiments: " + experiments.size());
+            experimentsRetrieval = null;
+            List<Experiment> exp = (List<Experiment>) response;
+            Log.i(TAG, "number of Active Experiments: " + exp.size());
+
+           // Updating listview
+            setExperiments(exp);
+            experimentsAdapter.notifyDataSetChanged();
         }
 
         @Override
