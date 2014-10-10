@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Bee</string>
-    <string name="title_activity_slideshow">Bee Application</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="title_activity_store">StoreActivity</string>
-    <string name="title_activity_experiment_details">CollectDetailsActivity</string>
+    <string translatable="false" name="app_name">Bee</string>
+    <string translatable="false" name="title_activity_slideshow">Bee Application</string>
+    <string translatable="false" name="title_activity_home">HomeActivity</string>
+    <string translatable="false" name="title_activity_store">StoreActivity</string>
+    <string translatable="false" name="title_activity_experiment_details">CollectDetailsActivity</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_privacy">Privacy</string>

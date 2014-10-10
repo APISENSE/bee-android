@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Bee</string>
-
-    <string name="title_activity_slideshow">Bee Application</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="title_activity_store">StoreActivity</string>
-    <string name="title_activity_experiment_details">CollectDetailsActivity</string>
-
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_privacy">Intimité</string>
