@@ -31,12 +31,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/header">
 
-            <!--  Email Label -->
+            <!--  Pseudo Label -->
             <com.apisense.bee.widget.ApisenseTextView
                 style="@style/ApisenseText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/email"/>
+                android:text="@string/pseudo"/>
             <com.apisense.bee.widget.ApisenseEditText
                 style="@style/ApisenseEditText"
                 android:id="@+id/signInEmail"

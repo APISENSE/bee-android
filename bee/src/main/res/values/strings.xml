@@ -6,7 +6,9 @@
     <string name="title_activity_home" translatable="false">HomeActivity</string>
     <string name="title_activity_store" translatable="false">StoreActivity</string>
     <string name="title_activity_experiment_details" translatable="false">CollectDetailsActivity</string>
-    <string name="title_activity_privacy">PrivacyActivity</string>
+    <string name="title_activity_privacy" translatable="false">PrivacyActivity</string>
+
+    <string name="pseudo" translatable="false">Pseudo</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
