@@ -79,11 +79,11 @@ public class HomeActivity extends Activity {
     }
 
     public void doLaunchSettings(MenuItem button){
-        Toast.makeText(getBaseContext(), "Settings clicked", Toast.LENGTH_SHORT).show();
+        Intent settingsIntent = new Intent(this, SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 
     public void doLaunchPrivacy(MenuItem button){
-        Toast.makeText(getBaseContext(), "Privacy clicked", Toast.LENGTH_SHORT).show();
         Intent privacyIntent = new Intent(this, PrivacyActivity.class);
         startActivity(privacyIntent);
     }

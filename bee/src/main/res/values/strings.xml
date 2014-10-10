@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string translatable="false" name="app_name">Bee</string>
-    <string translatable="false" name="title_activity_slideshow">Bee Application</string>
-    <string translatable="false" name="title_activity_home">HomeActivity</string>
-    <string translatable="false" name="title_activity_store">StoreActivity</string>
-    <string translatable="false" name="title_activity_experiment_details">CollectDetailsActivity</string>
+    <string name="app_name" translatable="false">Bee</string>
+    <string name="title_activity_slideshow" translatable="false">Bee Application</string>
+    <string name="title_activity_home" translatable="false">HomeActivity</string>
+    <string name="title_activity_store" translatable="false">StoreActivity</string>
+    <string name="title_activity_experiment_details" translatable="false">CollectDetailsActivity</string>
+    <string name="title_activity_privacy">PrivacyActivity</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -26,9 +27,27 @@
     <string name="how_slide">Share your data with us to get a better World :O</string>
     <string name="reward_slide">The more you give, the more you get ! Trade points for real stuff ! Amazing ;)</string>
     <string name="anonymous_user">Unknown Bee</string>
-    <string name="title_activity_privacy">PrivacyActivity</string>
+
     <string name="privacy_section_sensor">Activated Sensors</string>
     <string name="privacy_section_filter">Defined Filters</string>
     <string name="privacy_label_filter_none">No filter yet</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <string name="settings_section_account">Account Management</string>
+    <string name="settings_action_logout">Logout</string>
+    <string name="settings_section_general">General Settings</string>
+    <string name="settings_label_version">Application Version</string>
+    <string name="settings_btn_update">Look for update</string>
+    <string name="settings_placeholder_version">%1$d</string>
+    <string name="settings_section_about">About</string>
+    <string name="settings_about_content">
+        <![CDATA[
+	    	<p>
+	    		L\'application Bee fait partie de la plateforme <a href="http://www.apisense.fr">Apisense</a>,
+	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.fr">contact@apisense.fr</a>.
+			</p>
+	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
+	    ]]>
+    </string>
 
 </resources>
