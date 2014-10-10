@@ -1,7 +1,8 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 repositories{
     jcenter()
+    mavenCentral()
     maven {
         url 'http://repo.apisense.com/apisense'
         credentials {
@@ -17,6 +18,8 @@ dependencies {
     compile(group: 'fr.inria.asl', name: 'asl', version: '2.1.0', ext: 'pom')
     compile(group: 'fr.inria.asl', name: 'asl-interpreter-javascript', version: '2.1.0')
     compile(group: 'fr.inria.asl', name: 'asl-node-android-facade', version: '2.1.0')
+
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }
 
 android {
