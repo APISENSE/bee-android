@@ -1,81 +1,76 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.apisense.bee.ui.fragment.RegisterFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_horizontal_margin">
 
-    <ScrollView
+    <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/activity_horizontal_margin">
+            android:layout_height="wrap_content">
 
-        <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+        <!--  Header Starts-->
+        <LinearLayout android:id="@+id/header"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
 
-            <!--  Header Starts-->
-            <LinearLayout android:id="@+id/header"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="horizontal">
+            <TextView style="@style/ApisenseBigText"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/join_us"/>
 
-                <TextView style="@style/ApisenseBigText"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="@string/join_us"/>
+        </LinearLayout>
+        <!--  Header Ends -->
 
-            </LinearLayout>
-            <!--  Header Ends -->
+        <!-- Login Form -->
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header">
 
-            <!-- Login Form -->
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
+            <!--  Email Label -->
+            <TextView style="@style/ApisenseText"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/email"/>
+            <EditText android:id="@+id/registerEmail"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:singleLine="true"/>
+
+            <!--  Password Label -->
+            <TextView style="@style/ApisenseText"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/password"/>
+            <EditText android:id="@+id/registerPassword"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:singleLine="true"
+                      android:password="true"/>
+
+            <!--  Password confirm Label -->
+            <TextView style="@style/ApisenseText"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/passwordConfirm"/>
+            <EditText android:id="@+id/registerPasswordConfirm"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content"
+                      android:singleLine="true"
+                      android:password="true"/>
+
+            <!-- Login button -->
+            <Button android:id="@+id/registerBtn"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/header">
+                    android:background="@drawable/api_button"
+                    android:text="@string/register"/>
 
-                <!--  Email Label -->
-                <TextView style="@style/ApisenseText"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:text="@string/email"/>
-                <EditText android:id="@+id/registerEmail"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:singleLine="true"/>
+        </LinearLayout>
+        <!-- Login Form Ends -->
 
-                <!--  Password Label -->
-                <TextView style="@style/ApisenseText"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:text="@string/password"/>
-                <EditText android:id="@+id/registerPassword"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:singleLine="true"
-                          android:password="true"/>
-
-                <!--  Password confirm Label -->
-                <TextView style="@style/ApisenseText"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:text="@string/passwordConfirm"/>
-                <EditText android:id="@+id/registerPasswordConfirm"
-                          android:layout_width="fill_parent"
-                          android:layout_height="wrap_content"
-                          android:singleLine="true"
-                          android:password="true"/>
-
-                <!-- Login button -->
-                <Button android:id="@+id/registerBtn"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/api_button"
-                        android:text="@string/register"/>
-
-            </LinearLayout>
-            <!-- Login Form Ends -->
-
-        </RelativeLayout>
-    </ScrollView>
-</FrameLayout>
+    </RelativeLayout>
+</ScrollView>
