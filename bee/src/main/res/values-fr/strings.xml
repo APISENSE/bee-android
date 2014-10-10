@@ -13,7 +13,7 @@
     <string name="user_identity">%1$s</string>
     <string name="experiment_exception_on_closure">Une expérience ne s\'est pas fermée correctement</string>
     <string name="status_changed_to_anonymous">Vous êtes déconnecté</string>
-    <string name="welcomeback">Welcome back</string>
+    <string name="welcomeback">Bon retour</string>
     <string name="join_us">Rejoignez-nous</string>
 
     <string name="what_slide">APISENSE rend facile la collecte de données en utilisant les capteurs des téléphones portables.</string>

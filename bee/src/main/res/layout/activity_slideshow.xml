@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:background="@drawable/api_button"
-            android:text="Sign in" >
+            android:text="@string/login" >
         </Button>
 
         <Button
@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:background="@drawable/api_button"
-            android:text="Register" >
+            android:text="@string/register" >
         </Button>
     </LinearLayout>
 
