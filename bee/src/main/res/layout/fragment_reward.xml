@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.apisense.bee.ui.fragment.RewardFragment">
 
-    <com.apisense.bee.widget.ApisenseSlideTextView
+    <com.apisense.bee.widget.ApisenseTextView
         style="@style/ApisenseSlideText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
