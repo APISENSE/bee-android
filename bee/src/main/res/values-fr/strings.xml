@@ -14,11 +14,11 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="passwordConfirm">Confirmez password</string>
-    <string name="register">S'enregistrer</string>
+    <string name="register">S\'enregistrer</string>
     <string name="login">Connexion</string>
     <string name="logout">Déconnexion</string>
     <string name="user_identity">%1$s</string>
-    <string name="experiment_exception_on_closure">Une expérience ne s'est pas fermée correctement</string>
+    <string name="experiment_exception_on_closure">Une expérience ne s\'est pas fermée correctement</string>
     <string name="status_changed_to_anonymous">Vous êtes déconnecté</string>
     <string name="welcomeback">Welcome back</string>
     <string name="join_us">Rejoignez-nous</string>
