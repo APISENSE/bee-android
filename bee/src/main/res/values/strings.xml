@@ -20,12 +20,14 @@
     <string name="status_changed_to_anonymous">Your are now disconnected</string>
     <string name="welcomeback">Welcome back</string>
     <string name="join_us">Join us</string>
-
     <string name="what_slide">APISENSE makes it easy to collect data with crowds of mobile phone sensors.
         Make sense and innovate on top of real world data feedback, in real time!</string>
     <string name="how_slide">Share your data with us to get a better World :O</string>
     <string name="reward_slide">The more you give, the more you get ! Trade points for real stuff ! Amazing ;)</string>
-
     <string name="anonymous_user">Unknown Bee</string>
+    <string name="title_activity_privacy">PrivacyActivity</string>
+    <string name="privacy_section_sensor">Activated Sensors</string>
+    <string name="privacy_section_filter">Defined Filters</string>
+    <string name="privacy_label_filter_none">No filter yet</string>
 
 </resources>

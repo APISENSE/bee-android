@@ -64,6 +64,11 @@
             android:name=".ui.activity.ExperimentDetailsActivity"
             android:label="@string/title_activity_experiment_details" >
         </activity>
+        <activity
+            android:name=".ui.activity.PrivacyActivity"
+            android:parentActivityName=".ui.activity.HomeActivity"
+            android:label="@string/title_activity_privacy">
+        </activity>
 
 
         <service android:name="fr.inria.bsense.service.BeeSenseServiceManager"
