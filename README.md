@@ -16,3 +16,14 @@ The Apisense Android app project.
 # Build process
 
 * Build with Gradle ```$ ./gradlew clean build```
+
+# Create and run tests
+
+1. Creation
+    * Place cursor (in the Editor window) at the class name inside one of the files that you want to test (e.g. MainActivity”) and press Alt+Enter.
+    * Select “Create Test”. Select the proper superclass for Robotium: android.test.ActivityInstrumentationTestCase2. IntelliJ will create test file and package needed.
+
+2. Run
+    * Using IntelliJ, run all tests
+    * Using command lines ```$ ./gradlew installDebugTest``` and ```$ ./gradlew connectedAndroidTest``` -- The first one may not be necessary
+    * You can find report inside ```YourApp/YourApp/build/outputs/reports/androidTests/connected/index.html```
