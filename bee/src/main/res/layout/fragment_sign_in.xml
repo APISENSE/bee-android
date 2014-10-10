@@ -15,7 +15,8 @@
                       android:layout_height="wrap_content"
                       android:orientation="horizontal">
 
-            <TextView style="@style/ApisenseBigText"
+            <com.apisense.bee.widget.ApisenseTextView
+                      style="@style/ApisenseBigText"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/welcomeback"/>
@@ -31,7 +32,8 @@
                 android:layout_below="@id/header">
 
             <!--  Email Label -->
-            <TextView style="@style/ApisenseText"
+            <com.apisense.bee.widget.ApisenseTextView
+                      style="@style/ApisenseText"
                       android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:text="@string/email"/>
@@ -41,7 +43,8 @@
                       android:singleLine="true"/>
 
             <!--  Password Label -->
-            <TextView style="@style/ApisenseText"
+            <com.apisense.bee.widget.ApisenseTextView
+                      style="@style/ApisenseText"
                       android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:text="@string/password"/>
