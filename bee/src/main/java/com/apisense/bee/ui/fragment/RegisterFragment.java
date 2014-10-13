@@ -1,7 +1,6 @@
 package com.apisense.bee.ui.fragment;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -12,8 +11,6 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.widget.Button;
 import android.widget.EditText;
@@ -135,7 +132,7 @@ public class RegisterFragment extends Fragment {
             focusView = mPasswordEditText;
             cancel = true;
         } else if (mPasswordRepeat.length() < 4 || !mPasswordRepeat.equals(mPassword)) {
-            mPasswordConfirmEditText.setError(getString(R.string.signup_error_invalid_repeat_password));
+            mPasswordConfirmEditText.setError(getString(R.string.register_error_invalid_repeat_password));
             focusView = mPasswordConfirmEditText;
             cancel = true;
         } else if (TextUtils.isEmpty(mApisenseUrl)) {

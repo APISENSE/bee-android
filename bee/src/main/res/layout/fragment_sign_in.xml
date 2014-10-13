@@ -19,7 +19,7 @@
                       style="@style/ApisenseBigText"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="@string/welcomeback"/>
+                      android:text="@string/slide_welcome_back"/>
 
         </LinearLayout>
         <!--  Header Ends -->
