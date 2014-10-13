@@ -39,7 +39,7 @@
                 android:text="@string/pseudo"/>
             <com.apisense.bee.widget.ApisenseEditText
                 style="@style/ApisenseEditText"
-                android:id="@+id/registerEmail"
+                android:id="@+id/registerPseudo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"/>
@@ -71,6 +71,22 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:password="true"/>
+
+            <!-- Hive -->
+            <com.apisense.bee.widget.ApisenseTextView
+                    style="@style/ApisenseText"
+                    android:id="@+id/apisenseHive"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hive_label"
+                    android:visibility="invisible"/>
+            <com.apisense.bee.widget.ApisenseEditText
+                    style="@style/ApisenseEditText"
+                    android:id="@+id/apisenseEditText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hive_url"
+                    android:visibility="invisible" />
 
             <!-- Login button -->
             <Button android:id="@+id/registerBtn"

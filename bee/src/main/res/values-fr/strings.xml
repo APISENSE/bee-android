@@ -10,11 +10,16 @@
     <string name="register">S\'enregistrer</string>
     <string name="login">Connexion</string>
     <string name="logout">Déconnexion</string>
+    <string name="error">Erreur</string>
     <string name="user_identity">%1$s</string>
     <string name="experiment_exception_on_closure">Une expérience ne s\'est pas fermée correctement</string>
     <string name="status_changed_to_anonymous">Vous êtes déconnecté</string>
     <string name="welcomeback">Bon retour</string>
     <string name="join_us">Rejoignez-nous</string>
+
+    <string name="error_field_required">Champ obligatoire</string>
+    <string name="signin_error_invalid_password">Mot de passe trop court</string>
+    <string name="signup_error_invalid_repeat_password">Mot de passe différents</string>
 
     <string name="what_slide">APISENSE rend facile la collecte de données en utilisant les capteurs des téléphones portables.</string>
     <string name="how_slide">Partagez vos données avec nous pour un Monde meilleur</string>
