@@ -4,8 +4,8 @@
     <style name="ApisenseTheme" parent="android:Theme.Holo">
         <!-- Customize your theme here. -->
         <item name="android:textColor">@color/black</item>
-        <item name="android:background">@color/white</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:actionBarStyle">@style/ApisenseActionBar</item>
     </style>
 
     <!-- TextView Styles -->
@@ -29,6 +29,11 @@
         <item name="android:textColor">@color/orange</item>
     </style>
 
+    <!-- ActionBar styles -->
+    <style name="ApisenseActionBar"
+           parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@color/orange</item>
+    </style>
 
     <!-- Header style -->
     <style name="sectionHeader" parent="@android:style/Widget.TextView">
