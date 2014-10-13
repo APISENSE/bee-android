@@ -27,6 +27,9 @@ public class SignInFragment extends Fragment {
 
     private final String TAG = "SignInFragment";
 
+    /**
+     * Default constructor
+     */
     public SignInFragment() {
         // Required empty public constructor
     }
@@ -55,19 +58,33 @@ public class SignInFragment extends Fragment {
 
     // - - - - -
 
+    /**
+     * Check if current user is authenticated
+     * @return true or false
+     */
     private boolean isUserAuthenticated() {
         return APISENSE.apisServerService().isConnected();
     }
 
+    /**
+     * Check if sign in form is correctly filled
+     * @return true or false
+     */
     private boolean isInputCorrect() {
         String mPseudo = mPseudoEditText.getText().toString();
         String mPassword = mPasswordEditText.getText().toString();
+
         if (TextUtils.isEmpty(mPseudo) || TextUtils.isEmpty(mPassword)) {
             return false;
         }
+
         return true;
     }
 
+    /**
+     * Run sign in task in background
+     * @param loginButton button pressed to start task
+     */
     public void doLoginLogout(View loginButton){
         if (!isInputCorrect()) {
             Toast.makeText(getActivity(), getResources().getString(R.string.empty_field), Toast.LENGTH_LONG).show();

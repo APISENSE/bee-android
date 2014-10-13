@@ -88,6 +88,9 @@ public class SlideshowActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * Slide show adapter used to generate all slides
+     */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
