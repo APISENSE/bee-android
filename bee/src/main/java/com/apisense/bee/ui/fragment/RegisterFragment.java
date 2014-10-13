@@ -1,9 +1,8 @@
 package com.apisense.bee.ui.fragment;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +11,6 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.widget.Button;
 import android.widget.EditText;

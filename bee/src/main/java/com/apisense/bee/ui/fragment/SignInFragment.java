@@ -2,7 +2,7 @@ package com.apisense.bee.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +10,11 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.SignInTask;
 import com.apisense.bee.ui.activity.HomeActivity;
-import com.apisense.bee.ui.activity.SlideshowActivity;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
