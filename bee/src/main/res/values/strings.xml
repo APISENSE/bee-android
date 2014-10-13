@@ -21,18 +21,23 @@
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
-    <string name="error">Error</string>
     <string name="user_identity">%1$s</string>
-    <string name="experiment_exception_on_closure">An experiment did not close correctly</string>
-    <string name="status_changed_to_anonymous">Your are now disconnected</string>
     <string name="welcomeback">Welcome back</string>
     <string name="join_us">Join us</string>
+    <string name="anonymous_user">Unknown Bee</string>
+
+    <!-- User feedbacks -->
+    <string name="error">Error</string>
+    <string name="failed_to_connect">Impossible to sign in. Check your association login and password.</string>
+    <string name="empty_field">Check all fields are filled</string>
+    <string name="experiment_exception_on_closure">An experiment did not close correctly</string>
+    <string name="status_changed_to_anonymous">Your are now disconnected</string>
+
+    <!-- Slides text -->
     <string name="what_slide">APISENSE makes it easy to collect data with crowds of mobile phone sensors.
         Make sense and innovate on top of real world data feedback, in real time!</string>
     <string name="how_slide">Share your data with us to get a better World :O</string>
     <string name="reward_slide">The more you give, the more you get ! Trade points for real stuff ! Amazing ;)</string>
-    <string name="anonymous_user">Unknown Bee</string>
-
     <string name="error_field_required">Requested field</string>
     <string name="signin_error_invalid_password">Password is too short</string>
     <string name="signup_error_invalid_repeat_password">Different password</string>

@@ -39,7 +39,7 @@
                 android:text="@string/pseudo"/>
             <com.apisense.bee.widget.ApisenseEditText
                 style="@style/ApisenseEditText"
-                android:id="@+id/signInEmail"
+                android:id="@+id/signInPseudo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"/>
