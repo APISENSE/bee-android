@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Other -->
+    <string name="title_activity_slideshow">Application Bee</string>
+    <string name="title_activity_home">Experiences</string>
+    <string name="title_activity_store">Magasin</string>
+    <string name="title_activity_experiment_details">Détails</string>
+    <string name="title_activity_privacy">Intimité</string>
+    <string name="title_activity_settings">Réglages</string>
+
     <!-- Global -->
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>

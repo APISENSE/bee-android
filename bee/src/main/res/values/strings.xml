@@ -3,12 +3,12 @@
 
     <!-- Other -->
     <string name="app_name" translatable="false">Bee</string>
-    <string name="title_activity_slideshow" translatable="false">Bee Application</string>
-    <string name="title_activity_home" translatable="false">HomeActivity</string>
-    <string name="title_activity_store" translatable="false">StoreActivity</string>
-    <string name="title_activity_experiment_details" translatable="false">CollectDetailsActivity</string>
-    <string name="title_activity_privacy" translatable="false">PrivacyActivity</string>
-    <string name="title_activity_settings" translatable="false">SettingsActivity</string>
+    <string name="title_activity_slideshow">Bee Application</string>
+    <string name="title_activity_home">Experiments</string>
+    <string name="title_activity_store">Store</string>
+    <string name="title_activity_experiment_details">Details</string>
+    <string name="title_activity_privacy">Privacy</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Global -->
     <string name="hello_world">Hello world!</string>
