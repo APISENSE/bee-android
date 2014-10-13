@@ -1,30 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Other -->
+    <string name="title_activity_slideshow">Application Bee</string>
+    <string name="title_activity_home">Experiences</string>
+    <string name="title_activity_store">Magasin</string>
+    <string name="title_activity_experiment_details">Détails</string>
+    <string name="title_activity_privacy">Intimité</string>
+    <string name="title_activity_settings">Réglages</string>
+
+    <!-- Global -->
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_privacy">Intimité</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="passwordConfirm">Confirmez password</string>
+
+    <!-- User feedbacks -->
+    <string name="error">Erreur</string>
+    <string name="failed_to_connect">Impossible de se connecter. Vérifier votre pseudo / mot de passe</string>
+    <string name="empty_field">Tous les champs doivent être renseignés</string>
+    <string name="experiment_exception_on_closure">Une expérience ne s\'est pas fermée correctement</string>
+    <string name="status_changed_to_anonymous">Vous êtes déconnecté(e)</string>
+    <string name="error_field_required">Champ requis</string>
+    <string name="signin_error_invalid_password">Mot de passe trop court</string>
+    <string name="register_error_invalid_repeat_password">Les mots de passe sont différents</string>
+
+    <!-- Register / Sign in / User infos -->
     <string name="register">S\'enregistrer</string>
     <string name="login">Connexion</string>
     <string name="logout">Déconnexion</string>
-    <string name="error">Erreur</string>
     <string name="user_identity">%1$s</string>
-    <string name="experiment_exception_on_closure">Une expérience ne s\'est pas fermée correctement</string>
-    <string name="status_changed_to_anonymous">Vous êtes déconnecté</string>
-    <string name="welcomeback">Bon retour</string>
-    <string name="join_us">Rejoignez-nous</string>
+    <string name="anonymous_user">Abeille inconnue</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="passwordConfirm">Confirmez mot de passe</string>
 
-    <string name="error_field_required">Champ obligatoire</string>
-    <string name="signin_error_invalid_password">Mot de passe trop court</string>
-    <string name="signup_error_invalid_repeat_password">Mot de passe différents</string>
+    <!-- Label form -->
+    <string name="hive_url">http://beta.apisense.io/hive</string>
 
-    <string name="what_slide">APISENSE rend facile la collecte de données en utilisant les capteurs des téléphones portables.</string>
-    <string name="how_slide">Partagez vos données avec nous pour un Monde meilleur</string>
-    <string name="reward_slide">Plus vous contribuez, plus vous gagnez ! Echangez vos points contre des lots réels</string>
+    <!-- Slides text -->
+    <string name="slide_welcome_back">Bonjour</string>
+    <string name="slide_join_us">Rejoingnez-nous</string>
+    <string name="slide_what">APISENSE rend la collecte massive de données facile grace aux capteurs des téléphones portables.
+        Ouvrez votre esprit et rejoingnez le top de la collecte en temps réel !</string>
+    <string name="slide_how">Partagez vos données et aidez la science à progresser !</string>
+    <string name="slide_reward">Plus vous partagez, plus vous êtes récompensé ! Echangez des points contre des lots réels !</string>
 
-    <string name="anonymous_user">Abeille anonyme</string>
+    <!-- Privacy -->
+    <string name="privacy_section_sensor">Capteurs activés</string>
+    <string name="privacy_section_filter">Filtres définis</string>
+    <string name="privacy_label_filter_none">Aucun filtre</string>
+
+    <!-- Settings -->
+    <string name="settings_section_account">Compte</string>
+    <string name="settings_action_logout">Déconnexion</string>
+    <string name="settings_section_general">Paramètres généraux</string>
+    <string name="settings_label_version">Version de l\'application</string>
+    <string name="settings_btn_update">Vérifier les mises à jour</string>
+    <string name="settings_placeholder_version">%1$d</string>
+    <string name="settings_section_about">A propos</string>
+    <string name="settings_about_content">
+        <![CDATA[
+	    	<p>
+	    		L\'application Bee fait partie de la plateforme <a href="http://www.apisense.fr">Apisense</a>,
+	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.fr">contact@apisense.fr</a>.
+			</p>
+	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
+	    ]]>
+    </string>
 
 </resources>

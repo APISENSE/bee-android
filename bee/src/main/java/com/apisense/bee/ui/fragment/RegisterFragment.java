@@ -132,7 +132,7 @@ public class RegisterFragment extends Fragment {
             focusView = mPasswordEditText;
             cancel = true;
         } else if (mPasswordRepeat.length() < 4 || !mPasswordRepeat.equals(mPassword)) {
-            mPasswordConfirmEditText.setError(getString(R.string.signup_error_invalid_repeat_password));
+            mPasswordConfirmEditText.setError(getString(R.string.register_error_invalid_repeat_password));
             focusView = mPasswordConfirmEditText;
             cancel = true;
         } else if (TextUtils.isEmpty(mApisenseUrl)) {

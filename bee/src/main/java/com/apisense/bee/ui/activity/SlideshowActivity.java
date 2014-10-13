@@ -23,6 +23,13 @@ public class SlideshowActivity extends FragmentActivity {
      */
     private static final int NUM_PAGES = 5;
 
+    /* Page order */
+    private final static int WHAT = 0;
+    private final static int HOW = 1;
+    private final static int REWARD = 2;
+    private final static int SIGNIN = 3;
+    private final static int REGISTER = 4;
+
     private ViewPager mPager;
 
     /**
@@ -88,6 +95,9 @@ public class SlideshowActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * Slide show adapter used to generate all slides
+     */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -96,11 +106,11 @@ public class SlideshowActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0: return new WhatFragment();
-                case 1: return new HowFragment();
-                case 2: return new RewardFragment();
-                case 3: return new SignInFragment();
-                case 4: return new RegisterFragment();
+                case WHAT: return new WhatFragment();
+                case HOW: return new HowFragment();
+                case REWARD: return new RewardFragment();
+                case SIGNIN: return new SignInFragment();
+                case REGISTER: return new RegisterFragment();
                 default: return new NotFoundFragment();
             }
         }
