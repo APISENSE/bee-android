@@ -22,6 +22,11 @@ buildscript {
 
 allprojects {
     apply plugin: 'artifactory'
+
+    repositories {
+        maven { url "http://dl.bintray.com/populov/maven" }
+        mavenCentral()
+    }
 }
 
 artifactory {

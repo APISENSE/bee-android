@@ -12,8 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.fragment.*;
+import com.viewpagerindicator.CirclePageIndicator;
 
 public class SlideshowActivity extends FragmentActivity {
 
@@ -46,6 +48,10 @@ public class SlideshowActivity extends FragmentActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        //Bind the title indicator to the adapter
+        CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
 
         // Add onClick listeners
         Button signInBtn = (Button) findViewById(R.id.signIn);
