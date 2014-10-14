@@ -102,7 +102,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
         title.setText(item.niceName);
         title.setTypeface(null, Typeface.BOLD);
-        
+
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
         company.setText(" by " + item.organization);
 
