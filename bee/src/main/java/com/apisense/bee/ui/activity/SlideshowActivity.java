@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.fragment.*;
 import com.viewpagerindicator.CirclePageIndicator;
+import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.APISENSEListenner;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 
 public class SlideshowActivity extends FragmentActivity {
 
@@ -71,6 +75,19 @@ public class SlideshowActivity extends FragmentActivity {
                 mPager.setCurrentItem(REGISTER);
             }
         });
+
+        // Init APISENSE and check if already connected, just go to home Activity
+        APISENSE.init(getApplicationContext(), new APISENSEListenner() {
+            @Override
+            public void onConnected(BeeSenseServiceManager beeSenseServiceManager) {
+                if (APISENSE.apisServerService().isConnected()) {
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
     }
 
 

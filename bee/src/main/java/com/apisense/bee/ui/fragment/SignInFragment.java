@@ -3,6 +3,7 @@ package com.apisense.bee.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,6 +115,7 @@ public class SignInFragment extends Fragment {
                     if ((Integer) result == BeeApplication.ASYNC_SUCCESS) {
                         mSignInBtn.setText(getString(R.string.logout));
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     } else {
                         Toast.makeText(getActivity(), getResources().getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();

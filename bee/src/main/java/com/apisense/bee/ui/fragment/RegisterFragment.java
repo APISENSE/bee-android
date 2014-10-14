@@ -3,6 +3,7 @@ package com.apisense.bee.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -90,13 +91,6 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        // Set up Apisense
-        APISENSE.init(getActivity(), new APISENSEListenner() {
-            @Override
-            public void onConnected(BeeSenseServiceManager beeSenseServiceManager) {
-            }
-        });
-
         // Inflate the layout for this fragment
         return root;
     }
@@ -156,6 +150,7 @@ public class RegisterFragment extends Fragment {
                     Log.i(TAG, "Register details: " + response);
                     if ((Integer)result == BeeApplication.ASYNC_SUCCESS) {
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
                 }
