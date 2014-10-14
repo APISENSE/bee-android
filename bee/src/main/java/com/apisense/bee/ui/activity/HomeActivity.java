@@ -113,8 +113,13 @@ public class HomeActivity extends Activity {
             Log.i(TAG, "number of Active Experiments: " + exp.size());
 
            // Updating listview
-            setExperiments(exp);
-            experimentsAdapter.notifyDataSetChanged();
+            if (exp.size() != 0) {
+                setExperiments(exp);
+                experimentsAdapter.notifyDataSetChanged();
+            } else {
+
+            }
+
         }
 
         @Override
