@@ -7,7 +7,7 @@
               android:paddingRight="@dimen/activity_padding"
               android:paddingBottom="@dimen/activity_padding">
 
-    <TextView
+    <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/privacy_section_sensor"
         style="@style/sectionHeader"
         android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
         android:stretchMode="columnWidth" >
     </GridView>
 
-    <TextView
+    <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/privacy_section_filter"
         style="@style/sectionHeader"
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
-    <TextView
+    <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/privacy_label_filter_none"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -13,6 +13,7 @@
         android:focusableInTouchMode="false"
         android:clickable="false"
         android:gravity="center_vertical|center_horizontal"
+        android:textColor="@color/black"
         android:text="@string/app_name"/>
 
 </FrameLayout>
