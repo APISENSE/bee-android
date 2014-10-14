@@ -92,16 +92,18 @@ public class HomeActivity extends Activity {
     }
 
     public void doLoginLogout(View loginButton){
-        if (isUserAuthenticated()) {
-            if (signOut == null) {
-                signOut = new SignOutTask(new SignedOutCallback());
-                signOut.execute();
-            }
-        } else {
-            Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
-            startActivity(intent);
-            finish();
-        }
+//        if (isUserAuthenticated()) {
+//            if (signOut == null) {
+//                signOut = new SignOutTask(new SignedOutCallback());
+//                signOut.execute();
+//            }
+//        } else {
+//            Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+        Intent storeIntent = new Intent(this, StoreActivity.class);
+        startActivity(storeIntent);
     }
 
     public class ExperimentListRetrievedCallback implements AsyncTasksCallbacks {
