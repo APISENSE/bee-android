@@ -1,7 +1,8 @@
-package com.apisense.bee.backend;
+package com.apisense.bee.backend.experiment;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;

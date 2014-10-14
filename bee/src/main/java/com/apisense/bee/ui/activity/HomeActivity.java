@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.*;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.RetrieveExperimentsTask;
+import com.apisense.bee.backend.experiment.RetrieveExperimentsTask;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
