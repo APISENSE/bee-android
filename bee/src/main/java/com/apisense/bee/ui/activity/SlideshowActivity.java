@@ -49,6 +49,9 @@ public class SlideshowActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
+        // Set default slide to what is it
+        mPager.setCurrentItem(WHAT);
+
         //Bind the title indicator to the adapter
         CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
