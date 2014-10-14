@@ -27,6 +27,7 @@ public class BeeApplication extends BeeSenseApplication {
     // Asynchronous Tasks Return values
     public static final int ASYNC_SUCCESS = 0;
     public static final int ASYNC_ERROR = -1;
+    public static final int ASYNC_UNSET_CODE = -42;
 
     @Override
     public void onCreate() {

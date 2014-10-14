@@ -2,6 +2,8 @@ package com.apisense.bee.backend.experiment;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import com.apisense.bee.BeeApplication;
+import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
@@ -11,18 +13,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class RetrieveExperimentsTask extends AsyncTask<Void, Void, List<Experiment>>{
+public class RetrieveExperimentsTask extends AsyncTaskWithCallback<Void, Void, List<Experiment>> {
     private final String TAG = this.getClass().getSimpleName();
-    private AsyncTasksCallbacks listener;
 
     public final static int GET_INSTALLED_EXPERIMENTS = 0;
     public final static int GET_REMOTE_EXPERIMENTS = 1;
 
     private int retrievalType;
-    private String details = "";
 
     public RetrieveExperimentsTask(AsyncTasksCallbacks listener, int retrievalType) {
-        this.listener = listener;
+        super(listener);
         this.retrievalType = retrievalType;
     }
 
@@ -31,7 +31,7 @@ public class RetrieveExperimentsTask extends AsyncTask<Void, Void, List<Experime
         List<Experiment> gotExperiments;
 
         if (! APISENSE.apisServerService().isConnected()){
-            // Specific treatment for anonymous user?
+            // Todo: Specific treatment for anonymous user?
             gotExperiments = new ArrayList<Experiment>();
         }else {
             switch (retrievalType) {
@@ -39,26 +39,18 @@ public class RetrieveExperimentsTask extends AsyncTask<Void, Void, List<Experime
                     BSenseMobileService mobService = APISENSE.apisense().getBSenseMobileService();
                     Collection exp = mobService.getInstalledExperiments().values();
                     gotExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);
+                    this.errcode = BeeApplication.ASYNC_SUCCESS;
                     break;
                 case GET_REMOTE_EXPERIMENTS:
                     gotExperiments = APISENSE.apisServerService().getRemoteExperiments();
+                    this.errcode = BeeApplication.ASYNC_SUCCESS;
                     break;
                 default:
                     gotExperiments = new ArrayList<Experiment>();
+                    this.errcode = BeeApplication.ASYNC_ERROR;
             }
         }
         Log.d(TAG, "List of experiments returned: " + gotExperiments.toString());
         return gotExperiments;
-    }
-
-
-    @Override
-    protected void onPostExecute(final List<Experiment> response) {
-        this.listener.onTaskCompleted(response, details);
-    }
-
-    @Override
-    protected void onCancelled() {
-        this.listener.onTaskCanceled();
     }
 }

@@ -104,14 +104,13 @@ public class HomeActivity extends Activity {
     }
 
     public class ExperimentListRetrievedCallback implements AsyncTasksCallbacks {
-
         @Override
-        public void onTaskCompleted(Object response, String details) {
+        public void onTaskCompleted(int result, Object response) {
             experimentsRetrieval = null;
             List<Experiment> exp = (List<Experiment>) response;
             Log.i(TAG, "number of Active Experiments: " + exp.size());
 
-           // Updating listview
+            // Updating listview
             setExperiments(exp);
             experimentsAdapter.notifyDataSetChanged();
         }
@@ -123,9 +122,8 @@ public class HomeActivity extends Activity {
     }
 
     public class SignedOutCallback implements AsyncTasksCallbacks {
-
         @Override
-        public void onTaskCompleted(Object response, String details) {
+        public void onTaskCompleted(int result, Object response) {
             signOut = null;
             updateUI();
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();

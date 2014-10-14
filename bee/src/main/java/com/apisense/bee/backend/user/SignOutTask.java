@@ -8,20 +8,20 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 /**
- * Represents an asynchronous login/registration task used to authenticate the user.
+ * Represents an asynchronous Sign out task used to de-authenticate the user.
  */
 
-public class SignOutTask extends AsyncTaskWithCallback {
+public class SignOutTask extends AsyncTaskWithCallback<String, Void, String> {
     private final String TAG = this.getClass().getSimpleName();
-    private AsyncTasksCallbacks listener;
 
     public SignOutTask(AsyncTasksCallbacks listener) {
         super(listener);
     }
 
     @Override
-    protected Integer doInBackground(String... params) {
-        Integer returned = BeeApplication.ASYNC_SUCCESS;
+    protected String doInBackground(String... params) {
+        this.errcode = BeeApplication.ASYNC_SUCCESS;
+        String details = "";
         try {
             APISENSE.apisMobileService().sendAllTrack();
             APISENSE.apisMobileService().stopAllExperiments(0);
@@ -29,9 +29,10 @@ public class SignOutTask extends AsyncTaskWithCallback {
                 APISENSE.apisMobileService().uninstallExperiment(xp);
         } catch (Exception e) {
             e.printStackTrace();
-            returned = BeeApplication.ASYNC_SUCCESS;
+            details = e.getMessage();
+            this.errcode = BeeApplication.ASYNC_SUCCESS;
         }
         APISENSE.apisServerService().disconnect();
-        return returned;
+        return details;
     }
 }

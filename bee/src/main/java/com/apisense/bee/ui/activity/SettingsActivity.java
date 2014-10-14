@@ -104,9 +104,8 @@ public class SettingsActivity extends Activity {
     }
 
     public class SignedOutCallback implements AsyncTasksCallbacks {
-
         @Override
-        public void onTaskCompleted(Object response, String details) {
+        public void onTaskCompleted(int result, Object response) {
             signOut = null;
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SettingsActivity.this, SlideshowActivity.class);
