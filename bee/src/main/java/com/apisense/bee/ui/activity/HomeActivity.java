@@ -106,7 +106,7 @@ public class HomeActivity extends Activity {
     public class ExperimentListRetrievedCallback implements AsyncTasksCallbacks {
 
         @Override
-        public void onTaskCompleted(Object response) {
+        public void onTaskCompleted(Object response, String details) {
             experimentsRetrieval = null;
             List<Experiment> exp = (List<Experiment>) response;
             Log.i(TAG, "number of Active Experiments: " + exp.size());
@@ -125,7 +125,7 @@ public class HomeActivity extends Activity {
     public class SignedOutCallback implements AsyncTasksCallbacks {
 
         @Override
-        public void onTaskCompleted(Object response) {
+        public void onTaskCompleted(Object response, String details) {
             signOut = null;
             updateUI();
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.SignInTask;
@@ -107,10 +108,11 @@ public class SignInFragment extends Fragment {
         } else {
             SignInTask signInTask = new SignInTask(new AsyncTasksCallbacks() {
                 @Override
-                public void onTaskCompleted(Object response) {
+                public void onTaskCompleted(Object response, String details) {
                     Log.i(TAG, "Connection result: " + response);
-                    if (response.equals("success")) {
-                        mSignInBtn.setText("Disconnect");
+                    Log.i(TAG, "Connection details: " + details);
+                    if ((Integer) response == BeeApplication.ASYNC_SUCCESS) {
+                        mSignInBtn.setText(getString(R.string.logout));
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         startActivity(intent);
                     } else {

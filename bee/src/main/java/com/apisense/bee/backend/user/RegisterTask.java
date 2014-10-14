@@ -2,29 +2,32 @@ package com.apisense.bee.backend.user;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import com.apisense.bee.BeeApplication;
+import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 
-public class RegisterTask extends AsyncTask<String, Void, String> {
+public class RegisterTask extends AsyncTaskWithCallback {
     private final String TAG = this.getClass().getSimpleName();
     private AsyncTasksCallbacks listener;
-    private final String DEFAULT_URL = "http://beta.apisense.io/hive";
+
     public RegisterTask(AsyncTasksCallbacks listener) {
-        this.listener = listener;
+        super(listener);
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected Integer doInBackground(String... params) {
         // params[0] == pseudo
         // params[1] == password
         // params[2] == URL hive (optionnal)
         String pseudo = "";
         String password = "";
-        String apisenseUrl = (params.length >= 3) ? params[2] : this.DEFAULT_URL;
+        String apisenseUrl = (params.length >= 3) ? params[2] : BeeApplication.BEE_DEFAULT_URL;
 
         if (params[0].isEmpty() || params[1].isEmpty()) {
             Log.e(TAG, "Login or password is empty");
-            return "error";
+            this.details = "EMPTY_FIELD -- To XMLify";
+            return BeeApplication.ASYNC_ERROR;
         } else {
             pseudo = params[0];
             password = params[1];
@@ -35,22 +38,12 @@ public class RegisterTask extends AsyncTask<String, Void, String> {
             APISENSE.apisServerService().connect(pseudo, password);
         } catch (Exception e) {
             e.printStackTrace();
-            return e.getMessage();
+            this.details = e.getMessage();
         }
 
         if (!APISENSE.apisServerService().isConnected())
-            return "error";
+            return BeeApplication.ASYNC_ERROR;
         else
-            return "success";
-    }
-
-    @Override
-    protected void onPostExecute(final String response) {
-        this.listener.onTaskCompleted(response);
-    }
-
-    @Override
-    protected void onCancelled() {
-        this.listener.onTaskCanceled();
+            return BeeApplication.ASYNC_SUCCESS;
     }
 }

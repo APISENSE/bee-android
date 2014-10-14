@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 
 import android.widget.Button;
@@ -150,9 +151,10 @@ public class RegisterFragment extends Fragment {
             // perform the user login attempt.
             mRegisterTask = new RegisterTask(new AsyncTasksCallbacks() {
                 @Override
-                public void onTaskCompleted(Object response) {
+                public void onTaskCompleted(Object response, String details) {
                     Log.i(TAG, "Register result: " + response);
-                    if (response.equals("success")) {
+                    Log.i(TAG, "Register details: " + details);
+                    if ((Integer)response == BeeApplication.ASYNC_SUCCESS) {
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         startActivity(intent);
                     }
