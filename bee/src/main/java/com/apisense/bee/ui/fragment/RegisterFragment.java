@@ -151,10 +151,10 @@ public class RegisterFragment extends Fragment {
             // perform the user login attempt.
             mRegisterTask = new RegisterTask(new AsyncTasksCallbacks() {
                 @Override
-                public void onTaskCompleted(Object response, String details) {
-                    Log.i(TAG, "Register result: " + response);
-                    Log.i(TAG, "Register details: " + details);
-                    if ((Integer)response == BeeApplication.ASYNC_SUCCESS) {
+                public void onTaskCompleted(int result, Object response) {
+                    Log.i(TAG, "Register result: " + result);
+                    Log.i(TAG, "Register details: " + response);
+                    if ((Integer)result == BeeApplication.ASYNC_SUCCESS) {
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         startActivity(intent);
                     }

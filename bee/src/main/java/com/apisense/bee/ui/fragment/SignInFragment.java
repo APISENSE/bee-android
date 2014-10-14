@@ -108,10 +108,10 @@ public class SignInFragment extends Fragment {
         } else {
             SignInTask signInTask = new SignInTask(new AsyncTasksCallbacks() {
                 @Override
-                public void onTaskCompleted(Object response, String details) {
-                    Log.i(TAG, "Connection result: " + response);
-                    Log.i(TAG, "Connection details: " + details);
-                    if ((Integer) response == BeeApplication.ASYNC_SUCCESS) {
+                public void onTaskCompleted(int result, Object response) {
+                    Log.i(TAG, "Connection result: " + result);
+                    Log.i(TAG, "Connection details: " + response);
+                    if ((Integer) result == BeeApplication.ASYNC_SUCCESS) {
                         mSignInBtn.setText(getString(R.string.logout));
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         startActivity(intent);
