@@ -102,7 +102,7 @@ public class SignInFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.experiment_exception_on_closure, Toast.LENGTH_SHORT).show();
             }
             APISENSE.apisServerService().disconnect();
-            mSignInBtn.setText("Log in");
+            mSignInBtn.setText("Login");
             Toast.makeText(getActivity(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
         } else {
             SignInTask signInTask = new SignInTask(new AsyncTasksCallbacks() {
