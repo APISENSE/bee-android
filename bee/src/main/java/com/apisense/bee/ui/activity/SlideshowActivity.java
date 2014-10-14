@@ -24,10 +24,10 @@ public class SlideshowActivity extends FragmentActivity {
     private static final int NUM_PAGES = 5;
 
     /* Page order */
-    private final static int WHAT = 0;
-    private final static int HOW = 1;
-    private final static int REWARD = 2;
-    private final static int SIGNIN = 3;
+    private final static int SIGNIN = 0;
+    private final static int WHAT = 1;
+    private final static int HOW = 2;
+    private final static int REWARD = 3;
     private final static int REGISTER = 4;
 
     private ViewPager mPager;
@@ -53,13 +53,13 @@ public class SlideshowActivity extends FragmentActivity {
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mPager.setCurrentItem(3);
+                mPager.setCurrentItem(SIGNIN);
             }
         });
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mPager.setCurrentItem(4);
+                mPager.setCurrentItem(REGISTER);
             }
         });
     }
