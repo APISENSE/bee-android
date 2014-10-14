@@ -54,7 +54,8 @@
         </activity>
         <activity
             android:name=".ui.activity.StoreActivity"
-            android:label="@string/title_activity_store" >
+            android:label="@string/title_activity_store"
+            android:parentActivityName=".ui.activity.HomeActivity" >
         </activity>
         <activity
             android:name=".ui.activity.ExperimentDetailsActivity"
