@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.SignInTask;
+import com.apisense.bee.backend.user.SignInTask;
 import com.apisense.bee.ui.activity.HomeActivity;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;

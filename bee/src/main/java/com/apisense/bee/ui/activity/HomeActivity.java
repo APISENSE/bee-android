@@ -10,7 +10,8 @@ import android.view.View;
 import android.widget.*;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.RetrieveExperimentsTask;
+import com.apisense.bee.backend.experiment.RetrieveExperimentsTask;
+import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
@@ -27,6 +28,7 @@ public class HomeActivity extends Activity {
 
    // Asynchronous Tasks
     private RetrieveExperimentsTask experimentsRetrieval;
+    private SignOutTask signOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,7 @@ public class HomeActivity extends Activity {
 
     private void retrieveActiveExperiments() {
         if (experimentsRetrieval == null) {
-            experimentsRetrieval = new RetrieveExperimentsTask(new ExperimentListRetrieved(),
+            experimentsRetrieval = new RetrieveExperimentsTask(new ExperimentListRetrievedCallback(),
                                                                RetrieveExperimentsTask.GET_INSTALLED_EXPERIMENTS);
             experimentsRetrieval.execute();
         }
@@ -90,18 +92,10 @@ public class HomeActivity extends Activity {
 
     public void doLoginLogout(View loginButton){
         if (isUserAuthenticated()) {
-            try {
-                APISENSE.apisMobileService().sendAllTrack();
-                APISENSE.apisMobileService().stopAllExperiments(0);
-                for(Experiment xp: APISENSE.apisMobileService().getInstalledExperiments().values())
-                    APISENSE.apisMobileService().uninstallExperiment(xp);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), R.string.experiment_exception_on_closure, Toast.LENGTH_SHORT).show();
+            if (signOut == null) {
+                signOut = new SignOutTask(new SignedOutCallback());
+                signOut.execute();
             }
-            APISENSE.apisServerService().disconnect();
-            updateUI();
-            Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
             startActivity(intent);
@@ -109,7 +103,7 @@ public class HomeActivity extends Activity {
         }
     }
 
-    public class ExperimentListRetrieved implements AsyncTasksCallbacks {
+    public class ExperimentListRetrievedCallback implements AsyncTasksCallbacks {
 
         @Override
         public void onTaskCompleted(Object response) {
@@ -125,6 +119,21 @@ public class HomeActivity extends Activity {
         @Override
         public void onTaskCanceled() {
             experimentsRetrieval = null;
+        }
+    }
+
+    public class SignedOutCallback implements AsyncTasksCallbacks {
+
+        @Override
+        public void onTaskCompleted(Object response) {
+            signOut = null;
+            updateUI();
+            Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onTaskCanceled() {
+            signOut = null;
         }
     }
 }

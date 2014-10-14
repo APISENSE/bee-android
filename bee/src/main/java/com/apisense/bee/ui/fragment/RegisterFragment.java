@@ -15,7 +15,7 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import android.widget.Button;
 import android.widget.EditText;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.RegisterTask;
+import com.apisense.bee.backend.user.RegisterTask;
 import com.apisense.bee.ui.activity.HomeActivity;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.APISENSEListenner;

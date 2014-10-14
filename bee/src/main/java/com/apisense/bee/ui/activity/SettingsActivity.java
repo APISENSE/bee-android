@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.apisense.bee.R;
+import com.apisense.bee.backend.AsyncTasksCallbacks;
+import com.apisense.bee.backend.user.SignOutTask;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
@@ -19,7 +21,10 @@ public class SettingsActivity extends Activity {
 
     private final String TAG = "SettingsActivity";
 
-    //TODO: Use HockeyApp library again
+    // Asynchronous Tasks
+    private SignOutTask signOut;
+
+    //TODO: Use HockeyApp library again -- Or Not
     //private CheckUpdateTask checkUpdateTask;
 
     TextView aboutView, versionView;
@@ -50,18 +55,10 @@ public class SettingsActivity extends Activity {
     private final View.OnClickListener disconnectEvent = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            try {
-                APISENSE.apisMobileService().sendAllTrack();
-                APISENSE.apisMobileService().stopAllExperiments(0);
-                for(Experiment xp: APISENSE.apisMobileService().getInstalledExperiments().values())
-                    APISENSE.apisMobileService().uninstallExperiment(xp);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (signOut == null) {
+                signOut = new SignOutTask(new SignedOutCallback());
+                signOut.execute();
             }
-            APISENSE.apisServerService().disconnect();
-            Intent intent = new Intent(SettingsActivity.this, SlideshowActivity.class);
-            startActivity(intent);
-            finish();
         };
     };
 
@@ -105,4 +102,25 @@ public class SettingsActivity extends Activity {
         }
         return null;
     }
+
+    public class SignedOutCallback implements AsyncTasksCallbacks {
+
+        @Override
+        public void onTaskCompleted(Object response) {
+            signOut = null;
+            Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SettingsActivity.this, SlideshowActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        @Override
+        public void onTaskCanceled() {
+            signOut = null;
+        }
+    }
+    private boolean isUserAuthenticated() {
+        return APISENSE.apisServerService().isConnected();
+    }
+
 }
