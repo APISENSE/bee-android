@@ -20,6 +20,7 @@
             app:radius="5dp"
             app:fillColor="#FD9028"
             app:pageColor="#FFFFFF"
+            app:strokeColor="#FD9028"
             app:strokeWidth="1dp"
             />
 
