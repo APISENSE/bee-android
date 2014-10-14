@@ -19,6 +19,14 @@ import fr.inria.bsense.facade.view.ViewFacade;
 import fr.inria.bsense.service.NotificationService;
 
 public class BeeApplication extends BeeSenseApplication {
+    // Constants
+
+    // Urls
+    public static final String BEE_DEFAULT_URL = "http://beta.apisense.io/hive";
+
+    // Asynchronous Tasks Return values
+    public static final int ASYNC_SUCCESS = 0;
+    public static final int ASYNC_ERROR = -1;
 
     @Override
     public void onCreate() {

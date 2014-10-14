@@ -19,6 +19,7 @@ public class RetrieveExperimentsTask extends AsyncTask<Void, Void, List<Experime
     public final static int GET_REMOTE_EXPERIMENTS = 1;
 
     private int retrievalType;
+    private String details = "";
 
     public RetrieveExperimentsTask(AsyncTasksCallbacks listener, int retrievalType) {
         this.listener = listener;
@@ -53,7 +54,7 @@ public class RetrieveExperimentsTask extends AsyncTask<Void, Void, List<Experime
 
     @Override
     protected void onPostExecute(final List<Experiment> response) {
-        this.listener.onTaskCompleted(response);
+        this.listener.onTaskCompleted(response, details);
     }
 
     @Override
