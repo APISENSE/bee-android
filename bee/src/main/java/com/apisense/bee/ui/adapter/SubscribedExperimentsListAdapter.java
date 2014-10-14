@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,9 +101,10 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
 
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
         title.setText(item.niceName);
-
+        title.setTypeface(null, Typeface.BOLD);
+        
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(item.organization);
+        company.setText(" by " + item.organization);
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
         description.setText(item.description);
