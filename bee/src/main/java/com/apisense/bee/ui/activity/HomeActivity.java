@@ -54,18 +54,19 @@ public class HomeActivity extends Activity {
     }
 
     private void updateUI(){
-        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
+        retrieveActiveExperiments();
+
+        // Generating messages depending on the logged user
+        /* TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
         Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
 
-        retrieveActiveExperiments();
-        // Generating messages depending on the logged user
         if (isUserAuthenticated()) {
             loginButton.setText(getString(R.string.logout));
             user_identity.setText(getString(R.string.user_identity, "usernameToRetrieve"));
         } else {
             loginButton.setText(R.string.login);
             user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
-        }
+        } */
     }
 
     private void retrieveActiveExperiments() {

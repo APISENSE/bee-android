@@ -6,5 +6,10 @@
     <dimen name="min_padding_bottom">3dp</dimen>
     <dimen name="activity_padding">10dp</dimen>
 
+    <!-- Home Activity -->
     <dimen name="thumbnail_margin">5dp</dimen>
+    <dimen name="diameter">48dp</dimen>
+    <dimen name="elevation_low">1dp</dimen>
+    <dimen name="elevation_high">4dp</dimen>
+    <dimen name="add_button_margin">16dp</dimen>
 </resources>
