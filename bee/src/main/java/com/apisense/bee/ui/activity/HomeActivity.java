@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.*;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.RetrieveExperimentsTask;
+import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
 import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import fr.inria.bsense.APISENSE;
@@ -27,7 +27,7 @@ public class HomeActivity extends Activity {
     protected SubscribedExperimentsListAdapter experimentsAdapter;
 
    // Asynchronous Tasks
-    private RetrieveExperimentsTask experimentsRetrieval;
+    private RetrieveInstalledExperimentsTask experimentsRetrieval;
     private SignOutTask signOut;
 
     @Override
@@ -71,8 +71,8 @@ public class HomeActivity extends Activity {
 
     private void retrieveActiveExperiments() {
         if (experimentsRetrieval == null) {
-            experimentsRetrieval = new RetrieveExperimentsTask(new ExperimentListRetrievedCallback(),
-                                                               RetrieveExperimentsTask.GET_INSTALLED_EXPERIMENTS);
+            experimentsRetrieval = new RetrieveInstalledExperimentsTask(new ExperimentListRetrievedCallback());
+
             experimentsRetrieval.execute();
         }
    }
