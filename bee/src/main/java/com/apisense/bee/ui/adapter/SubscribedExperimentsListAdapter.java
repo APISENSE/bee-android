@@ -96,7 +96,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      * Prepare view with data.
      */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experimentelement, null);
 
@@ -120,6 +120,8 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
                 Intent intent = new Intent(v.getContext(), ExperimentDetailsActivity.class);
 
                 Bundle bundle = new Bundle();
+                // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
+                // bundle.putParcelable("experiment", getItem(position));
                 bundle.putSerializable("experiment", new ExperimentSerializable(item));
                 intent.putExtras(bundle); //Put your id to your next Intent
 

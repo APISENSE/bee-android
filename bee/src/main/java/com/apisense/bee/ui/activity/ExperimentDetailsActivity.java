@@ -2,11 +2,13 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
+import fr.inria.bsense.appmodel.Experiment;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -30,6 +32,9 @@ public class ExperimentDetailsActivity extends Activity {
     }
     public void displayExperimentInformation() {
         Bundle b = getIntent().getExtras();
+        // TODO : Switch to parcelable when available
+        // Experiment exp =  b.getParcelable("experiment");
+        
         ExperimentSerializable exp = (ExperimentSerializable) b.getSerializable("experiment");
         mExperimentName.setText(exp.getName());
     }
