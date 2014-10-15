@@ -5,8 +5,9 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
-/*
+/**
  *   AsyncTask used to fetch the notifications about a given experiment
+ *
  */
 public class RetrieveNotificationsTask extends AsyncTaskWithCallback<Experiment, Void, Object> {
     private final String TAG = this.getClass().getSimpleName();

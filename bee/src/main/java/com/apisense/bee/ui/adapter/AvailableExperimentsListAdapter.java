@@ -2,7 +2,6 @@ package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
-import fr.inria.bsense.APISENSE;
+import com.apisense.bee.ui.activity.StoreActivity;
 import fr.inria.bsense.appmodel.Experiment;
-import fr.inria.bsense.service.BeeSenseServiceManager;
-import org.json.JSONException;
 
 import java.util.List;
 
@@ -111,25 +106,20 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
         description.setText(item.description);
 
-        if (isSubscribedExperiment(item)){
-            convertView.setBackgroundColor(getContext().getResources().getColor(R.color.orange_light));
+        if (StoreActivity.isSubscribedExperiment(item)){
+            showAsSubscribed(convertView);
+        } else {
+            showAsUnsubscribed(convertView);
         }
         return convertView;
     }
 
-    private boolean isSubscribedExperiment(Experiment exp) {
-        // TODO: Improve this (At least with an asynchTask)
-        // At the moment => if the experiment is installed, then the user subscribed to it
-        Experiment currentExperiment;
-        boolean result = false;
-        try {
-            currentExperiment = APISENSE.apisense().getBSenseMobileService().getExperiment(exp.name);
-            if (currentExperiment != null) {
-                result = true;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "An error occured while looking for experiment (" + exp.name + "): " + e.getMessage());
-        }
-        return result;
+    public void showAsSubscribed(View v){
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.orange_light));
     }
+
+    public void showAsUnsubscribed(View v){
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
+    }
+
 }
