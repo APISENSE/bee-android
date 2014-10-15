@@ -27,8 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/game_padding"
-            android:orientation="horizontal"
-            android:background="@drawable/custom_border_square">
+            android:orientation="horizontal">
 
         <!-- Score and rank for example -->
         <com.apisense.bee.widget.ApisenseTextView
