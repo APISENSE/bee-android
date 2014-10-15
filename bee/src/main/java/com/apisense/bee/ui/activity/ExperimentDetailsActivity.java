@@ -34,7 +34,6 @@ public class ExperimentDetailsActivity extends Activity {
         Bundle b = getIntent().getExtras();
         // TODO : Switch to parcelable when available
         // Experiment exp =  b.getParcelable("experiment");
-
         ExperimentSerializable exp = (ExperimentSerializable) b.getSerializable("experiment");
         mExperimentName.setText(exp.getName());
     }
