@@ -9,8 +9,8 @@ import fr.inria.bsense.APISENSE;
 
 /**
  * Represents an asynchronous login task used to authenticate the user.
+ *
  */
-
 public class SignInTask extends AsyncTaskWithCallback<String, Void, String> {
     private final String TAG = this.getClass().getSimpleName();
 

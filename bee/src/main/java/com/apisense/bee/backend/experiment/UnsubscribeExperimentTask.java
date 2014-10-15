@@ -8,7 +8,7 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 /**
- * AsyncTask to stop and unsubscribe an experiment
+ * AsyncTask to stop, uninstall and unsubscribe from an experiment
  *
  * @author Christophe Ribeiro <christophe.ribeiro@inria.fr>
  *
@@ -25,7 +25,7 @@ public class UnsubscribeExperimentTask extends AsyncTaskWithCallback<Experiment,
     protected String doInBackground(Experiment... params) {
         Experiment exp = params[0];
         String detail = "";
-        // TODO: Wait for exp.state not being null
+        // TODO: Wait for exp.state to not being null
         Log.d(TAG, "Exp current state: " + exp.state);
         if (exp != null && exp.remoteState.equals("started")) {
             try {

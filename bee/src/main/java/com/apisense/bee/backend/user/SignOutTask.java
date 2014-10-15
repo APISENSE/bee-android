@@ -9,8 +9,8 @@ import fr.inria.bsense.appmodel.Experiment;
 
 /**
  * Represents an asynchronous Sign out task used to de-authenticate the user.
+ *
  */
-
 public class SignOutTask extends AsyncTaskWithCallback<String, Void, String> {
     private final String TAG = this.getClass().getSimpleName();
 

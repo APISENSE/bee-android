@@ -7,7 +7,10 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
-
+/**
+ * Task to start gathering data for the given experiment
+ *
+ */
 public class StartExperimentTask extends AsyncTaskWithCallback<Experiment, Void, Void> {
     private final String TAG = this.getClass().getSimpleName();
 
@@ -23,7 +26,7 @@ public class StartExperimentTask extends AsyncTaskWithCallback<Experiment, Void,
             Log.i(TAG, "Experiment (" + exp.name + ") started");
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         } catch (Exception e) {
-            Log.e(TAG, "Experiment (" + exp.name + ") start failed: " + e.getMessage());
+            Log.w(TAG, "Experiment (" + exp.name + ") start failed: " + e.getMessage());
             this.errcode = BeeApplication.ASYNC_ERROR;
         }
         return null;

@@ -7,6 +7,10 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
+/**
+ * Task to subscribe to and install the given experiment
+ *
+ */
 public class SubscribeExperimentTask extends AsyncTaskWithCallback<Experiment, Void, String>{
     private final String TAG = this.getClass().getSimpleName();
 

@@ -7,6 +7,10 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
+/**
+ * Task to stop gathering data for the given experiment
+ *
+ */
 public class StopExperimentTask extends AsyncTaskWithCallback<Experiment, Void, Void> {
     private final String TAG = this.getClass().getSimpleName();
 
@@ -18,8 +22,7 @@ public class StopExperimentTask extends AsyncTaskWithCallback<Experiment, Void, 
     protected Void doInBackground(Experiment... params) {
         Experiment exp = params[0];
         try {
-            // TODO: Change use of exitcode (0) with API constant.
-            APISENSE.apisense().getBSenseMobileService().stopExperiment(exp, 0);
+            APISENSE.apisense().getBSenseMobileService().stopExperiment(exp, APISENSE.EXIT_CODE_NORMAL);
             Log.i(TAG, "Experiment (" + exp.name + ") stopped");
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         } catch (Exception e) {

@@ -7,8 +7,9 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
-/*
+/**
  *   AsyncTask used to force the sent of Tracks for a given experiment
+ *
  */
 public class SendTracksTask extends AsyncTaskWithCallback<Experiment, Void, Void>{
     private final String TAG = this.getClass().getSimpleName();
@@ -25,7 +26,7 @@ public class SendTracksTask extends AsyncTaskWithCallback<Experiment, Void, Void
             Log.i(TAG, "Tracks sent for experiment:" + exp.name);
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         } catch (Exception e) {
-            Log.e(TAG, "Experiment (" + exp.name + ") failed to send tracks: " + e.getMessage());
+            Log.w(TAG, "Experiment (" + exp.name + ") failed to send tracks: " + e.getMessage());
             this.errcode = BeeApplication.ASYNC_ERROR;
         }
         return null;

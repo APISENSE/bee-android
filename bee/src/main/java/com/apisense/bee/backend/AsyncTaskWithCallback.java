@@ -7,8 +7,8 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 /**
- * Represents an asynchronous tasks that need postExecution dependent of the UI.
- * Here the 'Result' type represent the detailed output of the task (such as fetched Experiments, notifications, ...)
+ * Represents an asynchronous tasks that need postExecution dependent on the UI.
+ * Here the 'Result' type represent the detailed output of the task (such as fetched Experiments, notifications, ...).
  * The returned status (Success or failure) is handled by the 'errcode' attribute.
  *
  */

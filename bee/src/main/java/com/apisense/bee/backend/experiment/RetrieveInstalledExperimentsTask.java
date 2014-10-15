@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Task to fetch every experiment installed (i.e. subscribed) by the user.
+ *
+ */
 public class RetrieveInstalledExperimentsTask extends AsyncTaskWithCallback<Void, Void, List<Experiment>> {
     private final String TAG = this.getClass().getSimpleName();
 
@@ -27,13 +31,7 @@ public class RetrieveInstalledExperimentsTask extends AsyncTaskWithCallback<Void
             // Todo: Specific treatment for anonymous user?
             gotExperiments = new ArrayList<Experiment>();
         }else {
-            // Todo: Check newly subscribed experiments only if connected?
-
-//            // Retrieve every subscribed experiment
-//            BSenseServerService servService = APISENSE.apisense().getBSenseServerService();
-//            Log.d(TAG, "Subscribed EXPS: " + servService.getSubscribedExperiment());
-
-            // Only retrieve already downloaded experiments (?)
+            // Only retrieve installed experiments
             BSenseMobileService mobService = APISENSE.apisense().getBSenseMobileService();
             Collection exp = mobService.getInstalledExperiments().values();
             gotExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);

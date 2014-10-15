@@ -11,6 +11,10 @@ import fr.inria.bsense.service.BSenseServerService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Task to fetch every experiment available to the user.
+ *
+ */
 public class RetrieveAvailableExperimentsTask extends AsyncTaskWithCallback<Void, Void, List<Experiment>> {
     private final String TAG = this.getClass().getSimpleName();
 

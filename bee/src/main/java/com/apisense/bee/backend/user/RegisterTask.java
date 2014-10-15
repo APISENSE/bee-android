@@ -9,8 +9,8 @@ import fr.inria.bsense.APISENSE;
 
 /**
  * Represents an asynchronous registration task used to create a new user.
+ *
  */
-
 public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
     private final String TAG = this.getClass().getSimpleName();
 
