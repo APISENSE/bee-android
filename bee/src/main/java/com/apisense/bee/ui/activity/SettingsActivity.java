@@ -1,11 +1,10 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -15,17 +14,15 @@ import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.SignOutTask;
 import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
+import net.hockeyapp.android.CheckUpdateTask;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends FragmentActivity {
 
     private final String TAG = "SettingsActivity";
 
     // Asynchronous Tasks
     private SignOutTask signOut;
-
-    //TODO: Use HockeyApp library again -- Or Not
-    //private CheckUpdateTask checkUpdateTask;
+    private CheckUpdateTask checkUpdateTask;
 
     TextView aboutView, versionView;
 
@@ -68,7 +65,6 @@ public class SettingsActivity extends Activity {
     private final View.OnClickListener updateEvent = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-/*
            checkUpdateTask = (CheckUpdateTask) getLastCustomNonConfigurationInstance();
             if (checkUpdateTask != null)
                 checkUpdateTask.attach(SettingsActivity.this);
@@ -76,17 +72,16 @@ public class SettingsActivity extends Activity {
                 checkUpdateTask = new CheckUpdateTask(SettingsActivity.this, "http://download.apisense.fr/", "Bee");
                 checkUpdateTask.execute();
             }
-    //*/
             Toast.makeText(getBaseContext(), "Clicked on update detected", Toast.LENGTH_SHORT).show();
         };
     };
 
-//    @Override
-//    public Object onRetainCustomNonConfigurationInstance() {
-//        if(checkUpdateTask!=null)
-//            checkUpdateTask.detach();
-//        return checkUpdateTask;
-//    }
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        if(checkUpdateTask!=null)
+            checkUpdateTask.detach();
+        return checkUpdateTask;
+    }
 
     /**
      * Helper to get the app version info

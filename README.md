@@ -13,6 +13,13 @@ The Apisense Android app project.
     * artifactory_password = *artifactory_hashed_password*
     * artifactory_contextUrl = http://repo.apisense.com
 
+# External Libraries
+1. HockeyKit
+    * **Usage:** Broadcast beta application updates
+    * **Version:** Development Branch - Currently, the last tag (2.0.7) does not support Graddle.
+    * **Location:** lib/HockeyKit
+    * **Content:** https://github.com/TheRealKerni/HockeyKit/tree/develop/client/Android
+
 # Build process
 
 * Build with Gradle ```$ ./gradlew clean build```
@@ -26,4 +33,4 @@ The Apisense Android app project.
 2. Run
     * Using IntelliJ, run all tests
     * Using command lines ```$ ./gradlew installDebugTest``` and ```$ ./gradlew connectedAndroidTest``` -- The first one may not be necessary
-    * You can find report inside ```YourApp/YourApp/build/outputs/reports/androidTests/connected/index.html```
+    * You can find report inside ```YourApp/build/outputs/reports/androidTests/connected/index.html```
