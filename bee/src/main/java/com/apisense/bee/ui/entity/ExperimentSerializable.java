@@ -50,7 +50,10 @@ public class ExperimentSerializable implements Serializable {
     }
 
     public String toString() {
-        return "";
+        return "Name : " + niceName + "\n" +
+                "Organization : " + organization + "\n" +
+                "Copyright : " + copyright + "\n" +
+                "Version : " + version;
     }
 
     public String getName() {

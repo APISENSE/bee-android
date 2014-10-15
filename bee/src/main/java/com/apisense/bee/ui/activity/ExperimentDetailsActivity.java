@@ -2,20 +2,17 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import fr.inria.bsense.appmodel.Experiment;
-
-import java.io.Serializable;
-import java.util.Objects;
 
 public class ExperimentDetailsActivity extends Activity {
 
     TextView mExperimentName;
+    TextView mExperimentOrganization;
+    TextView mExperimentVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +25,19 @@ public class ExperimentDetailsActivity extends Activity {
     }
 
     public void initializeViews() {
-        mExperimentName = (TextView) findViewById(R.id.exp_details_name);
+        mExperimentName = (TextView) findViewById(R.id.exp_name);
+        mExperimentOrganization = (TextView) findViewById(R.id.exp_organization);
+        mExperimentVersion = (TextView) findViewById(R.id.exp_version);
     }
     public void displayExperimentInformation() {
         Bundle b = getIntent().getExtras();
         // TODO : Switch to parcelable when available
         // Experiment exp =  b.getParcelable("experiment");
         ExperimentSerializable exp = (ExperimentSerializable) b.getSerializable("experiment");
+
         mExperimentName.setText(exp.getName());
+        mExperimentOrganization.setText(exp.getOrganization());
+        mExperimentVersion.setText(" - v"+exp.getVersion());
     }
 
     private boolean bundleContains(String name) {
