@@ -106,10 +106,12 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
         description.setText(item.description);
 
+        // Contains a background color associated to current status
+        View status = convertView.findViewById(R.id.experiment_status);
         if (StoreActivity.isSubscribedExperiment(item)){
-            showAsSubscribed(convertView);
+            showAsSubscribed(status);
         } else {
-            showAsUnsubscribed(convertView);
+            showAsUnsubscribed(status);
         }
         return convertView;
     }

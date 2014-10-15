@@ -122,6 +122,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
                 Bundle bundle = new Bundle();
                 // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
                 // bundle.putParcelable("experiment", getItem(position));
+                // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
                 bundle.putSerializable("experiment", new ExperimentSerializable(item));
                 intent.putExtras(bundle); //Put your id to your next Intent
 

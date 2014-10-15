@@ -9,7 +9,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_margin="@dimen/thumbnail_margin">
+            android:layout_margin="@dimen/thumbnail_margin"
+            android:layout_marginLeft="0dp">
+
+        <RelativeLayout android:layout_width="3dip" android:layout_height="fill_parent"
+                android:id="@+id/experiment_status" />
 
         <ImageView
                 android:id="@+id/list_image"
