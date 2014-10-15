@@ -6,6 +6,7 @@ import org.json.JSONException;
 import java.io.Serializable;
 
 public class ExperimentSerializable implements Serializable {
+
     private String name;
     private String niceName;
     private String description;
@@ -46,6 +47,10 @@ public class ExperimentSerializable implements Serializable {
         state = exp.state;
         storedState = exp.storedState;
         json = exp.json;
+    }
+
+    public String toString() {
+        return "";
     }
 
     public String getName() {

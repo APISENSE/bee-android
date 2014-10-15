@@ -112,7 +112,7 @@ public class StoreActivity extends Activity {
         public void onTaskCompleted(int result, Object response) {
             experimentsRetrieval = null;
             List<Experiment> exp = (List<Experiment>) response;
-            Log.i(TAG, "number of Active Experiments: " + exp.size());
+            Log.i(TAG, "Number of Active Experiments: " + exp.size());
 
             // Updating listview
             if (exp.size() != 0) {
