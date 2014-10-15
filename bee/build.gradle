@@ -16,6 +16,7 @@ dependencies {
     compile 'fr.inria.asl:asl-node-android-facade:2.1.0'
 
     compile 'com.viewpagerindicator:library:2.4.1'
+    compile project(':lib:hockeykit')
 
     // Tests with Robotium
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
