@@ -70,4 +70,8 @@
 	    ]]>
     </string>
 
+    <!-- Store -->
+    <string name="store_app_subscribed">You now contribute to experiment %1$s</string>
+    <string name="store_app_unsubscribed">You don\'t contribute to experiment %1$s anymore</string>
+
 </resources>

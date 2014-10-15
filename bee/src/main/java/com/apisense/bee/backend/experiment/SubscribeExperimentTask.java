@@ -21,9 +21,10 @@ public class SubscribeExperimentTask extends AsyncTaskWithCallback<Experiment, V
         if (exp != null) {
             try {
                 APISENSE.apisServerService().subscribeExperiment(exp);
-                Log.i(TAG, "Unsubscribe experiment " + exp.name);
+                APISENSE.apisMobileService().installExperiment(exp);
+                Log.i(TAG, "Subscribe experiment " + exp.name);
             } catch (Exception e) {
-                Log.e(TAG, "Error unsubscribe experiment " + exp.name + " | Error=" + e.getMessage());
+                Log.e(TAG, "Error  on subscribe experiment " + exp.name + " | Error=" + e.getMessage());
                 this.errcode = BeeApplication.ASYNC_ERROR;
                 detail = e.getMessage();
             }
