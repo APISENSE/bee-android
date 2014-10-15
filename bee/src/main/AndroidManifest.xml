@@ -59,7 +59,8 @@
         </activity>
         <activity
             android:name=".ui.activity.ExperimentDetailsActivity"
-            android:label="@string/title_activity_experiment_details" >
+            android:label="@string/title_activity_experiment_details"
+            android:parentActivityName=".ui.activity.HomeActivity" >
         </activity>
         <activity
             android:name=".ui.activity.PrivacyActivity"
