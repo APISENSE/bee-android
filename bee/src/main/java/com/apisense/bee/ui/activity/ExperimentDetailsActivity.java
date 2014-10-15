@@ -12,8 +12,14 @@ public class ExperimentDetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_details);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -118,7 +118,7 @@ public class HomeActivity extends Activity {
                 setExperiments(exp);
                 experimentsAdapter.notifyDataSetChanged();
             } else {
-
+                // TODO : Ask to add an experiment
             }
         }
 

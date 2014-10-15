@@ -1,6 +1,8 @@
 package com.apisense.bee.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.apisense.bee.R;
+import com.apisense.bee.ui.activity.ExperimentDetailsActivity;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
@@ -109,6 +112,13 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
         description.setText(item.description);
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ExperimentDetailsActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
         return convertView;
     }
 }
