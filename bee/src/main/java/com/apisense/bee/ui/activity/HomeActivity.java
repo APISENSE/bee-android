@@ -102,10 +102,14 @@ public class HomeActivity extends Activity {
 //            startActivity(intent);
 //            finish();
 //        }
+
+    }
+
+    public void doGoToStore(View storeButton) {
         Intent storeIntent = new Intent(this, StoreActivity.class);
         startActivity(storeIntent);
     }
-
+    
     public class ExperimentListRetrievedCallback implements AsyncTasksCallbacks {
         @Override
         public void onTaskCompleted(int result, Object response) {
