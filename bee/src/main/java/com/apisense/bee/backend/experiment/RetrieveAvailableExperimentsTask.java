@@ -15,11 +15,14 @@ public class RetrieveAvailableExperimentsTask extends AsyncTaskWithCallback<Void
     private final String TAG = this.getClass().getSimpleName();
 
     // Todo: Change types with API.
-    private final static String RETURN_SIZE = "30";
-    private String index = "0";
+    private final static String RETURN_SIZE = "300";
 
-    public RetrieveAvailableExperimentsTask(AsyncTasksCallbacks listener) {
+    private String index = "0";
+    private final String filter;
+
+    public RetrieveAvailableExperimentsTask(AsyncTasksCallbacks listener, String filter) {
         super(listener);
+        this.filter = filter;
     }
 
     public void setIndex(String index){
@@ -29,7 +32,7 @@ public class RetrieveAvailableExperimentsTask extends AsyncTaskWithCallback<Void
     @Override
     protected List<Experiment> doInBackground(Void... params) {
         List<Experiment> gotExperiments;
-
+        // TODO: Use filter to... filter
         BSenseServerService servService = APISENSE.apisense().getBSenseServerService();
         try {
             servService.searchRemoteExperiment(index, RETURN_SIZE);
@@ -43,4 +46,5 @@ public class RetrieveAvailableExperimentsTask extends AsyncTaskWithCallback<Void
         Log.d(TAG, "List of experiments returned: " + gotExperiments.toString());
         return gotExperiments;
     }
+
 }
