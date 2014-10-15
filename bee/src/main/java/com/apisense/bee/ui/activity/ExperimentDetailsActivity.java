@@ -4,16 +4,45 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import com.apisense.bee.R;
+import com.apisense.bee.ui.entity.ExperimentSerializable;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 public class ExperimentDetailsActivity extends Activity {
+
+    TextView mExperimentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_details);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
+        initializeViews();
+        displayExperimentInformation();
     }
+
+    public void initializeViews() {
+        mExperimentName = (TextView) findViewById(R.id.exp_details_name);
+    }
+    public void displayExperimentInformation() {
+        Bundle b = getIntent().getExtras();
+        ExperimentSerializable exp = (ExperimentSerializable) b.getSerializable("experiment");
+        mExperimentName.setText(exp.getName());
+    }
+
+    private boolean bundleContains(String name) {
+        return getIntent().getExtras().getString(name).contains(null);
+    }
+
+    private Object getValue(String name) {
+        return getIntent().getExtras().getString("name");
+    }
+
+    // - - - -
 
     @Override
     public void onBackPressed() {
