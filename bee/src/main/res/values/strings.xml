@@ -55,6 +55,7 @@
     <string name="add_new_experiments">Click to add new awesome experiments</string>
     <string name="action_start">Start</string>
     <string name="action_stop">Stop</string>
+    <string name="experiment_image_desc">Experiment logo</string>
 
     <!-- Privacy -->
     <string name="privacy_section_sensor">Activated Sensors</string>

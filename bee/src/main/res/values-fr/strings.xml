@@ -5,10 +5,10 @@
     <string name="title_activity_slideshow">Application Bee</string>
     <string name="title_activity_home">Experiences</string>
     <string name="title_activity_store">Magasin Bee</string>
-    <string name="title_activity_experiment_details">Détails</string>
     <string name="title_activity_privacy">Intimité</string>
     <string name="title_activity_settings">Réglages</string>
-
+    <string name="title_activity_experiment_details">Détails</string>
+    <string name="title_activity_store_experiment_details">Aperçu</string>
     <!-- Global -->
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
@@ -47,6 +47,12 @@
 
     <!-- Experiments -->
     <string name="experiment_activity_7_days">Activité des 7 derniers jours</string>
+    <string name="experiment_started">Expérience %1$s démarrée</string>
+    <string name="experiment_stopped">Expérience %1$s stoppée</string>
+    <string name="add_new_experiments">Cliquez sur le bouton pour participer à de nouvelles expériences</string>
+    <string name="action_start">Démarrer</string>
+    <string name="action_stop">Stopper</string>
+    <string name="experiment_image_desc">Logo de l\'expérience</string>
 
     <!-- Privacy -->
     <string name="privacy_section_sensor">Capteurs activés</string>
@@ -70,5 +76,12 @@
 	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
 	    ]]>
     </string>
+
+    <!-- Store -->
+    <string name="experiment_subscribed">Vous participez désormais à l\'expérience %1$s</string>
+    <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
+    <string name="action_subscribe">S\'inscrire</string>
+    <string name="action_unsubscribe">Se désinscrire</string>
+    <string name="no_available_experiments">Aucune expérience trouvé, veuillez vérifier votre configuration réseau</string>
 
 </resources>
