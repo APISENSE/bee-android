@@ -71,7 +71,9 @@
     </string>
 
     <!-- Store -->
-    <string name="store_app_subscribed">You now contribute to experiment %1$s</string>
-    <string name="store_app_unsubscribed">You don\'t contribute to experiment %1$s anymore</string>
+    <string name="experiment_subscribed">You now contribute to experiment %1$s</string>
+    <string name="experiment_unsubscribed">You don\'t contribute to experiment %1$s anymore</string>
+    <string name="experiment_started">Experiment %1$s started</string>
+    <string name="experiment_stopped">Experiment %1$s stopped</string>
 
 </resources>

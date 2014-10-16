@@ -149,12 +149,17 @@ public class StoreActivity extends Activity {
         }
     }
 
+
+    // TODO: Export (Un)Subscription indocator management to Adapter (with an attribute in the Experiment)
     private class OnExperimentSubscribed implements AsyncTasksCallbacks {
+        private View statusView;
         private View concernedView;
 
         public OnExperimentSubscribed(View v){
             super();
             this.concernedView = v;
+            this.statusView = concernedView.findViewById(R.id.experiment_status);
+
         }
 
         @Override
@@ -162,11 +167,12 @@ public class StoreActivity extends Activity {
             experimentSubscription = null;
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
-                String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
+                String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle))
+                                        .getText().toString();
                 Toast.makeText(getBaseContext(),
-                               String.format(getString(R.string.store_app_subscribed), experimentName),
+                               String.format(getString(R.string.experiment_subscribed), experimentName),
                                Toast.LENGTH_SHORT).show();
-                experimentsAdapter.showAsSubscribed(concernedView);
+                experimentsAdapter.showAsSubscribed(statusView);
             }
         }
 
@@ -178,10 +184,12 @@ public class StoreActivity extends Activity {
 
     private class OnExperimentUnsubscribed implements AsyncTasksCallbacks {
         private View concernedView;
+        private View statusView;
 
         public OnExperimentUnsubscribed(View v){
             super();
             this.concernedView = v;
+            this.statusView = concernedView.findViewById(R.id.experiment_status);
         }
 
         @Override
@@ -191,9 +199,9 @@ public class StoreActivity extends Activity {
                 // User feedback
                 String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
                 Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.store_app_unsubscribed), experimentName),
+                        String.format(getString(R.string.experiment_unsubscribed), experimentName),
                         Toast.LENGTH_SHORT).show();
-                experimentsAdapter.showAsUnsubscribed(concernedView);
+                experimentsAdapter.showAsUnsubscribed(statusView);
             }
         }
 
