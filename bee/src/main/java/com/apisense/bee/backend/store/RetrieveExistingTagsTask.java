@@ -22,12 +22,12 @@ public class RetrieveExistingTagsTask extends AsyncTaskWithCallback<Void, Void, 
         List<String> tags = new ArrayList<String>();
         // TODO: Débouchonner Tags retrieval
         this.errcode = BeeApplication.ASYNC_SUCCESS;
-        tags.add("No tag");
-        tags.add("tata");
-        tags.add("titi");
-        tags.add("toto");
-        tags.add("tutu");
-        tags.add("My Little Tag");
+        tags.add("All");
+        tags.add("Network");
+        tags.add("Social");
+        tags.add("Quality");
+        tags.add("Environment");
+        tags.add("Special");
 
         return tags;
     }
