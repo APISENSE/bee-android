@@ -45,7 +45,7 @@ public class HomeActivity extends Activity {
                                                                   new ArrayList<Experiment>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
         subscribedCollects.setAdapter(experimentsAdapter);
-        subscribedCollects.setOnItemLongClickListener(new StartExperimentListener());
+        subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
         subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
 
         updateUI();
@@ -157,7 +157,7 @@ public class HomeActivity extends Activity {
         }
     }
 
-    private class StartExperimentListener implements AdapterView.OnItemLongClickListener {
+    private class StartStopExperimentListener implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment exp = (Experiment) parent.getAdapter().getItem(position);
@@ -206,11 +206,11 @@ public class HomeActivity extends Activity {
             experimentStartTask = null;
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
-                String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
+               String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
                 Toast.makeText(getBaseContext(),
                         String.format(getString(R.string.experiment_started), experimentName),
                         Toast.LENGTH_SHORT).show();
-                experimentsAdapter.notifyDataSetChanged();
+                experimentsAdapter.notifyDataSetInvalidated();
             }
         }
 

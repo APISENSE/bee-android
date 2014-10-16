@@ -23,10 +23,9 @@ public class StartExperimentTask extends AsyncTaskWithCallback<Experiment, Void,
         Experiment exp = params[0];
         try {
             APISENSE.apisMobileService().startExperiment(exp);
-
-            Log.i(TAG, "Experiment (" + exp.name + ") started");
-            // FIXME: find a way to delete me!
+            // TODO: Make {start,stop}Experiment change the given variable to avoid changing it by ourserlf.
             exp.state = true;
+            Log.i(TAG, "Experiment (" + exp.name + ") started");
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         } catch (Exception e) {
             Log.w(TAG, "Experiment (" + exp.name + ") start failed: " + e.getMessage());
