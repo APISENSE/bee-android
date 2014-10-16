@@ -143,6 +143,6 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     }
 
     public void showAsStopped(View v){
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.red));
     }
 }
