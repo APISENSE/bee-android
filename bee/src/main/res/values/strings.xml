@@ -47,6 +47,8 @@
     <string name="slide_how">Share your data with us to get a better World :O</string>
     <string name="slide_reward">The more you give, the more you get ! Trade points for real stuff ! Amazing ;)</string>
 
+    <!-- Experiments -->
+    <string name="experiment_activity_7_days">Activity for the past 7 days</string>
     <!-- Privacy -->
     <string name="privacy_section_sensor">Activated Sensors</string>
     <string name="privacy_section_filter">Defined Filters</string>

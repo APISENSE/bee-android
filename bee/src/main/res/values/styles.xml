@@ -48,4 +48,15 @@
         <item name="android:textColor">@color/red</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!-- Apisense Graph Bar -->
+    <style name="BarGraph">
+        <item name="viewsWeekdayColor">@color/barchart_weekday</item>
+        <item name="viewsWeekendColor">@color/barchart_weekend</item>
+    </style>
+
+    <style name="BarGraphDeactived">
+        <item name="viewsWeekdayColor">@color/barchart_weekday_deactived</item>
+        <item name="viewsWeekendColor">@color/barchart_weekend_deactived</item>
+    </style>
 </resources>

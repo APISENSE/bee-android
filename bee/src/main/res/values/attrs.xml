@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BarChartView">
+        <attr name="viewsWeekdayColor" format="color" />
+        <attr name="viewsWeekendColor" format="color" />
+    </declare-styleable>
+
+</resources>

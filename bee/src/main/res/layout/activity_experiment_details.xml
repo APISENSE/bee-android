@@ -29,4 +29,42 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
+    <!-- Gamification -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/game_padding"
+            android:orientation="horizontal">
+
+        <!-- Score and rank for example -->
+        <com.apisense.bee.widget.ApisenseTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1850 Points"
+                android:layout_weight="0.5"/>
+
+        <com.apisense.bee.widget.ApisenseTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Rank #40"
+                android:layout_weight="0.5"/>
+
+    </LinearLayout>
+
+    <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/exp_activity"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/experiment_activity_7_days"/>
+
+    <com.apisense.bee.widget.BarGraphView
+            android:id="@+id/inbox_item_graph"
+            style="@style/BarGraph"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp" />
+
 </LinearLayout>
