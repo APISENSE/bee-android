@@ -93,7 +93,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
         final Experiment item = getItem(position);
 

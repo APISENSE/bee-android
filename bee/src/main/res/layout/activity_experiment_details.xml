@@ -11,7 +11,7 @@
 
     <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/exp_name"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>
@@ -65,6 +65,6 @@
             style="@style/BarGraph"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:minHeight="20dp" />
+            android:minHeight="20sp" />
 
 </LinearLayout>

@@ -49,7 +49,7 @@ public class PrivacyGridAdapter extends ArrayAdapter<PrivacyGridItem> {
         View rowView = convertView;
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.privacy_grid_item_fragment, null);
+            rowView = inflater.inflate(R.layout.privacy_grid_item_fragment, parent, false);
 
             PrivacyGridHolder privacyGridHolder = new PrivacyGridHolder();
             privacyGridHolder.toggleButton = (ToggleButton) rowView.findViewById(R.id.toggle_sensor);

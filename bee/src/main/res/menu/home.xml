@@ -11,5 +11,5 @@
         android:title="@string/action_settings"
         android:onClick="doLaunchSettings"
         android:orderInCategory="2"
-        android:showAsAction="always" />
+        android:showAsAction="ifRoom" />
 </menu>
