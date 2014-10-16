@@ -5,13 +5,11 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
@@ -43,6 +41,10 @@ public class StoreActivity extends Activity {
     private SubscribeExperimentTask experimentSubscription;
     private UnsubscribeExperimentTask experimentUnsubscription;
     private String currentTabTag;
+
+    // sliding menu
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +145,21 @@ public class StoreActivity extends Activity {
                                      .setText(tag)
                                      .setTabListener(new TagTabListener()));
                 }
+
+                // Add tag inside drawer layout too
+                String[] arrayTags = tags.toArray(new String[tags.size()]);
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.sliding_menu);
+                mDrawerList = (ListView) findViewById(R.id.left_drawer);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,arrayTags);
+                mDrawerList.setAdapter(adapter);
+                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
+                        mDrawerLayout.closeDrawers();
+                        Toast.makeText(getApplicationContext(), ((TextView) v).getText().toString() + " clicked !", Toast.LENGTH_SHORT).show();
+                        // TODO : Interact (doc : http://developer.android.com/training/implementing-navigation/nav-drawer.html)
+                    }
+                });
             }
         }
 
