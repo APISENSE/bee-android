@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.ExperimentDetailsActivity;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
@@ -103,7 +104,6 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         final Experiment item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem)for Experiment: " + item);
-
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
         title.setText(item.niceName);
         title.setTypeface(null, Typeface.BOLD);
@@ -114,21 +114,37 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
         description.setText(item.description);
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ExperimentDetailsActivity.class);
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(v.getContext(), ExperimentDetailsActivity.class);
+//
+//                Bundle bundle = new Bundle();
+//                // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
+//                // bundle.putParcelable("experiment", getItem(position));
+//                // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
+//                bundle.putSerializable("experiment", new ExperimentSerializable(item));
+//                intent.putExtras(bundle); //Put your id to your next Intent
+//                v.getContext().startActivity(intent);
+//            }
+//        });
 
-                Bundle bundle = new Bundle();
-                // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
-                // bundle.putParcelable("experiment", getItem(position));
-                // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
-                bundle.putSerializable("experiment", new ExperimentSerializable(item));
-                intent.putExtras(bundle); //Put your id to your next Intent
+        // Display state of the current experiment
+        View status = convertView.findViewById(R.id.experiment_status);
+        if (item.state){
+            showAsStarted(status);
+        } else {
+            showAsStopped(status);
+        }
 
-                v.getContext().startActivity(intent);
-            }
-        });
         return convertView;
+    }
+
+    public void showAsStarted(View v){
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.orange_light));
+    }
+
+    public void showAsStopped(View v){
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
     }
 }

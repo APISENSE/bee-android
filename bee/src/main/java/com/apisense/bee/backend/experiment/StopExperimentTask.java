@@ -22,8 +22,10 @@ public class StopExperimentTask extends AsyncTaskWithCallback<Experiment, Void, 
     protected Void doInBackground(Experiment... params) {
         Experiment exp = params[0];
         try {
-            APISENSE.apisense().getBSenseMobileService().stopExperiment(exp, APISENSE.EXIT_CODE_NORMAL);
+            APISENSE.apisMobileService().stopExperiment(exp, APISENSE.EXIT_CODE_NORMAL);
             Log.i(TAG, "Experiment (" + exp.name + ") stopped");
+            // FIXME: find a way to delete me!
+            exp.state = false;
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         } catch (Exception e) {
             Log.e(TAG, "Experiment (" + exp.name + ") stop failed: " + e.getMessage());

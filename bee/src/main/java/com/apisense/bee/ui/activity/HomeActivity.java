@@ -8,11 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
+import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
+import com.apisense.bee.ui.entity.ExperimentSerializable;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
@@ -29,16 +31,23 @@ public class HomeActivity extends Activity {
    // Asynchronous Tasks
     private RetrieveInstalledExperimentsTask experimentsRetrieval;
     private SignOutTask signOut;
+    private StopExperimentTask experimentStopTask;
+    private StartExperimentTask experimentStartTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
                                                                   R.layout.fragment_experimentelement,
                                                                   new ArrayList<Experiment>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
         subscribedCollects.setAdapter(experimentsAdapter);
+        subscribedCollects.setOnItemLongClickListener(new StartExperimentListener());
+        subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
+
         updateUI();
     }
 
@@ -132,6 +141,45 @@ public class HomeActivity extends Activity {
         }
     }
 
+    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(view.getContext(), ExperimentDetailsActivity.class);
+            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
+
+            Bundle bundle = new Bundle();
+            // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
+            // bundle.putParcelable("experiment", getItem(position));
+            // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
+            bundle.putSerializable("experiment", new ExperimentSerializable(exp));
+            intent.putExtras(bundle); //Put your id to your next Intent
+            startActivity(intent);
+        }
+    }
+
+    private class StartExperimentListener implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
+            Log.d(TAG, "Exp state: " + exp.state);
+            if (! exp.state) {
+                if (experimentStartTask == null) {
+                    Log.i(TAG, "Starting experiment: " + exp);
+                    experimentStartTask = new StartExperimentTask(new OnExperimentStarted(view));
+                    experimentStartTask.execute(exp);
+                }
+            } else {
+                if (experimentStopTask == null) {
+                    Log.i(TAG, "Stopping experiment: " + exp);
+                    experimentStopTask = new StopExperimentTask(new OnExperimentStopped(view));
+                    experimentStopTask.execute(exp);
+                }
+            }
+            return true;
+        }
+    }
+
+
     public class SignedOutCallback implements AsyncTasksCallbacks {
         @Override
         public void onTaskCompleted(int result, Object response) {
@@ -145,4 +193,57 @@ public class HomeActivity extends Activity {
             signOut = null;
         }
     }
+
+    public class OnExperimentStarted implements AsyncTasksCallbacks {
+        private View concernedView;
+
+        public OnExperimentStarted(View view) {
+            this.concernedView = view;
+        }
+
+        @Override
+        public void onTaskCompleted(int result, Object response) {
+            experimentStartTask = null;
+            if (result == BeeApplication.ASYNC_SUCCESS) {
+                // User feedback
+                String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
+                Toast.makeText(getBaseContext(),
+                        String.format(getString(R.string.experiment_started), experimentName),
+                        Toast.LENGTH_SHORT).show();
+                experimentsAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onTaskCanceled() {
+            experimentStartTask = null;
+        }
+    }
+
+    public class OnExperimentStopped implements AsyncTasksCallbacks {
+        private View concernedView;
+
+        public OnExperimentStopped(View view) {
+            this.concernedView = view;
+        }
+
+        @Override
+        public void onTaskCompleted(int result, Object response) {
+            experimentStopTask = null;
+            if (result == BeeApplication.ASYNC_SUCCESS) {
+                // User feedback
+                String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
+                Toast.makeText(getBaseContext(),
+                        String.format(getString(R.string.experiment_stopped), experimentName),
+                        Toast.LENGTH_SHORT).show();
+                experimentsAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onTaskCanceled() {
+            experimentStopTask = null;
+        }
+    }
+
 }

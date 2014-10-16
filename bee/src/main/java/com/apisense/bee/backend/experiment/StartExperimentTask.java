@@ -22,8 +22,11 @@ public class StartExperimentTask extends AsyncTaskWithCallback<Experiment, Void,
     protected Void doInBackground(Experiment... params) {
         Experiment exp = params[0];
         try {
-            APISENSE.apisense().getBSenseMobileService().startExperiment(exp);
+            APISENSE.apisMobileService().startExperiment(exp);
+
             Log.i(TAG, "Experiment (" + exp.name + ") started");
+            // FIXME: find a way to delete me!
+            exp.state = true;
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         } catch (Exception e) {
             Log.w(TAG, "Experiment (" + exp.name + ") start failed: " + e.getMessage());
