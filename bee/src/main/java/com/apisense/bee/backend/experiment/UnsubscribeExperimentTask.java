@@ -6,6 +6,7 @@ import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
+import org.json.JSONException;
 
 /**
  * AsyncTask to stop, uninstall and unsubscribe from an experiment
@@ -25,9 +26,16 @@ public class UnsubscribeExperimentTask extends AsyncTaskWithCallback<Experiment,
     protected String doInBackground(Experiment... params) {
         Experiment exp = params[0];
         String detail = "";
-        // TODO: Wait for exp.state to not being null
-        Log.d(TAG, "Exp current state: " + exp.state);
-        if (exp != null && exp.remoteState.equals("started")) {
+
+        // Retrieve local version of the experiment
+        try {
+            exp = APISENSE.apisMobileService().getExperiment(exp.name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Stop experiment if started
+        if (exp != null && exp.state) {
             try {
                 APISENSE.apisMobileService().stopExperiment(exp, 0);
                 Log.i(TAG, "Stop experiment  " + exp.name);
@@ -36,6 +44,8 @@ public class UnsubscribeExperimentTask extends AsyncTaskWithCallback<Experiment,
                 detail = e.getMessage();
             }
         }
+
+        // Uninstall and unsubscribe from experiment
         try {
             APISENSE.apisMobileService().uninstallExperiment(exp);
             APISENSE.apisServerService().unsubscribeExperiment(exp);
