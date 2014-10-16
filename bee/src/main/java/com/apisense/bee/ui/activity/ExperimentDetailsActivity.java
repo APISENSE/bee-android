@@ -24,6 +24,12 @@ public class ExperimentDetailsActivity extends Activity {
         displayExperimentInformation();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
+    }
+
     public void initializeViews() {
         mExperimentName = (TextView) findViewById(R.id.exp_name);
         mExperimentOrganization = (TextView) findViewById(R.id.exp_organization);
