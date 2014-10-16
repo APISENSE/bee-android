@@ -15,6 +15,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_privacy">Privacy</string>
+    <string name="by">by</string>
 
     <!-- User feedbacks -->
     <string name="error">Error</string>
@@ -56,6 +57,8 @@
     <string name="action_start">Start</string>
     <string name="action_stop">Stop</string>
     <string name="experiment_image_desc">Experiment logo</string>
+    <string name="running">Running</string>
+    <string name="not_running">Not running</string>
 
     <!-- Privacy -->
     <string name="privacy_section_sensor">Activated Sensors</string>

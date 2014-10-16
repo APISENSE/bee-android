@@ -9,10 +9,12 @@
     <string name="title_activity_settings">Réglages</string>
     <string name="title_activity_experiment_details">Détails</string>
     <string name="title_activity_store_experiment_details">Aperçu</string>
+
     <!-- Global -->
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_privacy">Intimité</string>
+    <string name="by">par</string>
 
     <!-- User feedbacks -->
     <string name="error">Erreur</string>
@@ -53,6 +55,8 @@
     <string name="action_start">Démarrer</string>
     <string name="action_stop">Stopper</string>
     <string name="experiment_image_desc">Logo de l\'expérience</string>
+    <string name="running">Récolte</string>
+    <string name="not_running">Eteinte</string>
 
     <!-- Privacy -->
     <string name="privacy_section_sensor">Capteurs activés</string>

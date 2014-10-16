@@ -97,19 +97,19 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
 
         final Experiment item = getItem(position);
 
-        Log.v(TAG, "View asked (as a listItem)for Experiment: " + item);
+        Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
         title.setText(item.niceName);
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" by " + item.organization);
+        company.setText(" " + getContext().getString(R.string.by) + " " + item.organization);
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
         description.setText(item.description);
 
         TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
-        String state = (item.state) ? "Running" : "Not running";
+        String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running) ;
         textStatus.setText(" - " + state);
 
 //        convertView.setOnClickListener(new View.OnClickListener() {
