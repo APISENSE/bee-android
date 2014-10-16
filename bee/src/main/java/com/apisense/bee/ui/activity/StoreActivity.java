@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -67,6 +68,10 @@ public class StoreActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the ActionBar and the tabs.
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        // Color
+        ColorDrawable colorDrawable = new ColorDrawable();
+        colorDrawable.setColor(getResources().getColor(R.color.orange_light));
+        actionBar.setBackgroundDrawable(colorDrawable);
         populateTabs();
         return true;
     }
@@ -149,11 +154,12 @@ public class StoreActivity extends Activity {
                 String[] arrayTags = tags.toArray(new String[tags.size()]);
                 mDrawerLayout = (DrawerLayout) findViewById(R.id.sliding_menu);
                 mDrawerList = (ListView) findViewById(R.id.left_drawer);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,arrayTags);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.sliding_store_menu_element,arrayTags);
                 mDrawerList.setAdapter(adapter);
                 mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
+                        Log.i(TAG, ((TextView) v).getText().toString() + " clicked !");
                         mDrawerLayout.closeDrawers();
                         Toast.makeText(getApplicationContext(), ((TextView) v).getText().toString() + " clicked !", Toast.LENGTH_SHORT).show();
                         // TODO : Interact (doc : http://developer.android.com/training/implementing-navigation/nav-drawer.html)
