@@ -78,7 +78,7 @@ public class ExperimentDetailsActivity extends Activity {
         getMenuInflater().inflate(R.menu.experiment_details, menu);
         mSubscribeButton = menu.findItem(R.id.detail_action_subscribe);
         mStartButton = menu.findItem(R.id.detail_action_start);
-        
+
         updateStartMenu();
         updateSubscriptionMenu();
         return true;
@@ -212,7 +212,7 @@ public class ExperimentDetailsActivity extends Activity {
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
                 Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_started), experiment.name),
+                        String.format(getString(R.string.experiment_started), experiment.niceName),
                         Toast.LENGTH_SHORT).show();
                 updateStartMenu();
             }
@@ -232,7 +232,7 @@ public class ExperimentDetailsActivity extends Activity {
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
                 Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_stopped), experiment.name),
+                        String.format(getString(R.string.experiment_stopped), experiment.niceName),
                         Toast.LENGTH_SHORT).show();
                 updateStartMenu();
             }
@@ -252,7 +252,7 @@ public class ExperimentDetailsActivity extends Activity {
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
                 Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_subscribed), experiment.name),
+                        String.format(getString(R.string.experiment_subscribed), experiment.niceName),
                         Toast.LENGTH_SHORT).show();
                 updateSubscriptionMenu();
             }
@@ -272,7 +272,7 @@ public class ExperimentDetailsActivity extends Activity {
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
                 Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_unsubscribed), experiment.name),
+                        String.format(getString(R.string.experiment_unsubscribed), experiment.niceName),
                         Toast.LENGTH_SHORT).show();
                 updateSubscriptionMenu();
             }
