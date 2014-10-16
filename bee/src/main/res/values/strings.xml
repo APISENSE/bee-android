@@ -53,6 +53,8 @@
     <string name="experiment_started">Experiment %1$s started</string>
     <string name="experiment_stopped">Experiment %1$s stopped</string>
     <string name="add_new_experiments">Click to add new awesome experiments</string>
+    <string name="action_start">Start</string>
+    <string name="action_stop">Stop</string>
 
     <!-- Privacy -->
     <string name="privacy_section_sensor">Activated Sensors</string>

@@ -1,8 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.apisense.bee.ui.activity.ExperimentDetailsActivity" >
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+
+
+    <item android:id="@+id/detail_action_start"
+          android:title="@string/action_start"
+          android:onClick="doStartStop"
+          android:orderInCategory="1"
+          android:showAsAction="always" />
+
+    <item android:id="@+id/detail_action_subscribe"
+          android:title="@string/action_subscribe"
+          android:onClick="doSubscribeUnsubscribe"
+          android:orderInCategory="2"
+          android:showAsAction="ifRoom" />
+
 </menu>

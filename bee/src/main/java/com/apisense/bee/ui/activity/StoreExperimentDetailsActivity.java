@@ -115,7 +115,6 @@ public class StoreExperimentDetailsActivity extends Activity {
         }
     }
 
-    // TODO: Export (Un)Subscription indocator management to Adapter (with an attribute in the Experiment)
     private class OnExperimentSubscribed implements AsyncTasksCallbacks {
 
         @Override
