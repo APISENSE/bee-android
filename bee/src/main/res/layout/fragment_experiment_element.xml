@@ -3,7 +3,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-    <!--  ListRow Left sied Thumbnail image -->
+    <!--  ListRow Left side Thumbnail image -->
     <LinearLayout
             android:id="@+id/thumbnail"
             android:layout_width="wrap_content"
@@ -44,6 +44,12 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/experimentelement_sampletitle"
                 android:id="@+id/experimentelement_company"/>
+
+        <!-- Status -->
+        <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/experimentelement_status"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
 
     </LinearLayout>
 

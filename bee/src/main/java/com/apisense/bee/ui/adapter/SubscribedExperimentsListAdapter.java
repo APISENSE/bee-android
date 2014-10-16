@@ -108,6 +108,10 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
         description.setText(item.description);
 
+        TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
+        String state = (item.state) ? "Running" : "Not running";
+        textStatus.setText(" - " + state);
+
 //        convertView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
