@@ -50,7 +50,7 @@ public class StoreActivity extends Activity {
 
         // Setting up available experiments list behavior
         experimentsAdapter = new AvailableExperimentsListAdapter(getBaseContext(),
-                                                                  R.layout.fragment_experimentelement,
+                                                                  R.layout.fragment_experiment_store_element,
                                                                   new ArrayList<Experiment>());
         ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiment_lists);
         subscribedExperiments.setAdapter(experimentsAdapter);

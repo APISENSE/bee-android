@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+    <!--  ListRow Left sied Thumbnail image -->
+    <LinearLayout
+            android:id="@+id/thumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/thumbnail_margin"
+            android:layout_marginLeft="0dp">
+
+        <RelativeLayout android:layout_width="3dip" android:layout_height="fill_parent"
+                        android:id="@+id/experiment_status" />
+
+        <ImageView
+                android:id="@+id/list_image"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:src="@drawable/ic_launcher"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:id="@+id/experiment_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignTop="@+id/thumbnail"
+            android:layout_toRightOf="@+id/thumbnail">
+
+        <!-- Experiment title-->
+        <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/experimentelement_sampletitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        <!-- Company -->
+        <com.apisense.bee.widget.ApisenseTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/experimentelement_sampletitle"
+                android:id="@+id/experimentelement_company"/>
+
+    </LinearLayout>
+
+    <!-- Description -->
+    <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/experimentelement_short_desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/experiment_header"
+            android:layout_toRightOf="@+id/thumbnail"/>
+
+    <!-- Rightend Arrow -->
+    <ImageView android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/right_arrow"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"/>
+
+
+</RelativeLayout>
