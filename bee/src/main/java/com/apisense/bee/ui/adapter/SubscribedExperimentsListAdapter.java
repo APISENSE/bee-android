@@ -1,19 +1,13 @@
 package com.apisense.bee.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.ui.activity.ExperimentDetailsActivity;
-import com.apisense.bee.ui.entity.ExperimentSerializable;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
@@ -99,7 +93,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experimentelement, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, null);
 
         final Experiment item = getItem(position);
 

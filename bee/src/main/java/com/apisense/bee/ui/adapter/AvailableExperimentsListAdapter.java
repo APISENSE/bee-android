@@ -90,7 +90,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experimentelement, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, null);
 
         Experiment item = getItem(position);
 

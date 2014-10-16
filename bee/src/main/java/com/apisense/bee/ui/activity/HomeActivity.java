@@ -41,7 +41,7 @@ public class HomeActivity extends Activity {
 
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
-                                                                  R.layout.fragment_experimentelement,
+                                                                  R.layout.fragment_experiment_element,
                                                                   new ArrayList<Experiment>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
         subscribedCollects.setAdapter(experimentsAdapter);
