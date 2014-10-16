@@ -35,10 +35,10 @@
 
     <application
         android:name=".BeeApplication"
-        android:theme="@style/ApisenseTheme"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/ApisenseTheme" >
         <activity
             android:name=".ui.activity.SlideshowActivity"
             android:label="@string/title_activity_slideshow" >
@@ -76,6 +76,11 @@
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ui.activity.HomeActivity" >
+        </activity>
+        <activity
+            android:name=".ui.activity.StoreExperimentDetailsActivity"
+            android:label="@string/title_activity_store_experiment_details"
+            android:parentActivityName=".ui.activity.StoreActivity" >
         </activity>
     </application>
 
