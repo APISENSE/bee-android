@@ -9,6 +9,8 @@
     <color name="grey">#CECBCE</color>
     <color name="black">#000000</color>
 
+    <color name="green">#ff49c265</color>
+
     <color name="actionbar_background">#5DCFF3</color>
     <color name="actionbar_dropdown_bg">#2A9CC0</color>
 

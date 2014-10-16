@@ -139,10 +139,10 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     }
 
     public void showAsStarted(View v){
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.orange_light));
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.green));
     }
 
     public void showAsStopped(View v){
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.red));
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.orange_light));
     }
 }
