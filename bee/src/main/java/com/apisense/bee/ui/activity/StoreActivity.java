@@ -57,6 +57,7 @@ public class StoreActivity extends Activity {
                                                                   R.layout.fragment_experiment_store_element,
                                                                   new ArrayList<Experiment>());
         ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiment_lists);
+        subscribedExperiments.setEmptyView(findViewById(R.id.store_empty_list));
         subscribedExperiments.setAdapter(experimentsAdapter);
         subscribedExperiments.setOnItemClickListener(new OpenExperimentDetailsListener());
         subscribedExperiments.setOnItemLongClickListener(new SubscriptionListener());
@@ -120,10 +121,8 @@ public class StoreActivity extends Activity {
             Log.i(TAG, "Number of Active Experiments: " + exp.size());
 
             // Updating listview
-            if (exp.size() != 0) {
-                setExperiments(exp);
-                experimentsAdapter.notifyDataSetChanged();
-            }
+            setExperiments(exp);
+            experimentsAdapter.notifyDataSetChanged();
         }
 
         @Override

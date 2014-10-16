@@ -115,7 +115,6 @@ public class StoreExperimentDetailsActivity extends Activity {
         }
     }
 
-    // TODO: Export (Un)Subscription indocator management to Adapter (with an attribute in the Experiment)
     private class OnExperimentSubscribed implements AsyncTasksCallbacks {
 
         @Override
@@ -124,7 +123,7 @@ public class StoreExperimentDetailsActivity extends Activity {
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
                 Toast.makeText(getBaseContext(),
-                               String.format(getString(R.string.experiment_unsubscribed), experiment.name),
+                               String.format(getString(R.string.experiment_subscribed), experiment.niceName),
                                Toast.LENGTH_SHORT).show();
                 updateSubscriptionMenu();
             }
@@ -144,7 +143,7 @@ public class StoreExperimentDetailsActivity extends Activity {
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
                 Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_unsubscribed), experiment.name),
+                        String.format(getString(R.string.experiment_unsubscribed), experiment.niceName),
                         Toast.LENGTH_SHORT).show();
                 updateSubscriptionMenu();
             }
