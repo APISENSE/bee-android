@@ -66,16 +66,16 @@ public class HomeActivity extends Activity {
         retrieveActiveExperiments();
 
         // Generating messages depending on the logged user
-        /* TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
-        Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
+        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
+        // Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
 
         if (isUserAuthenticated()) {
-            loginButton.setText(getString(R.string.logout));
-            user_identity.setText(getString(R.string.user_identity, "usernameToRetrieve"));
+            // loginButton.setText(getString(R.string.logout));
+            user_identity.setText(getString(R.string.user_identity, "To retrieve somehow..."));
         } else {
-            loginButton.setText(R.string.login);
+            // loginButton.setText(R.string.login);
             user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
-        } */
+        }
     }
 
     private void retrieveActiveExperiments() {
