@@ -3,6 +3,7 @@ package com.apisense.bee.ui.activity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import com.apisense.bee.backend.experiment.SubscribeExperimentTask;
 import com.apisense.bee.backend.experiment.UnsubscribeExperimentTask;
 import com.apisense.bee.backend.store.RetrieveExistingTagsTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
+import com.apisense.bee.ui.entity.ExperimentSerializable;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
@@ -54,6 +56,7 @@ public class StoreActivity extends Activity {
                                                                   new ArrayList<Experiment>());
         ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiment_lists);
         subscribedExperiments.setAdapter(experimentsAdapter);
+        subscribedExperiments.setOnItemClickListener(new OpenExperimentDetailsListener());
         subscribedExperiments.setOnItemLongClickListener(new SubscriptionListener());
     }
 
@@ -242,6 +245,22 @@ public class StoreActivity extends Activity {
            // probably ignore this event
        }
    }
+
+    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(view.getContext(), StoreExperimentDetailsActivity.class);
+            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
+
+            Bundle bundle = new Bundle();
+            // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
+            // bundle.putParcelable("experiment", getItem(position));
+            // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
+            bundle.putSerializable("experiment", new ExperimentSerializable(exp));
+            intent.putExtras(bundle); //Put your id to your next Intent
+            startActivity(intent);
+        }
+    }
 
     private class SubscriptionListener implements AdapterView.OnItemLongClickListener {
         @Override
