@@ -44,6 +44,7 @@ public class HomeActivity extends Activity {
                                                                   R.layout.fragment_experiment_element,
                                                                   new ArrayList<Experiment>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
+        subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
         subscribedCollects.setAdapter(experimentsAdapter);
         subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
         subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
@@ -127,12 +128,8 @@ public class HomeActivity extends Activity {
             Log.i(TAG, "number of Active Experiments: " + exp.size());
 
            // Updating listview
-            if (exp.size() != 0) {
-                setExperiments(exp);
-                experimentsAdapter.notifyDataSetChanged();
-            } else {
-                // TODO : Ask to add an experiment
-            }
+            setExperiments(exp);
+            experimentsAdapter.notifyDataSetChanged();
         }
 
         @Override

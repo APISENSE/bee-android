@@ -124,7 +124,7 @@ public class StoreExperimentDetailsActivity extends Activity {
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
                 Toast.makeText(getBaseContext(),
-                               String.format(getString(R.string.experiment_unsubscribed), experiment.name),
+                               String.format(getString(R.string.experiment_subscribed), experiment.name),
                                Toast.LENGTH_SHORT).show();
                 updateSubscriptionMenu();
             }
