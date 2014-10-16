@@ -45,6 +45,9 @@
     <string name="slide_how">Partagez vos données et aidez la science à progresser !</string>
     <string name="slide_reward">Plus vous partagez, plus vous êtes récompensé ! Echangez des points contre des lots réels !</string>
 
+    <!-- Experiments -->
+    <string name="experiment_activity_7_days">Activité des 7 derniers jours</string>
+
     <!-- Privacy -->
     <string name="privacy_section_sensor">Capteurs activés</string>
     <string name="privacy_section_filter">Filtres définis</string>
