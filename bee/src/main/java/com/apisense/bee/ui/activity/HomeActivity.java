@@ -31,8 +31,8 @@ public class HomeActivity extends Activity {
    // Asynchronous Tasks
     private RetrieveInstalledExperimentsTask experimentsRetrieval;
     private SignOutTask signOut;
-    private StopExperimentTask experimentStopTask;
-    private StartExperimentTask experimentStartTask;
+    private StartStopExperimentTask experimentStartStopTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,19 +158,9 @@ public class HomeActivity extends Activity {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment exp = (Experiment) parent.getAdapter().getItem(position);
-            Log.d(TAG, "Exp state: " + exp.state);
-            if (! exp.state) {
-                if (experimentStartTask == null) {
-                    Log.i(TAG, "Starting experiment: " + exp);
-                    experimentStartTask = new StartExperimentTask(new OnExperimentStarted(view));
-                    experimentStartTask.execute(exp);
-                }
-            } else {
-                if (experimentStopTask == null) {
-                    Log.i(TAG, "Stopping experiment: " + exp);
-                    experimentStopTask = new StopExperimentTask(new OnExperimentStopped(view));
-                    experimentStopTask.execute(exp);
-                }
+            if (experimentStartStopTask == null) {
+                experimentStartStopTask = new StartStopExperimentTask(new OnExperimentStatusChanged(exp));
+                experimentStartStopTask.execute(exp);
             }
             return true;
         }
@@ -191,56 +181,35 @@ public class HomeActivity extends Activity {
         }
     }
 
-    public class OnExperimentStarted implements AsyncTasksCallbacks {
-        private View concernedView;
+    private class OnExperimentStatusChanged implements AsyncTasksCallbacks {
+        private Experiment concernedExp;
 
-        public OnExperimentStarted(View view) {
-            this.concernedView = view;
+        public OnExperimentStatusChanged(Experiment exp) {
+            this.concernedExp = exp;
         }
 
         @Override
         public void onTaskCompleted(int result, Object response) {
-            experimentStartTask = null;
+            experimentStartStopTask = null;
+            String experimentName = concernedExp.niceName;
+            String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                // User feedback
-               String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
-                Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_started), experimentName),
-                        Toast.LENGTH_SHORT).show();
+                switch((Integer)response) {
+                    case StartStopExperimentTask.EXPERIMENT_STARTED:
+                        toastMessage = String.format(getString(R.string.experiment_started), experimentName);
+                        break;
+                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
+                        toastMessage = String.format(getString(R.string.experiment_stopped), experimentName);
+                        break;
+                }
+                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
                 experimentsAdapter.notifyDataSetInvalidated();
             }
         }
 
         @Override
         public void onTaskCanceled() {
-            experimentStartTask = null;
+            experimentStartStopTask = null;
         }
     }
-
-    public class OnExperimentStopped implements AsyncTasksCallbacks {
-        private View concernedView;
-
-        public OnExperimentStopped(View view) {
-            this.concernedView = view;
-        }
-
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            experimentStopTask = null;
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                // User feedback
-                String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
-                Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_stopped), experimentName),
-                        Toast.LENGTH_SHORT).show();
-                experimentsAdapter.notifyDataSetChanged();
-            }
-        }
-
-        @Override
-        public void onTaskCanceled() {
-            experimentStopTask = null;
-        }
-    }
-
 }

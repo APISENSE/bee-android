@@ -15,12 +15,10 @@ import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
-import com.apisense.bee.backend.experiment.SubscribeExperimentTask;
-import com.apisense.bee.backend.experiment.UnsubscribeExperimentTask;
+import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.backend.store.RetrieveExistingTagsTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;
@@ -39,8 +37,7 @@ public class StoreActivity extends Activity {
     // Asynchronous Task
     private RetrieveExistingTagsTask tagsRetrieval;
     private RetrieveAvailableExperimentsTask experimentsRetrieval;
-    private SubscribeExperimentTask experimentSubscription;
-    private UnsubscribeExperimentTask experimentUnsubscription;
+    private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
     private String currentTabTag;
 
     // sliding menu
@@ -86,25 +83,6 @@ public class StoreActivity extends Activity {
         }
     }
 
-    /**
-     * Specify if the given experiment is already subscribed to
-     * (*subscribed* being currently equivalent to *installed*)
-     *
-     * @param exp The experiment to test
-     * @return true if the user already subscribed to an experiment, false otherwise
-     */
-    // TODO: Improve this with a specific library method (at least Move function to a better place)
-    public static boolean isSubscribedExperiment(Experiment exp) {
-        Experiment currentExperiment;
-        boolean result = false;
-        try {
-            currentExperiment = APISENSE.apisense().getBSenseMobileService().getExperiment(exp.name);
-            result = (currentExperiment != null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     /**
      * Change the adapter dataSet with a newly fetched List of Experiment
@@ -174,13 +152,12 @@ public class StoreActivity extends Activity {
         }
     }
 
-
-    // TODO: Export (Un)Subscription indocator management to Adapter (with an attribute in the Experiment)
-    private class OnExperimentSubscribed implements AsyncTasksCallbacks {
+    // TODO: Export (Un)Subscription indocator management to Adapter (with a boolean field 'subscribed' in the Experiment)
+    private class onExperimentSubscriptionChanged implements AsyncTasksCallbacks {
         private View statusView;
         private View concernedView;
 
-        public OnExperimentSubscribed(View v){
+        public onExperimentSubscriptionChanged(View v){
             super();
             this.concernedView = v;
             this.statusView = concernedView.findViewById(R.id.experiment_status);
@@ -189,53 +166,31 @@ public class StoreActivity extends Activity {
 
         @Override
         public void onTaskCompleted(int result, Object response) {
-            experimentSubscription = null;
+            experimentChangeSubscriptionStatus = null;
+            String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle))
+                                                              .getText().toString();
+            String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
+                switch ((Integer) response){
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
+                        toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                        experimentsAdapter.showAsSubscribed(statusView);
+                        break;
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
+                        toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
+                        experimentsAdapter.showAsUnsubscribed(statusView);
+                        break;
+                }
                 // User feedback
-                String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle))
-                                        .getText().toString();
-                Toast.makeText(getBaseContext(),
-                               String.format(getString(R.string.experiment_subscribed), experimentName),
-                               Toast.LENGTH_SHORT).show();
-                experimentsAdapter.showAsSubscribed(statusView);
+                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onTaskCanceled() {
-            experimentSubscription = null;
+            experimentChangeSubscriptionStatus = null;
         }
     }
-
-    private class OnExperimentUnsubscribed implements AsyncTasksCallbacks {
-        private View concernedView;
-        private View statusView;
-
-        public OnExperimentUnsubscribed(View v){
-            super();
-            this.concernedView = v;
-            this.statusView = concernedView.findViewById(R.id.experiment_status);
-        }
-
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            experimentUnsubscription = null;
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                // User feedback
-                String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
-                Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_unsubscribed), experimentName),
-                        Toast.LENGTH_SHORT).show();
-                experimentsAdapter.showAsUnsubscribed(statusView);
-            }
-        }
-
-        @Override
-        public void onTaskCanceled() {
-            experimentUnsubscription = null;
-        }
-    }
-
 
     // Listeners definitions
 
@@ -288,18 +243,9 @@ public class StoreActivity extends Activity {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment exp = (Experiment) parent.getAdapter().getItem(position);
-            if (isSubscribedExperiment(exp)) {
-                if (experimentUnsubscription == null) {
-                    Log.i(TAG, "Asking un-subscription to experiment: " + exp);
-                    experimentUnsubscription = new UnsubscribeExperimentTask(new OnExperimentUnsubscribed(view));
-                    experimentUnsubscription.execute(exp);
-                }
-            } else {
-                if (experimentSubscription == null) {
-                    Log.i(TAG, "Asking subscription to experiment: " + exp);
-                    experimentSubscription = new SubscribeExperimentTask(new OnExperimentSubscribed(view));
-                    experimentSubscription.execute(exp);
-                }
+            if (experimentChangeSubscriptionStatus == null){
+                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(new onExperimentSubscriptionChanged(view));
+                experimentChangeSubscriptionStatus.execute(exp);
             }
             return true;
         }

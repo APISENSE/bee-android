@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.apisense.bee.R;
-import com.apisense.bee.ui.activity.StoreActivity;
+import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.List;
@@ -108,7 +108,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
 
         // Contains a background color associated to current status
         View status = convertView.findViewById(R.id.experiment_status);
-        if (StoreActivity.isSubscribedExperiment(item)){
+        if (SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(item)){
             showAsSubscribed(status);
         } else {
             showAsUnsubscribed(status);
