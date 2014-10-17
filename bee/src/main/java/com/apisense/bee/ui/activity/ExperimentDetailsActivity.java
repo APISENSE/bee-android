@@ -10,10 +10,7 @@ import android.widget.Toast;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.StartExperimentTask;
-import com.apisense.bee.backend.experiment.StopExperimentTask;
-import com.apisense.bee.backend.experiment.SubscribeExperimentTask;
-import com.apisense.bee.backend.experiment.UnsubscribeExperimentTask;
+import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
 import fr.inria.bsense.APISENSE;
@@ -43,10 +40,8 @@ public class ExperimentDetailsActivity extends Activity {
     private int barGraphShowDay = 7;
 
     // Async Tasks
-    private StopExperimentTask experimentStopTask;
-    private StartExperimentTask experimentStartTask;
-    private SubscribeExperimentTask experimentSubscription;
-    private UnsubscribeExperimentTask experimentUnsubscription;
+    private StartStopExperiment experimentStartStopTask;
+    private SubscribeUnsubscribeExperiment experimentChangeSubscriptionStatus;
 
 
     @Override
@@ -150,7 +145,7 @@ public class ExperimentDetailsActivity extends Activity {
 
     private void updateSubscriptionMenu() {
         // TODO: Change to API method when available (isSubscribedExperiment)
-        if (!StoreActivity.isSubscribedExperiment(experiment)) {
+        if (!SubscribeUnsubscribeExperiment.isSubscribedExperiment(experiment)) {
             mSubscribeButton.setTitle(getString(R.string.action_subscribe));
         } else {
             mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
@@ -169,118 +164,72 @@ public class ExperimentDetailsActivity extends Activity {
     // Buttons Handlers
 
     public void doStartStop(MenuItem item) {
-        Log.d(TAG, "Exp state: " + experiment.state);
-        if (! experiment.state) {
-            if (experimentStartTask == null) {
-                Log.i(TAG, "Starting experiment: " + experiment);
-                experimentStartTask = new StartExperimentTask(new OnExperimentStarted());
-                experimentStartTask.execute(experiment);
-            }
-        } else {
-            if (experimentStopTask == null) {
-                Log.i(TAG, "Stopping experiment: " + experiment);
-                experimentStopTask = new StopExperimentTask(new OnExperimentStopped());
-                experimentStopTask.execute(experiment);
-            }
+        if (experimentStartStopTask == null) {
+            experimentStartStopTask = new StartStopExperiment(new OnExperimentExecutionStatusChanged());
+            experimentStartStopTask.changeStatus(experiment);
         }
-
     }
 
     public void doSubscribeUnsubscribe(MenuItem item) {
-        // TODO: Change to API method when available (isSubscribedExperiment)
-        if (StoreActivity.isSubscribedExperiment(experiment)) {
-            if (experimentUnsubscription == null) {
-                Log.i(TAG, "Asking un-subscription to experiment: " + experiment);
-                experimentUnsubscription = new UnsubscribeExperimentTask(new OnExperimentUnsubscribed());
-                experimentUnsubscription.execute(experiment);
-            }
-        } else {
-            if (experimentSubscription == null) {
-                Log.i(TAG, "Asking subscription to experiment: " + experiment);
-                experimentSubscription = new SubscribeExperimentTask(new OnExperimentSubscribed());
-                experimentSubscription.execute(experiment);
-            }
+        if (experimentChangeSubscriptionStatus == null) {
+            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperiment(new OnExperimentSubscriptionChanged());
+            experimentChangeSubscriptionStatus.changeStatus(experiment);
         }
     }
 
     // Callbacks
 
-    private class OnExperimentStarted implements AsyncTasksCallbacks {
+    private class OnExperimentExecutionStatusChanged implements AsyncTasksCallbacks {
         @Override
         public void onTaskCompleted(int result, Object response) {
-            experimentStartTask = null;
+            experimentStartStopTask = null;
+            String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                // User feedback
-                Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_started), experiment.niceName),
-                        Toast.LENGTH_SHORT).show();
+                switch((Integer)response) {
+                    case StartStopExperiment.EXPERIMENT_STARTED:
+                        toastMessage = String.format(getString(R.string.experiment_started), experiment.niceName);
+                        break;
+                    case StartStopExperiment.EXPERIMENT_STOPPED:
+                        toastMessage = String.format(getString(R.string.experiment_stopped), experiment.niceName);
+                        break;
+                }
+                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
                 updateStartMenu();
             }
         }
 
         @Override
         public void onTaskCanceled() {
-            experimentStartTask = null;
+            experimentStartStopTask = null;
         }
     }
 
-    private class OnExperimentStopped implements AsyncTasksCallbacks {
+    private class OnExperimentSubscriptionChanged implements AsyncTasksCallbacks {
 
         @Override
         public void onTaskCompleted(int result, Object response) {
-            experimentStopTask = null;
+            experimentChangeSubscriptionStatus = null;
+            String experimentName = experiment.niceName;
+            String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
+                switch ((Integer) response){
+                    case SubscribeUnsubscribeExperiment.EXPERIMENT_SUBSCRIBED:
+                        toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                        updateSubscriptionMenu();
+                        break;
+                    case SubscribeUnsubscribeExperiment.EXPERIMENT_UNSUBSCRIBED:
+                        toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
+                        updateSubscriptionMenu();
+                        break;
+                }
                 // User feedback
-                Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_stopped), experiment.niceName),
-                        Toast.LENGTH_SHORT).show();
-                updateStartMenu();
+                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onTaskCanceled() {
-            experimentStopTask = null;
-        }
-    }
-
-    private class OnExperimentSubscribed implements AsyncTasksCallbacks {
-
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            experimentSubscription = null;
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                // User feedback
-                Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_subscribed), experiment.niceName),
-                        Toast.LENGTH_SHORT).show();
-                updateSubscriptionMenu();
-            }
-        }
-
-        @Override
-        public void onTaskCanceled() {
-            experimentSubscription = null;
-        }
-    }
-
-    private class OnExperimentUnsubscribed implements AsyncTasksCallbacks {
-
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            experimentUnsubscription = null;
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                // User feedback
-                Toast.makeText(getBaseContext(),
-                        String.format(getString(R.string.experiment_unsubscribed), experiment.niceName),
-                        Toast.LENGTH_SHORT).show();
-                updateSubscriptionMenu();
-            }
-        }
-
-        @Override
-        public void onTaskCanceled() {
-            experimentUnsubscription = null;
+            experimentChangeSubscriptionStatus = null;
         }
     }
 }
