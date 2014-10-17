@@ -6,6 +6,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:actionBarStyle">@style/ApisenseActionBar</item>
+        <item name="android:actionBarWidgetTheme">@style/SearchBar</item>
     </style>
 
     <!-- TextView Styles -->
@@ -33,9 +34,12 @@
     <style name="ApisenseActionBar"
            parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@color/orange</item>
-        <item name="android:textColorHint">@color/white</item>
     </style>
 
+    <style name="SearchBar">
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+    
     <!-- Header style -->
     <style name="sectionHeader" parent="@android:style/Widget.TextView">
         <item name="android:drawableBottom">@drawable/section_header</item>
