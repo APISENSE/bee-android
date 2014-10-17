@@ -12,7 +12,7 @@ import org.json.JSONException;
  * Subscribe and Unsubscribe AsyncTask wrapper to simplify usage in activities
  *
  */
-public class SubscribeUnsubscribeExperiment {
+public class SubscribeUnsubscribeExperimentTask {
     private String TAG = getClass().getSimpleName();
 
     public static final int EXPERIMENT_SUBSCRIBED = 1;
@@ -23,11 +23,11 @@ public class SubscribeUnsubscribeExperiment {
     // This task can either be a Subscribe or a Unsubscribe Task
     private AsyncTaskWithCallback<Experiment, Void, Integer> task;
 
-    public SubscribeUnsubscribeExperiment(AsyncTasksCallbacks listener){
+    public SubscribeUnsubscribeExperimentTask(AsyncTasksCallbacks listener){
         this.listener = listener;
     }
 
-    public void changeStatus(Experiment experiment) {
+    public void execute(Experiment experiment) {
         if (isSubscribedExperiment(experiment)) {
             Log.i(TAG, "Asking un-subscription to experiment: " + experiment);
             task = new UnsubscribeExperimentTask(listener);

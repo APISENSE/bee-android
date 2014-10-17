@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperiment;
+import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
@@ -30,7 +30,7 @@ public class StoreExperimentDetailsActivity extends Activity {
      MenuItem mSubscribeButton;
 
     // Async Tasks
-    private SubscribeUnsubscribeExperiment experimentChangeSubscriptionStatus;
+    private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class StoreExperimentDetailsActivity extends Activity {
 
     private void updateSubscriptionMenu(){
         // TODO: Change to API method when available (isSubscribedExperiment)
-        if (!SubscribeUnsubscribeExperiment.isSubscribedExperiment(experiment)) {
+        if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
             mSubscribeButton.setTitle(getString(R.string.action_subscribe));
         } else {
             mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
@@ -95,8 +95,8 @@ public class StoreExperimentDetailsActivity extends Activity {
 
     public void doSubscribeUnsubscribe(MenuItem item) {
         if (experimentChangeSubscriptionStatus == null) {
-            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperiment(new OnExperimentSubscriptionChanged());
-            experimentChangeSubscriptionStatus.changeStatus(experiment);
+            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(new OnExperimentSubscriptionChanged());
+            experimentChangeSubscriptionStatus.execute(experiment);
         }
     }
 
@@ -109,11 +109,11 @@ public class StoreExperimentDetailsActivity extends Activity {
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 switch ((Integer) response){
-                    case SubscribeUnsubscribeExperiment.EXPERIMENT_SUBSCRIBED:
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
                         updateSubscriptionMenu();
                         break;
-                    case SubscribeUnsubscribeExperiment.EXPERIMENT_UNSUBSCRIBED:
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
                         updateSubscriptionMenu();
                         break;

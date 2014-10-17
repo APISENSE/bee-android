@@ -11,7 +11,7 @@ import fr.inria.bsense.appmodel.Experiment;
  * Start and Stop AsyncTask wrapper to simplify usage in activities
  *
  */
-public class StartStopExperiment {
+public class StartStopExperimentTask {
     private String TAG = getClass().getSimpleName();
 
     public static final int EXPERIMENT_STARTED = 1;
@@ -22,11 +22,11 @@ public class StartStopExperiment {
     // This task can either be a Start or a Stop Task
     private AsyncTaskWithCallback<Experiment, Void, Integer> task;
 
-    public StartStopExperiment(AsyncTasksCallbacks listener){
+    public StartStopExperimentTask(AsyncTasksCallbacks listener){
         this.listener = listener;
     }
 
-    public void changeStatus(Experiment experiment) {
+    public void execute(Experiment experiment) {
         if (! experiment.state) {
                 Log.i(TAG, "Starting experiment: " + experiment);
                 task = new StartExperimentTask(listener);

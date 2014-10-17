@@ -31,7 +31,7 @@ public class HomeActivity extends Activity {
    // Asynchronous Tasks
     private RetrieveInstalledExperimentsTask experimentsRetrieval;
     private SignOutTask signOut;
-    private StartStopExperiment experimentStartStopTask;
+    private StartStopExperimentTask experimentStartStopTask;
 
 
     @Override
@@ -159,8 +159,8 @@ public class HomeActivity extends Activity {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment exp = (Experiment) parent.getAdapter().getItem(position);
             if (experimentStartStopTask == null) {
-                experimentStartStopTask = new StartStopExperiment(new OnExperimentStatusChanged(exp));
-                experimentStartStopTask.changeStatus(exp);
+                experimentStartStopTask = new StartStopExperimentTask(new OnExperimentStatusChanged(exp));
+                experimentStartStopTask.execute(exp);
             }
             return true;
         }
@@ -195,10 +195,10 @@ public class HomeActivity extends Activity {
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 switch((Integer)response) {
-                    case StartStopExperiment.EXPERIMENT_STARTED:
+                    case StartStopExperimentTask.EXPERIMENT_STARTED:
                         toastMessage = String.format(getString(R.string.experiment_started), experimentName);
                         break;
-                    case StartStopExperiment.EXPERIMENT_STOPPED:
+                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
                         toastMessage = String.format(getString(R.string.experiment_stopped), experimentName);
                         break;
                 }

@@ -15,7 +15,7 @@ import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
-import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperiment;
+import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.backend.store.RetrieveExistingTagsTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
@@ -37,7 +37,7 @@ public class StoreActivity extends Activity {
     // Asynchronous Task
     private RetrieveExistingTagsTask tagsRetrieval;
     private RetrieveAvailableExperimentsTask experimentsRetrieval;
-    private SubscribeUnsubscribeExperiment experimentChangeSubscriptionStatus;
+    private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
     private String currentTabTag;
 
     // sliding menu
@@ -172,11 +172,11 @@ public class StoreActivity extends Activity {
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 switch ((Integer) response){
-                    case SubscribeUnsubscribeExperiment.EXPERIMENT_SUBSCRIBED:
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
                         experimentsAdapter.showAsSubscribed(statusView);
                         break;
-                    case SubscribeUnsubscribeExperiment.EXPERIMENT_UNSUBSCRIBED:
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
                         experimentsAdapter.showAsUnsubscribed(statusView);
                         break;
@@ -244,8 +244,8 @@ public class StoreActivity extends Activity {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment exp = (Experiment) parent.getAdapter().getItem(position);
             if (experimentChangeSubscriptionStatus == null){
-                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperiment(new onExperimentSubscriptionChanged(view));
-                experimentChangeSubscriptionStatus.changeStatus(exp);
+                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(new onExperimentSubscriptionChanged(view));
+                experimentChangeSubscriptionStatus.execute(exp);
             }
             return true;
         }

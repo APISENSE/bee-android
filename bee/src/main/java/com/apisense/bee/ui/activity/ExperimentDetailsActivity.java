@@ -40,8 +40,8 @@ public class ExperimentDetailsActivity extends Activity {
     private int barGraphShowDay = 7;
 
     // Async Tasks
-    private StartStopExperiment experimentStartStopTask;
-    private SubscribeUnsubscribeExperiment experimentChangeSubscriptionStatus;
+    private StartStopExperimentTask experimentStartStopTask;
+    private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
 
 
     @Override
@@ -145,7 +145,7 @@ public class ExperimentDetailsActivity extends Activity {
 
     private void updateSubscriptionMenu() {
         // TODO: Change to API method when available (isSubscribedExperiment)
-        if (!SubscribeUnsubscribeExperiment.isSubscribedExperiment(experiment)) {
+        if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
             mSubscribeButton.setTitle(getString(R.string.action_subscribe));
         } else {
             mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
@@ -165,15 +165,15 @@ public class ExperimentDetailsActivity extends Activity {
 
     public void doStartStop(MenuItem item) {
         if (experimentStartStopTask == null) {
-            experimentStartStopTask = new StartStopExperiment(new OnExperimentExecutionStatusChanged());
-            experimentStartStopTask.changeStatus(experiment);
+            experimentStartStopTask = new StartStopExperimentTask(new OnExperimentExecutionStatusChanged());
+            experimentStartStopTask.execute(experiment);
         }
     }
 
     public void doSubscribeUnsubscribe(MenuItem item) {
         if (experimentChangeSubscriptionStatus == null) {
-            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperiment(new OnExperimentSubscriptionChanged());
-            experimentChangeSubscriptionStatus.changeStatus(experiment);
+            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(new OnExperimentSubscriptionChanged());
+            experimentChangeSubscriptionStatus.execute(experiment);
         }
     }
 
@@ -186,10 +186,10 @@ public class ExperimentDetailsActivity extends Activity {
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 switch((Integer)response) {
-                    case StartStopExperiment.EXPERIMENT_STARTED:
+                    case StartStopExperimentTask.EXPERIMENT_STARTED:
                         toastMessage = String.format(getString(R.string.experiment_started), experiment.niceName);
                         break;
-                    case StartStopExperiment.EXPERIMENT_STOPPED:
+                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
                         toastMessage = String.format(getString(R.string.experiment_stopped), experiment.niceName);
                         break;
                 }
@@ -213,11 +213,11 @@ public class ExperimentDetailsActivity extends Activity {
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 switch ((Integer) response){
-                    case SubscribeUnsubscribeExperiment.EXPERIMENT_SUBSCRIBED:
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
                         updateSubscriptionMenu();
                         break;
-                    case SubscribeUnsubscribeExperiment.EXPERIMENT_UNSUBSCRIBED:
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
                         updateSubscriptionMenu();
                         break;
