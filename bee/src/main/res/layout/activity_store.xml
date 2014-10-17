@@ -36,14 +36,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/store_empty_list">
-
-        <ImageView
-            android:layout_width="@dimen/thumbnail_size"
-            android:layout_height="@dimen/thumbnail_size"
-            android:layout_margin="@dimen/thumbnail_margin"
-            android:src="@drawable/ic_problem"
-            />
 
         <com.apisense.bee.widget.ApisenseTextView
             android:layout_width="wrap_content"
