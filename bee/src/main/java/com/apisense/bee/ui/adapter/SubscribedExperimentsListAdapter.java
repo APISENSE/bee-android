@@ -2,6 +2,7 @@ package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,7 +107,8 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         company.setText(" " + getContext().getString(R.string.by) + " " + item.organization);
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        description.setText(item.description);
+        String decode = new String(Base64.decode(item.description.getBytes(), Base64.DEFAULT));
+        description.setText(decode);
 
         TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
         String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running) ;

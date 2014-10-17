@@ -2,6 +2,7 @@ package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import fr.inria.bsense.appmodel.Experiment;
-
 import java.util.List;
 
 public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
@@ -104,7 +104,8 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         company.setText(" by " + item.organization);
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        description.setText(item.description);
+        String decode = new String(Base64.decode(item.description.getBytes(),Base64.DEFAULT));
+        description.setText(decode);
 
         // Contains a background color associated to current status
         View status = convertView.findViewById(R.id.experiment_status);

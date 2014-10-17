@@ -124,6 +124,8 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         return false;
     }
 
+    // - - - - - - - - - - - - -
+
     /**
      * Retrieve distant Tags and set them as tabs
      */

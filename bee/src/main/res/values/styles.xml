@@ -39,7 +39,7 @@
     <style name="SearchBar">
         <item name="android:textColorHint">@color/white</item>
     </style>
-    
+
     <!-- Header style -->
     <style name="sectionHeader" parent="@android:style/Widget.TextView">
         <item name="android:drawableBottom">@drawable/section_header</item>
