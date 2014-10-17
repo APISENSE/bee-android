@@ -30,6 +30,8 @@ public class BarGraphView extends LinearLayout {
 
     private int[][] colors;
 
+    private AttributeSet mAttrs;
+
     /**
      * Create graph view from context and attributes
      *
@@ -38,6 +40,7 @@ public class BarGraphView extends LinearLayout {
      */
     public BarGraphView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mAttrs = attrs;
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BarChartView);
         weekdayColors = new int[] { array.getColor(BarChartView_viewsWeekdayColor, 0), array.getColor(BarChartView_viewsWeekdayColor, 0) };
@@ -47,11 +50,21 @@ public class BarGraphView extends LinearLayout {
     }
 
     /**
-     * This change the color of bar charts with gray
+     * Change the color of bar charts with gray
      */
     public void setDeactived() {
         int weekdayColorDeactived = getResources().getColor(R.color.barchart_weekday_deactived);
         int weekendColorDeactived = getResources().getColor(R.color.barchart_weekend_deactived);
+        weekdayColors = new int[] { weekdayColorDeactived, weekdayColorDeactived };
+        weekendColors = new int[] { weekendColorDeactived, weekendColorDeactived };
+    }
+
+    /**
+     * Change the color of bar charts with orange
+     */
+    public void setActived() {
+        int weekdayColorDeactived = getResources().getColor(R.color.barchart_weekday);
+        int weekendColorDeactived = getResources().getColor(R.color.barchart_weekend);
         weekdayColors = new int[] { weekdayColorDeactived, weekdayColorDeactived };
         weekendColors = new int[] { weekendColorDeactived, weekendColorDeactived };
     }

@@ -41,6 +41,7 @@ public class ExperimentDetailsActivity extends Activity {
 
     private BarGraphView graph;
     private int barGraphShowDay = 7;
+    private ArrayList<Long> traces;
 
     // Async Tasks
     private StopExperimentTask experimentStopTask;
@@ -122,7 +123,7 @@ public class ExperimentDetailsActivity extends Activity {
             graph.setDeactived();
 
         try {
-            ArrayList<Long> traces = new ArrayList<Long>();
+            traces = new ArrayList<Long>();
             final Calendar currentCalendar = new GregorianCalendar();
 
             final Map<String, Object>[] stats = APISENSE.statistic().readUploadStatistic(experiment.name);
@@ -211,6 +212,8 @@ public class ExperimentDetailsActivity extends Activity {
             experimentStartTask = null;
             if (result == BeeApplication.ASYNC_SUCCESS) {
                 // User feedback
+                graph.setActived();
+                graph.updateGraphWith(traces);
                 Toast.makeText(getBaseContext(),
                         String.format(getString(R.string.experiment_started), experiment.niceName),
                         Toast.LENGTH_SHORT).show();
@@ -230,6 +233,8 @@ public class ExperimentDetailsActivity extends Activity {
         public void onTaskCompleted(int result, Object response) {
             experimentStopTask = null;
             if (result == BeeApplication.ASYNC_SUCCESS) {
+                graph.setDeactived();
+                graph.updateGraphWith(traces);
                 // User feedback
                 Toast.makeText(getBaseContext(),
                         String.format(getString(R.string.experiment_stopped), experiment.niceName),
