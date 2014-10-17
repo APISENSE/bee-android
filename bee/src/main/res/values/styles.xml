@@ -33,6 +33,7 @@
     <style name="ApisenseActionBar"
            parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@color/orange</item>
+        <item name="android:textColorHint">@color/white</item>
     </style>
 
     <!-- Header style -->

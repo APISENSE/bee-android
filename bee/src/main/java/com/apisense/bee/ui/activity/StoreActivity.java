@@ -1,14 +1,15 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.app.*;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.apisense.bee.BeeApplication;
@@ -26,10 +27,13 @@ import java.util.List;
 // TODO: Think about index usage (when to load next 'page' of experiment)
 // TODO: Think about Tags usage (Server filter is better)
 
-public class StoreActivity extends Activity {
+public class StoreActivity extends Activity implements SearchView.OnQueryTextListener {
     private final String TAG = getClass().getSimpleName();
 
     protected  ActionBar actionBar;
+
+    // Search view
+    private SearchView mSearchView;
 
     // Content Adapter
     protected AvailableExperimentsListAdapter experimentsAdapter;
@@ -48,6 +52,7 @@ public class StoreActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
+
         actionBar = getActionBar();
 
         // Setting up available experiments list behavior
@@ -65,12 +70,58 @@ public class StoreActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the ActionBar and the tabs.
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        // Color
-        ColorDrawable colorDrawable = new ColorDrawable();
-        colorDrawable.setColor(getResources().getColor(R.color.orange_light));
-        actionBar.setBackgroundDrawable(colorDrawable);
         populateTabs();
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_view, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
+        setupSearchView(searchItem);
+
         return true;
+    }
+
+    private void setupSearchView(MenuItem searchItem) {
+
+        if (isAlwaysExpanded()) {
+            mSearchView.setIconifiedByDefault(false);
+        } else {
+            searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
+                    | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        }
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        if (searchManager != null) {
+            List<SearchableInfo> searchables = searchManager.getSearchablesInGlobalSearch();
+
+            SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+            for (SearchableInfo inf : searchables) {
+                if (inf.getSuggestAuthority() != null
+                        && inf.getSuggestAuthority().startsWith("applications")) {
+                    info = inf;
+                }
+            }
+            mSearchView.setSearchableInfo(info);
+        }
+
+        mSearchView.setOnQueryTextListener(this);
+    }
+
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    public boolean onClose() {
+        return false;
+    }
+
+    protected boolean isAlwaysExpanded() {
+        return false;
     }
 
     /**

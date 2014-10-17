@@ -15,6 +15,7 @@
     <string name="action_settings">Paramètres</string>
     <string name="action_privacy">Intimité</string>
     <string name="by">par</string>
+    <string name="search_hint">Nom de l\'expérience</string>
 
     <!-- User feedbacks -->
     <string name="error">Erreur</string>
