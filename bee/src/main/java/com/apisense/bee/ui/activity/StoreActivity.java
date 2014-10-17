@@ -15,13 +15,10 @@ import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
-import com.apisense.bee.backend.experiment.SubscribeExperimentTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperiment;
-import com.apisense.bee.backend.experiment.UnsubscribeExperimentTask;
 import com.apisense.bee.backend.store.RetrieveExistingTagsTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;

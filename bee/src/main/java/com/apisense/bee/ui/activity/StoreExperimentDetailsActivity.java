@@ -2,20 +2,15 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.SubscribeExperimentTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperiment;
-import com.apisense.bee.backend.experiment.UnsubscribeExperimentTask;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import com.apisense.bee.widget.BarGraphView;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
