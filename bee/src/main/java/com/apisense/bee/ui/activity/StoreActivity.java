@@ -108,11 +108,14 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         mSearchView.setOnQueryTextListener(this);
     }
 
-    public boolean onQueryTextChange(String newText) {
-        return false;
+    public boolean onQueryTextChange(String query) {
+        experimentsAdapter.getFilter().filter(query);
+        return true;
     }
 
     public boolean onQueryTextSubmit(String query) {
+        experimentsAdapter.getFilter().filter(query);
+        mSearchView.clearFocus();
         return false;
     }
 

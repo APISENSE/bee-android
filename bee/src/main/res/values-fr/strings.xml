@@ -87,6 +87,6 @@
     <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
     <string name="action_subscribe">S\'inscrire</string>
     <string name="action_unsubscribe">Se désinscrire</string>
-    <string name="no_available_experiments">Aucune expérience trouvé, veuillez vérifier votre configuration réseau</string>
+    <string name="no_available_experiments">Aucune expérience trouvé !</string>
 
 </resources>
