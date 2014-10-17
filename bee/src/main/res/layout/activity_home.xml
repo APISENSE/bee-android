@@ -82,19 +82,21 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
+        android:layout_margin="@dimen/activity_vertical_margin"
         android:id="@+id/home_empty_list">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/bg_no_experiment"
-            android:clickable="true"
-            android:onClick="doGoToStore"
-            />
+        <Button
+                android:background="@drawable/big_button_rounded"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="Add"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:onClick="doGoToStore" />
 
         <com.apisense.bee.widget.ApisenseTextView
                 style="@style/ApisenseSlideText"
