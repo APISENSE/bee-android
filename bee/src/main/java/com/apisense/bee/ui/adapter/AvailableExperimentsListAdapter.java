@@ -155,13 +155,11 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
                 Experiment filterableExperiment;
 
                 if (TextUtils.isEmpty(constraint)) {
-                    Log.i(TAG, "Empty string");
                     for (Experiment exp : items) newItems.add(exp);
                 } else {
-                    for (int i = 0; i < count; i++) {
-                        filterableExperiment = items.get(i);
-                        if (filterableExperiment.niceName.toLowerCase().contains(filterString)) {
-                            newItems.add(filterableExperiment);
+                    for (Experiment exp : items) {
+                        if (exp.niceName.toLowerCase().contains(filterString)) {
+                            newItems.add(exp);
                         }
                     }
                 }
