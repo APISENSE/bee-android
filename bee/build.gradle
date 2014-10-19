@@ -49,3 +49,12 @@ android {
         }
     }
 }
+
+// Unit tests
+// See: https://plugins.jetbrains.com/plugin/7488?pr=idea
+apply plugin: 'android-unit-test'
+
+dependencies {
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.robolectric:robolectric:2.3'
+}

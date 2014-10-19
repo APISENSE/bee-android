@@ -15,6 +15,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.12.2'
         classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '2.0.9')
 
+        // Android-unit-test repo
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:1.6.3'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
