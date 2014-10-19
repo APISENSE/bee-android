@@ -1,27 +1,20 @@
 package com.apisense.bee.backend.experiment;
 
-import com.apisense.bee.BeeApplication;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import fr.inria.bsense.appmodel.Experiment;
+import com.apisense.bee.BeeRobolectricTestRunner;
 import junit.framework.Assert;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
-// Robolectric does not support API 19...
-@Config(emulateSdk = 18)
-@RunWith(RobolectricTestRunner.class)
-public class StartStopExperimentTaskTest implements AsyncTasksCallbacks{
+@RunWith(BeeRobolectricTestRunner.class)
+public class StartStopExperimentTaskTest {
     private CountDownLatch signal;
     private int result;
     private Object response;
-    private StartStopExperimentTask task;
+//    private StartStopExperimentTask task;
+
     private final static String STARTED_EXP_DEFINITION =
             "'baseUrl': 'URL'," +
             "'collector': '/upload',"+
@@ -64,11 +57,11 @@ public class StartStopExperimentTaskTest implements AsyncTasksCallbacks{
 //        signal = new CountDownLatch(1);
         result = Integer.MIN_VALUE;
         response = null;
-        task =  new StartStopExperimentTask(this);
+//        task =  new StartStopExperimentTask(this);
     }
 
     @Test
-    public final void testExperimentAlreadyStarted() throws Throwable {
+    public final void testExperimentAlreadyStarted() {
         Assert.assertTrue(true);
 //        Experiment exp = new Experiment(new JSONObject(STARTED_EXP_DEFINITION));
 //        task.execute(exp);
@@ -83,7 +76,7 @@ public class StartStopExperimentTaskTest implements AsyncTasksCallbacks{
     }
 
     @Test
-    public final void testExperimentAlreadyStopped() throws Throwable {
+    public final void testExperimentAlreadyStopped() {
         Assert.assertTrue(true);
 //        Experiment exp = new Experiment(new JSONObject(STOPPED_EXP_DEFINITION));
 //        task.execute(exp);
@@ -96,15 +89,15 @@ public class StartStopExperimentTaskTest implements AsyncTasksCallbacks{
 //        Assert.assertEquals(response, StartStopExperimentTask.EXPERIMENT_STARTED);
     }
 
-    @Override
-    public void onTaskCompleted(int result, Object response) {
-        this.result = result;
-        this.response = response;
-        signal.countDown();
-    }
-
-    @Override
-    public void onTaskCanceled() {
-
-    }
+//    @Override
+//    public void onTaskCompleted(int result, Object response) {
+//        this.result = result;
+//        this.response = response;
+//        signal.countDown();
+//    }
+//
+//    @Override
+//    public void onTaskCanceled() {
+//
+//    }
 }
