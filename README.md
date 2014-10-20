@@ -27,10 +27,23 @@ The Apisense Android app project.
 # Create and run tests
 
 1. Creation
-    * Place cursor (in the Editor window) at the class name inside one of the files that you want to test (e.g. MainActivity”) and press Alt+Enter.
-    * Select “Create Test”. Select the proper superclass for Robotium: android.test.ActivityInstrumentationTestCase2. IntelliJ will create test file and package needed.
+    1. Unit tests (Uses [Robolectric](http://robolectric.org/) to make tests without needing any android device):
+        * Create a new class in the ```bee/src/test/java/$YourPackage``` folder
+        * Annotate this class with ```@RunWith(BeeRobolectricTestRunner.class)```
+        * Use Roboletric framework
+    2. Connected tests (Uses [Robotium](https://code.google.com/p/robotium/) to make tests which needs to be connected to an android device):
+        * Place cursor (in the Editor window) at the class name inside one of the files that you want to test (e.g. MainActivity”) and press Alt+Enter.
+        * Select “Create Test”. Select the proper superclass for Robotium: android.test.ActivityInstrumentationTestCase2. IntelliJ will create test file and package needed.
 
-2. Run
-    * Using IntelliJ, run all tests
-    * Using command lines ```$ ./gradlew installDebugTest``` and ```$ ./gradlew connectedAndroidTest``` -- The first one may not be necessary
-    * You can find report inside ```YourApp/build/outputs/reports/androidTests/connected/index.html```
+2. Run (from the project root)
+    1. Lint tests
+        * Using command line ```$ ./gradlew :bee:lint```
+        * You can find report inside ```./bee/build/outputs/lint-results.html```
+    1. Unit tests 
+        * Using command line ```$ ./gradlew test```
+        * You can find report inside ```./bee/build/test-report/debug/index.html```
+    2. Connected tests
+        * Using IntelliJ, run all tests
+        * Using command lines ```$ ./gradlew installDebugTest``` and ```$ ./gradlew connectedAndroidTest``` -- The first one may not be necessary
+        * You can find report inside ```./bee/build/outputs/reports/androidTests/connected/index.html```
+                                 
