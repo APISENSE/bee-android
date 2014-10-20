@@ -3,14 +3,10 @@ package com.apisense.bee.ui.activity;
 import android.app.*;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
@@ -190,6 +186,16 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
                 mDrawerList = (ListView) findViewById(R.id.left_drawer);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.sliding_store_menu_element,arrayTags);
                 mDrawerList.setAdapter(adapter);
+
+                // Push it back
+                mDrawerLayout.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+                    @Override
+                    public boolean onGenericMotion(View v, MotionEvent event) {
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+
                 mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
