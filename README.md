@@ -21,7 +21,7 @@ The Apisense Android app project.
     * **Content:** https://github.com/TheRealKerni/HockeyKit/tree/develop/client/Android
 
 # Installing google play services in Genymotion
-1. Install Google Play Services on your virtual device. To do so, refer to ``http://stackoverflow.com/a/20137324/3472838```
+1. Install Google Play Services on your virtual device. To do so, refer to ```http://stackoverflow.com/a/20137324/3472838```
 2. Sign in with your personal or team Google account and update all services (G+, Gmail etc..)
 
 # Build process
