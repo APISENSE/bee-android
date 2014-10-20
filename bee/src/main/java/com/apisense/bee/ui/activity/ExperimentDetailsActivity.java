@@ -183,7 +183,7 @@ public class ExperimentDetailsActivity extends Activity {
 
     public void doStartStop(MenuItem item) {
         if (experimentStartStopTask == null) {
-            experimentStartStopTask = new StartStopExperimentTask(new OnExperimentExecutionStatusChanged());
+            experimentStartStopTask = new StartStopExperimentTask(APISENSE.apisense(), new OnExperimentExecutionStatusChanged());
             experimentStartStopTask.execute(experiment);
         }
     }

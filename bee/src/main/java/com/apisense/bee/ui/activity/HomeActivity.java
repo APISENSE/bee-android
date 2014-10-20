@@ -159,7 +159,7 @@ public class HomeActivity extends Activity {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment exp = (Experiment) parent.getAdapter().getItem(position);
             if (experimentStartStopTask == null) {
-                experimentStartStopTask = new StartStopExperimentTask(new OnExperimentStatusChanged(exp));
+                experimentStartStopTask = new StartStopExperimentTask(APISENSE.apisense(), new OnExperimentStatusChanged(exp));
                 experimentStartStopTask.execute(exp);
             }
             return true;
