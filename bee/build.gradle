@@ -18,6 +18,10 @@ dependencies {
     compile 'com.viewpagerindicator:library:2.4.1'
     compile project(':lib:hockeykit')
 
+    compile ('com.google.android.gms:play-services:3.2.25') {
+        exclude module: 'support-v4'
+    }
+
     // Tests with Robotium
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }

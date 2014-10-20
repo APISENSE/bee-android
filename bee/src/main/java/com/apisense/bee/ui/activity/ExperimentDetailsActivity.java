@@ -13,6 +13,11 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import org.json.JSONException;
@@ -26,15 +31,17 @@ public class ExperimentDetailsActivity extends Activity {
 
     private static String TAG = "Experiment Details Activity";
 
-    Experiment experiment;
+    private Experiment experiment;
 
-    TextView mExperimentName;
-    TextView mExperimentOrganization;
-    TextView mExperimentVersion;
-    TextView mExperimentActivity;
+    private TextView mExperimentName;
+    private TextView mExperimentOrganization;
+    private TextView mExperimentVersion;
+    private TextView mExperimentActivity;
 
-    MenuItem mSubscribeButton;
-    MenuItem mStartButton;
+    private MenuItem mSubscribeButton;
+    private MenuItem mStartButton;
+
+    private GoogleMap mGoogleMap;
 
     private BarGraphView graph;
     private int barGraphShowDay = 7;
@@ -43,6 +50,7 @@ public class ExperimentDetailsActivity extends Activity {
     // Async Tasks
     private StartStopExperimentTask experimentStartStopTask;
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
+
 
 
     @Override
@@ -54,6 +62,7 @@ public class ExperimentDetailsActivity extends Activity {
         initializeViews();
         displayExperimentInformation();
         displayExperimentActivity();
+        displayMap();
     }
 
     @Override
@@ -87,9 +96,17 @@ public class ExperimentDetailsActivity extends Activity {
         mExperimentOrganization = (TextView) findViewById(R.id.exp_organization);
         mExperimentVersion = (TextView) findViewById(R.id.exp_version);
         mExperimentActivity = (TextView) findViewById(R.id.exp_activity);
+        mGoogleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
         graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);
+    }
+
+
+    public void displayMap() {
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                new LatLng(50.60504, 3.15016)).zoom(12).build();
+        mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     public void displayExperimentInformation() {

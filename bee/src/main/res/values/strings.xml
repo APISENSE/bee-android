@@ -10,6 +10,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_experiment_details">Details</string>
     <string name="title_activity_store_experiment_details">Preview</string>
+    <string name="android_key_app" translatable="false">AIzaSyAOIxnHPr89eoE7XgTYBmX_hm8C8ALV9QQ</string>
 
     <!-- Global -->
     <string name="hello_world">Hello world!</string>
