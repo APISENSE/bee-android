@@ -6,6 +6,8 @@ import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
+import fr.inria.bsense.service.BSenseMobileService;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 
 /**
  * Start and Stop AsyncTask wrapper to simplify usage in activities
@@ -18,12 +20,14 @@ public class StartStopExperimentTask {
     public static final int EXPERIMENT_STOPPED = 2;
 
     private final AsyncTasksCallbacks listener;
+    private final BSenseMobileService mobServices;
 
     // This task can either be a Start or a Stop Task
     private AsyncTaskWithCallback<Experiment, Void, Integer> task;
 
-    public StartStopExperimentTask(AsyncTasksCallbacks listener){
+    public StartStopExperimentTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener){
         this.listener = listener;
+        this.mobServices = apiServices.getBSenseMobileService();
     }
 
     public void execute(Experiment experiment) {
@@ -49,12 +53,13 @@ public class StartStopExperimentTask {
         protected Integer doInBackground(Experiment... params) {
             Experiment exp = params[0];
             try {
-                APISENSE.apisMobileService().stopExperiment(exp, APISENSE.EXIT_CODE_NORMAL);
+                mobServices.stopExperiment(exp, APISENSE.EXIT_CODE_NORMAL);
                 // TODO: Make {start,stop}Experiment change the given variable to avoid changing it by ourserlf.
                 exp.state = false;
                 Log.i(TAG, "Experiment (" + exp.name + ") stopped --- " + exp.state);
                 this.errcode = BeeApplication.ASYNC_SUCCESS;
             } catch (Exception e) {
+                e.printStackTrace();
                 Log.e(TAG, "Experiment (" + exp.name + ") stop failed: " + e.getMessage());
                 this.errcode = BeeApplication.ASYNC_ERROR;
             }
@@ -73,12 +78,13 @@ public class StartStopExperimentTask {
         protected Integer doInBackground(Experiment... params) {
             Experiment exp = params[0];
             try {
-                APISENSE.apisMobileService().startExperiment(exp);
+                mobServices.startExperiment(exp);
                 // TODO: Make {start,stop}Experiment change the given variable to avoid changing it by ourserlf.
                 exp.state = true;
                 Log.i(TAG, "Experiment (" + exp.name + ") started");
                 this.errcode = BeeApplication.ASYNC_SUCCESS;
             } catch (Exception e) {
+                e.printStackTrace();
                 Log.w(TAG, "Experiment (" + exp.name + ") start failed: " + e.getMessage());
                 this.errcode = BeeApplication.ASYNC_ERROR;
             }
