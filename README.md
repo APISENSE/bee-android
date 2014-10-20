@@ -31,6 +31,7 @@ The Apisense Android app project.
         * Create a new class in the ```bee/src/test/java/$YourPackage``` folder
         * Annotate this class with ```@RunWith(BeeRobolectricTestRunner.class)```
         * Use Roboletric framework
+        * _NB: to integrate these unit tests into Intellij, please install the plugin ```Android Studio Unit Test```._
     2. Connected tests (Uses [Robotium](https://code.google.com/p/robotium/) to make tests which needs to be connected to an android device):
         * Place cursor (in the Editor window) at the class name inside one of the files that you want to test (e.g. MainActivity”) and press Alt+Enter.
         * Select “Create Test”. Select the proper superclass for Robotium: android.test.ActivityInstrumentationTestCase2. IntelliJ will create test file and package needed.
