@@ -6,5 +6,5 @@ public class BeeSenseServiceManagerMock extends BeeSenseServiceManager {
         return new BeeSenseMobileServiceMock(this);
     }
     @Override
-    public BSenseServerService getBSenseServerService() { return new BSenseServerServiceMock(this); }
+    public BSenseServerService getBSenseServerService() { return new BeeSenseServerServiceMock(this); }
 }

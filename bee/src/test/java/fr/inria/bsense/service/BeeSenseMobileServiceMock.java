@@ -11,7 +11,7 @@ public class BeeSenseMobileServiceMock extends BSenseMobileService {
         super(context);
     }
 
-    public static Map<String, Experiment> installedExperiments = BeeSenseMobileServiceMock.installedExperiments = new HashMap<String, Experiment>();
+    public static Map<String, Experiment> installedExperiments = new HashMap<String, Experiment>();
 
     @Override
     public void stopExperiment(final Experiment experiment, int exitCode) throws Exception{

@@ -68,8 +68,8 @@ public class RetrieveInstalledExperimentsTaskTest extends AsyncTaskWithCallbacks
 
     @Test
     public final void testMapReturned() throws JSONException, InterruptedException {
-        Experiment exp1 = new Experiment(new JSONObject(EXP_DEFINITION));
-        Experiment exp2 = new Experiment(new JSONObject(EXP_DEFINITION));
+        Experiment exp1 = new Experiment(getExperimentJson());
+        Experiment exp2 = new Experiment(getExperimentJson());
         Map<String, Experiment> returnedMap= new HashMap<String, Experiment>();
         returnedMap.put("exp1", exp1);
         returnedMap.put("exp2", exp2);
@@ -84,8 +84,7 @@ public class RetrieveInstalledExperimentsTaskTest extends AsyncTaskWithCallbacks
         Assert.assertNotNull(response);
         Assert.assertTrue(response instanceof List);
         Assert.assertFalse(((List) response).isEmpty());
-        // TODO: Create a nice equals function for Experiments
-        Assert.assertEquals(exp1.toString(), ((List)response).get(0).toString());
-        Assert.assertEquals(exp2.toString(), ((List)response).get(1).toString());
+        Assert.assertTrue(((List) response).contains(exp1));
+        Assert.assertTrue(((List) response).contains(exp2));
     }
 }

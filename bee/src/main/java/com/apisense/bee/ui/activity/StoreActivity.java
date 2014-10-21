@@ -16,6 +16,7 @@ import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.backend.store.RetrieveExistingTagsTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
+import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;
@@ -269,8 +270,8 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
                }
                // Creating new request to retrieve Experiments
                if (experimentsRetrieval == null) {
-                   experimentsRetrieval = new RetrieveAvailableExperimentsTask(new OnExperimentsRetrieved(), currentTabTag);
-                   experimentsRetrieval.execute();
+                   experimentsRetrieval = new RetrieveAvailableExperimentsTask(APISENSE.apisense(), new OnExperimentsRetrieved());
+                   experimentsRetrieval.execute(currentTabTag);
                    currentTabTag = newTag;
                }
            }

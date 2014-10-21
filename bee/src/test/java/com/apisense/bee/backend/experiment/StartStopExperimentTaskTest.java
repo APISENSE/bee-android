@@ -27,7 +27,7 @@ public class StartStopExperimentTaskTest extends AsyncTaskWithCallbacksTestSuite
     @Test
     public final void testExperimentAlreadyStarted() throws JSONException, InterruptedException {
         // Test definition
-        Experiment exp = new Experiment(new JSONObject(EXP_DEFINITION));
+        Experiment exp = new Experiment(getExperimentJson());
         exp.state = true;
 
         // Execute & wait for thread)
@@ -46,7 +46,7 @@ public class StartStopExperimentTaskTest extends AsyncTaskWithCallbacksTestSuite
     @Test
     public final void testExperimentAlreadyStopped() throws JSONException, InterruptedException {
         // Test definition
-        Experiment exp = new Experiment(new JSONObject(EXP_DEFINITION));
+        Experiment exp = new Experiment(getExperimentJson());
         exp.state = false;
 
         // Execute & wait for thread)
