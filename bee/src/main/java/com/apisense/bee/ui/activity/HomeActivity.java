@@ -117,6 +117,7 @@ public class HomeActivity extends Activity {
 
     public void doLoginForm(MenuItem button) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
+        slideIntent.putExtra("goTo","register");
         startActivity(slideIntent);
     }
 

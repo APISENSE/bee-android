@@ -61,6 +61,7 @@ public class SettingsActivity extends FragmentActivity {
 
     public void goToRegister(View v) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
+        slideIntent.putExtra("goTo","register");
         startActivity(slideIntent);
     }
 
