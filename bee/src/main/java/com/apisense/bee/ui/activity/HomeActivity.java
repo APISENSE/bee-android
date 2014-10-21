@@ -119,6 +119,7 @@ public class HomeActivity extends Activity {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
         slideIntent.putExtra("goTo","register");
         startActivity(slideIntent);
+        finish();
     }
 
     public void doGoToStore(View storeButton) {
