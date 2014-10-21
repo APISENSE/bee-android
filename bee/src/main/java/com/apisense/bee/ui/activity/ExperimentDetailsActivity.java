@@ -197,7 +197,7 @@ public class ExperimentDetailsActivity extends Activity {
 
     public void doSubscribeUnsubscribe(MenuItem item) {
         if (experimentChangeSubscriptionStatus == null) {
-            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(new OnExperimentSubscriptionChanged());
+            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new OnExperimentSubscriptionChanged());
             experimentChangeSubscriptionStatus.execute(experiment);
         }
     }

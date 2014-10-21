@@ -1,9 +1,13 @@
 package com.apisense.bee;
 
-import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.bsense.service.BeeSenseServiceManagerMock;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -15,25 +19,55 @@ public abstract class AsyncTaskWithCallbacksTestSuite implements AsyncTasksCallb
     protected Object response;
     protected boolean canceled;
 
-    // TODO: Make a nicer experiment generator (to produce different experiments for tests)
-    protected final static String EXP_DEFINITION =
-            "{'baseUrl': 'URL'," +
-                    "'collector': '/upload',"+
-                    "'copyright': '',"+
-                    "'description': '',"+
-                    "'id': '9999',"+
-                    "'language': 'Javascript',"+
-                    "'mainScript': 'main.js',"+
-                    "'name': 'StartedExp',"+
-                    "'niceName': 'StartedExp',"+
-                    "'orgDescription': '',"+
-                    "'organization': 'unitTests',"+
-                    "'remoteState': 'started',"+
-                    "'type': 'android',"+
-                    "'uuid': '7859bf08-1f9d-4597-8c24-dd1b9a992751',"+
-                    "'version': '4.2',"+
-                    "'visible': 'true'," +
-                    "'state': 'true'}";
+    public static JSONObject getExperimentJson() {
+        return getExperimentJson(0);
+    }
+
+    public static JSONObject getExperimentJson(int id) {
+        return getExperimentJson(id, "started");
+    }
+
+    public static JSONObject getExperimentJson(int id, String remoteState) {
+        return getExperimentJson("testExperiment", id, remoteState);
+    }
+
+    public static JSONObject getExperimentJson(String name) {
+        return getExperimentJson(name, "started");
+    }
+
+    public static JSONObject getExperimentJson(String name, String remoteState) {
+        return getExperimentJson(name, 0, remoteState);
+    }
+
+    public static JSONObject getExperimentJson(String expName, int id, String remoteState) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("'baseUrl': 'URL',");
+        sb.append("'collector': '/upload',");
+        sb.append("'copyright': '',");
+        sb.append("'description': '',");
+        sb.append("'id': '").append(id).append("',");
+        sb.append("'language': 'Javascript',");
+        sb.append("'mainScript': 'main.js',");
+        sb.append("'name': '").append(expName).append("',");
+        sb.append("'niceName': '").append(expName).append("',");
+        sb.append("'orgDescription': '',");
+        sb.append("'organization': 'unitTests',");
+        sb.append("'remoteState': '").append(remoteState).append("',");
+        sb.append("'type': 'android',");
+        sb.append("'uuid': '").append(UUID.randomUUID()).append("',");
+        sb.append("'version': '4.2',");
+        sb.append("'visible': 'true'");
+        sb.append("}");
+
+        JSONObject expJSon = null;
+        try {
+            expJSon = new JSONObject(sb.toString());
+        } catch (JSONException e) {
+            expJSon = new JSONObject();
+        }
+        return expJSon;
+    }
 
     @Before
     public void setUp() throws Exception {

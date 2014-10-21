@@ -7,7 +7,6 @@ import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BeeSenseServiceManagerMock;
 import junit.framework.Assert;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +26,7 @@ public class StartStopExperimentTaskTest extends AsyncTaskWithCallbacksTestSuite
     @Test
     public final void testExperimentAlreadyStarted() throws JSONException, InterruptedException {
         // Test definition
-        Experiment exp = new Experiment(new JSONObject(EXP_DEFINITION));
+        Experiment exp = new Experiment(getExperimentJson());
         exp.state = true;
 
         // Execute & wait for thread)
@@ -46,7 +45,7 @@ public class StartStopExperimentTaskTest extends AsyncTaskWithCallbacksTestSuite
     @Test
     public final void testExperimentAlreadyStopped() throws JSONException, InterruptedException {
         // Test definition
-        Experiment exp = new Experiment(new JSONObject(EXP_DEFINITION));
+        Experiment exp = new Experiment(getExperimentJson());
         exp.state = false;
 
         // Execute & wait for thread)

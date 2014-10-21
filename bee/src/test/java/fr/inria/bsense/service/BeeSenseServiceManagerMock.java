@@ -1,10 +1,22 @@
 package fr.inria.bsense.service;
 
 public class BeeSenseServiceManagerMock extends BeeSenseServiceManager {
+
+    private static BeeSenseMobileServiceMock mobServiceMock;
+    private static BeeSenseServerServiceMock servServiceMock;
+
     @Override
     public BSenseMobileService getBSenseMobileService(){
-        return new BeeSenseMobileServiceMock(this);
+        if (mobServiceMock == null) {
+            mobServiceMock = new BeeSenseMobileServiceMock(this);
+        }
+        return  mobServiceMock;
     }
     @Override
-    public BSenseServerService getBSenseServerService() { return new BSenseServerServiceMock(this); }
+    public BSenseServerService getBSenseServerService() {
+        if (servServiceMock == null) {
+            servServiceMock = new BeeSenseServerServiceMock(this);
+        }
+        return servServiceMock;
+    }
 }
