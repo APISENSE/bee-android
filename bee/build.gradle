@@ -42,9 +42,22 @@ android {
         versionName "1.0"
     }
 
+    signingConfigs {
+
+        customDebug  {
+            storeFile file("KeystoreCertificates/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+
+    }
+
     buildTypes {
         debug {
-            // adding debug.keystore ?
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.customDebug
         }
 
         release {
