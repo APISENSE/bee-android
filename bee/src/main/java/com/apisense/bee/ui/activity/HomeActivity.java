@@ -81,7 +81,7 @@ public class HomeActivity extends Activity {
 
     private void retrieveActiveExperiments() {
         if (experimentsRetrieval == null) {
-            experimentsRetrieval = new RetrieveInstalledExperimentsTask(new ExperimentListRetrievedCallback());
+            experimentsRetrieval = new RetrieveInstalledExperimentsTask(APISENSE.apisense(), new ExperimentListRetrievedCallback());
 
             experimentsRetrieval.execute();
         }
