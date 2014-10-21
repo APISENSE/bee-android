@@ -8,6 +8,11 @@ import java.util.Map;
 
 public class BeeSenseMobileServiceMock extends BSenseMobileService {
 
+    public static boolean tracksSent = false;
+    public static boolean experimentStopped = false;
+    public static Experiment lastUninstalledExp = null;
+    public static Experiment lastInstalledExp = null;
+
     public BeeSenseMobileServiceMock(BeeSenseServiceManager context) {
         super(context);
     }
@@ -52,9 +57,22 @@ public class BeeSenseMobileServiceMock extends BSenseMobileService {
 
     @Override
     public void uninstallExperiment(final Experiment experiment) throws Exception {
+        lastUninstalledExp = experiment;
     }
 
     @Override
     public void installExperiment(final Experiment experiment) throws Exception {
+        lastInstalledExp = experiment;
     }
+
+    @Override
+    public void sendAllTrack() throws Exception {
+        tracksSent = true;
+    }
+
+    @Override
+    public void stopAllExperiments(int exitCode) throws Exception {
+        experimentStopped = true;
+    }
+
 }

@@ -72,7 +72,7 @@ public class SettingsActivity extends FragmentActivity {
         @Override
         public void onClick(View v) {
             if (signOut == null) {
-                signOut = new SignOutTask(new SignedOutCallback());
+                signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
                 signOut.execute();
             }
         };

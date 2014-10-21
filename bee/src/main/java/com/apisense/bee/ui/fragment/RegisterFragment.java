@@ -143,7 +143,7 @@ public class RegisterFragment extends Fragment {
         else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            mRegisterTask = new RegisterTask(new AsyncTasksCallbacks() {
+            mRegisterTask = new RegisterTask(APISENSE.apisense(), new AsyncTasksCallbacks() {
                 @Override
                 public void onTaskCompleted(int result, Object response) {
                     Log.i(TAG, "Register result: " + result);

@@ -1,11 +1,11 @@
 package com.apisense.bee.backend.user;
 
-import android.os.AsyncTask;
 import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.service.BSenseServerService;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 
 /**
  * Represents an asynchronous registration task used to create a new user.
@@ -13,9 +13,11 @@ import fr.inria.bsense.APISENSE;
  */
 public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
     private final String TAG = this.getClass().getSimpleName();
+    private final BSenseServerService servService;
 
-    public RegisterTask(AsyncTasksCallbacks listener) {
+    public RegisterTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener) {
         super(listener);
+        servService = apiServices.getBSenseServerService();
     }
 
     @Override
@@ -28,25 +30,24 @@ public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
         String apisenseUrl = (params.length >= 3) ? params[2] : BeeApplication.BEE_DEFAULT_URL;
         String details = "";
 
-        if (params[0].isEmpty() || params[1].isEmpty()) {
-            Log.e(TAG, "Login or password is empty");
+        if (params.length < 2) {
+            Log.e(TAG, "Not enough parameters");
             this.errcode = BeeApplication.ASYNC_ERROR;
-            details = "EMPTY_FIELD -- To XMLify";
-        } else {
-            pseudo = params[0];
-            password = params[1];
-            try {
-                APISENSE.apisServerService().createAccount(apisenseUrl, "", pseudo, password, "");
-                APISENSE.apisServerService().connect(pseudo, password);
-            } catch (Exception e) {
-                e.printStackTrace();
-                details = e.getMessage();
-            }
-
-            if (!APISENSE.apisServerService().isConnected()) {
+        }else {
+            if (params[0].isEmpty() || params[1].isEmpty()) {
+                Log.e(TAG, "Login or password is empty");
                 this.errcode = BeeApplication.ASYNC_ERROR;
             } else {
-                this.errcode = BeeApplication.ASYNC_SUCCESS;
+                pseudo = params[0];
+                password = params[1];
+                try {
+                    servService.createAccount(apisenseUrl, "", pseudo, password, "");
+                    servService.connect(pseudo, password);
+                    this.errcode = BeeApplication.ASYNC_SUCCESS;
+                } catch (Exception e) {
+                    details = e.getMessage();
+                    this.errcode = BeeApplication.ASYNC_ERROR;
+                }
             }
         }
         return details;

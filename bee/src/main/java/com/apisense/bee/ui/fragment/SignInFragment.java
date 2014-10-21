@@ -107,7 +107,7 @@ public class SignInFragment extends Fragment {
             mSignInBtn.setText("Login");
             Toast.makeText(getActivity(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
         } else {
-            SignInTask signInTask = new SignInTask(new AsyncTasksCallbacks() {
+            SignInTask signInTask = new SignInTask(APISENSE.apisense(), new AsyncTasksCallbacks() {
                 @Override
                 public void onTaskCompleted(int result, Object response) {
                     Log.i(TAG, "Connection result: " + result);
