@@ -18,6 +18,7 @@
     <string name="action_privacy">Privacy</string>
     <string name="by">by</string>
     <string name="search_hint">Experiment name</string>
+    <string name="skip">Skip</string>
 
     <!-- User feedbacks -->
     <string name="error">Error</string>

@@ -3,7 +3,7 @@
     tools:context="com.apisense.bee.ui.BeeApplication" >
 
     <item android:id="@+id/action_login"
-          android:title="Login"
+          android:title="@string/login"
           android:icon="@drawable/ic_action_person"
           android:onClick="doLoginForm"
           android:orderInCategory="1"

@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:background="@drawable/api_button"
-            android:text="Skip" >
+            android:text="@string/skip" >
         </Button>
 
     </LinearLayout>

@@ -71,7 +71,7 @@
           android:id="@+id/map"
           android:layout_width="match_parent"
           android:layout_marginTop="@dimen/activity_vertical_margin"
-          android:layout_height="250dp"
+          android:layout_height="150dp"
           android:name="com.google.android.gms.maps.MapFragment"/>
 
 </LinearLayout>
