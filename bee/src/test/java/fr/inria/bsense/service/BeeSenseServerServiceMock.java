@@ -29,5 +29,11 @@ public class BeeSenseServerServiceMock extends BSenseServerService {
         return BeeSenseServerServiceMock.availableExperiments;
     }
 
+    @Override
+    public void subscribeExperiment(final Experiment experiment) throws Exception{
+    }
 
+    @Override
+    public void unsubscribeExperiment(final Experiment experiment) throws Exception{
+    }
 }

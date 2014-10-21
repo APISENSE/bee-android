@@ -1,12 +1,12 @@
 package com.apisense.bee;
 
-import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.bsense.service.BeeSenseServiceManagerMock;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
@@ -19,7 +19,6 @@ public abstract class AsyncTaskWithCallbacksTestSuite implements AsyncTasksCallb
     protected Object response;
     protected boolean canceled;
 
-
     public static JSONObject getExperimentJson() {
         return getExperimentJson(0);
     }
@@ -30,6 +29,14 @@ public abstract class AsyncTaskWithCallbacksTestSuite implements AsyncTasksCallb
 
     public static JSONObject getExperimentJson(int id, String remoteState) {
         return getExperimentJson("testExperiment", id, remoteState);
+    }
+
+    public static JSONObject getExperimentJson(String name) {
+        return getExperimentJson(name, "started");
+    }
+
+    public static JSONObject getExperimentJson(String name, String remoteState) {
+        return getExperimentJson(name, 0, remoteState);
     }
 
     public static JSONObject getExperimentJson(String expName, int id, String remoteState) {

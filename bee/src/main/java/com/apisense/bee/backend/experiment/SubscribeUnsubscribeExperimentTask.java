@@ -6,6 +6,9 @@ import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
+import fr.inria.bsense.service.BSenseMobileService;
+import fr.inria.bsense.service.BSenseServerService;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 import org.json.JSONException;
 
 /**
@@ -13,18 +16,26 @@ import org.json.JSONException;
  *
  */
 public class SubscribeUnsubscribeExperimentTask {
+
     private String TAG = getClass().getSimpleName();
 
     public static final int EXPERIMENT_SUBSCRIBED = 1;
     public static final int EXPERIMENT_UNSUBSCRIBED = 2;
 
     private final AsyncTasksCallbacks listener;
+    private final BSenseMobileService mobService;
+    private final BSenseServerService servService;
+
+    // TODO: Delete this ASAP when field available in Experiment
+    public static volatile BSenseMobileService sMobService;
 
     // This task can either be a Subscribe or a Unsubscribe Task
     private AsyncTaskWithCallback<Experiment, Void, Integer> task;
 
-    public SubscribeUnsubscribeExperimentTask(AsyncTasksCallbacks listener){
+    public SubscribeUnsubscribeExperimentTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener){
         this.listener = listener;
+        this.servService = apiServices.getBSenseServerService();
+        this.mobService = apiServices.getBSenseMobileService();
     }
 
     public void execute(Experiment experiment) {
@@ -50,8 +61,12 @@ public class SubscribeUnsubscribeExperimentTask {
     public static boolean isSubscribedExperiment(Experiment exp) {
         Experiment currentExperiment;
         boolean result = false;
+
+        if (sMobService == null) {
+            sMobService = APISENSE.apisense().getBSenseMobileService();
+        }
         try {
-            currentExperiment = APISENSE.apisense().getBSenseMobileService().getExperiment(exp.name);
+            currentExperiment = sMobService.getExperiment(exp.name);
             result = (currentExperiment != null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,8 +91,8 @@ public class SubscribeUnsubscribeExperimentTask {
             String detail = "";
             if (exp != null) {
                 try {
-                    APISENSE.apisServerService().subscribeExperiment(exp);
-                    APISENSE.apisMobileService().installExperiment(exp);
+                    servService.subscribeExperiment(exp);
+                    mobService.installExperiment(exp);
                     Log.i(TAG, "Subscribe experiment " + exp.name);
                 } catch (Exception e) {
                     Log.e(TAG, "Error  on subscribe experiment " + exp.name + " | Error=" + e.getMessage());
@@ -105,11 +120,10 @@ public class SubscribeUnsubscribeExperimentTask {
         @Override
         protected Integer doInBackground(Experiment... params) {
             Experiment exp = params[0];
-            String detail = "";
 
             // Retrieve local version of the experiment
             try {
-                exp = APISENSE.apisMobileService().getExperiment(exp.name);
+                exp = mobService.getExperiment(exp.name);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -117,23 +131,21 @@ public class SubscribeUnsubscribeExperimentTask {
             // Stop experiment if started
             if (exp != null && exp.state) {
                 try {
-                    APISENSE.apisMobileService().stopExperiment(exp, 0);
+                    mobService.stopExperiment(exp, 0);
                     Log.i(TAG, "Stop experiment  " + exp.name);
                 } catch (Exception e) {
                     Log.e(TAG, "Error stop experiment " + exp.name + " | Error=" + e.getMessage());
-                    detail = e.getMessage();
                 }
             }
 
             // Uninstall and unsubscribe from experiment
             try {
-                APISENSE.apisMobileService().uninstallExperiment(exp);
-                APISENSE.apisServerService().unsubscribeExperiment(exp);
+                mobService.uninstallExperiment(exp);
+                servService.unsubscribeExperiment(exp);
                 Log.i(TAG, "Unsubscribe experiment " + exp.name);
                 this.errcode = BeeApplication.ASYNC_SUCCESS;
             } catch (Exception e) {
                 Log.e(TAG, "Error unsubscribe experiment " + exp.name + " | Error=" + e.getMessage());
-                detail = e.getMessage();
                 this.errcode = BeeApplication.ASYNC_ERROR;
             }
             return EXPERIMENT_UNSUBSCRIBED;

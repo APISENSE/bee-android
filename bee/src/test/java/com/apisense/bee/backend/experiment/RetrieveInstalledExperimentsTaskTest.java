@@ -8,13 +8,11 @@ import fr.inria.bsense.service.BeeSenseMobileServiceMock;
 import fr.inria.bsense.service.BeeSenseServiceManagerMock;
 import junit.framework.Assert;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

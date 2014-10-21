@@ -307,7 +307,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment exp = (Experiment) parent.getAdapter().getItem(position);
             if (experimentChangeSubscriptionStatus == null){
-                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(new onExperimentSubscriptionChanged(view));
+                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new onExperimentSubscriptionChanged(view));
                 experimentChangeSubscriptionStatus.execute(exp);
             }
             return true;
