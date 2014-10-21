@@ -20,6 +20,10 @@ dependencies {
 android {
     compileSdkVersion 8
     buildToolsVersion "20.0.0"
+    
+    lintOptions {
+        abortOnError false
+    }
 
     sourceSets {
         main {
