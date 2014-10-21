@@ -37,7 +37,7 @@ public class SignInTask extends AsyncTaskWithCallback<String, Void, String> {
             } else {
                 String pseudo = params[0];
                 String password = params[1];
-                String apisenseUrl = (params.length >= 3) ?
+                String apisenseUrl = (params.length >= 3 && !params[2].isEmpty()) ?
                         params[2] : BeeApplication.BEE_DEFAULT_URL;
                 try {
                     servService.setCentralHost(apisenseUrl);

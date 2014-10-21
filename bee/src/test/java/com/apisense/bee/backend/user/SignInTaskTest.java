@@ -3,6 +3,7 @@ package com.apisense.bee.backend.user;
 import com.apisense.bee.AsyncTaskWithCallbacksTestSuite;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.BeeRobolectricTestRunner;
+import fr.inria.bsense.service.BeeSenseMobileServiceMock;
 import fr.inria.bsense.service.BeeSenseServerServiceMock;
 import fr.inria.bsense.service.BeeSenseServiceManagerMock;
 import junit.framework.Assert;
@@ -26,6 +27,7 @@ public class SignInTaskTest extends AsyncTaskWithCallbacksTestSuite {
         task =  new SignInTask(new BeeSenseServiceManagerMock(), this);
         BeeSenseServerServiceMock.userConnected = false;
         BeeSenseServerServiceMock.accountUpdated = false;
+        BeeSenseServerServiceMock.lastCentralHost = null;
     }
 
     @Test
@@ -61,12 +63,12 @@ public class SignInTaskTest extends AsyncTaskWithCallbacksTestSuite {
 
         Assert.assertTrue(BeeSenseServerServiceMock.userConnected);
         Assert.assertTrue(BeeSenseServerServiceMock.accountUpdated);
-
+        Assert.assertEquals(BeeApplication.BEE_DEFAULT_URL, BeeSenseServerServiceMock.lastCentralHost);
     }
 
     @Test
     public final void testConnection() throws InterruptedException {
-        task.execute(username, password);
+        task.execute(username, password, url);
         signal.await(15, TimeUnit.SECONDS);
 
         Assert.assertNotSame(result, Integer.MIN_VALUE);
@@ -74,6 +76,7 @@ public class SignInTaskTest extends AsyncTaskWithCallbacksTestSuite {
 
         Assert.assertTrue(BeeSenseServerServiceMock.userConnected);
         Assert.assertTrue(BeeSenseServerServiceMock.accountUpdated);
+        Assert.assertEquals(url, BeeSenseServerServiceMock.lastCentralHost);
 
     }
 

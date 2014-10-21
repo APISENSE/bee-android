@@ -25,9 +25,6 @@ public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
         // params[0] == pseudo
         // params[1] == password
         // params[2] == URL hive (optionnal)
-        String pseudo = "";
-        String password = "";
-        String apisenseUrl = (params.length >= 3) ? params[2] : BeeApplication.BEE_DEFAULT_URL;
         String details = "";
 
         if (params.length < 2) {
@@ -38,8 +35,10 @@ public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
                 Log.e(TAG, "Login or password is empty");
                 this.errcode = BeeApplication.ASYNC_ERROR;
             } else {
-                pseudo = params[0];
-                password = params[1];
+                String pseudo = params[0];
+                String password = params[1];
+                String apisenseUrl = (params.length >= 3 && !params[2].isEmpty()) ?
+                        params[2] : BeeApplication.BEE_DEFAULT_URL;
                 try {
                     servService.createAccount(apisenseUrl, "", pseudo, password, "");
                     servService.connect(pseudo, password);

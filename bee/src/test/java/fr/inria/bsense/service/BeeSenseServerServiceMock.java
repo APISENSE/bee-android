@@ -12,8 +12,10 @@ public class BeeSenseServerServiceMock extends BSenseServerService {
     public static boolean userConnected = false;
     public static boolean accountCreated = false;
     public static boolean accountUpdated = false;
+    public static String lastCentralHost = null;
 
     private static List<String> existingAccount = new ArrayList<String>();
+
 
     public BeeSenseServerServiceMock(BeeSenseServiceManagerMock context) {
         super(context);
@@ -75,5 +77,10 @@ public class BeeSenseServerServiceMock extends BSenseServerService {
     @Override
     public void updateUserAccount() throws Exception {
         accountUpdated = true;
+    }
+
+    @Override
+    public void setCentralHost(final String host) {
+        lastCentralHost = host;
     }
 }
