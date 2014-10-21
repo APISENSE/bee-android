@@ -47,6 +47,16 @@
             android:background="@drawable/api_button"
             android:text="@string/register" >
         </Button>
+
+        <Button
+            android:id="@+id/skip"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/api_button"
+            android:text="Skip" >
+        </Button>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -115,6 +115,11 @@ public class HomeActivity extends Activity {
 
     }
 
+    public void doLoginForm(MenuItem button) {
+        Intent slideIntent = new Intent(this, SlideshowActivity.class);
+        startActivity(slideIntent);
+    }
+
     public void doGoToStore(View storeButton) {
         Intent storeIntent = new Intent(this, StoreActivity.class);
         startActivity(storeIntent);
