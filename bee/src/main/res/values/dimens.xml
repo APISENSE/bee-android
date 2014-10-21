@@ -18,5 +18,5 @@
     <dimen name="add_button_margin">16dp</dimen>
 
     <!-- Cards -->
-    <dimen name="card_elevation">5sp</dimen>
+    <dimen name="card_elevation">10sp</dimen>
 </resources>

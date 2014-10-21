@@ -35,7 +35,6 @@ public class ExperimentDetailsActivity extends Activity {
     private Experiment experiment;
 
     private CardView mMapCardView;
-    private CardView mActivityCardView;
 
     private TextView mExperimentName;
     private TextView mExperimentOrganization;
@@ -103,7 +102,6 @@ public class ExperimentDetailsActivity extends Activity {
         mGoogleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
         mMapCardView = (CardView) findViewById(R.id.map_card_view);
-        mActivityCardView = (CardView) findViewById(R.id.activity_card_view);
 
         graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);

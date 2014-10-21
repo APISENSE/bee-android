@@ -52,36 +52,27 @@
     </LinearLayout>
 
     <!-- Activity -->
-    <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/activity_card_view"
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:cardElevation="@dimen/card_elevation"
-            card_view:cardCornerRadius="4dp">
+            android:orientation="vertical">
 
-        <LinearLayout
-                android:layout_width="match_parent"
+        <com.apisense.bee.widget.BarGraphView
+                android:id="@+id/inbox_item_graph"
+                style="@style/BarGraph"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:minHeight="20sp" />
 
-            <com.apisense.bee.widget.BarGraphView
-                    android:id="@+id/inbox_item_graph"
-                    style="@style/BarGraph"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="20sp" />
+        <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/exp_activity"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/experiment_activity_7_days"/>
 
-            <com.apisense.bee.widget.ApisenseTextView
-                    android:id="@+id/exp_activity"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/experiment_activity_7_days"/>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
     <!-- Google map -->
     <android.support.v7.widget.CardView
