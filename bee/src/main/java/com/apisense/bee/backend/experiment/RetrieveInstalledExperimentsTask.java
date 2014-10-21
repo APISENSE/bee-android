@@ -7,10 +7,13 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;
+import fr.inria.bsense.service.BSenseServerService;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Task to fetch every experiment installed (i.e. subscribed) by the user.
@@ -19,25 +22,32 @@ import java.util.List;
 public class RetrieveInstalledExperimentsTask extends AsyncTaskWithCallback<Void, Void, List<Experiment>> {
     private final String TAG = this.getClass().getSimpleName();
 
-    public RetrieveInstalledExperimentsTask(AsyncTasksCallbacks listener) {
+    private final BSenseMobileService mobService;
+    private final BSenseServerService servService;
+
+    public RetrieveInstalledExperimentsTask(BeeSenseServiceManager apiService, AsyncTasksCallbacks listener) {
         super(listener);
+        mobService = apiService.getBSenseMobileService();
+        servService = apiService.getBSenseServerService();
     }
 
     @Override
     protected List<Experiment> doInBackground(Void... params) {
-        List<Experiment> gotExperiments;
+        List<Experiment> returnedExperiments = new ArrayList<Experiment>();;
 
-        if (! APISENSE.apisServerService().isConnected()){
+        if (! servService.isConnected()){
             // Todo: Specific treatment for anonymous user?
-            gotExperiments = new ArrayList<Experiment>();
+            returnedExperiments = new ArrayList<Experiment>();
         }else {
             // Only retrieve installed experiments
-            BSenseMobileService mobService = APISENSE.apisense().getBSenseMobileService();
-            Collection exp = mobService.getInstalledExperiments().values();
-            gotExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);
+            Map<String, Experiment> gotExperiments = mobService.getInstalledExperiments();
+            if (gotExperiments != null ) {
+                Collection exp = gotExperiments.values();
+                returnedExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);
+            }
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         }
-        Log.d(TAG, "List of experiments returned: " + gotExperiments.toString());
-        return gotExperiments;
+        Log.d(TAG, "List of experiments returned: " + returnedExperiments.toString());
+        return returnedExperiments;
     }
 }
