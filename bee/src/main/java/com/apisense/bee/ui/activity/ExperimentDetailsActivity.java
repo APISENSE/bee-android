@@ -2,6 +2,7 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,9 @@ public class ExperimentDetailsActivity extends Activity {
     private static String TAG = "Experiment Details Activity";
 
     private Experiment experiment;
+
+    private CardView mMapCardView;
+    private CardView mActivityCardView;
 
     private TextView mExperimentName;
     private TextView mExperimentOrganization;
@@ -97,6 +101,9 @@ public class ExperimentDetailsActivity extends Activity {
         mExperimentVersion = (TextView) findViewById(R.id.exp_version);
         mExperimentActivity = (TextView) findViewById(R.id.exp_activity);
         mGoogleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+        mMapCardView = (CardView) findViewById(R.id.map_card_view);
+        mActivityCardView = (CardView) findViewById(R.id.activity_card_view);
 
         graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);

@@ -2,8 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
@@ -53,25 +51,66 @@
 
     </LinearLayout>
 
-    <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/exp_activity"
-            android:layout_width="fill_parent"
+    <!-- Activity -->
+    <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/activity_card_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/experiment_activity_7_days"/>
+            card_view:cardElevation="@dimen/card_elevation"
+            card_view:cardCornerRadius="4dp">
 
-    <com.apisense.bee.widget.BarGraphView
-            android:id="@+id/inbox_item_graph"
-            style="@style/BarGraph"
-            android:layout_width="fill_parent"
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <com.apisense.bee.widget.BarGraphView
+                    android:id="@+id/inbox_item_graph"
+                    style="@style/BarGraph"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="20sp" />
+
+            <com.apisense.bee.widget.ApisenseTextView
+                    android:id="@+id/exp_activity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/experiment_activity_7_days"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <!-- Google map -->
+    <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/map_card_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="20sp" />
+            card_view:cardElevation="@dimen/card_elevation"
+            card_view:cardCornerRadius="4dp">
 
-    <fragment
-          android:id="@+id/map"
-          android:layout_width="match_parent"
-          android:layout_marginTop="@dimen/activity_vertical_margin"
-          android:layout_height="150dp"
-          android:name="com.google.android.gms.maps.MapFragment"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <fragment
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:name="com.google.android.gms.maps.MapFragment"/>
+
+            <com.apisense.bee.widget.ApisenseTextView
+                    android:id="@+id/map_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Random text to check if everything is all right !" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

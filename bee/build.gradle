@@ -22,6 +22,12 @@ dependencies {
         exclude module: 'support-v4'
     }
 
+    // Sexy android-L support
+    compile 'com.android.support:cardview-v7:+'
+    compile ('com.android.support:recyclerview-v7:+') {
+        exclude module: 'support-v4'
+    }
+
     // Tests with Robotium
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }

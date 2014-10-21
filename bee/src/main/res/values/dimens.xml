@@ -16,4 +16,7 @@
     <dimen name="elevation_low">1dp</dimen>
     <dimen name="elevation_high">4dp</dimen>
     <dimen name="add_button_margin">16dp</dimen>
+
+    <!-- Cards -->
+    <dimen name="card_elevation">5sp</dimen>
 </resources>
