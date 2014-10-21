@@ -53,8 +53,18 @@ public class SlideshowActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        // Set default slide to what is it
-        mPager.setCurrentItem(WHAT);
+        // Check if we are coming from Anonymous HomeActivity
+        try {
+            Intent intent = getIntent(); // gets the previously created intent
+            String destination = intent.getStringExtra("goTo");
+            if (destination.equals("register")) {
+                mPager.setCurrentItem(REGISTER); // Coming from an other activity
+            } else {
+                mPager.setCurrentItem(WHAT); // Default
+            }
+        } catch (NullPointerException e) {
+            mPager.setCurrentItem(WHAT); // Launching the app
+        }
 
         //Bind the title indicator to the adapter
         CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
@@ -63,6 +73,7 @@ public class SlideshowActivity extends FragmentActivity {
         // Add onClick listeners
         Button signInBtn = (Button) findViewById(R.id.signIn);
         Button registerBtn = (Button) findViewById(R.id.register);
+        Button skipBtn = (Button) findViewById(R.id.skip);
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -73,6 +84,14 @@ public class SlideshowActivity extends FragmentActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mPager.setCurrentItem(REGISTER);
+            }
+        });
+
+        skipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent slideIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(slideIntent);
             }
         });
 

@@ -26,6 +26,15 @@
             android:text="@string/settings_action_logout"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <Button
+                android:id="@+id/settings_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_action_register"
+                android:visibility="gone"
+                android:onClick="goToRegister"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <TextView
             android:id="@+id/settings_section_general"
             style="@style/sectionHeader"

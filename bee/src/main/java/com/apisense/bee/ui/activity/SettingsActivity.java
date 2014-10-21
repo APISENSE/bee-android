@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.apisense.bee.R;
@@ -25,6 +26,9 @@ public class SettingsActivity extends FragmentActivity {
     private CheckUpdateTask checkUpdateTask;
 
     TextView aboutView, versionView;
+    private Button mUpgradeButton;
+    private Button mLogoutButton;
+    private Button mRegisterButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,8 +46,23 @@ public class SettingsActivity extends FragmentActivity {
             aboutView.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
-        findViewById(R.id.settings_update).setOnClickListener(updateEvent);
-        findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
+        mUpgradeButton = (Button) findViewById(R.id.settings_update);
+        mLogoutButton = (Button) findViewById(R.id.settings_logout);
+        mRegisterButton = (Button) findViewById(R.id.settings_register);
+        
+        mUpgradeButton.setOnClickListener(updateEvent);
+        mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
+
+        if (!isUserAuthenticated()) {
+            mLogoutButton.setVisibility(View.GONE);
+            mRegisterButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void goToRegister(View v) {
+        Intent slideIntent = new Intent(this, SlideshowActivity.class);
+        slideIntent.putExtra("goTo","register");
+        startActivity(slideIntent);
     }
 
     /**

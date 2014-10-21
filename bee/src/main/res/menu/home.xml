@@ -1,15 +1,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.apisense.bee.ui.BeeApplication" >
+
+    <item android:id="@+id/action_login"
+          android:title="@string/login"
+          android:icon="@drawable/ic_action_person"
+          android:onClick="doLoginForm"
+          android:orderInCategory="1"
+          android:showAsAction="always" />
+
     <item android:id="@+id/action_privacy"
           android:title="@string/action_privacy"
+          android:icon="@drawable/ic_action_secure"
           android:onClick="doLaunchPrivacy"
-          android:orderInCategory="1"
+          android:orderInCategory="2"
           android:showAsAction="always" />
 
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
+        android:icon="@drawable/ic_action_overflow"
         android:onClick="doLaunchSettings"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:showAsAction="ifRoom" />
 </menu>
