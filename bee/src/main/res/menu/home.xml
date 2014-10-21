@@ -11,14 +11,14 @@
 
     <item android:id="@+id/action_privacy"
           android:title="@string/action_privacy"
-          android:icon="@drawable/ic_action_secure"
+          android:icon="@drawable/ic_action_not_secure"
           android:onClick="doLaunchPrivacy"
           android:orderInCategory="2"
           android:showAsAction="always" />
 
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        android:icon="@drawable/ic_action_overflow"
+        android:icon="@drawable/ic_action_settings"
         android:onClick="doLaunchSettings"
         android:orderInCategory="3"
         android:showAsAction="ifRoom" />
