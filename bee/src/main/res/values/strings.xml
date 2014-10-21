@@ -70,6 +70,7 @@
 
     <!-- Settings -->
     <string name="settings_section_account">Account Management</string>
+    <string name="settings_action_register">Create an account</string>
     <string name="settings_action_logout">Logout</string>
     <string name="settings_section_general">General Settings</string>
     <string name="settings_label_version">Application Version</string>

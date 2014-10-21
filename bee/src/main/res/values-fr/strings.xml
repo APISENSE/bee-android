@@ -67,6 +67,7 @@
 
     <!-- Settings -->
     <string name="settings_section_account">Compte</string>
+    <string name="settings_action_register">Créer un compte</string>
     <string name="settings_action_logout">Déconnexion</string>
     <string name="settings_section_general">Paramètres généraux</string>
     <string name="settings_label_version">Version de l\'application</string>

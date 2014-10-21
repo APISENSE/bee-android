@@ -35,18 +35,14 @@ public class RetrieveInstalledExperimentsTask extends AsyncTaskWithCallback<Void
     protected List<Experiment> doInBackground(Void... params) {
         List<Experiment> returnedExperiments = new ArrayList<Experiment>();;
 
-        if (! servService.isConnected()){
-            // Todo: Specific treatment for anonymous user?
-            returnedExperiments = new ArrayList<Experiment>();
-        }else {
-            // Only retrieve installed experiments
-            Map<String, Experiment> gotExperiments = mobService.getInstalledExperiments();
-            if (gotExperiments != null ) {
-                Collection exp = gotExperiments.values();
-                returnedExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);
-            }
-            this.errcode = BeeApplication.ASYNC_SUCCESS;
+        // Only retrieve installed experiments
+        Map<String, Experiment> gotExperiments = mobService.getInstalledExperiments();
+        if (gotExperiments != null ) {
+            Collection exp = gotExperiments.values();
+            returnedExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);
         }
+        this.errcode = BeeApplication.ASYNC_SUCCESS;
+
         Log.d(TAG, "List of experiments returned: " + returnedExperiments.toString());
         return returnedExperiments;
     }
