@@ -1,14 +1,15 @@
 package com.apisense.bee.ui.activity;
 
-import com.robotium.solo.Solo;
 import android.test.ActivityInstrumentationTestCase2;
+import com.robotium.solo.Solo;
+import junit.framework.TestCase;
 
-public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<SlideshowActivity> {
+public class StoreActivityTest extends ActivityInstrumentationTestCase2<StoreActivity> {
 
     private Solo activity;
 
-    public SlideshowActivityTest() {
-        super(SlideshowActivity.class);
+    public StoreActivityTest() {
+        super(StoreActivity.class);
     }
 
     public void setUp() {
@@ -21,9 +22,4 @@ public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<Slid
     }
 
     // - - - TESTS HERE
-
-    public void testSkipButton() {
-        activity.clickOnButton("Skip");
-    }
-
 }
