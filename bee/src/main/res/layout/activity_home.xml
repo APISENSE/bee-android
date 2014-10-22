@@ -89,6 +89,7 @@
         android:id="@+id/home_empty_list">
 
         <Button
+                android:id="@+id/bigAddButton"
                 android:background="@drawable/big_button_rounded"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
