@@ -4,6 +4,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;
@@ -37,9 +38,11 @@ public class RetrieveInstalledExperimentsTask extends AsyncTaskWithCallback<Void
 
         // Only retrieve installed experiments
         Map<String, Experiment> gotExperiments = mobService.getInstalledExperiments();
-        if (gotExperiments != null ) {
+        try {
             Collection exp = gotExperiments.values();
             returnedExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);
+        } catch (NullPointerException e) {
+            APISLog.send(e, APISLog.ERROR);
         }
         this.errcode = BeeApplication.ASYNC_SUCCESS;
 

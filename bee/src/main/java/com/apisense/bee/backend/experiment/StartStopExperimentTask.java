@@ -4,6 +4,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;
@@ -21,6 +22,8 @@ public class StartStopExperimentTask {
 
     private final AsyncTasksCallbacks listener;
     private final BSenseMobileService mobServices;
+
+    private APISLog mAPISLog;
 
     // This task can either be a Start or a Stop Task
     private AsyncTaskWithCallback<Experiment, Void, Integer> task;
@@ -61,6 +64,7 @@ public class StartStopExperimentTask {
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(TAG, "Experiment (" + exp.name + ") stop failed: " + e.getMessage());
+                APISLog.send(e, APISLog.WARNING);
                 this.errcode = BeeApplication.ASYNC_ERROR;
             }
             return EXPERIMENT_STOPPED;
@@ -86,6 +90,7 @@ public class StartStopExperimentTask {
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.w(TAG, "Experiment (" + exp.name + ") start failed: " + e.getMessage());
+                APISLog.send(e, APISLog.WARNING);
                 this.errcode = BeeApplication.ASYNC_ERROR;
             }
             return EXPERIMENT_STARTED;

@@ -4,6 +4,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.service.BSenseServerService;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
@@ -45,6 +46,7 @@ public class SignInTask extends AsyncTaskWithCallback<String, Void, String> {
                 } catch (Exception e) {
                     e.printStackTrace();
                     details = e.getMessage();
+                    APISLog.send(e, APISLog.ERROR);
                 }
 
                 if (!servService.isConnected())
@@ -54,6 +56,7 @@ public class SignInTask extends AsyncTaskWithCallback<String, Void, String> {
                         servService.updateUserAccount();
                     } catch (Exception e) {
                         e.printStackTrace();
+                        APISLog.send(e, APISLog.ERROR);
                     }
                     this.errcode = BeeApplication.ASYNC_SUCCESS;
                 }

@@ -4,6 +4,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;
@@ -70,6 +71,7 @@ public class SubscribeUnsubscribeExperimentTask {
             result = (currentExperiment != null);
         } catch (Exception e) {
             e.printStackTrace();
+            APISLog.send(e, APISLog.ERROR);
         }
         return result;
     }
@@ -96,6 +98,7 @@ public class SubscribeUnsubscribeExperimentTask {
                     Log.i(TAG, "Subscribe experiment " + exp.name);
                 } catch (Exception e) {
                     Log.e(TAG, "Error  on subscribe experiment " + exp.name + " | Error=" + e.getMessage());
+                    APISLog.send(e, APISLog.ERROR);
                     this.errcode = BeeApplication.ASYNC_ERROR;
                     detail = e.getMessage();
                 }
@@ -125,6 +128,7 @@ public class SubscribeUnsubscribeExperimentTask {
             try {
                 exp = mobService.getExperiment(exp.name);
             } catch (JSONException e) {
+                APISLog.send(e, APISLog.ERROR);
                 e.printStackTrace();
             }
 
@@ -135,6 +139,7 @@ public class SubscribeUnsubscribeExperimentTask {
                     Log.i(TAG, "Stop experiment  " + exp.name);
                 } catch (Exception e) {
                     Log.e(TAG, "Error stop experiment " + exp.name + " | Error=" + e.getMessage());
+                    APISLog.send(e, APISLog.ERROR);
                 }
             }
 
@@ -146,6 +151,7 @@ public class SubscribeUnsubscribeExperimentTask {
                 this.errcode = BeeApplication.ASYNC_SUCCESS;
             } catch (Exception e) {
                 Log.e(TAG, "Error unsubscribe experiment " + exp.name + " | Error=" + e.getMessage());
+                APISLog.send(e, APISLog.ERROR);
                 this.errcode = BeeApplication.ASYNC_ERROR;
             }
             return EXPERIMENT_UNSUBSCRIBED;

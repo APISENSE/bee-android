@@ -4,6 +4,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;
@@ -36,6 +37,7 @@ public class SendTracksTask extends AsyncTaskWithCallback<Experiment, Void, Void
                 this.errcode = BeeApplication.ASYNC_SUCCESS;
             } catch (Exception e) {
                 Log.w(TAG, "Experiment (" + exp.name + ") failed to send tracks: " + e.getMessage());
+                APISLog.send(e, APISLog.WARNING);
                 this.errcode = BeeApplication.ASYNC_ERROR;
             }
         }

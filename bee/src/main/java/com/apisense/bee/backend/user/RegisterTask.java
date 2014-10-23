@@ -4,6 +4,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.service.BSenseServerService;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
@@ -45,6 +46,7 @@ public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
                     this.errcode = BeeApplication.ASYNC_SUCCESS;
                 } catch (Exception e) {
                     details = e.getMessage();
+                    APISLog.send(e, APISLog.ERROR);
                     this.errcode = BeeApplication.ASYNC_ERROR;
                 }
             }

@@ -23,5 +23,5 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
     }
 
     // - - - TESTS HERE
-    
+
 }

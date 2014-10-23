@@ -3,6 +3,7 @@ package com.apisense.bee.backend.user;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;
 import fr.inria.bsense.service.BSenseServerService;
@@ -35,6 +36,7 @@ public class SignOutTask extends AsyncTaskWithCallback<String, Void, String> {
         } catch (Exception e) {
             e.printStackTrace();
             details = e.getMessage();
+            APISLog.send(e, APISLog.ERROR);
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         }
         servService.disconnect();

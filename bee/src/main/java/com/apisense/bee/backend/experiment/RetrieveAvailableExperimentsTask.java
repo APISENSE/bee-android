@@ -4,6 +4,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseServerService;
 import fr.inria.bsense.service.BeeSenseServiceManager;
@@ -48,6 +49,7 @@ public class RetrieveAvailableExperimentsTask extends AsyncTaskWithCallback<Stri
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         } catch (Exception e) {
             Log.e(TAG, "Error while retrieving available experiments: " + e.getMessage());
+            APISLog.send(e, APISLog.ERROR);
             gotExperiments = new ArrayList<Experiment>();
             this.errcode = BeeApplication.ASYNC_ERROR;
         }

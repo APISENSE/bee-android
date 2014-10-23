@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import fr.inria.apislog.APISLog;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import org.json.JSONException;
@@ -125,6 +126,7 @@ public class ExperimentDetailsActivity extends Activity {
             experiment = APISENSE.apisMobileService().getExperiment(experimentS.getName());
         } catch (JSONException e) {
             e.printStackTrace();
+            APISLog.send(e, APISLog.ERROR);
         }
 
         mExperimentName.setText(experiment.niceName);
@@ -160,6 +162,7 @@ public class ExperimentDetailsActivity extends Activity {
             graph.updateGraphWith(traces);
         } catch (Exception ex) {
             Log.i(TAG, "statistics not available for the experiment " + experiment.name);
+            APISLog.send(ex, APISLog.WARNING);
         }
     }
 
