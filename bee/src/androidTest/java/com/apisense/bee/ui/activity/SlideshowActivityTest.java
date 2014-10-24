@@ -1,18 +1,11 @@
 package com.apisense.bee.ui.activity;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.EditText;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.user.SignOutTask;
 import com.robotium.solo.Solo;
 import android.test.ActivityInstrumentationTestCase2;
-import fr.inria.bsense.APISENSE;
 import junit.framework.Assert;
 
-import java.io.File;
 import java.io.IOException;
 
 public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<SlideshowActivity> {
@@ -22,7 +15,6 @@ public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<Slid
     private View signInBtn;
     private View registerBtn;
     private View skipBtn;
-    private View loginBtn;
 
     public SlideshowActivityTest() {
         super(SlideshowActivity.class);
@@ -34,7 +26,6 @@ public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<Slid
         signInBtn = activity.getView(R.id.signIn);
         skipBtn = activity.getView(R.id.skip);
         registerBtn = activity.getView(R.id.register);
-        loginBtn = activity.getView(R.id.signInLoginBtn);
     }
 
     @Override
