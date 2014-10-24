@@ -60,7 +60,7 @@ def computeVersionName() {
 }
 
 task updateChangelog(type:Exec) {
-    commandLine 'python', 'changelogGenerator.py', 'junkproject', computeVersionName()
+    commandLine 'python', 'changelogGenerator.py', 'bee-android', computeVersionName()
 }
 
 task commitNewChangelog(dependsOn: ':updateChangelog', type:Exec){
