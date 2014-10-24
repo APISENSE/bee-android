@@ -52,3 +52,7 @@ artifactory {
         }
     }
 }
+
+task updateChangelog(type:Exec) {
+    commandLine 'python', 'changelogGenerator.py', 'bee-android'
+}
