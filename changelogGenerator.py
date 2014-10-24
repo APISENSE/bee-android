@@ -149,40 +149,6 @@ class ChangelogGenerator:
                 concerned_issues.append(issue)
         return concerned_issues
 
-    def _generate_md_for_version(self, version, showNotClosed):
-        """
-        Generate and returns Markdown representation of the modifications for the given version.
-        Param:
-            - version : String
-                Identifier of the version to use.
-            - showNotClosed: boolean
-                Tell to show or not unclosed issues of a milestone.
-        Return: String
-            Markdown representation of the given version.
-        """
-        issues = self._sort_issues(self._get_issues_for_version(version))
-        markdown = ""
-
-        # If new elements, Add 'Newly integrated' section
-        list_md = self._generate_md_categorized_issues_list(issues[self.STATE_CLOSED].items())
-        if list_md:
-            markdown += "## Newly integrated: \n"
-            markdown += list_md
-
-        # If delayed elements, and asked to show them, Add 'Delayed' section
-        list_md = ""
-        if showNotClosed:
-            list_md = self._generate_md_categorized_issues_list(issues[self.STATE_OPEN].items())
-            if list_md:
-                markdown += "## To be reported to another version: \n"
-                markdown += list_md
-
-        # If changes occurs in a section, add section title on top of the markdown
-        if markdown:
-            markdown = "#Version __" + version + "__: \n" + markdown + "\n"
-
-        return markdown
-
     def _generate_md_categorized_issues_list(self, issues):
         """
         Generate a Categorized list of issues in Markdown from a Dictionnary (Category, issues).
@@ -198,9 +164,42 @@ class ChangelogGenerator:
                 markdown += "- " + elementType + "\n"
                 for issue in elements:
                     markdown += "    - " + issue["title"] + "\n"
-        return markdown     
+        return markdown
 
-    def generate_last_version_changes(self, showNotClosed=True):
+    def generate_specific_version_changelog(self, version, showNotClosed=True):
+        """
+        Generate and returns Markdown representation of the modifications for the given version.
+        Param:
+            - version : String
+                Identifier of the version to use.
+            - showNotClosed: boolean (Default=True)
+                Tell to show or not unclosed issues of a milestone.
+        Return: String
+            Markdown representation of the given version.
+        """
+        issues = self._sort_issues(self._get_issues_for_version(version))
+        markdown = ""
+        # If new elements, Add 'Newly integrated' section
+        list_md = self._generate_md_categorized_issues_list(issues[self.STATE_CLOSED].items())
+        if list_md:
+            markdown += "## Newly integrated:\n"
+            markdown += list_md
+
+        # If delayed elements, and asked to show them, Add 'Delayed' section
+        list_md = ""
+        if showNotClosed:
+            list_md = self._generate_md_categorized_issues_list(issues[self.STATE_OPEN].items())
+            if list_md:
+                markdown += "## To be reported to another version:\n"
+                markdown += list_md
+
+        # If changes occurs in a section, add section title on top of the markdown
+        if markdown:
+            markdown = "# Version __" + version + "__:\n" + markdown + "\n"
+
+        return markdown
+
+    def generate_last_version_changelog(self, showNotClosed=True):
         """
         Generate and return Markdown for last Tagged version only.
         Param: 
@@ -210,8 +209,8 @@ class ChangelogGenerator:
             Markdown representation of the last known version.
         """
         # Assuming versions are in chronological order (tocheck)
-        last_version = self._get_tags()[-1]
-        return self._generate_md_for_version(last_version, showNotClosed)
+        last_version = self._get_tags()[0]
+        return self.generate_specific_version_changelog(last_version, showNotClosed)
         
     def generate_overall_changelog(self, showNotClosed=True):
         """
@@ -225,7 +224,7 @@ class ChangelogGenerator:
         versions = self._get_tags()
         markdown = ""
         for version in versions:
-            markdown += self._generate_md_for_version(version, showNotClosed)
+            markdown += self.generate_specific_version_changelog(version, showNotClosed)
         return markdown
 
 class ChangelogWriter:
@@ -283,10 +282,17 @@ class FakeSecHead(object):
 
 
 def prepend_newest_version_changelog(projectIdentity):
-    ChangelogWriter().prepend_version(ChangelogGenerator(projectIdentity).generate_overall_changelog(False))
+    ChangelogWriter().prepend_version(ChangelogGenerator(projectIdentity)
+                                      .generate_last_version_changelog(False))
+
+def prepend_specific_version_changelog(projectIdentity, versionId):
+    ChangelogWriter().prepend_version(ChangelogGenerator(projectIdentity)
+                                      .generate_specific_version_changelog(versionId, False))
 
 if __name__ == "__main__":
     if (len(sys.argv) < 2):
         raise Exception("Please specify a project name or ID")
-    else:
+    if (len(sys.argv) < 3):
         prepend_newest_version_changelog(sys.argv[1])
+    else:
+        prepend_specific_version_changelog(sys.argv[1], sys.argv[2])

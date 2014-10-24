@@ -32,12 +32,6 @@ dependencies {
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }
 
-def computeVersionName() {
-    def date = new Date()
-    def formattedDate = date.format('yy.MM.dd')
-    return formattedDate
-}
-
 android {
     compileSdkVersion 19
     buildToolsVersion '19.1.0'
