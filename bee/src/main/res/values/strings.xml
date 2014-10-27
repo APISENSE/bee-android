@@ -2,7 +2,7 @@
 <resources>
 
     <!-- TODO : Put somewhere else -->
-    <string name="apislog" translatable="false">http://05fb8faa429c4263a7c3da0dba9772c1:508dda19a40848fc8ba2b534b93568a4@bugs.apisense.com/4</string>
+    <string name="apislog_url" translatable="false">http://05fb8faa429c4263a7c3da0dba9772c1:508dda19a40848fc8ba2b534b93568a4@bugs.apisense.com/4</string>
 
     <!-- Other -->
     <string name="app_name" translatable="false">Bee</string>
