@@ -40,10 +40,23 @@
     1. Lint tests
         * Using command line ```$ ./gradlew :bee:lint```
         * You can find report inside ```./bee/build/outputs/lint-results.html```
-    1. Unit tests 
+    2. Unit tests
         * Using command line ```$ ./gradlew test```
         * You can find report inside ```./bee/build/test-report/debug/index.html```
-    2. Connected tests
+    3. Connected tests
         * Using IntelliJ, run all tests
         * Using command lines ```$ ./gradlew installDebugTest``` and ```$ ./gradlew connectedAndroidTest``` -- The first one may not be necessary
         * You can find report inside ```./bee/build/outputs/reports/androidTests/connected/index.html```
+    4. Coverage (for unit and connected tests)
+        * Using command line ```$ ./gradlew testsCoverage```
+        * You can find report inside ```./bee/build/outputs/reports/coverage/html/index.html```
+
+# TroubleShooting
+- __ADB not responding:__
+    - *Symptom:*  The connected tests end with a timeout because ```ADB server didn't ACK```
+    - *Reason:* Happens when using [Genymotion](http://www.genymotion.com/) as android emulator.
+    Genymotion uses a specific version of ```adb``` embedded in their installation files and gradle uses your Android-SDK ```adb```, which might be a newer version.
+    - *Correction:* You might force the use of Genymotion's ```adb``` version (A symlink being the simplest correction)
+        1. ```cd $ANDROID_HOME/platform-tools/```
+        2. ```mv adb adb-newest```
+        3. ```ln -s $GENYMOTION_DIR/tool/adb adb```

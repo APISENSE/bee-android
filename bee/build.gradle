@@ -49,14 +49,12 @@ android {
     }
 
     signingConfigs {
-
         customDebug  {
             storeFile file("KeystoreCertificates/debug.keystore")
             storePassword "android"
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
-
     }
 
     buildTypes {
@@ -64,6 +62,7 @@ android {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.customDebug
+            testCoverageEnabled = true
         }
 
         release {
@@ -80,4 +79,45 @@ apply plugin: 'android-unit-test'
 dependencies {
     testCompile 'junit:junit:4.10'
     testCompile 'org.robolectric:robolectric:2.3'
+}
+
+// Coverage
+// See: http://chrisjenx.com/gradle-robolectric-jacoco-dagger/
+apply plugin: "jacoco"
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+// Merge Unit and Instrumented test execution results into one file
+task mergeTestsCoverage(type: JacocoMerge, dependsOn: ["testDebug", "connectedAndroidTest"]){
+    executionData = files ('build/jacoco/testDebug.exec', 'build/outputs/code-coverage/connected/coverage.ec')
+    destinationFile = file('build/jacoco/mergedResults.exec')
+}
+
+// Use previous file to generate coverage over Bee main code
+task testsCoverage(type: JacocoReport, dependsOn: "mergeTestsCoverage") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        xml.destination = "${buildDir}/outputs/reports/coverage/coverageReport.xml"
+        html.enabled = true
+        html.destination = "${buildDir}/outputs/reports/coverage/html"
+    }
+
+    // Ignoring R usage (constants only) and external libraries
+    classDirectories = fileTree(
+            dir: './build/intermediates/classes/debug',
+            excludes: [
+                    'android/',
+                    'com/apisense/bee/R*.class',
+                    'com/google/',
+                    'com/viewpagerindicator',
+                    'net/hockeyapp/android'
+
+            ]
+    )
+    sourceDirectories = files('src/main/java', 'src/main/gen')
+    executionData = files('build/jacoco/mergedResults.exec')
 }
