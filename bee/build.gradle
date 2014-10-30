@@ -68,7 +68,7 @@ android {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.customDebug
-            testCoverageEnabled = true
+            // testCoverageEnabled = true
         }
 
         release {
