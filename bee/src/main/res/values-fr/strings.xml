@@ -43,7 +43,7 @@
 
     <!-- Slides text -->
     <string name="slide_welcome_back">Bonjour</string>
-    <string name="slide_join_us">Rejoingnez-nous</string>
+    <string name="slide_join_us">Rejoignez-nous</string>
     <string name="slide_what">APISENSE rend la collecte massive de données facile grace aux capteurs des téléphones portables.
         Ouvrez votre esprit et rejoingnez le top de la collecte en temps réel !</string>
     <string name="slide_how">Partagez vos données et aidez la science à progresser !</string>
