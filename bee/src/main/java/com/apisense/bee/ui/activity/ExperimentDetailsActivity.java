@@ -14,6 +14,8 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -55,7 +57,10 @@ public class ExperimentDetailsActivity extends Activity {
     private StartStopExperimentTask experimentStartStopTask;
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
 
-
+    protected boolean canDisplayMap() {
+        return (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext())
+                == ConnectionResult.SUCCESS);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,9 @@ public class ExperimentDetailsActivity extends Activity {
         initializeViews();
         displayExperimentInformation();
         displayExperimentActivity();
-        displayMap();
+        if (canDisplayMap()) {
+            displayMap();
+        }
     }
 
     @Override
