@@ -61,12 +61,13 @@ public class LauncherActivity extends Activity {
                 startActivityForResult(intent, LOGIN_REQUEST);
             }
         });
-    }
+        Intent intent = new Intent(this, SlideshowActivity.class);
+        startActivityForResult(intent, LOGIN_REQUEST);
+   }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == LOGIN_REQUEST){
             if (resultCode == RESULT_OK){
 
