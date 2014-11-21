@@ -47,14 +47,18 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/android_key_app" />
 
-        <activity
-            android:name="com.apisense.bee.ui.activity.SlideshowActivity"
-            android:label="@string/title_activity_slideshow" >
+        <activity android:name=".ui.activity.LauncherActivity"
+                  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+                  </activity>
+        <activity
+            android:name=".ui.activity.SlideshowActivity"
+            android:label="@string/title_activity_slideshow" >
+
         </activity>
         <activity
             android:name="com.apisense.bee.ui.activity.HomeActivity"
