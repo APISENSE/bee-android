@@ -9,17 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.fragment.*;
 import com.viewpagerindicator.CirclePageIndicator;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.APISENSEListenner;
-import fr.inria.bsense.service.BeeSenseServiceManager;
 
 public class SlideshowActivity extends FragmentActivity {
 
@@ -90,24 +84,17 @@ public class SlideshowActivity extends FragmentActivity {
         skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent slideIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(slideIntent);
+                Intent intent = generateSkipIntent();
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             }
         });
+    }
 
-        // Init APISENSE and check if already connected, just go to home Activity
-        APISENSE.init(getApplicationContext(), new APISENSEListenner() {
-            @Override
-            public void onConnected(BeeSenseServiceManager beeSenseServiceManager) {
-                if (APISENSE.apisServerService().isConnected()) {
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-
+    private Intent generateSkipIntent() {
+        Intent intent = new Intent();
+        intent.putExtra("action", "anonymousLogin");
+        return intent;
     }
 
     @Override
