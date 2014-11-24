@@ -10,6 +10,13 @@ repositories {
             password = "${artifactory_password}"
         }
     }
+    maven{
+        url 'http://repo.apisense.com/apisense-snapshot'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
 }
 
 dependencies {
@@ -27,6 +34,10 @@ dependencies {
     compile ('com.google.android.gms:play-services:3.2.25') {
         exclude module: 'support-v4'
     }
+
+
+    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '+', ext: 'aar')
+
 
     // Sexy android-L support
     compile 'com.android.support:cardview-v7:+'
