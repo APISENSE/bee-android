@@ -6,13 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.apisense.bee.BeeApplication;
+import com.apisense.android.api.APS;
+import com.apisense.android.api.APSLocalCrop;
+import com.apisense.api.Callback;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
 
 /**
  * Shows detailed informations about a given available Experiment from the store
@@ -21,7 +20,7 @@ import fr.inria.bsense.appmodel.Experiment;
 public class StoreExperimentDetailsActivity extends Activity {
     private final String TAG = getClass().getSimpleName();
 
-    private Experiment experiment;
+    private APSLocalCrop experiment;
 
     TextView mExperimentName;
     TextView mExperimentOrganization;
@@ -59,11 +58,16 @@ public class StoreExperimentDetailsActivity extends Activity {
         // Experiment expe =  b.getParcelable("experiment");
         // TODO Send directly experiment instead of experimentSerializable when possible
         ExperimentSerializable experimentS  = (ExperimentSerializable) b.getSerializable("experiment");
-        experiment = APISENSE.apisServerService().getRemoteExperiment(experimentS.getName());
+        try {
+            experiment = APS.getCropDescription(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        experiment = APISENSE.apisServerService().getRemoteExperiment(experimentS.getName());
 
-        mExperimentName.setText(experiment.niceName);
-        mExperimentOrganization.setText(experiment.organization);
-        mExperimentVersion.setText(" - v" + experiment.version);
+        mExperimentName.setText(experiment.getNiceName());
+        mExperimentOrganization.setText(experiment.getOrganisation());
+        mExperimentVersion.setText(" - v" + experiment.getVersion());
     }
 
     @Override
@@ -78,7 +82,7 @@ public class StoreExperimentDetailsActivity extends Activity {
 
     private void updateSubscriptionMenu(){
         // TODO: Change to API method when available (isSubscribedExperiment)
-        if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
+        if (!SubscribeUnsubscribeExperimentTask.isInstalled(this, experiment.getName())) {
             mSubscribeButton.setTitle(getString(R.string.action_subscribe));
         } else {
             mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
@@ -95,36 +99,34 @@ public class StoreExperimentDetailsActivity extends Activity {
 
     public void doSubscribeUnsubscribe(MenuItem item) {
         if (experimentChangeSubscriptionStatus == null) {
-            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new OnExperimentSubscriptionChanged());
-            experimentChangeSubscriptionStatus.execute(experiment);
+            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(getApplicationContext(), new OnExperimentSubscriptionChanged());
+            experimentChangeSubscriptionStatus.execute(experiment.getName());
         }
     }
 
-    private class OnExperimentSubscriptionChanged implements AsyncTasksCallbacks {
+    private class OnExperimentSubscriptionChanged implements Callback<Integer> {
 
         @Override
-        public void onTaskCompleted(int result, Object response) {
+        public void onCall(Integer response) throws Exception {
             experimentChangeSubscriptionStatus = null;
-            String experimentName = experiment.niceName;
+            String experimentName = experiment.getNiceName();
             String toastMessage = "";
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch ((Integer) response){
-                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
-                        toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-                        updateSubscriptionMenu();
-                        break;
-                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
-                        toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
-                        updateSubscriptionMenu();
-                        break;
-                }
-                // User feedback
-                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            switch (response){
+                case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
+                    toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                    updateSubscriptionMenu();
+                    break;
+                case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
+                    toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
+                    updateSubscriptionMenu();
+                    break;
             }
+            // User feedback
+            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onTaskCanceled() {
+        public void onError(Throwable throwable) {
             experimentChangeSubscriptionStatus = null;
         }
     }

@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.SlideshowActivity;
-import fr.inria.bsense.APISENSE;
 
 public class SignInFragment extends Fragment {
 

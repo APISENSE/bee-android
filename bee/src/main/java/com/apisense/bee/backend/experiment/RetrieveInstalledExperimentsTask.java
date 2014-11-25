@@ -1,52 +1,43 @@
 package com.apisense.bee.backend.experiment;
 
+import android.content.Context;
 import android.util.Log;
-import com.apisense.bee.BeeApplication;
-import com.apisense.bee.backend.AsyncTaskWithCallback;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import fr.inria.apislog.APISLog;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
-import fr.inria.bsense.service.BSenseMobileService;
-import fr.inria.bsense.service.BSenseServerService;
-import fr.inria.bsense.service.BeeSenseServiceManager;
+import com.apisense.android.api.APS;
+import com.apisense.api.Callback;
+import com.apisense.api.LocalCrop;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Task to fetch every experiment installed (i.e. subscribed) by the user.
  *
  */
-public class RetrieveInstalledExperimentsTask extends AsyncTaskWithCallback<Void, Void, List<Experiment>> {
+public class RetrieveInstalledExperimentsTask {
     private final String TAG = this.getClass().getSimpleName();
+    private Context context;
+    private Callback<List<LocalCrop>> listener;
 
-    private final BSenseMobileService mobService;
-    private final BSenseServerService servService;
-
-    public RetrieveInstalledExperimentsTask(BeeSenseServiceManager apiService, AsyncTasksCallbacks listener) {
-        super(listener);
-        mobService = apiService.getBSenseMobileService();
-        servService = apiService.getBSenseServerService();
+    public RetrieveInstalledExperimentsTask(Context context, Callback<List<LocalCrop>> listener) {
+        this.context = context;
+        this.listener = listener;
     }
 
-    @Override
-    protected List<Experiment> doInBackground(Void... params) {
-        List<Experiment> returnedExperiments = new ArrayList<Experiment>();;
-
-        // Only retrieve installed experiments
-        Map<String, Experiment> gotExperiments = mobService.getInstalledExperiments();
+    public void execute() {
         try {
-            Collection exp = gotExperiments.values();
-            returnedExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);
-        } catch (NullPointerException e) {
-            APISLog.send(e, APISLog.ERROR);
+            List<String> returnIds = APS.getInstalledCrop(context);
+            for (String exp: returnIds) {
+                Log.i(TAG, exp);
+            }
+            List<LocalCrop> gotCrops =retrieveLocalCrops(returnIds);
+            this.listener.onCall(gotCrops);
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.listener.onError(e);
         }
-        this.errcode = BeeApplication.ASYNC_SUCCESS;
+    }
 
-        Log.d(TAG, "List of experiments returned: " + returnedExperiments.toString());
-        return returnedExperiments;
+    private List<LocalCrop> retrieveLocalCrops(List<String> ids){
+        return new ArrayList<LocalCrop>();
     }
 }

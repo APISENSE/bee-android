@@ -20,22 +20,14 @@ public class LauncherActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         // setup APISENSE SDK
         APS.ready((APSApplication) getApplicationContext(), new Callback<Void>() {
+
             @Override
             public void onCall(Void aVoid) throws Exception {
-
-                // SDK is ready
                 if (APS.isConnected(getBaseContext())){
-                    // user is already connected
-                    //  TODO launch crop activity
-
+                    startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
                 }else{
-
-
-                    // start login activity
                     startActivityForResult(new Intent(getBaseContext(), SlideshowActivity.class), LOGIN_REQUEST);
                 }
             }
@@ -63,14 +55,12 @@ public class LauncherActivity extends Activity {
                 Log.e(throwable);
                 Toast.makeText(getBaseContext(),"Error : "+throwable.getMessage(),Toast.LENGTH_LONG).show();
 
-
                 final Intent intent = new Intent(getBaseContext(), SlideshowActivity.class);
                 intent.putExtra("goTo",page);
 
                 startActivityForResult(intent, LOGIN_REQUEST);
             }
         });
-
     }
 
     @Override

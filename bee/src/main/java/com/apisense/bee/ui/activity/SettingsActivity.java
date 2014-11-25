@@ -1,10 +1,10 @@
 package com.apisense.bee.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
@@ -12,13 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.apisense.android.api.APS;
+import com.apisense.api.Callback;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.SignOutTask;
-import fr.inria.bsense.APISENSE;
 import net.hockeyapp.android.CheckUpdateTask;
 
-public class SettingsActivity extends FragmentActivity {
+public class SettingsActivity extends Activity {
 
     private final String TAG = "SettingsActivity";
 
@@ -51,7 +51,7 @@ public class SettingsActivity extends FragmentActivity {
         mLogoutButton = (Button) findViewById(R.id.settings_logout);
         mRegisterButton = (Button) findViewById(R.id.settings_register);
         
-        mUpgradeButton.setOnClickListener(updateEvent);
+//        mUpgradeButton.setOnClickListener(updateEvent);
         mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
 
         if (!isUserAuthenticated()) {
@@ -74,35 +74,35 @@ public class SettingsActivity extends FragmentActivity {
         @Override
         public void onClick(View v) {
             if (signOut == null) {
-                signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
+                signOut = new SignOutTask(getApplicationContext(), new SignedOutCallback());
                 signOut.execute();
             }
         };
     };
 
-    /**
-     * Click event for update
-     */
-    private final View.OnClickListener updateEvent = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-           checkUpdateTask = (CheckUpdateTask) getLastCustomNonConfigurationInstance();
-            if (checkUpdateTask != null)
-                checkUpdateTask.attach(SettingsActivity.this);
-            else {
-                checkUpdateTask = new CheckUpdateTask(SettingsActivity.this, "http://download.apisense.fr/", "Bee");
-                checkUpdateTask.execute();
-            }
-            Toast.makeText(getBaseContext(), "Clicked on update detected", Toast.LENGTH_SHORT).show();
-        };
-    };
-
-    @Override
-    public Object onRetainCustomNonConfigurationInstance() {
-        if(checkUpdateTask!=null)
-            checkUpdateTask.detach();
-        return checkUpdateTask;
-    }
+//    /**
+//     * Click event for update
+//     */
+//    private final View.OnClickListener updateEvent = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            checkUpdateTask = (CheckUpdateTask) getLastCustomNonConfigurationInstance();
+//            if (checkUpdateTask != null)
+//                checkUpdateTask.attach(SettingsActivity.this);
+//            else {
+//                checkUpdateTask = new CheckUpdateTask(SettingsActivity.this, "http://download.apisense.fr/", "Bee");
+//                checkUpdateTask.execute();
+//            }
+//            Toast.makeText(getBaseContext(), "Clicked on update detected", Toast.LENGTH_SHORT).show();
+//        };
+//    };
+//
+//    @Override
+//    public Object onRetainCustomNonConfigurationInstance() {
+//        if(checkUpdateTask!=null)
+//            checkUpdateTask.detach();
+//        return checkUpdateTask;
+//    }
 
     /**
      * Helper to get the app version info
@@ -119,9 +119,9 @@ public class SettingsActivity extends FragmentActivity {
         return null;
     }
 
-    public class SignedOutCallback implements AsyncTasksCallbacks {
+    public class SignedOutCallback implements Callback<Void> {
         @Override
-        public void onTaskCompleted(int result, Object response) {
+        public void onCall(Void aVoid) throws Exception {
             signOut = null;
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SettingsActivity.this, SlideshowActivity.class);
@@ -130,12 +130,18 @@ public class SettingsActivity extends FragmentActivity {
         }
 
         @Override
-        public void onTaskCanceled() {
+        public void onError(Throwable throwable) {
             signOut = null;
         }
     }
+
     private boolean isUserAuthenticated() {
-        return APISENSE.apisServerService().isConnected();
+        try {
+            return APS.isConnected(getApplicationContext());
+        } catch (APS.SDKNotInitializedException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

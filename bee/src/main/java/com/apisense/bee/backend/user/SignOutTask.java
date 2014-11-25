@@ -1,45 +1,32 @@
 package com.apisense.bee.backend.user;
 
-import com.apisense.bee.BeeApplication;
-import com.apisense.bee.backend.AsyncTaskWithCallback;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import fr.inria.apislog.APISLog;
-import fr.inria.bsense.appmodel.Experiment;
-import fr.inria.bsense.service.BSenseMobileService;
-import fr.inria.bsense.service.BSenseServerService;
-import fr.inria.bsense.service.BeeSenseServiceManager;
+import android.content.Context;
+import com.apisense.android.api.APS;
+import com.apisense.api.Callback;
+import com.apisense.api.Log;
 
 /**
- * Represents an asynchronous Sign out task used to de-authenticate the user.
- *
- */
-public class SignOutTask extends AsyncTaskWithCallback<String, Void, String> {
+* Represents an asynchronous Sign out task used to de-authenticate the user.
+*
+*/
+public class SignOutTask {
     private final String TAG = this.getClass().getSimpleName();
-    private final BSenseMobileService mobService;
-    private final BSenseServerService servService;
+    private Context context;
+    private Callback<Void> listener;
 
-    public SignOutTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener) {
-        super(listener);
-        mobService = apiServices.getBSenseMobileService();
-        servService = apiServices.getBSenseServerService();
+    public SignOutTask(Context context, Callback<Void> listener) {
+        this.context = context;
+        this.listener = listener;
     }
 
-    @Override
-    protected String doInBackground(String... params) {
-        this.errcode = BeeApplication.ASYNC_SUCCESS;
-        String details = "";
+    public void execute() {
         try {
-            mobService.sendAllTrack();
-            mobService.stopAllExperiments(0);
-            for(Experiment xp: mobService.getInstalledExperiments().values())
-                mobService.uninstallExperiment(xp);
+            APS.disconnect(context);
+            listener.onCall(null);
         } catch (Exception e) {
             e.printStackTrace();
-            details = e.getMessage();
-            APISLog.send(e, APISLog.ERROR);
-            this.errcode = BeeApplication.ASYNC_SUCCESS;
+            Log.e(e);
+            listener.onError(e);
         }
-        servService.disconnect();
-        return details;
     }
 }

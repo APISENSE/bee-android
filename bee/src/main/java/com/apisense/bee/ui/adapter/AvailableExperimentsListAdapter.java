@@ -11,43 +11,28 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+import com.apisense.api.Crop;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
-import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
+public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
     private final String TAG = getClass().getSimpleName();
 
-    private List<Experiment> data;
-    private List<Experiment> filteredData;
-
-
-    /**
-     * Constructor
-     *
-     * @param context
-     * @param layoutResourceId
-     */
-    public AvailableExperimentsListAdapter(Context context, int layoutResourceId) {
-        super(context, layoutResourceId);
-    }
+    private List<Crop> data;
+    private List<Crop> filteredData;
 
     /**
      * Constructor
-     *
-     * @param context
+     *  @param context
      * @param layoutResourceId
      * @param experiments
-     *            list of experiments
      */
-    public AvailableExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
+    public AvailableExperimentsListAdapter(Context context, int layoutResourceId, ArrayList<Crop> experiments) {
         super(context, layoutResourceId, experiments);
-        Log.i(TAG, "List size : " + experiments.size());
-        data = experiments;
-        filteredData = experiments;
+        setDataSet(experiments);
     }
 
     /**
@@ -55,9 +40,11 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param dataSet
      */
-    public void setDataSet(List<Experiment> dataSet){
+    public void setDataSet(List<Crop> dataSet){
+        Log.i(TAG, "List size : " + dataSet.size());
         this.data = dataSet;
         this.filteredData = dataSet;
+        notifyDataSetChanged();
     }
 
     /**
@@ -78,7 +65,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      * @return an experiment
      */
     @Override
-    public Experiment getItem(int position) {
+    public Crop getItem(int position) {
         return filteredData.get(position);
     }
 
@@ -91,7 +78,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      */
     @Override
     public long getItemId(int position) {
-        return Long.valueOf(getItem(position).id);
+        return Long.valueOf(getItem(position).getName());
     }
 
     /**
@@ -102,24 +89,24 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        Experiment item = getItem(position);
+        Crop item = getItem(position);
 
-        Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
+        Log.v(TAG, "View asked (as a listItem) for Crop: " + item);
 
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
-        title.setText(item.niceName);
+        title.setText(item.getNiceName());
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" by " + item.organization);
+//        company.setText(" by " + item.organization);
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        String decode = new String(Base64.decode(item.description.getBytes(), Base64.DEFAULT));
+        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
         description.setText(decode);
 
         // Contains a background color associated to current status
         View status = convertView.findViewById(R.id.item);
-        if (SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(item)){
+        if (SubscribeUnsubscribeExperimentTask.isInstalled(getContext(), item.getName())){
             showAsSubscribed(status);
         } else {
             showAsUnsubscribed(status);
@@ -147,18 +134,18 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
                 String filterString = constraint.toString().toLowerCase();
                 FilterResults results = new FilterResults();
 
-                final List<Experiment> items = data;
+                final List<Crop> items = data;
 
                 int count = items.size();
-                final ArrayList<Experiment> newItems = new ArrayList<Experiment>(count);
+                final ArrayList<Crop> newItems = new ArrayList<Crop>(count);
 
-                Experiment filterableExperiment;
+                Crop filterableCrop;
 
                 if (TextUtils.isEmpty(constraint)) {
-                    for (Experiment exp : items) newItems.add(exp);
+                    for (Crop exp : items) newItems.add(exp);
                 } else {
-                    for (Experiment exp : items) {
-                        if (exp.niceName.toLowerCase().contains(filterString)) {
+                    for (Crop exp : items) {
+                        if (exp.getNiceName().toLowerCase().contains(filterString)) {
                             newItems.add(exp);
                         }
                     }
@@ -173,7 +160,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredData = (ArrayList<Experiment>) results.values;
+                filteredData = (ArrayList<Crop>) results.values;
                 notifyDataSetChanged();
             }
 
