@@ -54,7 +54,6 @@ public class LauncherActivity extends Activity {
             public void onError(Throwable throwable) {
                 Log.e(throwable);
                 Toast.makeText(getBaseContext(),"Error : "+throwable.getMessage(),Toast.LENGTH_LONG).show();
-
                 final Intent intent = new Intent(getBaseContext(), SlideshowActivity.class);
                 intent.putExtra("goTo",page);
 
@@ -68,6 +67,7 @@ public class LauncherActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == LOGIN_REQUEST){
             if (resultCode == RESULT_OK){
 
