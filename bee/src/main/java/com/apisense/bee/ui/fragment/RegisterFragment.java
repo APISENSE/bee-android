@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.user.RegisterTask;
+import com.apisense.bee.ui.activity.SlideshowActivity;
 
 public class RegisterFragment extends Fragment {
 
@@ -85,7 +86,9 @@ public class RegisterFragment extends Fragment {
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email, missing fields, etc.), the errors are presented and no actual login attempt is made.
+     * Attempts to sign in or register the account specified by the login form.
+     * If there are form errors (invalid email, missing fields, etc.),
+     * the errors are presented and no actual login attempt is made.
      */
     public Intent attemptRegister() {
         Intent intent = new Intent();
@@ -129,11 +132,10 @@ public class RegisterFragment extends Fragment {
             // form field with an error.
             focusView.requestFocus();
         else {
-            // TODO: Use Constants to set extra
-            intent.putExtra("action", "register");
-            intent.putExtra("login", pseudo);
-            intent.putExtra("password", password);
-            intent.putExtra("url", apisenseUrl);
+            intent.putExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION,SlideshowActivity.REGISTER_ACTION);
+            intent.putExtra(SlideshowActivity.REGISTER_PSEUDO, pseudo);
+            intent.putExtra(SlideshowActivity.REGISTER_PSEUDO, password);
+            intent.putExtra(SlideshowActivity.REGISTER_URL, apisenseUrl);
         }
         return intent;
     }

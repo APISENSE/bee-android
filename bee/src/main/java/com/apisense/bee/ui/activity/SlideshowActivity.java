@@ -17,6 +17,24 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 public class SlideshowActivity extends FragmentActivity {
 
+    final public static String KEY_AUTHENTICATION_ACTION = "apisense.authentication.key";
+
+    final public static String LOGIN_ANONYMOUS_ACTION = "apisense.anonymous.action";
+
+    final public static String LOGIN_ACTION = "apisense.signin.action";
+
+    final public static String LOGIN_PSEUDO= "apisense.signin.login";
+
+    final public static String LOGIN_PWD = "apisense.signin.pwd";
+
+    final public static String REGISTER_ACTION = "apisense.register.action";
+
+    final public static String REGISTER_PSEUDO = "apisense.register.pseudo";
+
+    final public static String REGISTER_PWD = "apisense.register.pwd";
+
+    final public static String REGISTER_URL = "apisense.register.url";
+
     /**
      * The number of pages (wizard steps) to show
      * Be careful if you are adding some slides, button listeners may not match
@@ -24,11 +42,11 @@ public class SlideshowActivity extends FragmentActivity {
     private static final int NUM_PAGES = 5;
 
     /* Page order */
-    private final static int SIGNIN = 0;
-    private final static int WHAT = 1;
-    private final static int HOW = 2;
-    private final static int REWARD = 3;
-    private final static int REGISTER = 4;
+    public final static int SIGNIN = 0;
+    public final static int WHAT = 1;
+    public final static int HOW = 2;
+    public final static int REWARD = 3;
+    public final static int REGISTER = 4;
 
     private ViewPager mPager;
 
@@ -50,12 +68,11 @@ public class SlideshowActivity extends FragmentActivity {
         // Check if we are coming from Anonymous HomeActivity
         try {
             Intent intent = getIntent(); // gets the previously created intent
-            String destination = intent.getStringExtra("goTo");
-            if (destination.equals("register")) {
-                mPager.setCurrentItem(REGISTER); // Coming from an other activity
-            } else {
-                mPager.setCurrentItem(WHAT); // Default
-            }
+            Integer destination = intent.getIntExtra("goTo",WHAT);
+
+            mPager.setCurrentItem(destination); // Coming from an other activity
+
+
         } catch (NullPointerException e) {
             mPager.setCurrentItem(WHAT); // Launching the app
         }
@@ -93,7 +110,7 @@ public class SlideshowActivity extends FragmentActivity {
 
     private Intent generateSkipIntent() {
         Intent intent = new Intent();
-        intent.putExtra("action", "anonymousLogin");
+        intent.putExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION,SlideshowActivity.LOGIN_ANONYMOUS_ACTION);
         return intent;
     }
 
