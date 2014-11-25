@@ -88,7 +88,6 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
     @Override
     public long getItemId(int position) {
         return position;
-//        return Long.valueOf(getItem(position).getName());
     }
 
     /**

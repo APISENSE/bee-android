@@ -54,6 +54,7 @@ public class LauncherActivity extends Activity {
             public void onError(Throwable throwable) {
                 Log.e(throwable);
                 Toast.makeText(getBaseContext(),"Error : "+throwable.getMessage(),Toast.LENGTH_LONG).show();
+
                 final Intent intent = new Intent(getBaseContext(), SlideshowActivity.class);
                 intent.putExtra("goTo",page);
 

@@ -1,14 +1,9 @@
 package com.apisense.bee.backend.experiment;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import com.apisense.android.APSApplication;
 import com.apisense.android.api.APS;
-import com.apisense.android.api.APSLocalCrop;
-import com.apisense.android.api.APSService;
 import com.apisense.api.Callback;
-import com.apisense.api.Crop;
 import com.apisense.api.LocalCrop;
 
 import java.util.ArrayList;
@@ -24,7 +19,7 @@ public class RetrieveInstalledExperimentsTask {
     private Callback<List<LocalCrop>> listener;
 
     public RetrieveInstalledExperimentsTask(Context context, Callback<List<LocalCrop>> listener) {
-        this.context = context.getApplicationContext();
+        this.context = context;
         this.listener = listener;
     }
 

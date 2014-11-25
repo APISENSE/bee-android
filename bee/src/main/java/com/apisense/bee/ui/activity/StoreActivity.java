@@ -116,8 +116,6 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         return false;
     }
 
-    // - - - - - - - - - - - - -
-
     // Callbacks definitions
 
     private class OnExperimentsRetrieved implements Callback<List<Crop>> {

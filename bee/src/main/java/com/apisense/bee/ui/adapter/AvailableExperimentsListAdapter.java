@@ -44,6 +44,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> 
     public void setDataSet(List<APSLocalCrop> dataSet){
         this.data = dataSet;
         this.filteredData = dataSet;
+        notifyDataSetChanged();
     }
 
     /**
@@ -77,8 +78,6 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> 
      */
     @Override
     public long getItemId(int position) {
-//        Long id = Long.valueOf(getItem(position).getId());
-//        Log.d(TAG, "ItemID asked ("+position+"), returned: " + id);
         return position;
     }
 
