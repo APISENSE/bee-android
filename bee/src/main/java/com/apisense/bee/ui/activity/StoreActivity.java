@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.apisense.api.Callback;
+import com.apisense.api.Crop;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
@@ -16,13 +18,9 @@ import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.backend.store.RetrieveExistingTagsTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;
 import java.util.List;
-// TODO: Think about index usage (when to load next 'page' of experiment)
-// TODO: Think about Tags usage (Server filter is better)
 
 public class StoreActivity extends Activity implements SearchView.OnQueryTextListener {
     private final String TAG = getClass().getSimpleName();
@@ -39,6 +37,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     private RetrieveExistingTagsTask tagsRetrieval;
     private RetrieveAvailableExperimentsTask experimentsRetrieval;
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
+
     private String currentTabTag;
 
     // sliding menu
@@ -52,11 +51,15 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
 
         actionBar = getActionBar();
 
-        // Setting up available experiments list behavior
-        experimentsAdapter = new AvailableExperimentsListAdapter(getBaseContext(),
-                                                                  R.layout.fragment_experiment_store_element,
-                                                                  new ArrayList<Experiment>());
-        ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiment_lists);
+        setUpAvailableCropsList();
+    }
+
+    private void setUpAvailableCropsList() {
+        experimentsAdapter = new AvailableExperimentsListAdapter(this,
+                                                                 R.layout.fragment_experiment_store_element,
+                                                                 new ArrayList<Crop>());
+
+        ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiments_list);
         subscribedExperiments.setEmptyView(findViewById(R.id.store_empty_list));
         subscribedExperiments.setAdapter(experimentsAdapter);
         subscribedExperiments.setOnItemClickListener(new OpenExperimentDetailsListener());
@@ -80,7 +83,6 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     }
 
     private void setupSearchView(MenuItem searchItem) {
-
         if (isAlwaysExpanded()) {
             mSearchView.setIconifiedByDefault(false);
         } else {
@@ -101,7 +103,6 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
             }
             mSearchView.setSearchableInfo(info);
         }
-
         mSearchView.setOnQueryTextListener(this);
     }
 
@@ -136,33 +137,22 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         }
     }
 
-
-    /**
-     * Change the adapter dataSet with a newly fetched List of Experiment
-     *
-     * @param experiments The new list of experiments to show
-     */
-    public void setExperiments(List<Experiment> experiments) {
-        this.experimentsAdapter.setDataSet(experiments);
-    }
-
-
     // Callbacks definitions
 
-    private class OnExperimentsRetrieved implements AsyncTasksCallbacks {
+    private class OnExperimentsRetrieved implements Callback<List<Crop>> {
+
         @Override
-        public void onTaskCompleted(int result, Object response) {
+        public void onCall(List<Crop> crops) throws Exception {
             experimentsRetrieval = null;
-            List<Experiment> exp = (List<Experiment>) response;
-            Log.i(TAG, "Number of Active Experiments: " + exp.size());
+            Log.i(TAG, "Number of Active Experiments: " + crops.size());
 
             // Updating listview
-            setExperiments(exp);
+            experimentsAdapter.setDataSet(crops);
             experimentsAdapter.notifyDataSetChanged();
         }
 
         @Override
-        public void onTaskCanceled() {
+        public void onError(Throwable throwable) {
             experimentsRetrieval = null;
         }
     }
@@ -265,13 +255,13 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
            if (!newTag.equals(currentTabTag)) {
                Log.i(TAG, "New Tab selected: " + newTag);
                // Canceling last task if request is still active
-               if (experimentsRetrieval != null) {
-                   experimentsRetrieval.cancel(true);
-               }
+//               if (experimentsRetrieval != null) {
+//                   experimentsRetrieval.cancel(true);
+//               }
                // Creating new request to retrieve Experiments
                if (experimentsRetrieval == null) {
-                   experimentsRetrieval = new RetrieveAvailableExperimentsTask(APISENSE.apisense(), new OnExperimentsRetrieved());
-                   experimentsRetrieval.execute(currentTabTag);
+                   experimentsRetrieval = new RetrieveAvailableExperimentsTask(getApplicationContext(), new OnExperimentsRetrieved());
+                   experimentsRetrieval.execute();
                    currentTabTag = newTag;
                }
            }
@@ -290,7 +280,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), StoreExperimentDetailsActivity.class);
-            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
+            Crop exp = (Crop) parent.getAdapter().getItem(position);
 
             Bundle bundle = new Bundle();
             // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
@@ -305,10 +295,10 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     private class SubscriptionListener implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
+            Crop exp = (Crop) parent.getAdapter().getItem(position);
             if (experimentChangeSubscriptionStatus == null){
-                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new onExperimentSubscriptionChanged(view));
-                experimentChangeSubscriptionStatus.execute(exp);
+//                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new onExperimentSubscriptionChanged(view));
+//                experimentChangeSubscriptionStatus.execute(exp);
             }
             return true;
         }

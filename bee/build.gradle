@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 repositories {
     jcenter()
     mavenCentral()
-    mavenLocal()
     maven {
       url 'http://repo.apisense.com/apisense'
       credentials {
@@ -24,20 +23,20 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // APISENSE dependencies
-    compile 'fr.inria.apisense:apisense-library:2.1.0'
-    compile 'fr.inria.asl:asl:2.1.0@pom'
-    compile 'fr.inria.asl:asl-interpreter-javascript:2.1.0'
-    compile 'fr.inria.asl:asl-node-android-facade:2.1.0'
+//    compile 'fr.inria.apisense:apisense-library:2.1.0'
+//    compile 'fr.inria.asl:asl:2.1.0@pom'
+//    compile 'fr.inria.asl:asl-interpreter-javascript:2.1.0'
+//    compile 'fr.inria.asl:asl-node-android-facade:2.1.0'
 
     compile 'com.viewpagerindicator:library:2.4.1'
     compile project(':lib:hockeykit')
 
     compile ('com.google.android.gms:play-services:3.2.25') {
-        exclude module: 'support-v4'
+//        exclude module: 'support-v4'
     }
 
 
-    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '+', ext: 'aar'){
+    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '3.0.0+', ext: 'aar'){
         transitive = true
         exclude group : 'com.google.android.gms'
     }

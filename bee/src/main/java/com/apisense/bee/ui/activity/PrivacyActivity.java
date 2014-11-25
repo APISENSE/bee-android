@@ -13,9 +13,6 @@ import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.adapter.PrivacyGridAdapter;
 import com.apisense.bee.ui.entity.PrivacyGridItem;
-import fr.inria.asl.facade.IFacade;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.service.BeeSenseServiceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +31,13 @@ public class PrivacyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy);
 
-        for (Class<? extends IFacade> facade : APISENSE.apisense().getPrivacyFacade()){
-            final String[] description = BeeSenseServiceManager.getPrivcayFacadeInfo(facade);
-            if(description[2] == null)
-                sensor.add(new PrivacyGridItem(description[0], R.drawable.ic_sensor_on, R.drawable.ic_sensor_off, true));
-            else
-                sensor.add(new PrivacyGridItem(description[0], Integer.valueOf(description[2]), Integer.valueOf(description[3]), true));
-        }
+//        for (Class<? extends IFacade> facade : APISENSE.apisense().getPrivacyFacade()){
+//            final String[] description = BeeSenseServiceManager.getPrivcayFacadeInfo(facade);
+//            if(description[2] == null)
+//                sensor.add(new PrivacyGridItem(description[0], R.drawable.ic_sensor_on, R.drawable.ic_sensor_off, true));
+//            else
+//                sensor.add(new PrivacyGridItem(description[0], Integer.valueOf(description[2]), Integer.valueOf(description[3]), true));
+//        }
 
         sensorGridAdapter = new PrivacyGridAdapter(this, sensor);
         sensorGridView = (GridView) findViewById(R.id.privacy_sensor_grid);

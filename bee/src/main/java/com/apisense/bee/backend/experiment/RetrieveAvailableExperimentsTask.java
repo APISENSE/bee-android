@@ -1,60 +1,48 @@
 package com.apisense.bee.backend.experiment;
 
+import android.content.Context;
 import android.util.Log;
-import com.apisense.bee.BeeApplication;
-import com.apisense.bee.backend.AsyncTaskWithCallback;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import fr.inria.apislog.APISLog;
-import fr.inria.bsense.appmodel.Experiment;
-import fr.inria.bsense.service.BSenseServerService;
-import fr.inria.bsense.service.BeeSenseServiceManager;
+import com.apisense.android.api.APS;
+import com.apisense.android.api.APSRequest;
+import com.apisense.api.Callback;
+import com.apisense.api.Crop;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
 
 /**
  * Task to fetch every experiment available to the user.
  *
  */
-public class RetrieveAvailableExperimentsTask extends AsyncTaskWithCallback<String, Void, List<Experiment>> {
+public class RetrieveAvailableExperimentsTask {
     private final String TAG = this.getClass().getSimpleName();
 
-    // Todo: Change types with API.
-    private final static String RETURN_SIZE = "300";
-    private final BSenseServerService servService;
+    private final Callback<List<Crop>> listener;
+    private final Context context;
 
-    private String index = "0";
-
-    public RetrieveAvailableExperimentsTask(BeeSenseServiceManager apiService, AsyncTasksCallbacks listener) {
-        super(listener);
-        this.servService = apiService.getBSenseServerService();
+    public RetrieveAvailableExperimentsTask(Context context, Callback<List<Crop>> listener) {
+        this.context = context;
+        this.listener = listener;
     }
 
-    public void setIndex(int index){
-        this.index = Integer.toString(index);
+    public void execute(){
+        execute("");
     }
 
-    @Override
-    protected List<Experiment> doInBackground(String... params) {
-        List<Experiment> gotExperiments;
-        List<String> filters = Arrays.asList(params);
-        Log.d(TAG, "Got Filters: " + filters);
-
-        // TODO: Use filter to... filter
+    public void execute(String filter) {
+        List<Crop> gotExperiments;
+        Log.d(TAG, "Got Filter: " + filter);
+        APSRequest<List<Crop>> request;
         try {
-            servService.searchRemoteExperiment(index, RETURN_SIZE);
-            gotExperiments = servService.getRemoteExperiments();
-            gotExperiments = (gotExperiments != null)? gotExperiments : new ArrayList<Experiment>();
-            this.errcode = BeeApplication.ASYNC_SUCCESS;
+            if (filter == null || filter.isEmpty()){
+                request = APS.fetchCrop(context);
+            } else {
+                request = APS.fetchCrop(context, filter);
+            }
+            request.setCallback(listener);
         } catch (Exception e) {
             Log.e(TAG, "Error while retrieving available experiments: " + e.getMessage());
-            APISLog.send(e, APISLog.ERROR);
-            gotExperiments = new ArrayList<Experiment>();
-            this.errcode = BeeApplication.ASYNC_ERROR;
         }
-        Log.d(TAG, "List of experiments returned: " + gotExperiments.toString());
-        return gotExperiments;
     }
 
 }

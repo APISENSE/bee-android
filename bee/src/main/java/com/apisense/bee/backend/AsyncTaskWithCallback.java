@@ -2,9 +2,6 @@ package com.apisense.bee.backend;
 
 import android.os.AsyncTask;
 import com.apisense.bee.BeeApplication;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
 
 /**
  * Represents an asynchronous tasks that need postExecution dependent on the UI.

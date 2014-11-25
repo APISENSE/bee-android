@@ -1,7 +1,6 @@
 package com.apisense.bee.ui.entity;
 
-import fr.inria.bsense.appmodel.Experiment;
-import org.json.JSONException;
+import com.apisense.api.Crop;
 
 import java.io.Serializable;
 
@@ -27,26 +26,26 @@ public class ExperimentSerializable implements Serializable {
     private Boolean storedState;
     private String json;
 
-    public ExperimentSerializable(Experiment exp) {
-        name = exp.name;
-        niceName = exp.niceName;
-        description = exp.description;
-        copyright = exp.copyright;
-        type = exp.type;
-        version = exp.version;
-        main = exp.main;
-        organization = exp.organization;
-        orgDescription = exp.orgDescription;
-        id = exp.id;
-        language = exp.language;
-        collector = exp.collector;
-        baseUrl = exp.baseUrl;
-        remoteState = exp.remoteState;
-        userId = exp.userId;
-        path = exp.path;
-        state = exp.state;
-        storedState = exp.storedState;
-        json = exp.json;
+    public ExperimentSerializable(Crop exp) {
+        name = exp.getName();
+        niceName = exp.getNiceName();
+        description = exp.getDescription();
+//        copyright = exp.copyright;
+//        type = exp.type;
+//        version = exp.version;
+//        main = exp.main;
+//        organization = exp.organization;
+//        orgDescription = exp.orgDescription;
+        id = exp.getName();
+//        language = exp.language;
+//        collector = exp.collector;
+//        baseUrl = exp.baseUrl;
+//        remoteState = exp.remoteState;
+//        userId = exp.userId;
+//        path = exp.path;
+//        state = exp.state;
+//        storedState = exp.storedState;
+//        json = exp.json;
     }
 
     public String toString() {

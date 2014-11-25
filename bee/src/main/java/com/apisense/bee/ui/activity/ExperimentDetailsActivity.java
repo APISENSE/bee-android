@@ -8,6 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.apisense.android.api.APS;
+import com.apisense.android.api.APSLocalCrop;
+import com.apisense.api.Callback;
+import com.apisense.api.Crop;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
@@ -21,21 +25,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import fr.inria.apislog.APISLog;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
 import org.json.JSONException;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Map;
+import java.util.*;
 
 public class ExperimentDetailsActivity extends Activity {
 
     private static String TAG = "Experiment Details Activity";
 
-    private Experiment experiment;
+    private APSLocalCrop experiment;
 
     private CardView mMapCardView;
 
@@ -130,13 +128,13 @@ public class ExperimentDetailsActivity extends Activity {
         // TODO Send directly experiment instead of experimentSerializable when possible
         ExperimentSerializable experimentS  = (ExperimentSerializable) b.getSerializable("experiment");
         try {
-            experiment = APISENSE.apisMobileService().getExperiment(experimentS.getName());
-        } catch (JSONException e) {
+            experiment = APS.getCropDescription(this);
+        } catch (Exception e) {
             e.printStackTrace();
-            APISLog.send(e, APISLog.ERROR);
+            Log.e(TAG, e.toString());
         }
 
-        mExperimentName.setText(experiment.niceName);
+        mExperimentName.setText(experiment.getNiceName());
         mExperimentOrganization.setText(experiment.organization);
         mExperimentVersion.setText(" - v" + experiment.version);
     }
@@ -152,7 +150,8 @@ public class ExperimentDetailsActivity extends Activity {
             traces = new ArrayList<Long>();
             final Calendar currentCalendar = new GregorianCalendar();
 
-            final Map<String, Object>[] stats = APISENSE.statistic().readUploadStatistic(experiment.name);
+            final List<Map<String, Object>> stats = new ArrayList<Map<String, Object>>();
+             // APISENSE.statistic().readUploadStatistic(experiment.name);
             for (Map<String,Object> stat : stats){
                 final String[] uploadTime = stat.get("date").toString().split("-");
                 final Calendar uploadCalandar = new GregorianCalendar(
@@ -168,8 +167,7 @@ public class ExperimentDetailsActivity extends Activity {
             }
             graph.updateGraphWith(traces);
         } catch (Exception ex) {
-            Log.i(TAG, "statistics not available for the experiment " + experiment.name);
-            APISLog.send(ex, APISLog.WARNING);
+            Log.i(TAG, "statistics not available for the experiment " + experiment.getName());
         }
     }
 
@@ -178,7 +176,7 @@ public class ExperimentDetailsActivity extends Activity {
 
     private void updateSubscriptionMenu() {
         // TODO: Change to API method when available (isSubscribedExperiment)
-        if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
+        if (!SubscribeUnsubscribeExperimentTask.isInstalled(getApplicationContext(), experiment.getName())) {
             mSubscribeButton.setTitle(getString(R.string.action_subscribe));
         } else {
             mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
@@ -198,73 +196,70 @@ public class ExperimentDetailsActivity extends Activity {
 
     public void doStartStop(MenuItem item) {
         if (experimentStartStopTask == null) {
-            experimentStartStopTask = new StartStopExperimentTask(APISENSE.apisense(), new OnExperimentExecutionStatusChanged());
-            experimentStartStopTask.execute(experiment);
+            experimentStartStopTask = new StartStopExperimentTask(getApplicationContext(), new OnExperimentExecutionStatusChanged());
+            experimentStartStopTask.execute(experiment.getName());
         }
     }
 
     public void doSubscribeUnsubscribe(MenuItem item) {
         if (experimentChangeSubscriptionStatus == null) {
-            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new OnExperimentSubscriptionChanged());
-            experimentChangeSubscriptionStatus.execute(experiment);
+            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(getApplicationContext(), new OnExperimentSubscriptionChanged());
+            experimentChangeSubscriptionStatus.execute(experiment.getName());
         }
     }
 
     // Callbacks
 
-    private class OnExperimentExecutionStatusChanged implements AsyncTasksCallbacks {
+    private class OnExperimentExecutionStatusChanged implements Callback<Integer> {
+
         @Override
-        public void onTaskCompleted(int result, Object response) {
+        public void onCall(Integer response) throws Exception {
             experimentStartStopTask = null;
             String toastMessage = "";
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch((Integer)response) {
+                switch(response) {
                     case StartStopExperimentTask.EXPERIMENT_STARTED:
                         graph.setActived();
-                        toastMessage = String.format(getString(R.string.experiment_started), experiment.niceName);
+                        toastMessage = String.format(getString(R.string.experiment_started), experiment.getNiceName());
                         break;
                     case StartStopExperimentTask.EXPERIMENT_STOPPED:
                         graph.setDeactived();
-                        toastMessage = String.format(getString(R.string.experiment_stopped), experiment.niceName);
+                        toastMessage = String.format(getString(R.string.experiment_stopped), experiment.getNiceName());
                         break;
                 }
                 Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
                 graph.updateGraphWith(traces);
                 updateStartMenu();
             }
-        }
 
         @Override
-        public void onTaskCanceled() {
+        public void onError(Throwable throwable) {
             experimentStartStopTask = null;
         }
     }
 
-    private class OnExperimentSubscriptionChanged implements AsyncTasksCallbacks {
+    private class OnExperimentSubscriptionChanged implements Callback<Integer> {
 
         @Override
-        public void onTaskCompleted(int result, Object response) {
+        public void onCall(Integer response) throws Exception {
             experimentChangeSubscriptionStatus = null;
-            String experimentName = experiment.niceName;
+            String experimentName = experiment.getNiceName();
             String toastMessage = "";
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch ((Integer) response){
-                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
-                        toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-                        updateSubscriptionMenu();
-                        break;
-                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
-                        toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
-                        updateSubscriptionMenu();
-                        break;
-                }
-                // User feedback
-                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            switch (response){
+                case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
+                    toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                    updateSubscriptionMenu();
+                    break;
+                case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
+                    toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
+                    updateSubscriptionMenu();
+                    break;
             }
+            // User feedback
+            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onTaskCanceled() {
+        public void onError(Throwable throwable) {
             experimentChangeSubscriptionStatus = null;
         }
     }

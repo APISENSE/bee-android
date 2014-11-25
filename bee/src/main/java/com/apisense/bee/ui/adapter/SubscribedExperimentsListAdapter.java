@@ -8,17 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.apisense.api.Crop;
+import com.apisense.api.LocalCrop;
 import com.apisense.bee.R;
-import fr.inria.bsense.appmodel.Experiment;
-import fr.inria.bsense.service.BeeSenseServiceManager;
+import com.google.android.gms.location.LocationRequest;
 
 import java.util.List;
 
-public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
+public class SubscribedExperimentsListAdapter extends ArrayAdapter<LocalCrop> {
     private final String TAG = getClass().getSimpleName();
 
-    private BeeSenseServiceManager apisense = null;
-    private List<Experiment> data;
+    private List<LocalCrop> data;
 
     /**
      * Constructor
@@ -39,7 +39,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      * @param experiments
      *            list of experiments
      */
-    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
+    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<LocalCrop> experiments) {
         super(context, layoutResourceId, experiments);
         //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
         this.setDataSet(experiments);
@@ -50,7 +50,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param dataSet
      */
-    public void setDataSet(List<Experiment> dataSet){
+    public void setDataSet(List<LocalCrop> dataSet){
         this.data = dataSet;
     }
 
@@ -72,7 +72,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      * @return an experiment
      */
     @Override
-    public Experiment getItem(int position) {
+    public LocalCrop getItem(int position) {
         return data.get(position);
     }
 
@@ -85,7 +85,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      */
     @Override
     public long getItemId(int position) {
-        return Long.valueOf(getItem(position).id);
+        return Long.valueOf(getItem(position).getName());
     }
 
     /**
@@ -96,42 +96,28 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        final Experiment item = getItem(position);
+        final Crop item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
-        title.setText(item.niceName);
+        title.setText(item.getNiceName());
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" " + getContext().getString(R.string.by) + " " + item.organization);
+//        company.setText(" " + getContext().getString(R.string.by) + " " + item.organization);
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        String decode = new String(Base64.decode(item.description.getBytes(), Base64.DEFAULT));
+        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
         description.setText(decode);
 
         TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
-        String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running) ;
-        textStatus.setText(" - " + state);
-
-//        convertView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(), ExperimentDetailsActivity.class);
-//
-//                Bundle bundle = new Bundle();
-//                // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
-//                // bundle.putParcelable("experiment", getItem(position));
-//                // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
-//                bundle.putSerializable("experiment", new ExperimentSerializable(item));
-//                intent.putExtras(bundle); //Put your id to your next Intent
-//                v.getContext().startActivity(intent);
-//            }
-//        });
+//        String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running) ;
+//        textStatus.setText(" - " + state);
 
         // Display state of the current experiment
         View status = convertView.findViewById(R.id.experiment_status);
-        if (item.state){
+//        if (item.state){
+        if (true) {
             showAsStarted(status);
         } else {
             showAsStopped(status);
