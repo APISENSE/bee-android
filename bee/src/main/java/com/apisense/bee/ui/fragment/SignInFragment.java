@@ -13,9 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.apisense.bee.R;
+import com.apisense.bee.ui.activity.SlideshowActivity;
 import fr.inria.bsense.APISENSE;
 
 public class SignInFragment extends Fragment {
+
+
 
     private EditText mPseudoEditText;
     private EditText mPasswordEditText;
@@ -80,10 +83,9 @@ public class SignInFragment extends Fragment {
 
     private Intent createLoginIntent(String login, String password) {
         Intent intent = new Intent();
-        // TODO: Use Constants to set extra
-        intent.putExtra("action", "login");
-        intent.putExtra("login", login);
-        intent.putExtra("password", password);
+        intent.putExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION,SlideshowActivity.LOGIN_ACTION);
+        intent.putExtra(SlideshowActivity.LOGIN_PSEUDO, login);
+        intent.putExtra(SlideshowActivity.LOGIN_PWD, password);
         return intent;
     }
 }

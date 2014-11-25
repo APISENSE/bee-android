@@ -37,7 +37,10 @@ dependencies {
     }
 
 
-    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '+', ext: 'aar')
+    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '+', ext: 'aar'){
+        transitive = true
+        exclude group : 'com.google.android.gms'
+    }
 
 
     // Sexy android-L support
