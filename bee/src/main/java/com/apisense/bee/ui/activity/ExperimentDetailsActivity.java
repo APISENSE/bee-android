@@ -26,6 +26,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONException;
+import org.json.simple.parser.ParseException;
 
 import java.util.*;
 
@@ -65,6 +66,12 @@ public class ExperimentDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_details);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
+        try {
+            experiment = new APSLocalCrop(getIntent().getByteArrayExtra("experiment"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         initializeViews();
         displayExperimentInformation();
@@ -121,30 +128,18 @@ public class ExperimentDetailsActivity extends Activity {
     }
 
     public void displayExperimentInformation() {
-        Bundle b = getIntent().getExtras();
-        // TODO : Switch to parcelable when available
-        // Experiment expe =  b.getParcelable("experiment");
-
-        // TODO Send directly experiment instead of experimentSerializable when possible
-        ExperimentSerializable experimentS  = (ExperimentSerializable) b.getSerializable("experiment");
-        try {
-            experiment = APS.getCropDescription(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, e.toString());
-        }
-
         mExperimentName.setText(experiment.getNiceName());
-        mExperimentOrganization.setText(experiment.organization);
-        mExperimentVersion.setText(" - v" + experiment.version);
+        mExperimentOrganization.setText(experiment.getOrganisation());
+        mExperimentVersion.setText(" - v " + experiment.getVersion());
     }
 
     public void displayExperimentActivity() {
         BarGraphView graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);
 
-        if (!experiment.state)
+        if (experiment.getLocalStatus() != APSLocalCrop.STATE_LOCAL_RUNNING) {
             graph.setDeactived();
+        }
 
         try {
             traces = new ArrayList<Long>();
@@ -185,10 +180,17 @@ public class ExperimentDetailsActivity extends Activity {
     }
 
     private void updateStartMenu(){
-        if (!experiment.state) {
-            mStartButton.setTitle(getString(R.string.action_start));
-        } else {
-            mStartButton.setTitle(getString(R.string.action_stop));
+        switch (experiment.getLocalStatus()) {
+            case APSLocalCrop.STATE_LOCAL_RUNNING:
+                mStartButton.setEnabled(true);
+                mStartButton.setTitle(getString(R.string.action_stop));
+                break;
+            case APSLocalCrop.STATE_LOCAL_STOPPED:
+                mStartButton.setEnabled(true);
+                mStartButton.setTitle(getString(R.string.action_start));
+                break;
+            case APSLocalCrop.STATE_LOCAL_PAUSE:
+                mStartButton.setEnabled(false);
         }
     }
 

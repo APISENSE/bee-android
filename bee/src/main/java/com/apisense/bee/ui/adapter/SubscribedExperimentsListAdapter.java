@@ -8,17 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.apisense.android.api.APSLocalCrop;
 import com.apisense.api.Crop;
 import com.apisense.api.LocalCrop;
 import com.apisense.bee.R;
+import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.google.android.gms.location.LocationRequest;
 
 import java.util.List;
 
-public class SubscribedExperimentsListAdapter extends ArrayAdapter<LocalCrop> {
+public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> {
     private final String TAG = getClass().getSimpleName();
 
-    private List<LocalCrop> data;
+    private List<APSLocalCrop> data;
 
     /**
      * Constructor
@@ -39,7 +41,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<LocalCrop> {
      * @param experiments
      *            list of experiments
      */
-    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<LocalCrop> experiments) {
+    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<APSLocalCrop> experiments) {
         super(context, layoutResourceId, experiments);
         //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
         this.setDataSet(experiments);
@@ -50,7 +52,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<LocalCrop> {
      *
      * @param dataSet
      */
-    public void setDataSet(List<LocalCrop> dataSet){
+    public void setDataSet(List<APSLocalCrop> dataSet){
         this.data = dataSet;
     }
 
@@ -72,7 +74,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<LocalCrop> {
      * @return an experiment
      */
     @Override
-    public LocalCrop getItem(int position) {
+    public APSLocalCrop getItem(int position) {
         return data.get(position);
     }
 
@@ -85,7 +87,8 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<LocalCrop> {
      */
     @Override
     public long getItemId(int position) {
-        return Long.valueOf(getItem(position).getName());
+        return position;
+//        return Long.valueOf(getItem(position).getName());
     }
 
     /**
@@ -96,7 +99,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<LocalCrop> {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        final Crop item = getItem(position);
+        final LocalCrop item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
@@ -104,24 +107,29 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<LocalCrop> {
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-//        company.setText(" " + getContext().getString(R.string.by) + " " + item.organization);
+        company.setText(" " + getContext().getString(R.string.by) + " " + item.getOrganisation());
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
-        description.setText(decode);
+//        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
+        description.setText(item.getDescription());
 
         TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
-//        String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running) ;
-//        textStatus.setText(" - " + state);
+        String state = "";
 
         // Display state of the current experiment
         View status = convertView.findViewById(R.id.experiment_status);
-//        if (item.state){
-        if (true) {
-            showAsStarted(status);
-        } else {
-            showAsStopped(status);
+        switch ( item.getLocalStatus()) {
+            case APSLocalCrop.STATE_LOCAL_RUNNING:
+               showAsStarted(status);
+                state = getContext().getString(R.string.running);
+                break;
+            case APSLocalCrop.STATE_LOCAL_PAUSE:
+            case APSLocalCrop.STATE_LOCAL_STOPPED:
+                getContext().getString(R.string.not_running);
+                showAsStopped(status);
+                break;
         }
+        textStatus.setText(" - " + state);
 
         return convertView;
     }

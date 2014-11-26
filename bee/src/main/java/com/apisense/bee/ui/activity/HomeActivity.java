@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.apisense.android.api.APS;
+import com.apisense.android.api.APSLocalCrop;
 import com.apisense.api.Callback;
 import com.apisense.api.Crop;
 import com.apisense.api.LocalCrop;
@@ -16,6 +17,7 @@ import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,7 @@ public class HomeActivity extends Activity {
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
                                                                   R.layout.fragment_experiment_element,
-                                                                  new ArrayList<LocalCrop>());
+                                                                  new ArrayList<APSLocalCrop>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
         subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
         subscribedCollects.setAdapter(experimentsAdapter);
@@ -55,10 +57,6 @@ public class HomeActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
-    }
-
-    public void setCrops(List<LocalCrop> experiments) {
-        this.experimentsAdapter.addAll(experiments);
     }
 
     private void updateUI(){
@@ -125,12 +123,28 @@ public class HomeActivity extends Activity {
             @Override
         public void onCall(List<LocalCrop> crops) throws Exception {
             experimentsRetrieval = null;
-            List<LocalCrop> exp = (List<LocalCrop>) crops;
-            Log.i(TAG, "number of Active Crops: " + exp.size());
 
+            List<APSLocalCrop> exp = localCropToAPSLocalCrop(crops);
+            Log.i(TAG, "number of Active Crops: " + exp.size());
             // Updating listview
-            setCrops(exp);
+            experimentsAdapter.addAll(exp);
             experimentsAdapter.notifyDataSetChanged();
+        }
+
+        // TODO: Delete when Callback type is fixed to APSLocalCrop
+        private List<APSLocalCrop> localCropToAPSLocalCrop(List<LocalCrop> crops) {
+            List<APSLocalCrop> result = new ArrayList<APSLocalCrop>();
+            for (Crop crop : crops){
+                APSLocalCrop apsCrop = null;
+                try {
+                    apsCrop = new APSLocalCrop(crop.getByte());
+                    result.add(apsCrop);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            Log.d(TAG, "Number of converted crops: " + result.size());
+            return result;
         }
 
         @Override
@@ -143,14 +157,10 @@ public class HomeActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), ExperimentDetailsActivity.class);
-            Crop exp = (Crop) parent.getAdapter().getItem(position);
 
-            Bundle bundle = new Bundle();
-            // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
-            // bundle.putParcelable("experiment", getItem(position));
-            // TODO : Maybe something extending Crop and using JSONObject to init but it seems to be empty
-            bundle.putSerializable("experiment", new ExperimentSerializable(exp));
-            intent.putExtras(bundle); //Put your id to your next Intent
+            Crop exp = (Crop) parent.getAdapter().getItem(position);
+            intent.putExtra("experiment", exp.getByte());
+
             startActivity(intent);
         }
     }

@@ -1,9 +1,14 @@
 package com.apisense.bee.backend.experiment;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
+import com.apisense.android.APSApplication;
 import com.apisense.android.api.APS;
+import com.apisense.android.api.APSLocalCrop;
+import com.apisense.android.api.APSService;
 import com.apisense.api.Callback;
+import com.apisense.api.Crop;
 import com.apisense.api.LocalCrop;
 
 import java.util.ArrayList;
@@ -19,7 +24,7 @@ public class RetrieveInstalledExperimentsTask {
     private Callback<List<LocalCrop>> listener;
 
     public RetrieveInstalledExperimentsTask(Context context, Callback<List<LocalCrop>> listener) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.listener = listener;
     }
 
@@ -29,7 +34,7 @@ public class RetrieveInstalledExperimentsTask {
             for (String exp: returnIds) {
                 Log.i(TAG, exp);
             }
-            List<LocalCrop> gotCrops =retrieveLocalCrops(returnIds);
+            List<LocalCrop> gotCrops = retrieveLocalCrops(returnIds);
             this.listener.onCall(gotCrops);
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,6 +43,14 @@ public class RetrieveInstalledExperimentsTask {
     }
 
     private List<LocalCrop> retrieveLocalCrops(List<String> ids){
-        return new ArrayList<LocalCrop>();
+        List<LocalCrop> result = new ArrayList<LocalCrop>();
+        for (String id: ids){
+            try {
+                result.add(APS.getCropDescription(context, id));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 }

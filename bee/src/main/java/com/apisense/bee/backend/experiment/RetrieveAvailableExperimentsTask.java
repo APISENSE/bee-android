@@ -2,8 +2,10 @@ package com.apisense.bee.backend.experiment;
 
 import android.content.Context;
 import android.util.Log;
+import com.apisense.android.APSApplication;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSRequest;
+import com.apisense.android.api.APSService;
 import com.apisense.api.Callback;
 import com.apisense.api.Crop;
 
@@ -30,15 +32,14 @@ public class RetrieveAvailableExperimentsTask {
     }
 
     public void execute(String filter) {
-        List<Crop> gotExperiments;
         Log.d(TAG, "Got Filter: " + filter);
         APSRequest<List<Crop>> request;
         try {
-            if (filter == null || filter.isEmpty()){
+//            if (filter == null || filter.isEmpty()) {
                 request = APS.fetchCrop(context);
-            } else {
-                request = APS.fetchCrop(context, filter);
-            }
+//            } else {
+//                request = APS.fetchCrop(context, filter);
+//            }
             request.setCallback(listener);
         } catch (Exception e) {
             Log.e(TAG, "Error while retrieving available experiments: " + e.getMessage());
