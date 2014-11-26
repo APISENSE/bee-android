@@ -22,7 +22,6 @@ public class PrivacyActivity extends Activity {
 
     private final String TAG = this.getClass().getSimpleName();
 
-    private GridView sensorGridView;
     private PrivacyGridAdapter sensorGridAdapter;
     private final List<PrivacyGridItem> sensor = new ArrayList<PrivacyGridItem>();
 
@@ -30,7 +29,6 @@ public class PrivacyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy);
-
 //        for (Class<? extends IFacade> facade : APISENSE.apisense().getPrivacyFacade()){
 //            final String[] description = BeeSenseServiceManager.getPrivcayFacadeInfo(facade);
 //            if(description[2] == null)
@@ -38,9 +36,14 @@ public class PrivacyActivity extends Activity {
 //            else
 //                sensor.add(new PrivacyGridItem(description[0], Integer.valueOf(description[2]), Integer.valueOf(description[3]), true));
 //        }
+        initSensorGrid();
+    }
 
+    private void initSensorGrid(){
         sensorGridAdapter = new PrivacyGridAdapter(this, sensor);
-        sensorGridView = (GridView) findViewById(R.id.privacy_sensor_grid);
+        GridView sensorGridView = (GridView) findViewById(R.id.privacy_sensor_grid);
+
+        sensorGridView.setEmptyView(findViewById(R.id.sensor_grid_empty_view));
         sensorGridView.setAdapter(sensorGridAdapter);
         sensorGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -49,5 +52,6 @@ public class PrivacyActivity extends Activity {
                 sensorGridAdapter.notifyDataSetChanged();
             }
         });
+
     }
 }

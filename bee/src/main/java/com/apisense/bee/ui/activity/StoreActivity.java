@@ -280,11 +280,6 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
            // Changing anything only if the tab changed
            if (!newTag.equals(currentTabTag)) {
                Log.i(TAG, "New Tab selected: " + newTag);
-               // Canceling last task if request is still active
-//               if (experimentsRetrieval != null) {
-//                   experimentsRetrieval.cancel(true);
-//               }
-               // Creating new request to retrieve Experiments
                if (experimentsRetrieval == null) {
                    experimentsRetrieval = new RetrieveAvailableExperimentsTask(StoreActivity.this, new OnExperimentsRetrieved());
                    experimentsRetrieval.execute();

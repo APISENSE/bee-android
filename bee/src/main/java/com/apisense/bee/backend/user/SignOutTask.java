@@ -22,6 +22,7 @@ public class SignOutTask {
     public void execute() {
         try {
             APS.disconnect(context);
+
             listener.onCall(null);
         } catch (Exception e) {
             e.printStackTrace();

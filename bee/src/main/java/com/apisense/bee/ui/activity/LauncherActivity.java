@@ -45,9 +45,7 @@ public class LauncherActivity extends Activity {
         request.setCallback(new Callback() {
             @Override
             public void onCall(Object ignored) throws Exception {
-
-                // user is connected
-                // TODO launch crop activity
+                startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
             }
 
             @Override

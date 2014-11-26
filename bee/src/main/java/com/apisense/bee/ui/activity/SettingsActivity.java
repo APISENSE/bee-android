@@ -50,7 +50,7 @@ public class SettingsActivity extends Activity {
         mLogoutButton = (Button) findViewById(R.id.settings_logout);
         mRegisterButton = (Button) findViewById(R.id.settings_register);
         
-//        mUpgradeButton.setOnClickListener(updateEvent);
+        mUpgradeButton.setOnClickListener(updateEvent);
         mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
 
         if (!isUserAuthenticated()) {
@@ -61,7 +61,7 @@ public class SettingsActivity extends Activity {
 
     public void goToRegister(View v) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo","register");
+        slideIntent.putExtra("goTo", SlideshowActivity.REGISTER);
         startActivity(slideIntent);
         finish();
     }
@@ -79,12 +79,12 @@ public class SettingsActivity extends Activity {
         };
     };
 
-//    /**
-//     * Click event for update
-//     */
-//    private final View.OnClickListener updateEvent = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
+    /**
+     * Click event for update
+     */
+    private final View.OnClickListener updateEvent = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 //            checkUpdateTask = (CheckUpdateTask) getLastCustomNonConfigurationInstance();
 //            if (checkUpdateTask != null)
 //                checkUpdateTask.attach(SettingsActivity.this);
@@ -92,10 +92,10 @@ public class SettingsActivity extends Activity {
 //                checkUpdateTask = new CheckUpdateTask(SettingsActivity.this, "http://download.apisense.fr/", "Bee");
 //                checkUpdateTask.execute();
 //            }
-//            Toast.makeText(getBaseContext(), "Clicked on update detected", Toast.LENGTH_SHORT).show();
-//        };
-//    };
-//
+            Toast.makeText(getBaseContext(), "Clicked on update detected", Toast.LENGTH_SHORT).show();
+        };
+    };
+
 //    @Override
 //    public Object onRetainCustomNonConfigurationInstance() {
 //        if(checkUpdateTask!=null)
@@ -142,5 +142,4 @@ public class SettingsActivity extends Activity {
             return false;
         }
     }
-
 }

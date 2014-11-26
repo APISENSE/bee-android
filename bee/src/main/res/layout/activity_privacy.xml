@@ -29,8 +29,12 @@
             android:focusable="true"
             android:clickable="true"
             android:numColumns="auto_fit"
-            android:stretchMode="columnWidth" >
-        </com.apisense.bee.widget.ExpandableGridView>
+            android:stretchMode="columnWidth" />
+        <com.apisense.bee.widget.ApisenseTextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/no_available_sensors"
+            android:id="@+id/sensor_grid_empty_view"/>
 
         <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/privacy_section_filter"
