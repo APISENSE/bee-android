@@ -44,7 +44,7 @@ public class ExperimentDetailsActivity extends Activity {
     private TextView mExperimentVersion;
     private TextView mExperimentActivity;
 
-    private MenuItem mSubscribeButton;
+    // private MenuItem mSubscribeButton;
     private MenuItem mStartButton;
 
     private GoogleMap mGoogleMap;
@@ -92,7 +92,7 @@ public class ExperimentDetailsActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.experiment_details, menu);
-        mSubscribeButton = menu.findItem(R.id.detail_action_subscribe);
+        // mSubscribeButton = menu.findItem(R.id.detail_action_subscribe);
         mStartButton = menu.findItem(R.id.detail_action_start);
 
         updateStartMenu();
@@ -178,12 +178,12 @@ public class ExperimentDetailsActivity extends Activity {
 
     private void updateSubscriptionMenu() {
         // TODO: Change to API method when available (isSubscribedExperiment)
-        if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
+        /* if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
             mSubscribeButton.setTitle(getString(R.string.action_subscribe));
         } else {
             mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
 
-        }
+        } */
     }
 
     private void updateStartMenu(){
