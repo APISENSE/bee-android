@@ -78,7 +78,7 @@ public class HomeActivity extends Activity {
         // Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
 
         if (isUserAuthenticated()) {
-            user_identity.setText(getString(R.string.user_identity, "To retrieve somehow..."));
+            user_identity.setText(getString(R.string.user_identity, "Username"));
         } else {
             user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
         }
