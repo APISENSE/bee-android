@@ -51,7 +51,7 @@ public class SettingsActivity extends Activity {
         mLogoutButton = (Button) findViewById(R.id.settings_logout);
         mRegisterButton = (Button) findViewById(R.id.settings_register);
         
-//        mUpgradeButton.setOnClickListener(updateEvent);
+        mUpgradeButton.setOnClickListener(updateEvent);
         mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
 
         if (!isUserAuthenticated()) {
