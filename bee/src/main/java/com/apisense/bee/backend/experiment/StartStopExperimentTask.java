@@ -45,7 +45,7 @@ public class StartStopExperimentTask {
     private LocalCrop getCropFromId(String id){
         APSLocalCrop crop = null;
         try {
-            crop = APS.getCropDescription(context);
+            crop = APS.getCropDescription(context, id);
         } catch (Exception e) {
             e.printStackTrace();
         }

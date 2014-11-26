@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+import com.apisense.android.api.APSLocalCrop;
 import com.apisense.api.Crop;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
@@ -18,11 +19,11 @@ import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
+public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> {
     private final String TAG = getClass().getSimpleName();
 
-    private List<Crop> data;
-    private List<Crop> filteredData;
+    private List<APSLocalCrop> data;
+    private List<APSLocalCrop> filteredData;
 
     /**
      * Constructor
@@ -30,7 +31,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
      * @param layoutResourceId
      * @param experiments
      */
-    public AvailableExperimentsListAdapter(Context context, int layoutResourceId, ArrayList<Crop> experiments) {
+    public AvailableExperimentsListAdapter(Context context, int layoutResourceId, ArrayList<APSLocalCrop> experiments) {
         super(context, layoutResourceId, experiments);
         setDataSet(experiments);
     }
@@ -40,11 +41,9 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
      *
      * @param dataSet
      */
-    public void setDataSet(List<Crop> dataSet){
-        Log.i(TAG, "List size : " + dataSet.size());
+    public void setDataSet(List<APSLocalCrop> dataSet){
         this.data = dataSet;
         this.filteredData = dataSet;
-        notifyDataSetChanged();
     }
 
     /**
@@ -65,7 +64,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
      * @return an experiment
      */
     @Override
-    public Crop getItem(int position) {
+    public APSLocalCrop getItem(int position) {
         return filteredData.get(position);
     }
 
@@ -78,7 +77,9 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
      */
     @Override
     public long getItemId(int position) {
-        return Long.valueOf(getItem(position).getName());
+//        Long id = Long.valueOf(getItem(position).getId());
+//        Log.d(TAG, "ItemID asked ("+position+"), returned: " + id);
+        return position;
     }
 
     /**
@@ -89,20 +90,20 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        Crop item = getItem(position);
+        APSLocalCrop item = getItem(position);
 
-        Log.v(TAG, "View asked (as a listItem) for Crop: " + item);
+        Log.v(TAG, "View asked (as a listItem) for APSLocalCrop: " + item);
 
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
         title.setText(item.getNiceName());
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-//        company.setText(" by " + item.organization);
+        company.setText(" " + getContext().getString(R.string.by) + item.getOrganisation());
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
-        description.setText(decode);
+//        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
+        description.setText(item.getDescription());
 
         // Contains a background color associated to current status
         View status = convertView.findViewById(R.id.item);
@@ -113,6 +114,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
         }
         return convertView;
     }
+
 
     public void showAsSubscribed(View v){
         v.setBackgroundColor(getContext().getResources().getColor(R.color.light_grey));
@@ -134,17 +136,17 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
                 String filterString = constraint.toString().toLowerCase();
                 FilterResults results = new FilterResults();
 
-                final List<Crop> items = data;
+                final List<APSLocalCrop> items = data;
 
                 int count = items.size();
-                final ArrayList<Crop> newItems = new ArrayList<Crop>(count);
+                final ArrayList<APSLocalCrop> newItems = new ArrayList<APSLocalCrop>(count);
 
-                Crop filterableCrop;
+                APSLocalCrop filterableAPSLocalCrop;
 
                 if (TextUtils.isEmpty(constraint)) {
-                    for (Crop exp : items) newItems.add(exp);
+                    for (APSLocalCrop exp : items) newItems.add(exp);
                 } else {
-                    for (Crop exp : items) {
+                    for (APSLocalCrop exp : items) {
                         if (exp.getNiceName().toLowerCase().contains(filterString)) {
                             newItems.add(exp);
                         }
@@ -160,7 +162,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredData = (ArrayList<Crop>) results.values;
+                filteredData = (ArrayList<APSLocalCrop>) results.values;
                 notifyDataSetChanged();
             }
 

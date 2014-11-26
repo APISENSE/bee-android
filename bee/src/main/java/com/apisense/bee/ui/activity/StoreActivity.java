@@ -4,10 +4,12 @@ import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.apisense.android.api.APSLocalCrop;
 import com.apisense.api.Callback;
 import com.apisense.api.Crop;
 import com.apisense.bee.BeeApplication;
@@ -17,7 +19,9 @@ import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
+import org.json.simple.parser.ParseException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,14 +46,13 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         setContentView(R.layout.activity_store);
 
         actionBar = getActionBar();
-
         setUpAvailableCropsList();
     }
 
     private void setUpAvailableCropsList() {
-        experimentsAdapter = new AvailableExperimentsListAdapter(this,
+        experimentsAdapter = new AvailableExperimentsListAdapter(getApplicationContext(),
                                                                  R.layout.fragment_experiment_store_element,
-                                                                 new ArrayList<Crop>());
+                                                                 new ArrayList<APSLocalCrop>());
 
         ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiments_list);
         subscribedExperiments.setEmptyView(findViewById(R.id.store_empty_list));
@@ -125,16 +128,40 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         @Override
         public void onCall(List<Crop> crops) throws Exception {
             experimentsRetrieval = null;
-            Log.i(TAG, "Number of Active Experiments: " + crops.size());
 
-            // Updating listview
-            experimentsAdapter.setDataSet(crops);
-            experimentsAdapter.notifyDataSetChanged();
+            final List<APSLocalCrop> apsCrops = cropToAPSLocalCrop(crops);
+            for (APSLocalCrop apsCrop: apsCrops){ Log.v(TAG, "Got Crop:" + apsCrop); }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    experimentsAdapter.setDataSet(apsCrops);
+                    experimentsAdapter.notifyDataSetChanged();
+                }
+            });
+            Log.i(TAG, "Number of Active Experiments: " + experimentsAdapter.getCount());
+        }
+
+        // TODO: Delete when Callback type is fixed to APSLocalCrop
+        private List<APSLocalCrop> cropToAPSLocalCrop(List<Crop> crops) {
+            List<APSLocalCrop> result = new ArrayList<APSLocalCrop>();
+            for (Crop crop : crops){
+                APSLocalCrop apsCrop = null;
+                try {
+                    apsCrop = new APSLocalCrop(crop.getByte());
+                    result.add(apsCrop);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            Log.d(TAG, "Number of converted crops: " + result.size());
+            return result;
         }
 
         @Override
         public void onError(Throwable throwable) {
             experimentsRetrieval = null;
+            throwable.printStackTrace();
         }
     }
 
@@ -147,7 +174,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     }
 
     // TODO: Export (Un)Subscription indocator management to Adapter (with a boolean field 'subscribed' in the Experiment)
-    private class onExperimentSubscriptionChanged implements AsyncTasksCallbacks {
+    private class onExperimentSubscriptionChanged implements Callback<Integer> {
         private View statusView;
         private View concernedView;
 
@@ -155,33 +182,31 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
             super();
             this.concernedView = v;
             this.statusView = concernedView.findViewById(R.id.item);
-
         }
 
         @Override
-        public void onTaskCompleted(int result, Object response) {
+        public void onCall(Integer response) throws Exception {
             experimentChangeSubscriptionStatus = null;
             String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle))
-                                                              .getText().toString();
+                    .getText().toString();
             String toastMessage = "";
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch ((Integer) response){
-                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
-                        toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-                        experimentsAdapter.showAsSubscribed(statusView);
-                        break;
-                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
-                        toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
-                        experimentsAdapter.showAsUnsubscribed(statusView);
-                        break;
-                }
-                // User feedback
-                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            switch (response){
+                case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
+                    toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                    experimentsAdapter.showAsSubscribed(statusView);
+                    break;
+                case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
+                    toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
+                    experimentsAdapter.showAsUnsubscribed(statusView);
+                    break;
             }
+            // User feedback
+            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onTaskCanceled() {
+        public void onError(Throwable t) {
+            t.printStackTrace();
             experimentChangeSubscriptionStatus = null;
         }
     }
@@ -192,14 +217,10 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), StoreExperimentDetailsActivity.class);
-            Crop exp = (Crop) parent.getAdapter().getItem(position);
 
-            Bundle bundle = new Bundle();
-            // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
-            // bundle.putParcelable("experiment", getItem(position));
-            // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
-            bundle.putSerializable("experiment", new ExperimentSerializable(exp));
-            intent.putExtras(bundle); //Put your id to your next Intent
+            APSLocalCrop exp = (APSLocalCrop) parent.getAdapter().getItem(position);
+            intent.putExtra("experiment", exp.getByte());
+
             startActivity(intent);
         }
     }
@@ -209,8 +230,8 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Crop exp = (Crop) parent.getAdapter().getItem(position);
             if (experimentChangeSubscriptionStatus == null){
-//                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new onExperimentSubscriptionChanged(view));
-//                experimentChangeSubscriptionStatus.execute(exp);
+                experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(getApplicationContext(), new onExperimentSubscriptionChanged(view));
+                experimentChangeSubscriptionStatus.execute(exp.getName());
             }
             return true;
         }

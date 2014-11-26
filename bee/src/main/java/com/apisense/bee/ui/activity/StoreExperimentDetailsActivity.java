@@ -2,16 +2,16 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.api.Callback;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
-import com.apisense.bee.ui.entity.ExperimentSerializable;
+import org.json.simple.parser.ParseException;
 
 /**
  * Shows detailed informations about a given available Experiment from the store
@@ -37,6 +37,12 @@ public class StoreExperimentDetailsActivity extends Activity {
         setContentView(R.layout.activity_store_experiment_details);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
+        try {
+            experiment = new APSLocalCrop(getIntent().getByteArrayExtra("experiment"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         initializeViews();
         displayExperimentInformation();
     }
@@ -53,18 +59,6 @@ public class StoreExperimentDetailsActivity extends Activity {
     }
 
     public void displayExperimentInformation() {
-        Bundle b = getIntent().getExtras();
-        // TODO : Switch to parcelable when available
-        // Experiment expe =  b.getParcelable("experiment");
-        // TODO Send directly experiment instead of experimentSerializable when possible
-        ExperimentSerializable experimentS  = (ExperimentSerializable) b.getSerializable("experiment");
-        try {
-            experiment = APS.getCropDescription(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        experiment = APISENSE.apisServerService().getRemoteExperiment(experimentS.getName());
-
         mExperimentName.setText(experiment.getNiceName());
         mExperimentOrganization.setText(experiment.getOrganisation());
         mExperimentVersion.setText(" - v" + experiment.getVersion());
@@ -128,6 +122,7 @@ public class StoreExperimentDetailsActivity extends Activity {
         @Override
         public void onError(Throwable throwable) {
             experimentChangeSubscriptionStatus = null;
+            throwable.printStackTrace();
         }
     }
 }
