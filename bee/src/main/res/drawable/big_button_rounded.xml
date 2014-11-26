@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-       android:shape="ring"
-       android:innerRadius="0dp"
-       android:thickness="40dp"
-       android:useLevel="false">
-    <solid android:color="#FD9028"/>
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+               android:shape="ring"
+               android:innerRadius="0dp"
+               android:thickness="40dp"
+               android:useLevel="false">
+            <solid android:color="#FD9028"/>
+        </shape>
+    </item>
+
+    <item android:drawable="@drawable/ic_cart"
+          android:bottom="22dp"
+          android:top="22dp"  android:left="22dp" android:right="22dp"/>
+</layer-list>
