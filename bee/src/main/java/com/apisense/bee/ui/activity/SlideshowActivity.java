@@ -73,7 +73,7 @@ public class SlideshowActivity extends FragmentActivity {
         // Add onClick listeners
         Button signInBtn = (Button) findViewById(R.id.signIn);
         Button registerBtn = (Button) findViewById(R.id.register);
-        Button skipBtn = (Button) findViewById(R.id.skip);
+        // Button skipBtn = (Button) findViewById(R.id.skip);
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -87,14 +87,14 @@ public class SlideshowActivity extends FragmentActivity {
             }
         });
 
-        skipBtn.setOnClickListener(new View.OnClickListener() {
+        /* skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent slideIntent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(slideIntent);
                 finish();
             }
-        });
+        }); */
 
         // Init APISENSE and check if already connected, just go to home Activity
         APISENSE.init(getApplicationContext(), new APISENSEListenner() {

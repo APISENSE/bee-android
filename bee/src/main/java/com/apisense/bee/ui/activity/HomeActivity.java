@@ -2,6 +2,7 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -59,6 +60,12 @@ public class HomeActivity extends Activity {
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateUI();
+    }
+
     public void setExperiments(List<Experiment> experiments) {
         this.experimentsAdapter.setDataSet(experiments);
     }
@@ -71,10 +78,8 @@ public class HomeActivity extends Activity {
         // Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
 
         if (isUserAuthenticated()) {
-            // loginButton.setText(getString(R.string.logout));
             user_identity.setText(getString(R.string.user_identity, "To retrieve somehow..."));
         } else {
-            // loginButton.setText(R.string.login);
             user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
         }
     }
@@ -126,7 +131,18 @@ public class HomeActivity extends Activity {
         Intent storeIntent = new Intent(this, StoreActivity.class);
         startActivity(storeIntent);
     }
-    
+
+    public void doGoToProfil(View personalInformation) {
+        if (!isUserAuthenticated()) {
+            Intent slideIntent = new Intent(this, SlideshowActivity.class);
+            slideIntent.putExtra("goTo","register");
+            startActivity(slideIntent);
+            finish();
+        } else {
+            // Go to profil activity
+        }
+    }
+
     public class ExperimentListRetrievedCallback implements AsyncTasksCallbacks {
         @Override
         public void onTaskCompleted(int result, Object response) {

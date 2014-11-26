@@ -2,8 +2,8 @@
 <resources>
 
     <!-- Other -->
-    <string name="title_activity_slideshow">Application Bee</string>
-    <string name="title_activity_home">Experiences</string>
+    <string name="title_activity_slideshow">Bee</string>
+    <string name="title_activity_home">Bee</string>
     <string name="title_activity_store">Magasin Bee</string>
     <string name="title_activity_privacy">Intimité</string>
     <string name="title_activity_settings">Réglages</string>
@@ -30,9 +30,11 @@
 
     <!-- Register / Sign in / User infos -->
     <string name="register">S\'enregistrer</string>
+    <string name="register_anonymous">S\'enregistrer anonymement</string>
     <string name="login">Connexion</string>
     <string name="logout">Déconnexion</string>
     <string name="user_identity">%1$s</string>
+    <string name="pseudo">Nom d\'utilisateur</string>
     <string name="anonymous_user">Abeille inconnue</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
@@ -43,7 +45,6 @@
 
     <!-- Slides text -->
     <string name="slide_welcome_back">Bonjour</string>
-    <string name="slide_join_us">Rejoignez-nous</string>
     <string name="slide_what">APISENSE rend la collecte massive de données facile grace aux capteurs des téléphones portables.
         Ouvrez votre esprit et rejoingnez le top de la collecte en temps réel !</string>
     <string name="slide_how">Partagez vos données et aidez la science à progresser !</string>

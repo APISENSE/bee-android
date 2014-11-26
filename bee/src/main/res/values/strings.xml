@@ -6,8 +6,8 @@
 
     <!-- Other -->
     <string name="app_name" translatable="false">Bee</string>
-    <string name="title_activity_slideshow">Bee Application</string>
-    <string name="title_activity_home">Experiments</string>
+    <string name="title_activity_slideshow">Bee</string>
+    <string name="title_activity_home">Bee</string>
     <string name="title_activity_store">Bee Store</string>
     <string name="title_activity_privacy">Privacy</string>
     <string name="title_activity_settings">Settings</string>
@@ -35,10 +35,11 @@
 
     <!-- Register / Sign in / User infos -->
     <string name="register">Register</string>
+    <string name="register_anonymous">Register as Anonymous</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="user_identity">%1$s</string>
-    <string name="pseudo" translatable="false">Pseudo</string>
+    <string name="pseudo">Username</string>
     <string name="anonymous_user">Unknown Bee</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -50,7 +51,6 @@
 
     <!-- Slides text -->
     <string name="slide_welcome_back">Welcome back</string>
-    <string name="slide_join_us">Join us</string>
     <string name="slide_what">APISENSE makes it easy to collect data with crowds of mobile phone sensors.</string>
     <string name="slide_how">Share your data with us to get a better World :O</string>
     <string name="slide_reward">The more you give, the more you get ! Trade points for real stuff ! Amazing ;)</string>

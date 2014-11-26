@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
     <style name="ApisenseTheme" parent="android:Theme.Holo">
@@ -7,6 +8,7 @@
         <item name="android:windowBackground">@color/white</item>
         <item name="android:actionBarStyle">@style/ApisenseActionBar</item>
         <item name="android:actionBarWidgetTheme">@style/SearchBar</item>
+        <item name="android:windowContentOverlay">@drawable/actionbar_shadow_v2</item>
     </style>
 
     <!-- TextView Styles -->
@@ -33,7 +35,12 @@
     <!-- ActionBar styles -->
     <style name="ApisenseActionBar"
            parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:background">@color/orange</item>
+        <item name="android:background">@android:color/transparent</item> <!-- transparent -->
+        <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
+    </style>
+
+    <style name="ApisenseActionBar.Text" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="SearchBar">

@@ -3,12 +3,12 @@ apply plugin: 'com.android.application'
 repositories {
     jcenter()
     mavenCentral()
-    maven { 
-      url 'http://repo.apisense.com/apisense' 
-      credentials {
-        username = "${artifactory_user}"
-        password = "${artifactory_password}"
-      }
+    maven {
+        url 'http://repo.apisense.com/apisense'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
     }
 }
 

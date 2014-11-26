@@ -1,35 +1,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context="com.apisense.bee.ui.activity.HomeActivity>" >
+            tools:context="com.apisense.bee.ui.activity.HomeActivity>">
 
     <!-- User's infos -->
-    <ImageView
-            android:src="@drawable/unknown_user"
-            android:layout_width="@dimen/thumbnail_size"
-            android:layout_height="@dimen/thumbnail_size"
-            android:id="@+id/home_user_image"
-            android:layout_margin="@dimen/thumbnail_margin"
-            android:layout_gravity="center_horizontal"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/drop_shadow"
+            android:padding="5sp"
+            android:clickable="true"
+            android:onClick="doGoToProfil"
+            android:id="@+id/user_information">
+        <ImageView
+                android:src="@drawable/unknown_user"
+                android:layout_width="@dimen/thumbnail_size"
+                android:layout_height="@dimen/thumbnail_size"
+                android:id="@+id/home_user_image"
+                android:layout_gravity="center_horizontal"/>
 
-    <com.apisense.bee.widget.ApisenseTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/user_identity"
-            android:id="@+id/home_user_identity"
-            android:layout_gravity="center_horizontal"
-            />
+        <com.apisense.bee.widget.ApisenseTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_identity"
+                android:id="@+id/home_user_identity"
+                android:layout_gravity="center_horizontal"
+                />
+    </LinearLayout>
 
-    <!-- Gamification -->
+    <!-- Gamification
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/game_padding"
             android:orientation="horizontal">
 
-        <!-- Score and rank for example -->
         <com.apisense.bee.widget.ApisenseTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,9 +50,9 @@
                 android:text="Rank #40"
                 android:layout_weight="0.5"/>
 
-    </LinearLayout>
+    </LinearLayout> -->
 
-    <!-- Go to Bee Store-->
+    <!-- Go to Bee Store
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,18 +77,14 @@
                 android:text="Contribute to awesome experiments" />
 
 
-    </LinearLayout>
-    <!-- Exp list -->
-    <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/home_experiment_lists"
-            />
+    </LinearLayout> -->
+
+
 
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
         android:layout_margin="@dimen/activity_vertical_margin"
@@ -93,7 +95,7 @@
                 android:background="@drawable/big_button_rounded"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:text="Add"
+                android:text="Store"
                 android:textSize="20dp"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
@@ -103,7 +105,31 @@
                 style="@style/ApisenseSlideText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Join some experiments"/>
+                android:text="Subscribe to missions"/>
     </LinearLayout>
+
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+
+                    android:layout_margin="@dimen/add_margin">
+
+        <!-- Exp list -->
+        <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/home_experiment_lists"
+                android:layout_weight="1"
+                />
+
+        <Button
+                android:id="@+id/smallAddButton"
+                android:background="@drawable/small_button_rounded"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="0"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:onClick="doGoToStore"
+                android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
 </LinearLayout>

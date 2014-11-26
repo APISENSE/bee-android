@@ -10,27 +10,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-        <!--  Header Starts-->
-        <LinearLayout android:id="@+id/header"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal">
-
-            <com.apisense.bee.widget.ApisenseTextView
-                      style="@style/ApisenseBigText"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="@string/slide_join_us"/>
-
-        </LinearLayout>
-        <!--  Header Ends -->
-
         <!-- Login Form -->
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/header">
+                android:layout_height="wrap_content">
 
             <!--  Email Label -->
             <com.apisense.bee.widget.ApisenseTextView
@@ -96,6 +80,14 @@
                     android:background="@drawable/api_button"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:text="@string/register"/>
+
+            <com.apisense.bee.widget.ApisenseTextView android:id="@+id/anonymousBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="@string/register_anonymous"
+                    android:gravity="center"
+                    android:clickable="true"/>
 
         </LinearLayout>
         <!-- Login Form Ends -->

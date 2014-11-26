@@ -13,7 +13,6 @@ import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
-import com.apisense.bee.backend.store.RetrieveExistingTagsTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import fr.inria.bsense.APISENSE;
@@ -36,14 +35,8 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     protected AvailableExperimentsListAdapter experimentsAdapter;
 
     // Asynchronous Task
-    private RetrieveExistingTagsTask tagsRetrieval;
     private RetrieveAvailableExperimentsTask experimentsRetrieval;
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
-    private String currentTabTag;
-
-    // sliding menu
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +54,12 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         subscribedExperiments.setAdapter(experimentsAdapter);
         subscribedExperiments.setOnItemClickListener(new OpenExperimentDetailsListener());
         subscribedExperiments.setOnItemLongClickListener(new SubscriptionListener());
+
+        getExperiments();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the ActionBar and the tabs.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        populateTabs();
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_view, menu);
@@ -126,16 +118,6 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
 
     // - - - - - - - - - - - - -
 
-    /**
-     * Retrieve distant Tags and set them as tabs
-     */
-    private void populateTabs() {
-        if (tagsRetrieval == null){
-            tagsRetrieval = new RetrieveExistingTagsTask(new OnExistingTagsRetrieved());
-            tagsRetrieval.execute();
-        }
-    }
-
 
     /**
      * Change the adapter dataSet with a newly fetched List of Experiment
@@ -167,51 +149,14 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         }
     }
 
-    private class OnExistingTagsRetrieved implements AsyncTasksCallbacks {
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            tagsRetrieval = null;
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                List<String> tags = (List<String>) response;
-                Log.i(TAG, "Fetched tags: " + tags);
-                for(String tag : tags){
-                    Log.v(TAG, "Adding tab for tag: " + tag);
-                    actionBar.addTab(actionBar.newTab()
-                                     .setText(tag)
-                                     .setTabListener(new TagTabListener()));
-                }
-
-                // Add tag inside drawer layout too
-                String[] arrayTags = tags.toArray(new String[tags.size()]);
-                mDrawerLayout = (DrawerLayout) findViewById(R.id.sliding_menu);
-                mDrawerList = (ListView) findViewById(R.id.left_drawer);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.sliding_store_menu_element,arrayTags);
-                mDrawerList.setAdapter(adapter);
-
-                // Push it back
-                mDrawerLayout.setOnGenericMotionListener(new View.OnGenericMotionListener() {
-                    @Override
-                    public boolean onGenericMotion(View v, MotionEvent event) {
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-
-                mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-                        Log.i(TAG, ((TextView) v).getText().toString() + " clicked !");
-                        mDrawerLayout.closeDrawers();
-                        Toast.makeText(getApplicationContext(), ((TextView) v).getText().toString() + " clicked !", Toast.LENGTH_SHORT).show();
-                        // TODO : Interact (doc : http://developer.android.com/training/implementing-navigation/nav-drawer.html)
-                    }
-                });
-            }
+    public void getExperiments() {
+        if (experimentsRetrieval != null) {
+            experimentsRetrieval.cancel(true);
         }
-
-        @Override
-        public void onTaskCanceled() {
-            tagsRetrieval = null;
+        // Creating new request to retrieve Experiments
+        if (experimentsRetrieval == null) {
+            experimentsRetrieval = new RetrieveAvailableExperimentsTask(APISENSE.apisense(), new OnExperimentsRetrieved());
+            experimentsRetrieval.execute();
         }
     }
 
@@ -256,35 +201,6 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     }
 
     // Listeners definitions
-
-    private class TagTabListener implements ActionBar.TabListener {
-       public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-           String newTag = tab.getText().toString();
-
-           // Changing anything only if the tab changed
-           if (!newTag.equals(currentTabTag)) {
-               Log.i(TAG, "New Tab selected: " + newTag);
-               // Canceling last task if request is still active
-               if (experimentsRetrieval != null) {
-                   experimentsRetrieval.cancel(true);
-               }
-               // Creating new request to retrieve Experiments
-               if (experimentsRetrieval == null) {
-                   experimentsRetrieval = new RetrieveAvailableExperimentsTask(APISENSE.apisense(), new OnExperimentsRetrieved());
-                   experimentsRetrieval.execute(currentTabTag);
-                   currentTabTag = newTag;
-               }
-           }
-       }
-
-       public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-           // hide the given tab
-       }
-
-       public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-           // probably ignore this event
-       }
-   }
 
     private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener{
         @Override
