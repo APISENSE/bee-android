@@ -8,6 +8,7 @@
         <item name="android:windowBackground">@color/white</item>
         <item name="android:actionBarStyle">@style/ApisenseActionBar</item>
         <item name="android:actionBarWidgetTheme">@style/SearchBar</item>
+        <item name="android:actionMenuTextColor">@color/actionBar_textColor</item>s
         <item name="android:windowContentOverlay">@drawable/actionbar_shadow_v2</item>
     </style>
 
@@ -35,7 +36,7 @@
     <!-- ActionBar styles -->
     <style name="ApisenseActionBar"
            parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
-        <item name="android:background">@android:color/transparent</item> <!-- transparent -->
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
     </style>
 
@@ -44,7 +45,7 @@
     </style>
 
     <style name="SearchBar">
-        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColorHint">@color/grey</item>
     </style>
 
     <!-- Header style -->

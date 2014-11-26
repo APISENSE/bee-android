@@ -13,7 +13,7 @@
 
     <color name="actionbar_background">#5DCFF3</color>
     <color name="actionbar_dropdown_bg">#2A9CC0</color>
-
+    <color name="actionBar_textColor">#000000</color>
     <color name="sliding_nav_background">#2A9CC0</color>
     <color name="sliding_nav_text">#E7F8FE</color>
 
