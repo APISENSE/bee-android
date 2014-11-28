@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -10,13 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
+import com.apisense.api.APSLogEvent;
+import com.apisense.api.Callable;
 import com.apisense.api.Callback;
-import com.apisense.api.Crop;
-import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.*;
-import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -25,7 +24,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 
 import java.util.*;
@@ -50,11 +48,11 @@ public class ExperimentDetailsActivity extends Activity {
 
     private BarGraphView graph;
     private int barGraphShowDay = 7;
-    private ArrayList<Long> traces;
+    private ArrayList<Long> traces = new ArrayList<Long>();;
 
     // Async Tasks
     private StartStopExperimentTask experimentStartStopTask;
-    private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
+    private BroadcastReceiver eventReceiver;
 
     protected boolean canDisplayMap() {
         return (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext())
@@ -79,9 +77,44 @@ public class ExperimentDetailsActivity extends Activity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        displayExperimentInformation();
+        displayExperimentActivity();
+
+        eventReceiver = APS.registerToAPSEvent(this, new Callable<Void, APSLogEvent>() {
+            @Override
+            public Void call(APSLogEvent apsLogEvent) throws Exception {
+                Log.i(TAG, "Got event (" + apsLogEvent.getClass().getSimpleName() + ") for crop: " + apsLogEvent.cropName);
+                updateCrop();
+                if (apsLogEvent instanceof APSLogEvent.StartCrop) {
+                    showAsActivated();
+                } else if (apsLogEvent instanceof APSLogEvent.StopCrop) {
+                    showAsDeactivated();
+                }
+                return null;
+            }
+
+            private void updateCrop() {
+                try {
+                    experiment = APS.getCropDescription(getApplicationContext(), experiment.getName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        APS.unregisterToAPSEvent(this, eventReceiver);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
+        overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
     }
 
     @Override
@@ -92,7 +125,6 @@ public class ExperimentDetailsActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.experiment_details, menu);
         // mSubscribeButton = menu.findItem(R.id.detail_action_subscribe);
         mStartButton = menu.findItem(R.id.detail_action_start);
@@ -122,36 +154,31 @@ public class ExperimentDetailsActivity extends Activity {
     public void displayExperimentActivity() {
         BarGraphView graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);
-
-        if (!experiment.isRunning()) {
-            graph.setDeactived();
-        }
-
-        try {
-            traces = new ArrayList<Long>();
-            final Calendar currentCalendar = new GregorianCalendar();
-
-            final List<Map<String, Object>> stats = new ArrayList<Map<String, Object>>();
-             // APISENSE.statistic().readUploadStatistic(experiment.name);
-            for (Map<String,Object> stat : stats){
-                final String[] uploadTime = stat.get("date").toString().split("-");
-                final Calendar uploadCalandar = new GregorianCalendar(
-                        Integer.parseInt(uploadTime[0]),
-                        Integer.parseInt(uploadTime[1])-1,
-                        Integer.parseInt(uploadTime[2]));
-
-                int diffDay =  currentCalendar.get(Calendar.DAY_OF_YEAR) - uploadCalandar.get(Calendar.DAY_OF_YEAR);
-                int indexData = (barGraphShowDay - 1) - diffDay;
-
-                if (indexData >= 0)
-                    traces.add(Long.parseLong(stat.get("sizeByte").toString()));
-            }
-            graph.updateGraphWith(traces);
-        } catch (Exception ex) {
-            Log.i(TAG, "statistics not available for the experiment " + experiment.getName());
-        }
+        updateGraph();
     }
 
+    private void updateGraph(){
+        final Calendar currentCalendar = new GregorianCalendar();
+
+        final List<Map<String, Object>> stats = new ArrayList<Map<String, Object>>();
+        // TODO: Add fetch Statistic method call
+//        APISENSE.statistic().readUploadStatistic(experiment.name);
+        for (Map<String,Object> stat : stats){
+            final String[] uploadTime = stat.get("date").toString().split("-");
+            final Calendar uploadCalendar = new GregorianCalendar(
+                    Integer.parseInt(uploadTime[0]),
+                    Integer.parseInt(uploadTime[1])-1,
+                    Integer.parseInt(uploadTime[2]));
+
+            int diffDay =  currentCalendar.get(Calendar.DAY_OF_YEAR) - uploadCalendar.get(Calendar.DAY_OF_YEAR);
+            int indexData = (barGraphShowDay - 1) - diffDay;
+
+            if (indexData >= 0)
+                traces.add(Long.parseLong(stat.get("sizeByte").toString()));
+        }
+        graph.updateGraphWith(traces);
+        Log.i(TAG, "statistics not available for the experiment " + experiment.getName());
+    }
 
     // Action bar update
     private void updateStartMenu(){
@@ -162,13 +189,16 @@ public class ExperimentDetailsActivity extends Activity {
         }
     }
 
-    // Buttons Handlers
+    private void showAsActivated(){
+        mStartButton.setTitle(getString(R.string.action_stop));
+        graph.setActived();
+        updateGraph();
+    }
 
-    public void doStartStop(MenuItem item) {
-        if (experimentStartStopTask == null) {
-            experimentStartStopTask = new StartStopExperimentTask(getApplicationContext(), new OnExperimentExecutionStatusChanged());
-            experimentStartStopTask.execute(experiment.getName());
-        }
+    private void showAsDeactivated() {
+        mStartButton.setTitle(getString(R.string.action_start));
+        graph.setDeactived();
+        updateGraph();
     }
 
     // Callbacks
@@ -179,24 +209,32 @@ public class ExperimentDetailsActivity extends Activity {
         public void onCall(Integer response) throws Exception {
             experimentStartStopTask = null;
             String toastMessage = "";
-                switch(response) {
-                    case StartStopExperimentTask.EXPERIMENT_STARTED:
-                        graph.setActived();
-                        toastMessage = String.format(getString(R.string.experiment_started), experiment.getNiceName());
-                        break;
-                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
-                        graph.setDeactived();
-                        toastMessage = String.format(getString(R.string.experiment_stopped), experiment.getNiceName());
-                        break;
-                }
-                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-                graph.updateGraphWith(traces);
-                updateStartMenu();
+            switch (response) {
+                case StartStopExperimentTask.EXPERIMENT_STARTED:
+                    graph.setActived();
+                    toastMessage = String.format(getString(R.string.experiment_started), experiment.getNiceName());
+                    break;
+                case StartStopExperimentTask.EXPERIMENT_STOPPED:
+                    graph.setDeactived();
+                    toastMessage = String.format(getString(R.string.experiment_stopped), experiment.getNiceName());
+                    break;
             }
+            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            graph.updateGraphWith(traces);
+            updateStartMenu();
+        }
 
         @Override
         public void onError(Throwable throwable) {
-            experimentStartStopTask = null;
+            throwable.printStackTrace();
         }
+
+    }
+
+    // Buttons Handlers
+
+    public void doStartStop(MenuItem item) {
+        experimentStartStopTask = new StartStopExperimentTask(getApplicationContext());
+        experimentStartStopTask.execute(experiment.getName());
     }
 }

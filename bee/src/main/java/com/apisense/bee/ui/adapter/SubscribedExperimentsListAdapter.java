@@ -118,11 +118,12 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
 
         // Display state of the current experiment
         View status = convertView.findViewById(R.id.item);
-//        if (item.state){
-        if (true) {
+        if ( item.isRunning() ) {
             showAsStarted(status);
+            state = getContext().getString(R.string.running);
         } else {
             showAsStopped(status);
+            state = getContext().getString(R.string.not_running);
         }
         textStatus.setText(" - " + state);
 
