@@ -83,7 +83,7 @@
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">About</string>
     <string name="settings_about_content">
-<![CDATA[
+        <![CDATA[
 	    	<p>
 	    	    Bee is a part of <a href="http://www.apisense.fr">Apisense</a> platform and it aims to research. For any informations
 	    	    look at <a href="mailto:contact@apisense.fr">contact@apisense.fr</a>.
@@ -99,5 +99,20 @@
     <string name="action_unsubscribe">UnSubscribe</string>
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="title_activity_store_search">StoreSearch</string>
+
+    <!-- About -->
+    <string name="about_content">
+        APISENSE® Team:\n
+        \r\r- Romain Rouvoy\n
+        \r\r- Nicolas Haderer\n
+        \r\r- Christophe Ribeiro\n
+        \r\r- Clive Ferret-Canape\n
+        \r\r- Antoine Veuiller\n
+        \r\r- Julien Duribreux
+
+        \n\n
+        Resources:\n
+        Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
+    </string>
 
 </resources>

@@ -94,4 +94,18 @@
     <string name="action_unsubscribe">Se désinscrire</string>
     <string name="no_available_experiments">Aucune expérience trouvé !</string>
 
+    <!-- About -->
+    <string name="about_content">
+        Equipe APISENSE® :\n
+        \r\r- Romain Rouvoy\n
+        \r\r- Nicolas Haderer\n
+        \r\r- Christophe Ribeiro\n
+        \r\r- Clive Ferret-Canape\n
+        \r\r- Antoine Veuiller\n
+        \r\r- Julien Duribreux
+
+        \n\n
+        Ressources:\n
+        Images de <a href="http://www.flaticon.com/">flaticon</a> et <a href="http://iconmonstr.com/">iconmostr</a>
+    </string>
 </resources>
