@@ -168,7 +168,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         public onExperimentSubscriptionChanged(View v){
             super();
             this.concernedView = v;
-            this.statusView = concernedView.findViewById(R.id.experiment_status);
+            this.statusView = concernedView.findViewById(R.id.item);
 
         }
 

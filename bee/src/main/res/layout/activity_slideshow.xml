@@ -21,8 +21,7 @@
             app:fillColor="#FD9028"
             app:pageColor="#FFFFFF"
             app:strokeColor="#FD9028"
-            app:strokeWidth="1dp"
-            />
+            app:strokeWidth="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

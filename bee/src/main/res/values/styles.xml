@@ -10,6 +10,10 @@
         <item name="android:actionBarWidgetTheme">@style/SearchBar</item>
         <item name="android:actionMenuTextColor">@color/actionBar_textColor</item>s
         <item name="android:windowContentOverlay">@drawable/actionbar_shadow_v2</item>
+
+        <item name="android:popupMenuStyle">@android:style/Widget.Holo.Light.PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionButton.Overflow</item>
     </style>
 
     <!-- TextView Styles -->
@@ -42,6 +46,10 @@
 
     <style name="ApisenseActionBar.Text" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Widget.ActionButton.Overflow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu</item>
     </style>
 
     <style name="SearchBar">

@@ -13,6 +13,7 @@
     <!-- Global -->
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
+    <string name="action_about">A propos</string>
     <string name="action_privacy">Intimité</string>
     <string name="by">par</string>
     <string name="search_hint">Nom de l\'expérience</string>
@@ -54,7 +55,7 @@
     <string name="experiment_activity_7_days">Activité des 7 derniers jours</string>
     <string name="experiment_started">Expérience %1$s démarrée</string>
     <string name="experiment_stopped">Expérience %1$s stoppée</string>
-    <string name="add_new_experiments">Cliquez sur le bouton pour participer à de nouvelles expériences</string>
+    <string name="add_new_experiments">Aucune mission :\'(\n\nCliquez sur le bouton Bee store pour en ajouter !</string>
     <string name="action_start">Démarrer</string>
     <string name="action_stop">Stopper</string>
     <string name="experiment_image_desc">Logo de l\'expérience</string>

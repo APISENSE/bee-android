@@ -69,7 +69,6 @@ public class BeeApplication extends BeeSenseApplication {
 //            APISENSE.apisMobileService().registerFacade(FeedzFacade.class);
 
             NotificationService.NOTIFICATION_ACTIVITY = NotificationActivity.class;
-
         } catch (Exception e) {
             e.printStackTrace();
         }

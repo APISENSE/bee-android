@@ -61,6 +61,16 @@ public class HomeActivity extends Activity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.connectOrDisconnect:
+                disconnect();
+                break;
+        }
+        return true;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         updateUI();
@@ -106,19 +116,14 @@ public class HomeActivity extends Activity {
         startActivity(privacyIntent);
     }
 
-    public void doLoginLogout(View loginButton){
-//        if (isUserAuthenticated()) {
-//            if (signOut == null) {
-//                signOut = new SignOutTask(new SignedOutCallback());
-//                signOut.execute();
-//            }
-//        } else {
-//            Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
-
-    }
+    /**
+     * Click event for disconnect
+     */
+    private void disconnect() {
+            signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
+            signOut.execute();
+            Log.d("APISENSE", "Sign out..");
+        }
 
     public void doLoginForm(MenuItem button) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
@@ -194,8 +199,10 @@ public class HomeActivity extends Activity {
         @Override
         public void onTaskCompleted(int result, Object response) {
             signOut = null;
-            updateUI();
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         @Override

@@ -130,7 +130,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
 //        });
 
         // Display state of the current experiment
-        View status = convertView.findViewById(R.id.experiment_status);
+        View status = convertView.findViewById(R.id.item);
         if (item.state){
             showAsStarted(status);
         } else {
@@ -141,10 +141,10 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     }
 
     public void showAsStarted(View v){
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
     }
 
     public void showAsStopped(View v){
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.orange_light));
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.light_grey));
     }
 }

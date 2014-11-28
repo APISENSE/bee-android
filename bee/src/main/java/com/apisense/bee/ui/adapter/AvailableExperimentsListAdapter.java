@@ -118,7 +118,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         description.setText(decode);
 
         // Contains a background color associated to current status
-        View status = convertView.findViewById(R.id.experiment_status);
+        View status = convertView.findViewById(R.id.item);
         if (SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(item)){
             showAsSubscribed(status);
         } else {
@@ -128,7 +128,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     }
 
     public void showAsSubscribed(View v){
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.orange_light));
+        v.setBackgroundColor(getContext().getResources().getColor(R.color.light_grey));
     }
 
     public void showAsUnsubscribed(View v){

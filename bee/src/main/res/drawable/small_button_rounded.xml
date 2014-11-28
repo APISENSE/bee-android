@@ -3,21 +3,21 @@
 
     <item>
         <layer-list>
-            <item android:left="3dp" android:top="3dp">
+            <item android:left="6dp" android:top="2dp">
                 <shape
                        android:shape="ring"
                        android:innerRadius="0dp"
-                       android:thickness="20dp"
+                       android:thickness="32dp"
                        android:useLevel="false">
-                    <gradient android:angle="270"
-                              android:endColor="#E5E5E5" android:startColor="@android:color/transparent" />
+                    <gradient android:angle="90"
+                              android:endColor="#E5E5E5" android:startColor="#F0F0F0" />
                 </shape>
             </item>
-            <item android:bottom="2dp" android:left="2dp">
+            <item android:bottom="4dp" android:left="4dp">
                 <shape
                        android:shape="ring"
                        android:innerRadius="0dp"
-                       android:thickness="20dp"
+                       android:thickness="32dp"
                        android:useLevel="false">>
                     <gradient android:angle="270"
                               android:endColor="#FD9028" android:startColor="#FDA028" />
@@ -26,6 +26,6 @@
         </layer-list>
     </item>
     <item android:drawable="@drawable/ic_cart"
-          android:bottom="12dp"
-          android:top="12dp"  android:left="12dp" android:right="12dp"/>
+          android:bottom="20dp"
+          android:top="20dp"  android:left="20dp" android:right="20dp"/>
 </layer-list>
