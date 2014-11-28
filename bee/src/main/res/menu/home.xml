@@ -5,7 +5,6 @@
     <item android:id="@+id/action_privacy"
           android:title="@string/action_privacy"
           android:icon="@drawable/ic_cop"
-          android:onClick="doLaunchPrivacy"
           android:orderInCategory="2"
           android:showAsAction="always" />
 

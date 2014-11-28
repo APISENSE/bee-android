@@ -71,6 +71,10 @@ public class HomeActivity extends Activity {
                 break;
             case R.id.action_settings:
                 doLaunchSettings();
+                break;
+            case R.id.action_privacy:
+                doLaunchPrivacy();
+                break;
         }
         return true;
     }
@@ -116,7 +120,7 @@ public class HomeActivity extends Activity {
         startActivity(settingsIntent);
     }
 
-    public void doLaunchPrivacy(MenuItem button){
+    public void doLaunchPrivacy(){
         Intent privacyIntent = new Intent(this, PrivacyActivity.class);
         startActivity(privacyIntent);
     }
