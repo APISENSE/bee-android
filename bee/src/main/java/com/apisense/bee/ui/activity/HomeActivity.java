@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,13 +11,10 @@ import android.view.View;
 import android.widget.*;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.Callback;
-import com.apisense.api.Crop;
-import com.apisense.api.LocalCrop;
+import com.apisense.api.*;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
-import com.apisense.bee.ui.entity.ExperimentSerializable;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
@@ -33,50 +31,85 @@ public class HomeActivity extends Activity {
     private RetrieveInstalledExperimentsTask experimentsRetrieval;
     private StartStopExperimentTask experimentStartStopTask;
 
+    private BroadcastReceiver eventReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Set installed experiment list behavior
-        experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
-                                                                  R.layout.fragment_experiment_element,
-                                                                  new ArrayList<APSLocalCrop>());
-        ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
-        subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
-        subscribedCollects.setAdapter(experimentsAdapter);
-        subscribedCollects.setOnItemLongClickListener(new StartStopCropListener());
-        subscribedCollects.setOnItemClickListener(new OpenCropDetailsListener());
+        initializeCropsView();
+    }
 
-        updateUI();
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        updateProfile();
+        retrieveActiveCrops();
+
+        eventReceiver = APS.registerToAPSEvent(this, new Callable<Void, APSLogEvent>() {
+            @Override
+            public Void call(APSLogEvent apsLogEvent) throws Exception {
+                Log.i(TAG, "Got event (" + apsLogEvent.getClass().getSimpleName() + ") for crop: " + apsLogEvent.cropName);
+                if (apsLogEvent instanceof APSLogEvent.StartCrop){
+                    showAsStarted(apsLogEvent.cropName);
+                }
+                else if (apsLogEvent instanceof APSLogEvent.StopCrop){
+                    showAsStopped(apsLogEvent.cropName);
+                }
+                return null;
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        APS.unregisterToAPSEvent(this, eventReceiver);
+    }
+
+    private void showAsStarted(String cropName) {
+        String toastMessage = String.format(getString(R.string.experiment_started), cropName);
+        Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        retrieveActiveCrops();
+    }
+
+    private void showAsStopped(String cropName) {
+        String toastMessage = String.format(getString(R.string.experiment_stopped), cropName);
+        Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        retrieveActiveCrops();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
 
-    private void updateUI(){
-        retrieveActiveCrops();
+    private void initializeCropsView(){
+        experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
+                                                                  R.layout.fragment_experiment_element,
+                                                                  new ArrayList<APSLocalCrop>());
+        ListView subscribedCrops = (ListView) findViewById(R.id.home_experiment_lists);
+        subscribedCrops.setEmptyView(findViewById(R.id.home_empty_list));
+        subscribedCrops.setAdapter(experimentsAdapter);
+        subscribedCrops.setOnItemLongClickListener(new StartStopCropListener());
+        subscribedCrops.setOnItemClickListener(new OpenCropDetailsListener());
+    }
 
-        // Generating messages depending on the logged user
-        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
-        // Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
-
+    private void updateProfile(){
+        String username = getString(R.string.user_identity, getString(R.string.anonymous_user));
         if (isUserAuthenticated()) {
-            String username = getString(R.string.user_identity);
             try {
-                username = APS.getUsername(this);
+                username = String.format(getString(R.string.user_identity), APS.getUsername(this));
             } catch (APS.SDKNotInitializedException e) {
                 e.printStackTrace();
             }
-            user_identity.setText(username);
-        } else {
-            user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
         }
+
+        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
+        user_identity.setText(username);
     }
 
     private void retrieveActiveCrops() {
@@ -126,7 +159,8 @@ public class HomeActivity extends Activity {
 
             List<APSLocalCrop> exp = localCropToAPSLocalCrop(crops);
             Log.i(TAG, "number of Active Crops: " + exp.size());
-            // Updating listview
+
+            experimentsAdapter.clear();
             experimentsAdapter.addAll(exp);
             experimentsAdapter.notifyDataSetChanged();
         }
@@ -169,42 +203,9 @@ public class HomeActivity extends Activity {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Crop exp = (Crop) parent.getAdapter().getItem(position);
-            if (experimentStartStopTask == null) {
-                experimentStartStopTask = new StartStopExperimentTask(getApplicationContext(), new OnCropStatusChanged(exp));
-                experimentStartStopTask.execute(exp.getName());
-            }
+            experimentStartStopTask = new StartStopExperimentTask(getApplicationContext());
+            experimentStartStopTask.execute(exp.getName());
             return true;
-        }
-    }
-
-    private class OnCropStatusChanged implements Callback<Integer> {
-        private Crop concernedExp;
-
-        public OnCropStatusChanged(Crop exp) {
-            this.concernedExp = exp;
-        }
-
-        @Override
-        public void onCall(Integer response) throws Exception {
-            experimentStartStopTask = null;
-            String experimentName = concernedExp.getNiceName();
-            String toastMessage = "";
-                switch(response) {
-                    case StartStopExperimentTask.EXPERIMENT_STARTED:
-                        toastMessage = String.format(getString(R.string.experiment_started), experimentName);
-                        break;
-                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
-                        toastMessage = String.format(getString(R.string.experiment_stopped), experimentName);
-                        break;
-                }
-                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-                experimentsAdapter.notifyDataSetInvalidated();
-            }
-
-        @Override
-        public void onError(Throwable throwable) {
-            experimentStartStopTask = null;
-
         }
     }
 }

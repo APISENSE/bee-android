@@ -17,12 +17,10 @@ public class StartStopExperimentTask {
     public static final int EXPERIMENT_STARTED = 1;
     public static final int EXPERIMENT_STOPPED = 2;
 
-    private final Callback<Integer> listener;
     private Context context;
 
-    public StartStopExperimentTask(Context context, Callback<Integer> listener){
+    public StartStopExperimentTask(Context context){
         this.context = context;
-        this.listener = listener;
     }
 
     public void execute(String cropId) {
@@ -30,15 +28,12 @@ public class StartStopExperimentTask {
             if (! getCropFromId(cropId).isRunning()) {
                 Log.i(TAG, "Starting experiment: " + cropId);
                 APS.startCrop(context, cropId);
-                listener.onCall(EXPERIMENT_STARTED);
             } else {
                 Log.i(TAG, "Stopping experiment: " + cropId);
                 APS.stopCrop(context, cropId);
-                listener.onCall(EXPERIMENT_STOPPED);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            listener.onError(e);
         }
    }
 
