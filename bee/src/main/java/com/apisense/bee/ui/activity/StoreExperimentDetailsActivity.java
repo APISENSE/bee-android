@@ -2,7 +2,6 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -75,14 +74,19 @@ public class StoreExperimentDetailsActivity extends Activity {
     }
 
     private void updateSubscriptionMenu(){
-        // TODO: Change to API method when available (isSubscribedExperiment)
-        if (!SubscribeUnsubscribeExperimentTask.isInstalled(this, experiment.getName())) {
-            mSubscribeButton.setTitle(getString(R.string.action_subscribe));
+        if (! SubscribeUnsubscribeExperimentTask.isInstalled(this, experiment.getName()) ) {
+            showAsUnsubscribed();
         } else {
-            mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
-
+            showAsSubscribed();
         }
+    }
 
+    private void showAsSubscribed(){
+        mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
+    }
+
+    private void showAsUnsubscribed() {
+        mSubscribeButton.setTitle(getString(R.string.action_subscribe));
     }
 
     @Override
@@ -93,36 +97,59 @@ public class StoreExperimentDetailsActivity extends Activity {
 
     public void doSubscribeUnsubscribe(MenuItem item) {
         if (experimentChangeSubscriptionStatus == null) {
-            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(getApplicationContext(), new OnExperimentSubscriptionChanged());
+            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(getApplicationContext(),
+                                                                                        new OnSubscribed(), new OnUnSubscribed());
             experimentChangeSubscriptionStatus.execute(experiment.getName());
         }
     }
 
-    private class OnExperimentSubscriptionChanged implements Callback<Integer> {
+    private class OnSubscribed implements Callback<APSLocalCrop>{
+        private final String experimentName;
 
+        public OnSubscribed(){
+            this.experimentName = experiment.getNiceName();
+        }
         @Override
-        public void onCall(Integer response) throws Exception {
+        public void onCall(APSLocalCrop apsLocalCrop) throws Exception {
             experimentChangeSubscriptionStatus = null;
-            String experimentName = experiment.getNiceName();
-            String toastMessage = "";
-            switch (response){
-                case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
-                    toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-                    updateSubscriptionMenu();
-                    break;
-                case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
-                    toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
-                    updateSubscriptionMenu();
-                    break;
-            }
-            // User feedback
+
+            String toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
             Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+
+            showAsSubscribed();
         }
 
         @Override
         public void onError(Throwable throwable) {
-            experimentChangeSubscriptionStatus = null;
             throwable.printStackTrace();
+            experimentChangeSubscriptionStatus = null;
+            showAsUnsubscribed();
         }
     }
+
+    private class OnUnSubscribed implements Callback<Void> {
+        private final String experimentName;
+
+        public OnUnSubscribed(){
+            this.experimentName = experiment.getNiceName();
+        }
+
+        @Override
+        public void onCall(Void aVoid) throws Exception {
+            experimentChangeSubscriptionStatus = null;
+
+            String toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
+            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+
+            showAsUnsubscribed();
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            throwable.printStackTrace();
+            experimentChangeSubscriptionStatus = null;
+            showAsSubscribed();
+        }
+    }
+
 }
