@@ -3,6 +3,8 @@ package com.apisense.bee.backend.experiment;
 import android.content.Context;
 import android.util.Log;
 import com.apisense.android.api.APS;
+import com.apisense.android.api.APSLocalCrop;
+import com.apisense.android.api.APSRequest;
 import com.apisense.api.Callback;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,28 +20,34 @@ public class SubscribeUnsubscribeExperimentTask {
     public static final int EXPERIMENT_UNSUBSCRIBED = 2;
 
     private Context context;
-    private final Callback<Integer> listener;
+    private Callback<APSLocalCrop> onSubscribedListener;
+    private Callback<Void> onUnSubscribedlistener;
 
-    public SubscribeUnsubscribeExperimentTask(Context context, Callback<Integer> listener){
+    public SubscribeUnsubscribeExperimentTask(Context context,
+                                              Callback<APSLocalCrop> onSubscribedListener,
+                                              Callback<Void> onUnSubscribedListener){
         this.context = context;
-        this.listener = listener;
+        this.onSubscribedListener = onSubscribedListener;
+        this.onUnSubscribedlistener = onUnSubscribedListener;
     }
 
     public void execute(String cropId) {
         try {
             if (isInstalled(context, cropId)) {
                 Log.i(TAG, "Asking un-subscription to experiment: " + cropId);
-                // TODO: Release uninstallCropMethod
-//                APS.uninstallCrop(context, cropId);
-                listener.onCall(EXPERIMENT_UNSUBSCRIBED);
+                APSRequest<Void> request = APS.uninstallCrop(context, cropId);
+                // FIXME: Callback not called back!
+                request.setCallback(onUnSubscribedlistener);
+                onUnSubscribedlistener.onCall(null);
             } else {
                 Log.i(TAG, "Asking subscription to experiment: " + cropId);
-                APS.installCrop(context, cropId);
-                listener.onCall(EXPERIMENT_SUBSCRIBED);
-           }
+                APSRequest<APSLocalCrop> request = APS.installCrop(context, cropId);
+                // FIXME: Callback not called back!
+                request.setCallback(onSubscribedListener);
+                onSubscribedListener.onCall(new APSLocalCrop("{}".getBytes()));
+            }
         } catch (Exception e){
             e.printStackTrace();
-            listener.onError(e);
         }
     }
 
@@ -50,13 +58,15 @@ public class SubscribeUnsubscribeExperimentTask {
      * @param cropId The id of the Crop to create
      * @return true if the user already subscribed to an experiment, false otherwise
      */
+    // FIXME : change isInstalled method (lots of request on it), set in SDK
     public static boolean isInstalled(Context context, String cropId) {
         List<String> installedCrops = new ArrayList<String>();
         try {
-            installedCrops = APS.getInstalledCrop(context);
+           installedCrops = APS.getInstalledCrop(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.v("SubscribeUnsubscribeExperimentTask", "Got installed crops: " + installedCrops);
         return installedCrops.contains(cropId);
     }
 }
