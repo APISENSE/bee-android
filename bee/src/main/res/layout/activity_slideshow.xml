@@ -10,7 +10,7 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <com.viewpagerindicator.CirclePageIndicator
             android:id="@+id/indicator"
@@ -18,9 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             app:radius="5dp"
-            app:fillColor="#FD9028"
+            app:fillColor="@color/light_grey"
             app:pageColor="#FFFFFF"
-            app:strokeColor="#FD9028"
+            app:strokeColor="@color/grey"
             app:strokeWidth="1dp" />
 
     <LinearLayout
