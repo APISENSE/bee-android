@@ -64,8 +64,13 @@ public class HomeActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.connectOrDisconnect:
-                disconnect();
+                doDisconnect();
                 break;
+            case R.id.action_about:
+                doLaunchAbout();
+                break;
+            case R.id.action_settings:
+                doLaunchSettings();
         }
         return true;
     }
@@ -106,7 +111,7 @@ public class HomeActivity extends Activity {
         return APISENSE.apisServerService().isConnected();
     }
 
-    public void doLaunchSettings(MenuItem button){
+    public void doLaunchSettings(){
         Intent settingsIntent = new Intent(this, SettingsActivity.class);
         startActivity(settingsIntent);
     }
@@ -119,11 +124,15 @@ public class HomeActivity extends Activity {
     /**
      * Click event for disconnect
      */
-    private void disconnect() {
-            signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
-            signOut.execute();
-            Log.d("APISENSE", "Sign out..");
-        }
+    private void doDisconnect() {
+        signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
+        signOut.execute();
+    }
+
+    private void doLaunchAbout() {
+        Intent aboutIntent = new Intent(this, AboutActivity.class);
+        startActivity(aboutIntent);
+    }
 
     public void doLoginForm(MenuItem button) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
