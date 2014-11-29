@@ -1,11 +1,9 @@
 package com.apisense.bee;
 
+import com.apisense.android.api.APSLocalCrop;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import fr.inria.bsense.service.BeeSenseServiceManagerMock;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.junit.Before;
-import org.junit.runner.RunWith;
 
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -19,27 +17,27 @@ public abstract class AsyncTaskWithCallbacksTestSuite implements AsyncTasksCallb
     protected Object response;
     protected boolean canceled;
 
-    public static JSONObject getExperimentJson() {
-        return getExperimentJson(0);
+    public static APSLocalCrop getCrop() {
+        return getCrop(0);
     }
 
-    public static JSONObject getExperimentJson(int id) {
-        return getExperimentJson(id, "started");
+    public static APSLocalCrop getCrop(int id) {
+        return getCrop(id, "started");
     }
 
-    public static JSONObject getExperimentJson(int id, String remoteState) {
-        return getExperimentJson("testExperiment", id, remoteState);
+    public static APSLocalCrop getCrop(int id, String remoteState) {
+        return getCrop("testExperiment", id, remoteState);
     }
 
-    public static JSONObject getExperimentJson(String name) {
-        return getExperimentJson(name, "started");
+    public static APSLocalCrop getCrop(String name) {
+        return getCrop(name, "started");
     }
 
-    public static JSONObject getExperimentJson(String name, String remoteState) {
-        return getExperimentJson(name, 0, remoteState);
+    public static APSLocalCrop getCrop(String name, String remoteState) {
+        return getCrop(name, 0, remoteState);
     }
 
-    public static JSONObject getExperimentJson(String expName, int id, String remoteState) {
+    public static APSLocalCrop getCrop(String expName, int id, String remoteState) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("'baseUrl': 'URL',");
@@ -60,13 +58,13 @@ public abstract class AsyncTaskWithCallbacksTestSuite implements AsyncTasksCallb
         sb.append("'visible': 'true'");
         sb.append("}");
 
-        JSONObject expJSon = null;
+        APSLocalCrop result = null;
         try {
-            expJSon = new JSONObject(sb.toString());
-        } catch (JSONException e) {
-            expJSon = new JSONObject();
+            return new APSLocalCrop(sb.toString().getBytes());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        return expJSon;
+        return result;
     }
 
     @Before
