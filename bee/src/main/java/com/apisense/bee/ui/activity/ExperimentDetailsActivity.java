@@ -71,9 +71,6 @@ public class ExperimentDetailsActivity extends Activity {
         initializeViews();
         displayExperimentInformation();
         displayExperimentActivity();
-        if (canDisplayMap()) {
-            displayMap();
-        }
     }
 
     @Override
@@ -107,21 +104,11 @@ public class ExperimentDetailsActivity extends Activity {
         mExperimentOrganization = (TextView) findViewById(R.id.exp_organization);
         mExperimentVersion = (TextView) findViewById(R.id.exp_version);
         mExperimentActivity = (TextView) findViewById(R.id.exp_activity);
-        mGoogleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
-        mMapCardView = (CardView) findViewById(R.id.map_card_view);
 
         graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);
     }
-
-
-    public void displayMap() {
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                new LatLng(50.60504, 3.15016)).zoom(12).build();
-        mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-    }
-
+    
     public void displayExperimentInformation() {
         Bundle b = getIntent().getExtras();
         // TODO : Switch to parcelable when available

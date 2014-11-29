@@ -73,7 +73,7 @@
 
     </LinearLayout>
 
-    <!-- Google map -->
+    <!-- Google map
     <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/map_card_view"
@@ -101,6 +101,6 @@
                     android:text="Map of your activity for the past few days !" />
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView> -->
 
 </LinearLayout>
