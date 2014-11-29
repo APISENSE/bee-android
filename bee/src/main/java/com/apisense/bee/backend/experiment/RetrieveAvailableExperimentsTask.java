@@ -2,10 +2,8 @@ package com.apisense.bee.backend.experiment;
 
 import android.content.Context;
 import android.util.Log;
-import com.apisense.android.APSApplication;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSRequest;
-import com.apisense.android.api.APSService;
 import com.apisense.api.Callback;
 import com.apisense.api.Crop;
 

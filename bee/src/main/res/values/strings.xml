@@ -99,6 +99,8 @@
     <string name="action_unsubscribe">UnSubscribe</string>
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="title_activity_store_search">StoreSearch</string>
+    <string name="no_available_sensors">No sensor available!</string>
+
 
     <!-- About -->
     <string name="about_content">

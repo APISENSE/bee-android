@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.Callback;
 import com.apisense.api.LocalCrop;
 
 /**

@@ -3,7 +3,6 @@ package com.apisense.bee.ui.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.Crop;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 

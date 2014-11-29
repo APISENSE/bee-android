@@ -45,9 +45,15 @@ public class SignInFragment extends Fragment {
         Button mSignInBtn = (Button) root.findViewById(R.id.signInLoginBtn);
         mSignInBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = doLogin(v);
-                getActivity().setResult(Activity.RESULT_OK, intent);
-                getActivity().finish();
+                String login = mPseudoEditText.getText().toString();
+                String password = mPasswordEditText.getText().toString();
+                if (isInputCorrect(login, password)) {
+                    Intent intent = createLoginIntent(login, password);
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                    getActivity().finish();
+                } else {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.empty_field), Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -56,28 +62,13 @@ public class SignInFragment extends Fragment {
     }
 
     /**
-     * Run sign in task in background
-     * @param loginButton button pressed to start task
-     */
-    public Intent doLogin(View loginButton){
-        Intent intent = new Intent();
-        if (!isInputCorrect()) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.empty_field), Toast.LENGTH_LONG).show();
-        } else {
-            intent = createLoginIntent(mPseudoEditText.getText().toString(), mPasswordEditText.getText().toString());
-        }
-        return intent;
-    }
-
-    /**
      * Check if sign in form is correctly filled
      * @return true or false
+     * @param login
+     * @param password
      */
-    private boolean isInputCorrect() {
-        String mPseudo = mPseudoEditText.getText().toString();
-        String mPassword = mPasswordEditText.getText().toString();
-
-        return !TextUtils.isEmpty(mPseudo) && !TextUtils.isEmpty(mPassword);
+    private boolean isInputCorrect(String login, String password) {
+        return !TextUtils.isEmpty(login) && !TextUtils.isEmpty(password);
     }
 
     private Intent createLoginIntent(String login, String password) {

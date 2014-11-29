@@ -2,18 +2,14 @@ package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.Crop;
 import com.apisense.api.LocalCrop;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
-import com.google.android.gms.location.LocationRequest;
 
 import java.util.List;
 
@@ -25,32 +21,20 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
     /**
      * Constructor
      *
-     * @param context
-     * @param layoutResourceId
-     */
-    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId) {
-        super(context, layoutResourceId);
-        //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
-    }
-
-    /**
-     * Constructor
-     *
-     * @param context
-     * @param layoutResourceId
+     * @param context The activity context
+     * @param layoutResourceId The id of the resource to inflate with each element
      * @param experiments
      *            list of experiments
      */
     public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<APSLocalCrop> experiments) {
         super(context, layoutResourceId, experiments);
-        //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
         this.setDataSet(experiments);
     }
 
     /**
      * Change the dataSet of the adapter
      *
-     * @param dataSet
+     * @param dataSet The set of data to put in the adapter
      */
     public void setDataSet(List<APSLocalCrop> dataSet){
         this.data = dataSet;
@@ -109,11 +93,10 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
         company.setText(" " + getContext().getString(R.string.by) + " " + item.getOrganisation());
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-//        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
         description.setText(item.getDescription());
 
         TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
-        String state = "";
+        String state;
 
         // Display state of the current experiment
         View status = convertView.findViewById(R.id.item);

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.SlideshowActivity;
+import com.apisense.bee.widget.ApisenseTextView;
 
 public class RegisterFragment extends Fragment {
 
@@ -54,9 +55,16 @@ public class RegisterFragment extends Fragment {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = attemptRegister();
-                getActivity().setResult(Activity.RESULT_OK, intent);
-                getActivity().finish();
+                String pseudo = mPseudoEditText.getText().toString();
+                String password = mPasswordEditText.getText().toString();
+                String passwordRepeat = mPasswordConfirmEditText.getText().toString();
+                String apisenseUrl = mApisenseUrlEditText.getText().toString();
+
+                if (certifyFormWellFilled(pseudo, password, passwordRepeat, apisenseUrl)) {
+                    Intent intent = generateRegisterIntent(pseudo, password, apisenseUrl);
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                    getActivity().finish();
+                }
             }
         });
 
@@ -74,6 +82,16 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+        ApisenseTextView mAnonymousText = (ApisenseTextView) root.findViewById(R.id.anonymousBtn);
+        mAnonymousText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = generateSkipIntent();
+                getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().finish();
+            }
+        });
+
         // Inflate the layout for this fragment
         return root;
     }
@@ -82,54 +100,60 @@ public class RegisterFragment extends Fragment {
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.),
      * the errors are presented and no actual login attempt is made.
+     * @param pseudo
+     * @param password
+     * @param apisenseUrl
      */
-    public Intent attemptRegister() {
+    public Intent generateRegisterIntent(String pseudo, String password, String apisenseUrl) {
         Intent intent = new Intent();
+        intent.putExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION,SlideshowActivity.REGISTER_ACTION);
+        intent.putExtra(SlideshowActivity.REGISTER_PSEUDO, pseudo);
+        intent.putExtra(SlideshowActivity.REGISTER_PSEUDO, password);
+        intent.putExtra(SlideshowActivity.REGISTER_URL, apisenseUrl);
+        return intent;
+    }
 
+    private boolean certifyFormWellFilled(String pseudo, String password, String passwordRepeat, String apisenseUrl) {
         // Reset errors.
         mPseudoEditText.setError(null);
         mPasswordEditText.setError(null);
         mPasswordConfirmEditText.setError(null);
         mApisenseUrlEditText.setError(null);
 
-        // Store values at the time of the login attempt.
-        String pseudo = mPseudoEditText.getText().toString();
-        String password = mPasswordEditText.getText().toString();
-        String passwordRepeat = mPasswordConfirmEditText.getText().toString();
-        String apisenseUrl = mApisenseUrlEditText.getText().toString();
-
-        boolean cancel = false;
+        boolean isFormOK = true;
         View focusView = null;
 
         // Check for a valid password.
         if (TextUtils.isEmpty(password)) {
             mPasswordEditText.setError(getString(R.string.error_field_required));
             focusView = mPasswordEditText;
-            cancel = true;
+            isFormOK = false;
         } else if (password.length() < 4) {
             mPasswordEditText.setError(getString(R.string.signin_error_invalid_password));
             focusView = mPasswordEditText;
-            cancel = true;
+            isFormOK = false;
         } else if (passwordRepeat.length() < 4 || !passwordRepeat.equals(password)) {
             mPasswordConfirmEditText.setError(getString(R.string.register_error_invalid_repeat_password));
             focusView = mPasswordConfirmEditText;
-            cancel = true;
+            isFormOK = false;
         } else if (TextUtils.isEmpty(apisenseUrl)) {
             mApisenseUrlEditText.setError(getString(R.string.error_field_required));
             focusView = mApisenseUrlEditText;
-            cancel = true;
+            isFormOK = false;
         }
 
-        if (cancel)
+        if (! isFormOK) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-        else {
-            intent.putExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION,SlideshowActivity.REGISTER_ACTION);
-            intent.putExtra(SlideshowActivity.REGISTER_PSEUDO, pseudo);
-            intent.putExtra(SlideshowActivity.REGISTER_PSEUDO, password);
-            intent.putExtra(SlideshowActivity.REGISTER_URL, apisenseUrl);
         }
+        return isFormOK;
+    }
+
+    private Intent generateSkipIntent() {
+        Intent intent = new Intent();
+        intent.putExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION,SlideshowActivity.LOGIN_ANONYMOUS_ACTION);
         return intent;
     }
+
 }

@@ -4,16 +4,13 @@ import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.api.Callback;
 import com.apisense.api.Crop;
-import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
@@ -116,6 +113,13 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         return false;
     }
 
+    public void getExperiments() {
+        if (experimentsRetrieval == null) {
+            experimentsRetrieval = new RetrieveAvailableExperimentsTask(this, new OnExperimentsRetrieved());
+            experimentsRetrieval.execute();
+        }
+    }
+
     // Callbacks definitions
 
     private class OnExperimentsRetrieved implements Callback<List<Crop>> {
@@ -152,20 +156,12 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
             Log.d(TAG, "Number of converted crops: " + result.size());
             return result;
         }
-
         @Override
         public void onError(Throwable throwable) {
             experimentsRetrieval = null;
             throwable.printStackTrace();
         }
-    }
 
-    public void getExperiments() {
-        // Creating new request to retrieve Experiments
-        if (experimentsRetrieval == null) {
-            experimentsRetrieval = new RetrieveAvailableExperimentsTask(this, new OnExperimentsRetrieved());
-            experimentsRetrieval.execute();
-        }
     }
 
 
@@ -175,7 +171,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
 
         public OnSubscribed(View experimentView){
             super();
-            this.statusView = experimentView.findViewById(R.id.experiment_status);
+            this.statusView = experimentView.findViewById(R.id.item);
             this.experimentName = ((TextView) experimentView.findViewById(R.id.experimentelement_sampletitle))
                     .getText().toString();
         }
@@ -205,7 +201,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
             super();
             this.experimentName =  ((TextView) experimentView.findViewById(R.id.experimentelement_sampletitle))
                                    .getText().toString();
-            this.statusView = experimentView.findViewById(R.id.experiment_status);
+            this.statusView = experimentView.findViewById(R.id.item);
         }
 
         @Override

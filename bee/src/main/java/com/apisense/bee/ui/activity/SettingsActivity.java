@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import com.apisense.android.api.APS;
 import com.apisense.api.Callback;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.user.SignOutTask;
-import net.hockeyapp.android.CheckUpdateTask;
 
 public class SettingsActivity extends Activity {
 
@@ -24,7 +22,6 @@ public class SettingsActivity extends Activity {
 
     // Asynchronous Tasks
     private SignOutTask signOut;
-    private CheckUpdateTask checkUpdateTask;
 
     TextView aboutView, versionView;
     private Button mUpgradeButton;
@@ -51,7 +48,6 @@ public class SettingsActivity extends Activity {
         mLogoutButton = (Button) findViewById(R.id.settings_logout);
         mRegisterButton = (Button) findViewById(R.id.settings_register);
         
-        mUpgradeButton.setOnClickListener(updateEvent);
         mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
 
         if (!isUserAuthenticated()) {
@@ -62,7 +58,7 @@ public class SettingsActivity extends Activity {
 
     public void goToRegister(View v) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo","register");
+        slideIntent.putExtra("goTo", SlideshowActivity.REGISTER);
         startActivity(slideIntent);
         finish();
     }
@@ -80,33 +76,9 @@ public class SettingsActivity extends Activity {
         };
     };
 
-//    /**
-//     * Click event for update
-//     */
-//    private final View.OnClickListener updateEvent = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            checkUpdateTask = (CheckUpdateTask) getLastCustomNonConfigurationInstance();
-//            if (checkUpdateTask != null)
-//                checkUpdateTask.attach(SettingsActivity.this);
-//            else {
-//                checkUpdateTask = new CheckUpdateTask(SettingsActivity.this, "http://download.apisense.fr/", "Bee");
-//                checkUpdateTask.execute();
-//            }
-//            Toast.makeText(getBaseContext(), "Clicked on update detected", Toast.LENGTH_SHORT).show();
-//        };
-//    };
-//
-//    @Override
-//    public Object onRetainCustomNonConfigurationInstance() {
-//        if(checkUpdateTask!=null)
-//            checkUpdateTask.detach();
-//        return checkUpdateTask;
-//    }
-
     /**
-     * Helper to get the app version info
      *
+     * Helper to get the app version info
      * @return a PackageInfo object
      */
     private PackageInfo getAppInfo() {
@@ -143,5 +115,4 @@ public class SettingsActivity extends Activity {
             return false;
         }
     }
-
 }

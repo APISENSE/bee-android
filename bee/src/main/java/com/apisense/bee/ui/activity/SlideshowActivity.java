@@ -1,6 +1,5 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -65,10 +64,14 @@ public class SlideshowActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
+        //Bind the title indicator to the adapter
+        CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
+
         // Check if we are coming from Anonymous HomeActivity
         try {
             Intent intent = getIntent(); // gets the previously created intent
-            Integer destination = intent.getIntExtra("goTo",WHAT);
+            Integer destination = intent.getIntExtra("goTo", WHAT);
 
             mPager.setCurrentItem(destination); // Coming from an other activity
 
@@ -77,14 +80,9 @@ public class SlideshowActivity extends FragmentActivity {
             mPager.setCurrentItem(WHAT); // Launching the app
         }
 
-        //Bind the title indicator to the adapter
-        CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
-
         // Add onClick listeners
         Button signInBtn = (Button) findViewById(R.id.signIn);
         Button registerBtn = (Button) findViewById(R.id.register);
-        // Button skipBtn = (Button) findViewById(R.id.skip);
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -97,21 +95,6 @@ public class SlideshowActivity extends FragmentActivity {
                 mPager.setCurrentItem(REGISTER);
             }
         });
-
-        /* skipBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = generateSkipIntent();
-                setResult(Activity.RESULT_OK, intent);
-                finish();
-            }
-        }); */
-    }
-
-    private Intent generateSkipIntent() {
-        Intent intent = new Intent();
-        intent.putExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION,SlideshowActivity.LOGIN_ANONYMOUS_ACTION);
-        return intent;
     }
 
     @Override

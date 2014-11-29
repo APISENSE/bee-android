@@ -8,22 +8,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.api.APSLogEvent;
 import com.apisense.api.Callable;
-import com.apisense.api.Callback;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.widget.BarGraphView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 import org.json.simple.parser.ParseException;
 
 import java.util.*;
@@ -34,8 +28,6 @@ public class ExperimentDetailsActivity extends Activity {
 
     private APSLocalCrop experiment;
 
-    private CardView mMapCardView;
-
     private TextView mExperimentName;
     private TextView mExperimentOrganization;
     private TextView mExperimentVersion;
@@ -44,20 +36,13 @@ public class ExperimentDetailsActivity extends Activity {
     // private MenuItem mSubscribeButton;
     private MenuItem mStartButton;
 
-    private GoogleMap mGoogleMap;
-
     private BarGraphView graph;
     private int barGraphShowDay = 7;
-    private ArrayList<Long> traces = new ArrayList<Long>();;
+    private ArrayList<Long> traces = new ArrayList<Long>();
 
     // Async Tasks
     private StartStopExperimentTask experimentStartStopTask;
     private BroadcastReceiver eventReceiver;
-
-    protected boolean canDisplayMap() {
-        return (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext())
-                == ConnectionResult.SUCCESS);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +57,6 @@ public class ExperimentDetailsActivity extends Activity {
         }
 
         initializeViews();
-        displayExperimentInformation();
-        displayExperimentActivity();
     }
 
     @Override
@@ -126,7 +109,6 @@ public class ExperimentDetailsActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.experiment_details, menu);
-        // mSubscribeButton = menu.findItem(R.id.detail_action_subscribe);
         mStartButton = menu.findItem(R.id.detail_action_start);
 
         updateStartMenu();
@@ -182,10 +164,10 @@ public class ExperimentDetailsActivity extends Activity {
 
     // Action bar update
     private void updateStartMenu(){
-        if (!experiment.isRunning()) {
-            mStartButton.setTitle(getString(R.string.action_start));
+        if(experiment.isRunning()) {
+            showAsActivated();
         } else {
-            mStartButton.setTitle(getString(R.string.action_stop));
+            showAsDeactivated();
         }
     }
 
@@ -199,36 +181,6 @@ public class ExperimentDetailsActivity extends Activity {
         mStartButton.setTitle(getString(R.string.action_start));
         graph.setDeactived();
         updateGraph();
-    }
-
-    // Callbacks
-
-    private class OnExperimentExecutionStatusChanged implements Callback<Integer> {
-
-        @Override
-        public void onCall(Integer response) throws Exception {
-            experimentStartStopTask = null;
-            String toastMessage = "";
-            switch (response) {
-                case StartStopExperimentTask.EXPERIMENT_STARTED:
-                    graph.setActived();
-                    toastMessage = String.format(getString(R.string.experiment_started), experiment.getNiceName());
-                    break;
-                case StartStopExperimentTask.EXPERIMENT_STOPPED:
-                    graph.setDeactived();
-                    toastMessage = String.format(getString(R.string.experiment_stopped), experiment.getNiceName());
-                    break;
-            }
-            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-            graph.updateGraphWith(traces);
-            updateStartMenu();
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
     }
 
     // Buttons Handlers

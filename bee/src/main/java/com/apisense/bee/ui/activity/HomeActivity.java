@@ -3,7 +3,6 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,7 +13,6 @@ import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.api.*;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
@@ -121,18 +119,6 @@ public class HomeActivity extends Activity {
         return true;
     }
 
-    public void setCrops(List<APSLocalCrop> experiments) {
-        this.experimentsAdapter.addAll(experiments);
-    }
-
-    private void updateUI() {
-        retrieveActiveCrops();
-
-        // Generating messages depending on the logged user
-        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
-        // Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
-    }
-
     private void updateProfile(){
         String username = getString(R.string.user_identity, getString(R.string.anonymous_user));
         if (isUserAuthenticated()) {
@@ -175,9 +161,6 @@ public class HomeActivity extends Activity {
         startActivity(privacyIntent);
     }
 
-    /**
-     * Click event for disconnect
-     */
     private void doDisconnect() {
         signOut = new SignOutTask(this, new SignedOutCallback());
         signOut.execute();
@@ -186,13 +169,6 @@ public class HomeActivity extends Activity {
     private void doLaunchAbout() {
         Intent aboutIntent = new Intent(this, AboutActivity.class);
         startActivity(aboutIntent);
-    }
-
-    public void doLoginForm(MenuItem button) {
-        Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo", SlideshowActivity.REGISTER);
-        startActivity(slideIntent);
-        finish();
     }
 
     public void doGoToStore(View storeButton) {
@@ -281,36 +257,6 @@ public class HomeActivity extends Activity {
         @Override
         public void onError(Throwable throwable) {
             signOut = null;
-        }
-    }
-
-    private class OnCropStatusChanged implements Callback<Integer> {
-        private Crop concernedExp;
-
-        public OnCropStatusChanged(Crop exp) {
-            this.concernedExp = exp;
-        }
-
-        @Override
-        public void onCall(Integer response) throws Exception {
-            experimentStartStopTask = null;
-            String experimentName = concernedExp.getNiceName();
-            String toastMessage = "";
-                switch(response) {
-                    case StartStopExperimentTask.EXPERIMENT_STARTED:
-                        toastMessage = String.format(getString(R.string.experiment_started), experimentName);
-                        break;
-                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
-                        toastMessage = String.format(getString(R.string.experiment_stopped), experimentName);
-                        break;
-                }
-                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-                experimentsAdapter.notifyDataSetInvalidated();
-            }
-
-        @Override
-        public void onError(Throwable throwable) {
-            experimentStartStopTask = null;
         }
     }
 }

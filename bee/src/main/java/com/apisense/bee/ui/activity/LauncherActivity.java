@@ -22,7 +22,6 @@ public class LauncherActivity extends Activity {
 
         // setup APISENSE SDK
         APS.ready((APSApplication) getApplicationContext(), new Callback<Void>() {
-
             @Override
             public void onCall(Void aVoid) throws Exception {
                 if (APS.isConnected(getBaseContext())){
@@ -45,9 +44,7 @@ public class LauncherActivity extends Activity {
         request.setCallback(new Callback() {
             @Override
             public void onCall(Object ignored) throws Exception {
-
-                // user is connected
-                // TODO launch crop activity
+                startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
             }
 
             @Override
@@ -73,11 +70,9 @@ public class LauncherActivity extends Activity {
             if (resultCode == RESULT_OK){
 
                 try {
-
                     final String action = data.getStringExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION);
                     if (action.equals(SlideshowActivity.LOGIN_ACTION)) {
                         // connection user with credential
-
                         final APSRequest request = APS.connect(
                                 getBaseContext(),
                                 data.getStringExtra(SlideshowActivity.LOGIN_PSEUDO),
@@ -87,12 +82,10 @@ public class LauncherActivity extends Activity {
 
                     } else if (action.equals(SlideshowActivity.LOGIN_ANONYMOUS_ACTION)) {
                         //create an anonymous connection
-
                         final APSRequest request = APS.ensureAnonymousConnection(getBaseContext());
                         handlerRequest(request,SlideshowActivity.SIGNIN);
 
                     } else if (action.equals(SlideshowActivity.REGISTER_ACTION)) {
-
                         // create a new user account
                         final APSRequest request = APS.createAccount(
                                 getBaseContext(),
