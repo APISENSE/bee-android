@@ -85,8 +85,8 @@
     <string name="settings_about_content">
         <![CDATA[
 	    	<p>
-	    	    Bee is a part of <a href="http://www.apisense.fr">Apisense</a> platform and it aims to research. For any informations
-	    	    look at <a href="mailto:contact@apisense.fr">contact@apisense.fr</a>.
+	    	    Bee is a part of <a href="http://www.apisense.com">Apisense</a> platform and it aims to research. For any informations
+	    	    look at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
 			</p>
 	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.</p>
 	    ]]>
