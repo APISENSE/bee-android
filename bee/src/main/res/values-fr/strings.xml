@@ -80,8 +80,8 @@
     <string name="settings_about_content">
         <![CDATA[
 	    	<p>
-	    		L\'application Bee fait partie de la plateforme <a href="http://www.apisense.fr">Apisense</a>,
-	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.fr">contact@apisense.fr</a>.
+	    		L\'application Bee fait partie de la plateforme <a href="http://www.apisense.com">Apisense</a>,
+	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
 			</p>
 	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
 	    ]]>
