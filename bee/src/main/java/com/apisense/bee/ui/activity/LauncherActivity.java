@@ -7,8 +7,13 @@ import android.widget.Toast;
 import com.apisense.android.APSApplication;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSRequest;
+import com.apisense.api.APSException;
 import com.apisense.api.Callback;
+import com.apisense.api.LocalCrop;
 import com.apisense.api.Log;
+import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
+
+import java.util.List;
 
 
 public class LauncherActivity extends Activity {
@@ -24,9 +29,9 @@ public class LauncherActivity extends Activity {
         APS.ready((APSApplication) getApplicationContext(), new Callback<Void>() {
             @Override
             public void onCall(Void aVoid) throws Exception {
-                if (APS.isConnected(getBaseContext())){
+                if (APS.isConnected(getBaseContext())) {
                     startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
-                }else{
+                } else {
                     startActivityForResult(new Intent(getBaseContext(), SlideshowActivity.class), LOGIN_REQUEST);
                 }
             }
@@ -38,29 +43,25 @@ public class LauncherActivity extends Activity {
         });
     }
 
-    private void handlerRequest(final APSRequest request, final int page){
-
+    private void handlerRequest(final APSRequest request){
         request.runCallbackOnUIThread(this);
         request.setCallback(new Callback() {
             @Override
             public void onCall(Object ignored) throws Exception {
-                startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
+                    startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
             }
 
             @Override
             public void onError(Throwable throwable) {
                 Log.e(throwable);
-                Toast.makeText(getBaseContext(),"Error : "+throwable.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Error : " + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
                 final Intent intent = new Intent(getBaseContext(), SlideshowActivity.class);
-                intent.putExtra("goTo",page);
-
+                intent.putExtra("goTo", SlideshowActivity.SIGNIN);
                 startActivityForResult(intent, LOGIN_REQUEST);
             }
         });
-        Intent intent = new Intent(this, SlideshowActivity.class);
-        startActivityForResult(intent, LOGIN_REQUEST);
-   }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -68,40 +69,40 @@ public class LauncherActivity extends Activity {
 
         if (requestCode == LOGIN_REQUEST){
             if (resultCode == RESULT_OK){
-
                 try {
                     final String action = data.getStringExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION);
+                    APSRequest request = null;
+
                     if (action.equals(SlideshowActivity.LOGIN_ACTION)) {
-                        // connection user with credential
-                        final APSRequest request = APS.connect(
-                                getBaseContext(),
-                                data.getStringExtra(SlideshowActivity.LOGIN_PSEUDO),
-                                data.getStringExtra(SlideshowActivity.LOGIN_PWD));
-
-                        handlerRequest(request,SlideshowActivity.SIGNIN);
-
+                        request = generateLoginRequest(data);
                     } else if (action.equals(SlideshowActivity.LOGIN_ANONYMOUS_ACTION)) {
-                        //create an anonymous connection
-                        final APSRequest request = APS.ensureAnonymousConnection(getBaseContext());
-                        handlerRequest(request,SlideshowActivity.SIGNIN);
-
+                        request = generateAnonymousLoginRequest();
                     } else if (action.equals(SlideshowActivity.REGISTER_ACTION)) {
-                        // create a new user account
-                        final APSRequest request = APS.createAccount(
-                                getBaseContext(),
-                                data.getStringExtra(SlideshowActivity.REGISTER_PSEUDO),
-                                data.getStringExtra(SlideshowActivity.REGISTER_PSEUDO),
-                                data.getStringExtra(SlideshowActivity.REGISTER_PWD),
-                                "default@apisense.com");
-
-                        handlerRequest(request,SlideshowActivity.SIGNIN);
+                        request = generateRegistrationRequest(data);
                     }
-
+                    handlerRequest(request);
                 } catch(Throwable e){
                     Log.e(e);
                     Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         }
+    }
+
+    private APSRequest generateLoginRequest(Intent data) throws APSException {
+        return APS.connect(getBaseContext(), data.getStringExtra(SlideshowActivity.LOGIN_PSEUDO),
+                data.getStringExtra(SlideshowActivity.LOGIN_PWD));
+    }
+
+    private APSRequest generateAnonymousLoginRequest() throws APSException {
+        return APS.ensureAnonymousConnection(getBaseContext());
+    }
+
+    private APSRequest generateRegistrationRequest(Intent data) throws APSException {
+        return APS.createAccount(getBaseContext(),
+                data.getStringExtra(SlideshowActivity.REGISTER_PSEUDO),
+                data.getStringExtra(SlideshowActivity.REGISTER_PSEUDO),
+                data.getStringExtra(SlideshowActivity.REGISTER_PWD),
+                "default@apisense.com");
     }
 }
