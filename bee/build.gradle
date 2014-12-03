@@ -3,8 +3,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.0'
-        //classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.1'
+        classpath 'com.android.tools.build:gradle:0.14.2'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.1'
     }
 }
 apply plugin: 'com.android.application'
@@ -76,8 +76,6 @@ dependencies {
 
     compile 'com.github.gabrielemariotti.cards:cardslib-core:2.0.1'
     compile 'com.github.gabrielemariotti.cards:cardslib-cards:2.0.1'
-
-
    */
 
     compile 'com.viewpagerindicator:library:2.4.1'
@@ -88,7 +86,7 @@ dependencies {
 
     compile ('com.google.android.gms:play-services:3.2.25')
 }
-/*
+
 // Unit tests
 // See: https://plugins.jetbrains.com/plugin/7488?pr=idea
 apply plugin: 'android-unit-test'
@@ -137,6 +135,6 @@ task testsCoverage(type: JacocoReport, dependsOn: "mergeTestsCoverage") {
     )
     sourceDirectories = files('src/main/java', 'src/main/gen')
     executionData = files('build/jacoco/mergedResults.exec')
-}*/
+}
 
 
