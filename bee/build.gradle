@@ -82,7 +82,7 @@ dependencies {
 
     compile 'com.viewpagerindicator:library:2.4.1'
     //compile(group: 'com.apisense.sdk', name: 'apisense-java-core', version: '3.0.0r8-+')
-    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '3.0.0r8-+', ext: 'aar'){
+    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '3.0.0r10-+', ext: 'aar'){
         transitive true
     }
 

@@ -108,7 +108,7 @@ public class RegisterFragment extends Fragment {
         Intent intent = new Intent();
         intent.putExtra(SlideshowActivity.KEY_AUTHENTICATION_ACTION,SlideshowActivity.REGISTER_ACTION);
         intent.putExtra(SlideshowActivity.REGISTER_PSEUDO, pseudo);
-        intent.putExtra(SlideshowActivity.REGISTER_PSEUDO, password);
+        intent.putExtra(SlideshowActivity.REGISTER_PWD, password);
         intent.putExtra(SlideshowActivity.REGISTER_URL, apisenseUrl);
         return intent;
     }

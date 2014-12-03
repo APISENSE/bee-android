@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,18 +23,19 @@ import com.apisense.core.api.APSLogEvent;
 import com.apisense.core.api.Callable;
 import com.apisense.core.api.Callback;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class HomeActivity extends Activity {
+/**
+ * Created by haderer on 03/12/14.
+ */
+public class HomeActivityBis extends Activity {
     private final String TAG = getClass().getSimpleName();
 
     // Data
     protected SubscribedExperimentsListAdapter experimentsAdapter;
 
-   // Asynchronous Tasks
+    // Asynchronous Tasks
     private RetrieveInstalledExperimentsTask experimentsRetrieval;
     private StartStopExperimentTask experimentStartStopTask;
     private SignOutTask signOut;
@@ -61,10 +61,9 @@ public class HomeActivity extends Activity {
             @Override
             public Void call(APSLogEvent apsLogEvent) throws Exception {
                 Log.i(TAG, "Got event (" + apsLogEvent + ") for crop: " + apsLogEvent.cropName);
-                if (apsLogEvent instanceof APSLogEvent.StartCrop){
+                if (apsLogEvent instanceof APSLogEvent.StartCrop) {
                     showAsStarted(apsLogEvent.cropName);
-                }
-                else if (apsLogEvent instanceof APSLogEvent.StopCrop){
+                } else if (apsLogEvent instanceof APSLogEvent.StopCrop) {
                     showAsStopped(apsLogEvent.cropName);
                 }
                 return null;
@@ -142,10 +141,10 @@ public class HomeActivity extends Activity {
 
     private void retrieveActiveCrops() {
         if (experimentsRetrieval == null) {
-             experimentsRetrieval = new RetrieveInstalledExperimentsTask(this, new ExperimentListRetrievedCallback());
+            experimentsRetrieval = new RetrieveInstalledExperimentsTask(this, new ExperimentListRetrievedCallback());
             experimentsRetrieval.execute();
         }
-   }
+    }
 
     private boolean isUserAuthenticated() {
         boolean response;
@@ -196,7 +195,7 @@ public class HomeActivity extends Activity {
     }
 
     public class ExperimentListRetrievedCallback implements Callback<List<APSLocalCrop>> {
-            @Override
+        @Override
         public void onCall(List<APSLocalCrop> crops) throws Exception {
             experimentsRetrieval = null;
 

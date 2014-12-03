@@ -26,7 +26,10 @@ public class LauncherActivity extends Activity {
             @Override
             public void onCall(Void aVoid) throws Exception {
                 if (APS.isConnected(getBaseContext())) {
-                    startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
+
+                    startActivity(new Intent(getBaseContext(), HomeActivity.class));
+                    finish();
+
                 } else {
                     startActivityForResult(new Intent(getBaseContext(), SlideshowActivity.class), LOGIN_REQUEST);
                 }
@@ -44,7 +47,7 @@ public class LauncherActivity extends Activity {
         request.setCallback(new Callback() {
             @Override
             public void onCall(Object ignored) throws Exception {
-                    startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
+                startActivity(new Intent(getBaseContext(), HomeActivity.class));
             }
 
             @Override
@@ -95,7 +98,7 @@ public class LauncherActivity extends Activity {
     }
 
     private APSRequest generateRegistrationRequest(Intent data) throws APSException {
-        return APS.createAccount(getBaseContext(),
+         return APS.createAccount(getBaseContext(),
                 data.getStringExtra(SlideshowActivity.REGISTER_PSEUDO),
                 data.getStringExtra(SlideshowActivity.REGISTER_PSEUDO),
                 data.getStringExtra(SlideshowActivity.REGISTER_PWD),
