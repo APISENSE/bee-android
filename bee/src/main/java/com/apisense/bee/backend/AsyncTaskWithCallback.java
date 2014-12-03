@@ -1,7 +1,6 @@
 package com.apisense.bee.backend;
 
 import android.os.AsyncTask;
-import com.apisense.bee.BeeApplication;
 
 /**
  * Represents an asynchronous tasks that need postExecution dependent on the UI.
@@ -13,7 +12,7 @@ import com.apisense.bee.BeeApplication;
 public abstract class AsyncTaskWithCallback<Params, Progress, Result> extends AsyncTask <Params, Progress, Result> {
     private final String TAG = this.getClass().getSimpleName();
     private AsyncTasksCallbacks listener;
-    protected int errcode = BeeApplication.ASYNC_UNSET_CODE;
+    protected int errcode = -42;
 
     public AsyncTaskWithCallback(AsyncTasksCallbacks listener) {
         this.listener = listener;

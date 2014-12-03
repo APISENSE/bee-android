@@ -10,18 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+import com.apisense.android.api.APSCrop;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
+import com.apisense.core.api.Crop;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> {
+public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
     private final String TAG = getClass().getSimpleName();
 
-    private List<APSLocalCrop> data;
-    private List<APSLocalCrop> filteredData;
+    private List<Crop> data;
+    private List<Crop> filteredData;
 
     /**
      * Constructor
@@ -29,7 +31,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> 
      * @param layoutResourceId
      * @param experiments
      */
-    public AvailableExperimentsListAdapter(Context context, int layoutResourceId, ArrayList<APSLocalCrop> experiments) {
+    public AvailableExperimentsListAdapter(Context context, int layoutResourceId, ArrayList<Crop> experiments) {
         super(context, layoutResourceId, experiments);
         setDataSet(experiments);
     }
@@ -39,7 +41,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> 
      *
      * @param dataSet
      */
-    public void setDataSet(List<APSLocalCrop> dataSet){
+    public void setDataSet(List<Crop> dataSet){
         this.data = dataSet;
         this.filteredData = dataSet;
         notifyDataSetChanged();
@@ -63,7 +65,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> 
      * @return an experiment
      */
     @Override
-    public APSLocalCrop getItem(int position) {
+    public Crop getItem(int position) {
         return filteredData.get(position);
     }
 
@@ -87,7 +89,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> 
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        APSLocalCrop item = getItem(position);
+        Crop item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem) for APSLocalCrop: " + item);
 
@@ -133,17 +135,17 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> 
                 String filterString = constraint.toString().toLowerCase();
                 FilterResults results = new FilterResults();
 
-                final List<APSLocalCrop> items = data;
+                final List<Crop> items = data;
 
                 int count = items.size();
-                final ArrayList<APSLocalCrop> newItems = new ArrayList<APSLocalCrop>(count);
+                final ArrayList<Crop> newItems = new ArrayList<>(count);
 
                 APSLocalCrop filterableAPSLocalCrop;
 
                 if (TextUtils.isEmpty(constraint)) {
-                    for (APSLocalCrop exp : items) newItems.add(exp);
+                    for (Crop exp : items) newItems.add(exp);
                 } else {
-                    for (APSLocalCrop exp : items) {
+                    for (Crop exp : items) {
                         if (exp.getNiceName().toLowerCase().contains(filterString)) {
                             newItems.add(exp);
                         }
@@ -159,7 +161,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> 
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredData = (ArrayList<APSLocalCrop>) results.values;
+                filteredData = (ArrayList<Crop>) results.values;
                 notifyDataSetChanged();
             }
 

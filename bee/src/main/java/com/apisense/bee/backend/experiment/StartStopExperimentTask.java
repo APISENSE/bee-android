@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.LocalCrop;
 
 /**
  * Start and Stop AsyncTask wrapper to simplify usage in activities
@@ -36,7 +35,7 @@ public class StartStopExperimentTask {
         }
    }
 
-    private LocalCrop getCropFromId(String id){
+    private APSLocalCrop getCropFromId(String id){
         APSLocalCrop crop = null;
         try {
             crop = APS.getCropDescription(context, id);

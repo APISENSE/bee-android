@@ -3,8 +3,8 @@ package com.apisense.bee.backend.experiment;
 import android.content.Context;
 import android.util.Log;
 import com.apisense.android.api.APS;
-import com.apisense.api.Callback;
-import com.apisense.api.LocalCrop;
+import com.apisense.android.api.APSLocalCrop;
+import com.apisense.core.api.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,9 @@ import java.util.List;
 public class RetrieveInstalledExperimentsTask {
     private final String TAG = this.getClass().getSimpleName();
     private Context context;
-    private Callback<List<LocalCrop>> listener;
+    private Callback<List<APSLocalCrop>> listener;
 
-    public RetrieveInstalledExperimentsTask(Context context, Callback<List<LocalCrop>> listener) {
+    public RetrieveInstalledExperimentsTask(Context context, Callback<List<APSLocalCrop>> listener) {
         this.context = context;
         this.listener = listener;
     }
@@ -29,7 +29,7 @@ public class RetrieveInstalledExperimentsTask {
             for (String exp: returnIds) {
                 Log.i(TAG, exp);
             }
-            List<LocalCrop> gotCrops = retrieveLocalCrops(returnIds);
+            List<APSLocalCrop> gotCrops = retrieveLocalCrops(returnIds);
             this.listener.onCall(gotCrops);
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,8 +37,8 @@ public class RetrieveInstalledExperimentsTask {
         }
     }
 
-    private List<LocalCrop> retrieveLocalCrops(List<String> ids){
-        List<LocalCrop> result = new ArrayList<LocalCrop>();
+    private List<APSLocalCrop> retrieveLocalCrops(List<String> ids){
+        List<APSLocalCrop> result = new ArrayList<>();
         for (String id: ids){
             try {
                 result.add(APS.getCropDescription(context, id));

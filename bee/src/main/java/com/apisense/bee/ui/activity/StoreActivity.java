@@ -7,15 +7,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.apisense.android.api.APSCrop;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.Callback;
-import com.apisense.api.Crop;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
-import org.json.simple.parser.ParseException;
+import com.apisense.core.api.Callback;
+import com.apisense.core.api.Crop;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     private void setUpAvailableCropsList() {
         experimentsAdapter = new AvailableExperimentsListAdapter(getApplicationContext(),
                                                                  R.layout.fragment_experiment_store_element,
-                                                                 new ArrayList<APSLocalCrop>());
+                                                                 new ArrayList<Crop>());
 
         ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiments_list);
         subscribedExperiments.setEmptyView(findViewById(R.id.store_empty_list));
@@ -125,37 +126,21 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     private class OnExperimentsRetrieved implements Callback<List<Crop>> {
 
         @Override
-        public void onCall(List<Crop> crops) throws Exception {
+        public void onCall(final List<Crop> crops) throws Exception {
             experimentsRetrieval = null;
 
-            final List<APSLocalCrop> apsCrops = cropToAPSLocalCrop(crops);
-            for (APSLocalCrop apsCrop: apsCrops){ Log.v(TAG, "Got Crop:" + apsCrop); }
+            for (Crop apsCrop: crops){ Log.v(TAG, "Got Crop:" + apsCrop); }
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    experimentsAdapter.setDataSet(apsCrops);
+                    experimentsAdapter.setDataSet(crops);
                     experimentsAdapter.notifyDataSetChanged();
                 }
             });
             Log.i(TAG, "Number of Active Experiments: " + experimentsAdapter.getCount());
         }
 
-        // TODO: Delete when Callback type is fixed to APSLocalCrop
-        private List<APSLocalCrop> cropToAPSLocalCrop(List<Crop> crops) {
-            List<APSLocalCrop> result = new ArrayList<APSLocalCrop>();
-            for (Crop crop : crops){
-                APSLocalCrop apsCrop = null;
-                try {
-                    apsCrop = new APSLocalCrop(crop.getByte());
-                    result.add(apsCrop);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            Log.d(TAG, "Number of converted crops: " + result.size());
-            return result;
-        }
         @Override
         public void onError(Throwable throwable) {
             experimentsRetrieval = null;
@@ -229,8 +214,8 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), StoreExperimentDetailsActivity.class);
 
-            APSLocalCrop exp = (APSLocalCrop) parent.getAdapter().getItem(position);
-            intent.putExtra("experiment", exp.getByte());
+            Crop exp = (Crop) parent.getAdapter().getItem(position);
+            intent.putExtra("experiment", (Serializable) exp);
 
             startActivity(intent);
         }
@@ -239,7 +224,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     private class SubscriptionListener implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            Crop exp = (Crop) parent.getAdapter().getItem(position);
+            APSCrop exp = (APSCrop) parent.getAdapter().getItem(position);
             if (experimentChangeSubscriptionStatus == null){
                 experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(getApplicationContext(),
                                                                                             new OnSubscribed(view), new OnUnSubscribed(view));

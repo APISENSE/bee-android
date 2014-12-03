@@ -3,9 +3,11 @@ package com.apisense.bee.backend.experiment;
 import android.content.Context;
 import android.util.Log;
 import com.apisense.android.api.APS;
+import com.apisense.android.api.APSCrop;
 import com.apisense.android.api.APSRequest;
-import com.apisense.api.Callback;
-import com.apisense.api.Crop;
+import com.apisense.core.api.Callback;
+import com.apisense.core.api.Crop;
+
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class RetrieveAvailableExperimentsTask {
     }
 
     public void execute(String filter) {
-        List<Crop> gotExperiments;
+        List<APSCrop> gotExperiments;
         Log.d(TAG, "Got Filter: " + filter);
         APSRequest<List<Crop>> request;
         try {

@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.apisense.android.api.APS;
-import com.apisense.api.Callback;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.user.SignOutTask;
+import com.apisense.core.api.Callback;
 
 public class SettingsActivity extends Activity {
 

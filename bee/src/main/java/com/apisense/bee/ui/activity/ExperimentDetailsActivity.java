@@ -3,22 +3,18 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.APSLogEvent;
-import com.apisense.api.Callable;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.widget.BarGraphView;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.GoogleMap;
-import org.json.simple.parser.ParseException;
+import com.apisense.core.api.APSLogEvent;
+import com.apisense.core.api.Callable;
+
 
 import java.util.*;
 
@@ -51,8 +47,8 @@ public class ExperimentDetailsActivity extends Activity {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         try {
-            experiment = new APSLocalCrop(getIntent().getByteArrayExtra("experiment"));
-        } catch (ParseException e) {
+            experiment = APS.getCropDescription(getBaseContext(),getIntent().getStringExtra("experiment"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -68,7 +64,7 @@ public class ExperimentDetailsActivity extends Activity {
         eventReceiver = APS.registerToAPSEvent(this, new Callable<Void, APSLogEvent>() {
             @Override
             public Void call(APSLogEvent apsLogEvent) throws Exception {
-                Log.i(TAG, "Got event (" + apsLogEvent.getClass().getSimpleName() + ") for crop: " + apsLogEvent.cropName);
+                Log.i(TAG, "Got event (" + apsLogEvent + ") for crop: " + apsLogEvent.cropName);
                 updateCrop();
                 if (apsLogEvent instanceof APSLogEvent.StartCrop) {
                     showAsActivated();

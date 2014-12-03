@@ -4,19 +4,26 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.*;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.experiment.*;
+import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
+import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
-import org.json.simple.parser.ParseException;
+import com.apisense.core.api.APSLogEvent;
+import com.apisense.core.api.Callable;
+import com.apisense.core.api.Callback;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +60,7 @@ public class HomeActivity extends Activity {
         eventReceiver = APS.registerToAPSEvent(this, new Callable<Void, APSLogEvent>() {
             @Override
             public Void call(APSLogEvent apsLogEvent) throws Exception {
-                Log.i(TAG, "Got event (" + apsLogEvent.getClass().getSimpleName() + ") for crop: " + apsLogEvent.cropName);
+                Log.i(TAG, "Got event (" + apsLogEvent + ") for crop: " + apsLogEvent.cropName);
                 if (apsLogEvent instanceof APSLogEvent.StartCrop){
                     showAsStarted(apsLogEvent.cropName);
                 }
@@ -187,33 +194,17 @@ public class HomeActivity extends Activity {
         }
     }
 
-    public class ExperimentListRetrievedCallback implements Callback<List<LocalCrop>> {
+    public class ExperimentListRetrievedCallback implements Callback<List<APSLocalCrop>> {
             @Override
-        public void onCall(List<LocalCrop> crops) throws Exception {
+        public void onCall(List<APSLocalCrop> crops) throws Exception {
             experimentsRetrieval = null;
 
-            List<APSLocalCrop> exp = localCropToAPSLocalCrop(crops);
-            Log.i(TAG, "number of Active Crops: " + exp.size());
+
+            Log.i(TAG, "number of Active Crops: " + crops.size());
 
             experimentsAdapter.clear();
-            experimentsAdapter.addAll(exp);
+            experimentsAdapter.addAll(crops);
             experimentsAdapter.notifyDataSetChanged();
-        }
-
-        // TODO: Delete when Callback type is fixed to APSLocalCrop
-        private List<APSLocalCrop> localCropToAPSLocalCrop(List<LocalCrop> crops) {
-            List<APSLocalCrop> result = new ArrayList<APSLocalCrop>();
-            for (Crop crop : crops){
-                APSLocalCrop apsCrop = null;
-                try {
-                    apsCrop = new APSLocalCrop(crop.getByte());
-                    result.add(apsCrop);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            Log.d(TAG, "Number of converted crops: " + result.size());
-            return result;
         }
 
         @Override
@@ -227,8 +218,9 @@ public class HomeActivity extends Activity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), ExperimentDetailsActivity.class);
 
-            Crop exp = (Crop) parent.getAdapter().getItem(position);
-            intent.putExtra("experiment", exp.getByte());
+            APSLocalCrop exp = (APSLocalCrop) parent.getAdapter().getItem(position);
+            intent.putExtra("experiment", exp.getName());
+
 
             startActivity(intent);
         }
@@ -237,7 +229,7 @@ public class HomeActivity extends Activity {
     private class StartStopCropListener implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            Crop exp = (Crop) parent.getAdapter().getItem(position);
+            APSLocalCrop exp = (APSLocalCrop) parent.getAdapter().getItem(position);
             experimentStartStopTask = new StartStopExperimentTask(getApplicationContext());
             experimentStartStopTask.execute(exp.getName());
             return true;

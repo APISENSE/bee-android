@@ -1,5 +1,4 @@
-include ':bee'
 
-//external libraries
-include ':lib:hockeykit'
-project(':lib:hockeykit').projectDir = new File('lib/HockeyKit/')
+rootProject.name = "apisenseandroid"
+include 'gradle'
+include 'bee'

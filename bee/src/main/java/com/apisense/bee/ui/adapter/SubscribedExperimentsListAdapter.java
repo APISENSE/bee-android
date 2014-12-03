@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.LocalCrop;
 import com.apisense.bee.R;
 
 import java.util.List;
@@ -59,6 +58,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
      */
     @Override
     public APSLocalCrop getItem(int position) {
+
         return data.get(position);
     }
 
@@ -82,7 +82,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        final LocalCrop item = getItem(position);
+        final APSLocalCrop item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);

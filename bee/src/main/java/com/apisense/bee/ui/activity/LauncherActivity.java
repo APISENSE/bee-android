@@ -7,13 +7,9 @@ import android.widget.Toast;
 import com.apisense.android.APSApplication;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSRequest;
-import com.apisense.api.APSException;
-import com.apisense.api.Callback;
-import com.apisense.api.LocalCrop;
-import com.apisense.api.Log;
-import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
-
-import java.util.List;
+import com.apisense.core.api.APSException;
+import com.apisense.core.api.Callback;
+import com.apisense.core.api.Log;
 
 
 public class LauncherActivity extends Activity {

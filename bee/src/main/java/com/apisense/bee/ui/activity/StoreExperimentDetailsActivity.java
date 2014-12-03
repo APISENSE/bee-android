@@ -6,11 +6,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.apisense.android.api.APSLocalCrop;
-import com.apisense.api.Callback;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
-import org.json.simple.parser.ParseException;
+import com.apisense.android.api.APSLocalCrop;
+import com.apisense.core.CropJSONImpl;
+import com.apisense.core.api.Callback;
+import com.apisense.core.api.Crop;
+
+import java.util.Map;
 
 /**
  * Shows detailed informations about a given available Experiment from the store
@@ -19,7 +22,7 @@ import org.json.simple.parser.ParseException;
 public class StoreExperimentDetailsActivity extends Activity {
     private final String TAG = getClass().getSimpleName();
 
-    private APSLocalCrop experiment;
+    private Crop experiment;
 
     TextView mExperimentName;
     TextView mExperimentOrganization;
@@ -36,11 +39,7 @@ public class StoreExperimentDetailsActivity extends Activity {
         setContentView(R.layout.activity_store_experiment_details);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
-        try {
-            experiment = new APSLocalCrop(getIntent().getByteArrayExtra("experiment"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        experiment =  new CropJSONImpl((Map)getIntent().getSerializableExtra("experiment"));
 
         initializeViews();
         displayExperimentInformation();
@@ -103,7 +102,7 @@ public class StoreExperimentDetailsActivity extends Activity {
         }
     }
 
-    private class OnSubscribed implements Callback<APSLocalCrop>{
+    private class OnSubscribed implements Callback<APSLocalCrop> {
         private final String experimentName;
 
         public OnSubscribed(){
@@ -113,10 +112,17 @@ public class StoreExperimentDetailsActivity extends Activity {
         public void onCall(APSLocalCrop apsLocalCrop) throws Exception {
             experimentChangeSubscriptionStatus = null;
 
-            String toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                    Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
 
-            showAsSubscribed();
+                    showAsSubscribed();
+                }
+            });
+
+
         }
 
         @Override

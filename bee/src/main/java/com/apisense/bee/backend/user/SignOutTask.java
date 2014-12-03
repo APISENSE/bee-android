@@ -2,8 +2,9 @@ package com.apisense.bee.backend.user;
 
 import android.content.Context;
 import com.apisense.android.api.APS;
-import com.apisense.api.Callback;
-import com.apisense.api.Log;
+import com.apisense.core.api.Callback;
+import com.apisense.core.api.Log;
+
 
 /**
 * Represents an asynchronous Sign out task used to de-authenticate the user.

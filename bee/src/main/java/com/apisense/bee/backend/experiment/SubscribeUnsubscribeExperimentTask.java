@@ -5,7 +5,9 @@ import android.util.Log;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.android.api.APSRequest;
-import com.apisense.api.Callback;
+import com.apisense.core.api.Callback;
+import com.apisense.core.api.Crop;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class SubscribeUnsubscribeExperimentTask {
                 APSRequest<APSLocalCrop> request = APS.installCrop(context, cropId);
                 // FIXME: Callback not called back!
                 request.setCallback(onSubscribedListener);
-                onSubscribedListener.onCall(new APSLocalCrop("{}".getBytes()));
+                onSubscribedListener.onCall(request.get());
             }
         } catch (Exception e){
             e.printStackTrace();
