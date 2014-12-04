@@ -3,41 +3,40 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
+import com.apisense.android.feedz.CardCrop;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
-import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
-import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.core.api.APSLogEvent;
 import com.apisense.core.api.Callable;
 import com.apisense.core.api.Callback;
-
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.prototypes.CardWithList;
+import it.gmariotti.cardslib.library.view.CardListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class HomeActivity extends Activity {
+/**
+ * Created by haderer on 03/12/14.
+ */
+public class HomeActivityBis extends Activity {
     private final String TAG = getClass().getSimpleName();
 
-    // Data
-    protected SubscribedExperimentsListAdapter experimentsAdapter;
-
-   // Asynchronous Tasks
-    private RetrieveInstalledExperimentsTask experimentsRetrieval;
-    private StartStopExperimentTask experimentStartStopTask;
+    // Asynchronous Tasks
+    //private RetrieveInstalledExperimentsTask experimentsRetrieval;
+    //private StartStopExperimentTask experimentStartStopTask;
     private SignOutTask signOut;
 
     private BroadcastReceiver eventReceiver;
@@ -45,9 +44,8 @@ public class HomeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_homebis_layout);
 
-        initializeCropsView();
     }
 
     @Override
@@ -55,50 +53,28 @@ public class HomeActivity extends Activity {
         super.onStart();
 
         updateProfile();
-        retrieveActiveCrops();
 
         eventReceiver = APS.registerToAPSEvent(this, new Callable<Void, APSLogEvent>() {
             @Override
             public Void call(APSLogEvent apsLogEvent) throws Exception {
                 Log.i(TAG, "Got event (" + apsLogEvent + ") for crop: " + apsLogEvent.cropName);
-                if (apsLogEvent instanceof APSLogEvent.StartCrop){
-                    showAsStarted(apsLogEvent.cropName);
-                }
-                else if (apsLogEvent instanceof APSLogEvent.StopCrop){
-                    showAsStopped(apsLogEvent.cropName);
-                }
+                updateView();
                 return null;
             }
         });
+
+        try {
+            updateView();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(),"Error : "+e.getLocalizedMessage(),Toast.LENGTH_LONG);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         APS.unregisterToAPSEvent(this, eventReceiver);
-    }
-
-    private void initializeCropsView(){
-        experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
-                R.layout.fragment_experiment_element,
-                new ArrayList<APSLocalCrop>());
-        ListView subscribedCrops = (ListView) findViewById(R.id.home_experiment_lists);
-        subscribedCrops.setEmptyView(findViewById(R.id.home_empty_list));
-        subscribedCrops.setAdapter(experimentsAdapter);
-        subscribedCrops.setOnItemLongClickListener(new StartStopCropListener());
-        subscribedCrops.setOnItemClickListener(new OpenCropDetailsListener());
-    }
-
-    private void showAsStarted(String cropName) {
-        String toastMessage = String.format(getString(R.string.experiment_started), cropName);
-        Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        retrieveActiveCrops();
-    }
-
-    private void showAsStopped(String cropName) {
-        String toastMessage = String.format(getString(R.string.experiment_stopped), cropName);
-        Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        retrieveActiveCrops();
     }
 
     @Override
@@ -126,6 +102,49 @@ public class HomeActivity extends Activity {
         return true;
     }
 
+    private void updateView() throws Exception {
+
+        final List<Card> cards = new ArrayList<>();
+
+        final List<String> cropIds = APS.getInstalledCrop(getBaseContext());
+
+        if (cropIds.isEmpty()){
+            return;
+        }
+
+        findViewById(R.id.home_empty_list_text).setVisibility(View.INVISIBLE);
+        findViewById(R.id.home_empty_list).setBackgroundColor(Color.parseColor("#DEDEDE"));
+
+        for (final String cropId : cropIds){
+
+            try {
+
+                final CardCrop cropCard = new CardCrop(getBaseContext(),APS.getCropDescription(getBaseContext(),cropId));
+                cropCard.init();
+                cards.add(cropCard);
+                cropCard.onItemClick(new Callable<Void, CardWithList.ListObject>() {
+                    @Override
+                    public Void call(CardWithList.ListObject listObject) throws Exception {
+
+                        final Intent intent = new Intent(getBaseContext(),ExperimentDetailsActivity.class);
+                        intent.putExtra("experiment",cropId);
+                        startActivity(intent);
+                        return null;
+                    }
+                });
+
+                final CardArrayAdapter adapter = new CardArrayAdapter(getBaseContext(), cards);
+                final CardListView listView = (CardListView) findViewById(R.id.home_cards_list);
+                listView.setAdapter(adapter);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+               Log.e(TAG,e.getMessage());
+            }
+        }
+
+    }
+
     private void updateProfile(){
         String username = getString(R.string.user_identity, getString(R.string.anonymous_user));
         if (isUserAuthenticated()) {
@@ -139,13 +158,6 @@ public class HomeActivity extends Activity {
         TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
         user_identity.setText(username);
     }
-
-    private void retrieveActiveCrops() {
-        if (experimentsRetrieval == null) {
-             experimentsRetrieval = new RetrieveInstalledExperimentsTask(this, new ExperimentListRetrievedCallback());
-            experimentsRetrieval.execute();
-        }
-   }
 
     private boolean isUserAuthenticated() {
         boolean response;
@@ -195,24 +207,6 @@ public class HomeActivity extends Activity {
         }
     }
 
-    public class ExperimentListRetrievedCallback implements Callback<List<APSLocalCrop>> {
-            @Override
-        public void onCall(List<APSLocalCrop> crops) throws Exception {
-            experimentsRetrieval = null;
-
-
-            Log.i(TAG, "number of Active Crops: " + crops.size());
-
-            experimentsAdapter.clear();
-            experimentsAdapter.addAll(crops);
-            experimentsAdapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-            experimentsRetrieval = null;
-        }
-    }
 
     private class OpenCropDetailsListener implements AdapterView.OnItemClickListener{
         @Override
@@ -221,19 +215,7 @@ public class HomeActivity extends Activity {
 
             APSLocalCrop exp = (APSLocalCrop) parent.getAdapter().getItem(position);
             intent.putExtra("experiment", exp.getName());
-
-
             startActivity(intent);
-        }
-    }
-
-    private class StartStopCropListener implements AdapterView.OnItemLongClickListener {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            APSLocalCrop exp = (APSLocalCrop) parent.getAdapter().getItem(position);
-            experimentStartStopTask = new StartStopExperimentTask(getApplicationContext());
-            experimentStartStopTask.execute(exp.getName());
-            return true;
         }
     }
 

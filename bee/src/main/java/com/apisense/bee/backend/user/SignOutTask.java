@@ -22,7 +22,7 @@ public class SignOutTask {
 
     public void execute() {
         try {
-            APS.disconnect(context);
+            APS.disconnect(context).get();
 
             listener.onCall(null);
         } catch (Exception e) {

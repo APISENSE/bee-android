@@ -1,0 +1,90 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.apisense.bee.ui.activity.HomeActivityBis>">
+
+    <!-- User's infos -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:background="@drawable/drop_shadow"
+                  android:padding="5sp"
+                  android:clickable="true"
+                  android:onClick="doGoToProfil"
+                  android:id="@+id/user_information">
+        <ImageView
+                android:src="@drawable/unknown_user"
+                android:layout_width="@dimen/thumbnail_size"
+                android:layout_height="@dimen/thumbnail_size"
+                android:id="@+id/home_user_image"
+                android:layout_gravity="center_horizontal"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_identity"
+                android:id="@+id/home_user_identity"
+                android:layout_gravity="center_horizontal"
+                />
+    </LinearLayout>
+
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/home_empty_list"
+            android:paddingBottom="@dimen/add_margin">
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+               >
+
+            <it.gmariotti.cardslib.library.view.CardListView
+                    xmlns:card="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/home_cards_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card:card_layout_resourceID="@layout/native_cardwithlist_layout"
+                    style="@style/card_external"
+                    />
+
+            <!-- <Button
+                    android:id="@+id/bigAddButton"
+                    android:background="@drawable/big_button_rounded"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:onClick="doGoToStore" /> -->
+
+            <TextView
+                    style="@style/ApisenseSlideText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/home_empty_list_text"
+                    android:text="@string/add_new_experiments"
+                    android:textColor="@color/grey"/>
+        </LinearLayout>
+
+
+
+
+
+        <Button
+                android:id="@+id/smallAddButton"
+                android:background="@drawable/small_button_rounded"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_weight="0"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/add_button_margin"
+                android:textColor="@color/white"
+                android:onClick="doGoToStore"
+                android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+</LinearLayout>
