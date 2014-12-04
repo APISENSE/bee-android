@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.0'
+        classpath 'com.android.tools.build:gradle:0.14.2'
         classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.0.1'
     }
 }
@@ -14,6 +14,13 @@ repositories {
     jcenter()
     maven{
         url 'http://repo.apisense.com/apisense-snapshot'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
+    maven{
+        url 'http://repo.apisense.com/apisense-release'
         credentials {
             username = "${artifactory_user}"
             password = "${artifactory_password}"
@@ -80,7 +87,7 @@ dependencies {
 
     compile 'com.viewpagerindicator:library:2.4.1'
     //compile(group: 'com.apisense.sdk', name: 'apisense-java-core', version: '3.0.0r8-+')
-    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '3.0.0r8-+', ext: 'aar'){
+    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '1.0M1', ext: 'aar'){
         transitive true
     }
 
