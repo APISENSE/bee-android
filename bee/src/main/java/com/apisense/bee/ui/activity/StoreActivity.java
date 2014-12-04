@@ -224,7 +224,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
     private class SubscriptionListener implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            APSCrop exp = (APSCrop) parent.getAdapter().getItem(position);
+            Crop exp = (Crop) parent.getAdapter().getItem(position);
             if (experimentChangeSubscriptionStatus == null){
                 experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(getApplicationContext(),
                                                                                             new OnSubscribed(view), new OnUnSubscribed(view));

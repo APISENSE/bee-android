@@ -39,13 +39,13 @@ public class SubscribeUnsubscribeExperimentTask {
                 Log.i(TAG, "Asking un-subscription to experiment: " + cropId);
                 APSRequest<Void> request = APS.uninstallCrop(context, cropId);
                 // FIXME: Callback not called back!
-                request.setCallback(onUnSubscribedlistener);
+//                request.setCallback(onUnSubscribedlistener);
                 onUnSubscribedlistener.onCall(null);
             } else {
                 Log.i(TAG, "Asking subscription to experiment: " + cropId);
                 APSRequest<APSLocalCrop> request = APS.installCrop(context, cropId);
                 // FIXME: Callback not called back!
-                request.setCallback(onSubscribedListener);
+//                request.setCallback(onSubscribedListener);
                 onSubscribedListener.onCall(request.get());
             }
         } catch (Exception e){
