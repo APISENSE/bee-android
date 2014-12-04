@@ -1,5 +1,9 @@
 {
 
-    "apisense.hive" : "http://beta.apisense.io/hive"
+    "apisense.hive" : "http://beta.apisense.io/hive",
+
+
+    "apisense.sentry" : "http://05fb8faa429c4263a7c3da0dba9772c1:508dda19a40848fc8ba2b534b93568a4@bugs.apisense.com/4"
+
 
 }
