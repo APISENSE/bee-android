@@ -108,4 +108,7 @@
         Ressources:\n
         Images de <a href="http://www.flaticon.com/">flaticon</a> et <a href="http://iconmonstr.com/">iconmostr</a>
     </string>
+    <string name="action_go_back_home">Retourner au menu principal</string>
+    <string name="no_available_sensors">Pas de capteur disponible !</string>
+    <string name="title_activity_store_search">Rechercher dans le store</string>
 </resources>

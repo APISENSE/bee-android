@@ -1,6 +1,8 @@
 package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.AnimatedStateListDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,11 +26,12 @@ public class StoreExperimentDetailsActivity extends Activity {
 
     private Crop experiment;
 
-    TextView mExperimentName;
-    TextView mExperimentOrganization;
-    TextView mExperimentVersion;
+    private TextView mExperimentName;
+    private TextView mExperimentOrganization;
+    private TextView mExperimentVersion;
 
-     MenuItem mSubscribeButton;
+    private MenuItem mSubscribeButton;
+    private MenuItem  mHomeButton;
 
     // Async Tasks
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
@@ -68,6 +71,7 @@ public class StoreExperimentDetailsActivity extends Activity {
         getMenuInflater().inflate(R.menu.store_experiment_details, menu);
 
         mSubscribeButton = menu.findItem(R.id.store_detail_action_subscribe);
+        mHomeButton = menu.findItem(R.id.store_detail_back_to_home_button);
         updateSubscriptionMenu();
         return true;
     }
@@ -82,10 +86,12 @@ public class StoreExperimentDetailsActivity extends Activity {
 
     private void showAsSubscribed(){
         mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
+        mHomeButton.setVisible(true);
     }
 
     private void showAsUnsubscribed() {
         mSubscribeButton.setTitle(getString(R.string.action_subscribe));
+        mHomeButton.setVisible(false);
     }
 
     @Override
@@ -100,6 +106,12 @@ public class StoreExperimentDetailsActivity extends Activity {
                                                                                         new OnSubscribed(), new OnUnSubscribed());
             experimentChangeSubscriptionStatus.execute(experiment.getName());
         }
+    }
+
+    public void goBackHome(MenuItem item) {
+        Intent intent = new Intent(this, HomeActivityBis.class);
+        startActivity(intent);
+        finish();
     }
 
     private class OnSubscribed implements Callback<APSLocalCrop> {

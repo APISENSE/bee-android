@@ -99,7 +99,7 @@
     <string name="action_unsubscribe">UnSubscribe</string>
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="title_activity_store_search">StoreSearch</string>
-    <string name="no_available_sensors">No sensor available!</string>
+    <string name="no_available_sensors">No sensor available !</string>
 
 
     <!-- About -->
@@ -116,6 +116,7 @@
         Resources:\n
         Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
     </string>
+    <string name="action_go_back_home">To The Home</string>
 
 
 </resources>
