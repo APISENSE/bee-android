@@ -1,12 +1,11 @@
 package com.apisense.bee.backend.experiment;
 
 import android.content.Context;
-import android.util.Log;
+import com.apisense.core.api.Log;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.android.api.APSRequest;
 import com.apisense.core.api.Callback;
-import com.apisense.core.api.Crop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +16,6 @@ import java.util.List;
  */
 public class SubscribeUnsubscribeExperimentTask {
     private String TAG = getClass().getSimpleName();
-
-    public static final int EXPERIMENT_SUBSCRIBED = 1;
-    public static final int EXPERIMENT_UNSUBSCRIBED = 2;
 
     private Context context;
     private Callback<APSLocalCrop> onSubscribedListener;
@@ -68,7 +64,7 @@ public class SubscribeUnsubscribeExperimentTask {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.v("SubscribeUnsubscribeExperimentTask", "Got installed crops: " + installedCrops);
+        Log.d("SubscribeUnsubscribeExperimentTask", "Got installed crops: " + installedCrops);
         return installedCrops.contains(cropId);
     }
 }

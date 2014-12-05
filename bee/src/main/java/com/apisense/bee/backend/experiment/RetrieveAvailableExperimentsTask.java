@@ -1,12 +1,13 @@
 package com.apisense.bee.backend.experiment;
 
 import android.content.Context;
-import android.util.Log;
+
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSCrop;
 import com.apisense.android.api.APSRequest;
 import com.apisense.core.api.Callback;
 import com.apisense.core.api.Crop;
+import com.apisense.core.api.Log;
 
 
 import java.util.List;

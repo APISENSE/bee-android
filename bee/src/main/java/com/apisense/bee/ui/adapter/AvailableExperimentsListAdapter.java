@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
-import com.apisense.android.api.APSCrop;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;

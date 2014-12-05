@@ -1,7 +1,7 @@
 package com.apisense.bee.backend.experiment;
 
 import android.content.Context;
-import android.util.Log;
+import com.apisense.core.api.Log;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSLocalCrop;
 

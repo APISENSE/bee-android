@@ -3,7 +3,7 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.os.Bundle;
-import android.util.Log;
+import com.apisense.core.api.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;

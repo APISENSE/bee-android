@@ -4,10 +4,9 @@ import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import com.apisense.core.api.Log;
 import android.view.*;
 import android.widget.*;
-import com.apisense.android.api.APSCrop;
 import com.apisense.android.api.APSLocalCrop;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
@@ -128,8 +127,6 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         @Override
         public void onCall(final List<Crop> crops) throws Exception {
             experimentsRetrieval = null;
-
-            for (Crop apsCrop: crops){ Log.v(TAG, "Got Crop:" + apsCrop); }
 
             runOnUiThread(new Runnable() {
                 @Override

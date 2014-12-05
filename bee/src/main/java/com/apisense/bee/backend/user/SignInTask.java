@@ -1,6 +1,6 @@
 //package com.apisense.bee.backend.user;
 //
-//import android.util.Log;
+//import com.apisense.core.api.Log;
 //import com.apisense.bee.BeeApplication;
 //import com.apisense.bee.backend.AsyncTaskWithCallback;
 //import com.apisense.bee.backend.AsyncTasksCallbacks;
