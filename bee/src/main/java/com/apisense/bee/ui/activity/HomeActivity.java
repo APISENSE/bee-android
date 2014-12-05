@@ -83,9 +83,6 @@ public class HomeActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.connectOrDisconnect:
-                doDisconnect();
-                break;
             case R.id.action_about:
                 doLaunchAbout();
                 break;
