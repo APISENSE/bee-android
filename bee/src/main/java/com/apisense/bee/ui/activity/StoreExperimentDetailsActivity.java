@@ -2,7 +2,6 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.AnimatedStateListDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -109,7 +108,7 @@ public class StoreExperimentDetailsActivity extends Activity {
     }
 
     public void goBackHome(MenuItem item) {
-        Intent intent = new Intent(this, HomeActivityBis.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }

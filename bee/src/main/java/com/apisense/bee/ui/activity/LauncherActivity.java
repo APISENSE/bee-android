@@ -27,7 +27,7 @@ public class LauncherActivity extends Activity {
             public void onCall(Void aVoid) throws Exception {
                 if (APS.isConnected(getBaseContext())) {
 
-                    startActivity(new Intent(getBaseContext(), HomeActivityBis.class));
+                    startActivity(new Intent(getBaseContext(), HomeActivity.class));
                     finish();
 
                 } else {
@@ -47,7 +47,7 @@ public class LauncherActivity extends Activity {
         request.setCallback(new Callback() {
             @Override
             public void onCall(Object ignored) throws Exception {
-                startActivity(new Intent(getBaseContext(), HomeActivityBis.class));
+                startActivity(new Intent(getBaseContext(), HomeActivity.class));
             }
 
             @Override
