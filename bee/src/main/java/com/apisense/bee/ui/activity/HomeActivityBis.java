@@ -67,7 +67,7 @@ public class HomeActivityBis extends Activity {
             updateView();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getBaseContext(),"Error : "+e.getLocalizedMessage(),Toast.LENGTH_LONG);
+            Toast.makeText(getBaseContext(),"Error : "+e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
         }
     }
 

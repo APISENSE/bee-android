@@ -73,25 +73,13 @@ android{
 }
 
 dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile ('com.viewpagerindicator:library:2.4.1')
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    /*compile 'com.android.support:gridlayout-v7:21.0.2'
-    compile 'com.android.support:support-v4:21.0.2'
-    compile 'com.android.support:appcompat-v7:21.0.2'
-    compile 'com.android.support:cardview-v7:+'
-
-    compile 'com.github.gabrielemariotti.cards:cardslib-core:2.0.1'
-    compile 'com.github.gabrielemariotti.cards:cardslib-cards:2.0.1'
-   */
-
-    compile 'com.viewpagerindicator:library:2.4.1'
-    //compile(group: 'com.apisense.sdk', name: 'apisense-java-core', version: '3.0.0r8-+')
-    compile(group: 'com.apisense.sdk', name: 'apisense-android-sdk', version: '1.0M1', ext: 'aar'){
+    compile('com.apisense.sdk:apisense-android-sdk:1.0M1@aar') {
         transitive true
     }
-
-    compile ('com.google.android.gms:play-services:3.2.25')
+    compile('com.google.android.gms:play-services:3.2.25')
 }
 
 // Unit tests

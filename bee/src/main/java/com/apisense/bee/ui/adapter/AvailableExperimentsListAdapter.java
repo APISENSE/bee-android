@@ -18,6 +18,7 @@ import com.apisense.core.api.Crop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
     private final String TAG = getClass().getSimpleName();
@@ -87,7 +88,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_store_element, parent, false);
 
         Crop item = getItem(position);
 
@@ -98,7 +99,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" " + getContext().getString(R.string.by) + item.getOrganisation());
+        company.setText(String.format(" " + getContext().getString(R.string.creator), item.getOrganisation()));
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
 //        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
@@ -132,7 +133,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
 
-                String filterString = constraint.toString().toLowerCase();
+                String filterString = constraint.toString().toLowerCase(Locale.getDefault());
                 FilterResults results = new FilterResults();
 
                 final List<Crop> items = data;
@@ -146,7 +147,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
                     for (Crop exp : items) newItems.add(exp);
                 } else {
                     for (Crop exp : items) {
-                        if (exp.getNiceName().toLowerCase().contains(filterString)) {
+                        if (exp.getNiceName().toLowerCase(Locale.getDefault()).contains(filterString)) {
                             newItems.add(exp);
                         }
                     }

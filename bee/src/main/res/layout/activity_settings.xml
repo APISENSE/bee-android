@@ -11,7 +11,7 @@
           android:paddingRight="@dimen/activity_padding"
           android:paddingBottom="@dimen/activity_padding">
 
-        <TextView
+        <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/settings_section_account"
             style="@style/sectionHeader"
             android:layout_width="match_parent"
@@ -26,16 +26,7 @@
             android:text="@string/settings_action_logout"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
-                android:id="@+id/settings_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_action_register"
-                android:visibility="gone"
-                android:onClick="goToRegister"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
+        <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/settings_section_general"
             style="@style/sectionHeader"
             android:layout_width="match_parent"
@@ -48,7 +39,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/min_padding_bottom" >
 
-            <TextView
+            <com.apisense.bee.widget.ApisenseTextView
                 android:id="@+id/settings_label_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +49,7 @@
                 android:text="@string/settings_label_version"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <com.apisense.bee.widget.ApisenseTextView
                 android:id="@+id/settings_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,26 +59,6 @@
                 android:text="@string/settings_placeholder_version"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
-
-        <Button
-            android:id="@+id/settings_update"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_btn_update" />
-
-        <TextView
-            android:id="@+id/settings_section_about"
-            style="@style/sectionHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_section_about"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/settings_about_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_about_content" />
 
     </LinearLayout>
 </ScrollView>

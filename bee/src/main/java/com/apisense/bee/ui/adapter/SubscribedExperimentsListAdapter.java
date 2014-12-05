@@ -90,7 +90,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" " + getContext().getString(R.string.by) + " " + item.getOrganisation());
+        company.setText(String.format(" " + getContext().getString(R.string.creator), item.getOrganisation()));
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
         description.setText(item.getDescription());

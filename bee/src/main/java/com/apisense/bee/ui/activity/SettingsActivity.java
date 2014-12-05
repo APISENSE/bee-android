@@ -24,9 +24,6 @@ public class SettingsActivity extends Activity {
     private SignOutTask signOut;
 
     TextView aboutView, versionView;
-    private Button mUpgradeButton;
-    private Button mLogoutButton;
-    private Button mRegisterButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,17 +40,8 @@ public class SettingsActivity extends Activity {
             aboutView.setText(Html.fromHtml(getString(R.string.settings_about_content)));
             aboutView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-
-        mUpgradeButton = (Button) findViewById(R.id.settings_update);
-        mLogoutButton = (Button) findViewById(R.id.settings_logout);
-        mRegisterButton = (Button) findViewById(R.id.settings_register);
-        
+        Button mLogoutButton = (Button) findViewById(R.id.settings_logout);
         mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
-
-        if (!isUserAuthenticated()) {
-            mLogoutButton.setVisibility(View.GONE);
-            mRegisterButton.setVisibility(View.VISIBLE);
-        }
     }
 
     public void goToRegister(View v) {

@@ -21,9 +21,9 @@
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
     <string name="action_privacy">Privacy</string>
-    <string name="by">by</string>
     <string name="search_hint">Experiment name</string>
     <string name="skip">Skip</string>
+    <string name="home_default_profile_image_description">default_user_image</string>
 
     <!-- User feedbacks -->
     <string name="error">Error</string>
@@ -82,15 +82,6 @@
     <string name="settings_btn_update">Look for update</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">About</string>
-    <string name="settings_about_content">
-        <![CDATA[
-	    	<p>
-	    	    Bee is a part of <a href="http://www.apisense.com">Apisense</a> platform and it aims to research. For any informations
-	    	    look at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
-			</p>
-	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.</p>
-	    ]]>
-    </string>
 
     <!-- Store -->
     <string name="experiment_subscribed">You now contribute to experiment %1$s</string>
@@ -100,23 +91,34 @@
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="title_activity_store_search">StoreSearch</string>
     <string name="no_available_sensors">No sensor available !</string>
+    <string name="action_go_back_home">Home</string>
+    <string name="experiment_image_description">Mission image</string>
+    <string name="arrow_description">Arrow showing direction</string>
+    <string name="search_menu_item">Search</string>
+    <string name="creator">by %1$s</string>
 
 
     <!-- About -->
-    <string name="about_content">
+    <string name="about_copyright">
+        Bee is a part of <a href="http://www.apisense.com">Apisense</a> platform and it aims to research. For any informations
+        look at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
+        \n
+        © 2014 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.
+    </string>
+    <string name="about_team">
+        \n\n
         APISENSE® Team:\n
-        \r\r- Romain Rouvoy\n
-        \r\r- Nicolas Haderer\n
-        \r\r- Christophe Ribeiro\n
-        \r\r- Clive Ferret-Canape\n
-        \r\r- Antoine Veuiller\n
-        \r\r- Julien Duribreux
-
+        \t- Romain Rouvoy\n
+        \t- Nicolas Haderer\n
+        \t- Christophe Ribeiro\n
+        \t- Clive Ferret-Canape\n
+        \t- Antoine Veuiller\n
+        \t- Julien Duribreux
+    </string>
+    <string name="about_licenses">
         \n\n
         Resources:\n
         Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
     </string>
-    <string name="action_go_back_home">To The Home</string>
-
 
 </resources>
