@@ -26,6 +26,7 @@
         <!-- Experiment title-->
         <com.apisense.bee.widget.ApisenseTextView
                 android:id="@+id/experimentelement_sampletitle"
+                android:textColor="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -33,6 +34,7 @@
         <com.apisense.bee.widget.ApisenseTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
                 android:id="@+id/experimentelement_company"/>
 
     </LinearLayout>

@@ -98,7 +98,8 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(String.format(" " + getContext().getString(R.string.creator), item.getOrganisation()));
+        // TODO uncomment when a new account store account (other than thesis) will be set in honeycomb
+        //company.setText(String.format(" " + getContext().getString(R.string.creator), item.getOrganisation()));
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
 //        String decode = new String(Base64.decode(item.getDescription().getBytes(), Base64.DEFAULT));
