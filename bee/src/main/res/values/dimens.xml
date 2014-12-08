@@ -20,4 +20,7 @@
 
     <!-- Cards -->
     <dimen name="card_elevation">10sp</dimen>
+    <dimen name="card_base_empty_height">40dp</dimen>
+    <dimen name="card_background_default_radius">10dip</dimen>
+
 </resources>

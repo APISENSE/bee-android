@@ -1,8 +1,10 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
+
 import android.content.BroadcastReceiver;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import com.apisense.android.ui.feedz.FeedzManagerFragment;
 import com.apisense.core.api.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +20,7 @@ import com.apisense.core.api.Callable;
 
 import java.util.*;
 
-public class ExperimentDetailsActivity extends Activity {
+public class ExperimentDetailsActivity extends FragmentActivity {
 
     private static String TAG = "Experiment Details Activity";
 
@@ -34,7 +36,7 @@ public class ExperimentDetailsActivity extends Activity {
 
     private BarGraphView graph;
     private int barGraphShowDay = 7;
-    private ArrayList<Long> traces = new ArrayList<Long>();
+    private ArrayList<Long> traces = new ArrayList<>();
 
     // Async Tasks
     private StartStopExperimentTask experimentStartStopTask;
@@ -51,8 +53,15 @@ public class ExperimentDetailsActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         initializeViews();
+
+        if (savedInstanceState == null) {
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.activity_experiment_detail_feedz_fragment,
+                            FeedzManagerFragment.newInstance(experiment.getName()))
+                    .commit();
+        }
     }
 
     @Override

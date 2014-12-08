@@ -47,6 +47,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/android_key_app" />
+        <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version" />
+
 
         <activity android:name=".ui.activity.LauncherActivity"
                   >
@@ -65,10 +69,7 @@
             android:name="com.apisense.bee.ui.activity.HomeActivity"
             android:label="@string/title_activity_home" >
         </activity>
-        <activity
-                android:name=".ui.activity.HomeActivity"
-                android:label="@string/title_activity_home" >
-        </activity>
+    
         <activity
             android:name="com.apisense.bee.ui.activity.StoreActivity"
             android:label="@string/title_activity_store"
