@@ -36,9 +36,9 @@ android{
     defaultConfig {
         applicationId "com.apisense.bee"
         minSdkVersion 15
-        targetSdkVersion 15
-        versionCode 3
-        versionName "1.0M2.1"
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
     }
 
     compileOptions {
