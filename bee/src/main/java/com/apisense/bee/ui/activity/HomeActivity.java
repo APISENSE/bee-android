@@ -1,13 +1,11 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.apisense.android.APSApplication;
@@ -29,7 +27,7 @@ public class HomeActivity extends FragmentActivity implements  CropsManagerFragm
     private SignOutTask signOut;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -38,15 +36,18 @@ public class HomeActivity extends FragmentActivity implements  CropsManagerFragm
             @Override
             public void onCall(Void aVoid) throws Exception {
 
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.home_experiment_fragment, CropsManagerFragment.newInstance(null))
-                        .commit();
+                if (savedInstanceState == null) {
+
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.home_experiment_fragment, CropsManagerFragment.newInstance(null))
+                            .commit();
+                }
 
             }
 
             @Override
             public void onError(Throwable throwable) {
-
+                Log.e(throwable);
             }
         });
 
