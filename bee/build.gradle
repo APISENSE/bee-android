@@ -13,14 +13,14 @@ apply plugin: 'com.android.application'
 repositories {
     jcenter()
     maven{
-        url 'http://repo.apisense.com/apisense-snapshot'
+        url 'http://repo.apisense.com/apisense-release'
         credentials {
             username = "${artifactory_user}"
             password = "${artifactory_password}"
         }
     }
     maven{
-        url 'http://repo.apisense.com/apisense-release'
+        url 'http://repo.apisense.com/apisense-snapshot'
         credentials {
             username = "${artifactory_user}"
             password = "${artifactory_password}"
@@ -37,8 +37,8 @@ android{
         applicationId "com.apisense.bee"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0M2.1"
     }
 
     compileOptions {
@@ -76,7 +76,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile ('com.viewpagerindicator:library:2.4.1')
 
-    compile('com.apisense.sdk:apisense-android-sdk:1.0M2.4@aar') {
+    compile('com.apisense.sdk:apisense-android-sdk:1.0M2.91@aar') {
         transitive true
     }
     compile('com.google.android.gms:play-services:3.2.25')

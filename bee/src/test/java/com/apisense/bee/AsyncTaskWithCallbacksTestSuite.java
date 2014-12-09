@@ -60,7 +60,7 @@ public abstract class AsyncTaskWithCallbacksTestSuite implements AsyncTasksCallb
 
         APSLocalCrop result = null;
         try {
-            return new APSLocalCrop(sb.toString().getBytes(),false,0);
+            return new APSLocalCrop(sb.toString().getBytes(),false,0l);
         } catch (ParseException e) {
             e.printStackTrace();
         }
