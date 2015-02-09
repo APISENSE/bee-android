@@ -10,16 +10,15 @@
     <string name="title_activity_experiment_details">Détails</string>
     <string name="title_activity_about">A propos</string>
     <string name="title_activity_store_experiment_details">Aperçu</string>
-    <string name="title_activity_store_search">Rechercher dans le store</string>
 
     <!-- Global -->
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_about">A propos</string>
     <string name="action_privacy">Intimité</string>
+    <string name="by">par</string>
     <string name="search_hint">Nom de l\'expérience</string>
     <string name="skip">Passer</string>
-    <string name="home_default_profile_image_description">Image de profil par défaut</string>
 
     <!-- User feedbacks -->
     <string name="error">Erreur</string>
@@ -68,8 +67,6 @@
     <string name="privacy_section_sensor">Capteurs activés</string>
     <string name="privacy_section_filter">Filtres définis</string>
     <string name="privacy_label_filter_none">Aucun filtre</string>
-    <string name="no_available_sensors">Pas de capteur disponible !</string>
-
 
     <!-- Settings -->
     <string name="settings_section_account">Compte</string>
@@ -80,6 +77,15 @@
     <string name="settings_btn_update">Vérifier les mises à jour</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">A propos</string>
+    <string name="settings_about_content">
+        <![CDATA[
+	    	<p>
+	    		L\'application Bee fait partie de la plateforme <a href="http://www.apisense.fr">Apisense</a>,
+	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.fr">contact@apisense.fr</a>.
+			</p>
+	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
+	    ]]>
+    </string>
 
     <!-- Store -->
     <string name="experiment_subscribed">Vous participez désormais à l\'expérience %1$s</string>
@@ -87,34 +93,19 @@
     <string name="action_subscribe">S\'inscrire</string>
     <string name="action_unsubscribe">Se désinscrire</string>
     <string name="no_available_experiments">Aucune expérience trouvé !</string>
-    <string name="action_go_back_home">Retour au board</string>
-    <string name="experiment_image_description">Illustration de la mission</string>
-    <string name="arrow_description">Flèche directionelle</string>
-    <string name="search_menu_item">Recherche</string>
-    <string name="creator">par %1$s</string>
 
     <!-- About -->
-    <string name="about_copyright">
-        L\'application Bee fait partie de la plateforme <a href="http://www.apisense.com">Apisense</a>,
-        et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
-        \n
-        © 2014 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.
-    </string>
+    <string name="about_content">
+        Equipe APISENSE® :\n
+        \r\r- Romain Rouvoy\n
+        \r\r- Nicolas Haderer\n
+        \r\r- Christophe Ribeiro\n
+        \r\r- Clive Ferret-Canape\n
+        \r\r- Antoine Veuiller\n
+        \r\r- Julien Duribreux
 
-    <string name="about_team">
-        \n\n
-        Equipe APISENSE®:\n
-        \t- Romain Rouvoy\n
-        \t- Nicolas Haderer\n
-        \t- Christophe Ribeiro\n
-        \t- Clive Ferret-Canape\n
-        \t- Antoine Veuiller\n
-        \t- Julien Duribreux
-    </string>
-    <string name="about_licenses">
         \n\n
         Ressources:\n
-        Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
+        Images de <a href="http://www.flaticon.com/">flaticon</a> et <a href="http://iconmonstr.com/">iconmostr</a>
     </string>
-
 </resources>

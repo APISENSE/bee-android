@@ -18,7 +18,7 @@
                        android:shape="ring"
                        android:innerRadius="0dp"
                        android:thickness="32dp"
-                       android:useLevel="false">
+                       android:useLevel="false">>
                     <gradient android:angle="270"
                               android:endColor="#FD9028" android:startColor="#FDA028" />
                 </shape>

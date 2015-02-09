@@ -19,7 +19,5 @@
     <dimen name="add_margin">5dp</dimen>
 
     <!-- Cards -->
-    <dimen name="card_elevation">20sp</dimen>
-    <dimen name="card_base_empty_height">40dp</dimen>
-
+    <dimen name="card_elevation">10sp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package com.apisense.bee.backend.store;
 
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 
@@ -18,9 +19,9 @@ public class RetrieveExistingTagsTask extends AsyncTaskWithCallback<Void, Void, 
 
     @Override
     protected List<String> doInBackground(Void... params) {
-        List<String> tags = new ArrayList<>();
+        List<String> tags = new ArrayList<String>();
         // TODO: Débouchonner Tags retrieval
-        this.errcode = 0;
+        this.errcode = BeeApplication.ASYNC_SUCCESS;
         tags.add("All");
         tags.add("Network");
         tags.add("Social");

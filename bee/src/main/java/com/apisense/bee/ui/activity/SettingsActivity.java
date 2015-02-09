@@ -1,22 +1,22 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.apisense.android.api.APS;
 import com.apisense.bee.R;
+import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.SignOutTask;
-import com.apisense.core.api.Callback;
+import fr.inria.bsense.APISENSE;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends FragmentActivity {
 
     private final String TAG = "SettingsActivity";
 
@@ -24,6 +24,8 @@ public class SettingsActivity extends Activity {
     private SignOutTask signOut;
 
     TextView aboutView, versionView;
+    private Button mLogoutButton;
+    private Button mRegisterButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,13 +42,21 @@ public class SettingsActivity extends Activity {
             aboutView.setText(Html.fromHtml(getString(R.string.settings_about_content)));
             aboutView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        Button mLogoutButton = (Button) findViewById(R.id.settings_logout);
+
+        mLogoutButton = (Button) findViewById(R.id.settings_logout);
+        mRegisterButton = (Button) findViewById(R.id.settings_register);
+        
         mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
+
+        if (!isUserAuthenticated()) {
+            mLogoutButton.setVisibility(View.GONE);
+            mRegisterButton.setVisibility(View.VISIBLE);
+        }
     }
 
     public void goToRegister(View v) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo", SlideshowActivity.REGISTER);
+        slideIntent.putExtra("goTo","register");
         startActivity(slideIntent);
         finish();
     }
@@ -58,15 +68,15 @@ public class SettingsActivity extends Activity {
         @Override
         public void onClick(View v) {
             if (signOut == null) {
-                signOut = new SignOutTask(getApplicationContext(), new SignedOutCallback());
+                signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
                 signOut.execute();
             }
         };
     };
 
     /**
-     *
      * Helper to get the app version info
+     *
      * @return a PackageInfo object
      */
     private PackageInfo getAppInfo() {
@@ -79,9 +89,9 @@ public class SettingsActivity extends Activity {
         return null;
     }
 
-    public class SignedOutCallback implements Callback<Void> {
+    public class SignedOutCallback implements AsyncTasksCallbacks {
         @Override
-        public void onCall(Void aVoid) throws Exception {
+        public void onTaskCompleted(int result, Object response) {
             signOut = null;
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(SettingsActivity.this, SlideshowActivity.class);
@@ -90,17 +100,12 @@ public class SettingsActivity extends Activity {
         }
 
         @Override
-        public void onError(Throwable throwable) {
+        public void onTaskCanceled() {
             signOut = null;
         }
     }
-
     private boolean isUserAuthenticated() {
-        try {
-            return APS.isConnected(getApplicationContext());
-        } catch (APS.SDKNotInitializedException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return APISENSE.apisServerService().isConnected();
     }
+
 }

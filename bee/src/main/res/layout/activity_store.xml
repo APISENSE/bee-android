@@ -15,16 +15,23 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/store_experiments_list"
+        android:id="@+id/store_experiment_lists"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:dividerHeight="@dimen/add_margin"
-        />
+        android:layout_alignParentBottom="true"/>
 
+    <!-- The menu elements ListView. -->
+    <ListView android:id="@+id/left_drawer"
+              android:layout_width="240dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="start"
+              android:choiceMode="singleChoice"
+              android:divider="@android:color/transparent"
+              android:dividerHeight="0dp"
+              android:background="@drawable/grandient_background"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

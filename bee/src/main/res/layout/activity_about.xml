@@ -1,6 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,20 +8,9 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="com.apisense.bee.ui.activity.AboutActivity">
 
-    <com.apisense.bee.widget.ApisenseTextView
-        android:id="@+id/settings_about_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/about_copyright" />
-
-    <com.apisense.bee.widget.ApisenseTextView
+    <TextView
+            android:text="@string/about_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/about_team"/>
+            android:layout_height="wrap_content"/>
 
-    <com.apisense.bee.widget.ApisenseTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/about_licenses"/>
-
-</LinearLayout>
+</RelativeLayout>

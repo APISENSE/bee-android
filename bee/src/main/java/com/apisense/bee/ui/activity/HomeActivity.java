@@ -1,72 +1,61 @@
 package com.apisense.bee.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.apisense.android.APSApplication;
-import com.apisense.android.api.APS;
-import com.apisense.android.api.APSLocalCrop;
-import com.apisense.android.ui.crops.CropsManagerFragment;
+import android.widget.*;
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.backend.AsyncTasksCallbacks;
+import com.apisense.bee.backend.experiment.*;
 import com.apisense.bee.backend.user.SignOutTask;
-import com.apisense.core.api.Callback;
-import com.apisense.core.api.Log;
+import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
+import com.apisense.bee.ui.entity.ExperimentSerializable;
+import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.appmodel.Experiment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class HomeActivity extends FragmentActivity implements  CropsManagerFragment.onCropsFragmentManagerListenner {
+public class HomeActivity extends Activity {
     private final String TAG = getClass().getSimpleName();
 
-    // Asynchronous Tasks
-    //private RetrieveInstalledExperimentsTask experimentsRetrieval;
-    //private StartStopExperimentTask experimentStartStopTask;
+    // Data
+    protected SubscribedExperimentsListAdapter experimentsAdapter;
+
+   // Asynchronous Tasks
+    private RetrieveInstalledExperimentsTask experimentsRetrieval;
     private SignOutTask signOut;
+    private StartStopExperimentTask experimentStartStopTask;
+
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Set installed experiment list behavior
+        experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
+                                                                  R.layout.fragment_experiment_element,
+                                                                  new ArrayList<Experiment>());
+        ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
+        subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
+        subscribedCollects.setAdapter(experimentsAdapter);
+        subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
+        subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
 
-        APS.ready((APSApplication) this.getApplicationContext(), new Callback<Void>() {
-            @Override
-            public void onCall(Void aVoid) throws Exception {
-
-                if (savedInstanceState == null) {
-
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.home_experiment_fragment, CropsManagerFragment.newInstance(null))
-                            .commit();
-                }
-
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Log.e(throwable);
-            }
-        });
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        updateProfile();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
+        updateUI();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
@@ -74,6 +63,9 @@ public class HomeActivity extends FragmentActivity implements  CropsManagerFragm
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.connectOrDisconnect:
+                doDisconnect();
+                break;
             case R.id.action_about:
                 doLaunchAbout();
                 break;
@@ -87,50 +79,40 @@ public class HomeActivity extends FragmentActivity implements  CropsManagerFragm
         return true;
     }
 
-    private void updateProfile(){
-        String username = getString(R.string.user_identity, getString(R.string.anonymous_user));
-        if (isUserAuthenticated()) {
-            try {
-                username = String.format(getString(R.string.user_identity), APS.getUsername(this));
-                final String uuidRegex = "[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
-                if (username.matches("anonymous-" + uuidRegex)){
-                    username = "Anonymous";
-                }
-
-            } catch (APS.SDKNotInitializedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        try {
-
-            if (!APS.getInstalledCrop(this).isEmpty()){
-
-                findViewById(R.id.home_empty_list).setVisibility(View.INVISIBLE);
-
-            }
-            else{
-
-                findViewById(R.id.home_experiment_fragment).setVisibility(View.INVISIBLE);
-
-            }
-        } catch (Exception e) {
-            Log.e(e);
-        }
-
-        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
-        user_identity.setText(username);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateUI();
     }
 
-    private boolean isUserAuthenticated() {
-        boolean response;
-        try {
-            response = APS.isConnected(this);
-        } catch (APS.SDKNotInitializedException e) {
-            e.printStackTrace();
-            return false;
+    public void setExperiments(List<Experiment> experiments) {
+        this.experimentsAdapter.setDataSet(experiments);
+    }
+
+    private void updateUI(){
+        retrieveActiveExperiments();
+
+        // Generating messages depending on the logged user
+        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
+        // Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
+
+        if (isUserAuthenticated()) {
+            user_identity.setText(getString(R.string.user_identity, "Username"));
+        } else {
+            user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
         }
-        return response;
+    }
+
+    private void retrieveActiveExperiments() {
+        if (experimentsRetrieval == null) {
+            experimentsRetrieval = new RetrieveInstalledExperimentsTask(APISENSE.apisense(), new ExperimentListRetrievedCallback());
+
+            experimentsRetrieval.execute();
+        }
+   }
+
+    private boolean isUserAuthenticated() {
+        return APISENSE.apisServerService().isConnected();
     }
 
     public void doLaunchSettings(){
@@ -143,14 +125,24 @@ public class HomeActivity extends FragmentActivity implements  CropsManagerFragm
         startActivity(privacyIntent);
     }
 
+    /**
+     * Click event for disconnect
+     */
     private void doDisconnect() {
-        signOut = new SignOutTask(this, new SignedOutCallback());
+        signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
         signOut.execute();
     }
 
     private void doLaunchAbout() {
         Intent aboutIntent = new Intent(this, AboutActivity.class);
         startActivity(aboutIntent);
+    }
+
+    public void doLoginForm(MenuItem button) {
+        Intent slideIntent = new Intent(this, SlideshowActivity.class);
+        slideIntent.putExtra("goTo","register");
+        startActivity(slideIntent);
+        finish();
     }
 
     public void doGoToStore(View storeButton) {
@@ -160,38 +152,107 @@ public class HomeActivity extends FragmentActivity implements  CropsManagerFragm
 
     public void doGoToProfil(View personalInformation) {
         if (!isUserAuthenticated()) {
-            Intent slideIntent = new Intent(this, LauncherActivity.class);
+            Intent slideIntent = new Intent(this, SlideshowActivity.class);
+            slideIntent.putExtra("goTo","register");
             startActivity(slideIntent);
             finish();
-
-
         } else {
             // Go to profil activity
         }
     }
 
-    @Override
-    public void onCropClicked(APSLocalCrop apsLocalCrop) {
+    public class ExperimentListRetrievedCallback implements AsyncTasksCallbacks {
+        @Override
+        public void onTaskCompleted(int result, Object response) {
+            experimentsRetrieval = null;
+            List<Experiment> exp = (List<Experiment>) response;
+            Log.i(TAG, "number of Active Experiments: " + exp.size());
 
-        final Intent intent = new Intent(this, ExperimentDetailsActivity.class);
-        intent.putExtra("experiment",apsLocalCrop.getName());
-        startActivity(intent);
+           // Updating listview
+            setExperiments(exp);
+            experimentsAdapter.notifyDataSetChanged();
+        }
 
+        @Override
+        public void onTaskCanceled() {
+            experimentsRetrieval = null;
+        }
     }
 
-    public class SignedOutCallback implements Callback<Void> {
+    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener{
         @Override
-        public void onCall(Void aVoid) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(view.getContext(), ExperimentDetailsActivity.class);
+            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
+
+            Bundle bundle = new Bundle();
+            // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
+            // bundle.putParcelable("experiment", getItem(position));
+            // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
+            bundle.putSerializable("experiment", new ExperimentSerializable(exp));
+            intent.putExtras(bundle); //Put your id to your next Intent
+            startActivity(intent);
+        }
+    }
+
+    private class StartStopExperimentListener implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
+            if (experimentStartStopTask == null) {
+                experimentStartStopTask = new StartStopExperimentTask(APISENSE.apisense(), new OnExperimentStatusChanged(exp));
+                experimentStartStopTask.execute(exp);
+            }
+            return true;
+        }
+    }
+
+
+    public class SignedOutCallback implements AsyncTasksCallbacks {
+        @Override
+        public void onTaskCompleted(int result, Object response) {
             signOut = null;
             Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getBaseContext(), LauncherActivity.class);
+            Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
             startActivity(intent);
             finish();
         }
 
         @Override
-        public void onError(Throwable throwable) {
+        public void onTaskCanceled() {
             signOut = null;
+        }
+    }
+
+    private class OnExperimentStatusChanged implements AsyncTasksCallbacks {
+        private Experiment concernedExp;
+
+        public OnExperimentStatusChanged(Experiment exp) {
+            this.concernedExp = exp;
+        }
+
+        @Override
+        public void onTaskCompleted(int result, Object response) {
+            experimentStartStopTask = null;
+            String experimentName = concernedExp.niceName;
+            String toastMessage = "";
+            if (result == BeeApplication.ASYNC_SUCCESS) {
+                switch((Integer)response) {
+                    case StartStopExperimentTask.EXPERIMENT_STARTED:
+                        toastMessage = String.format(getString(R.string.experiment_started), experimentName);
+                        break;
+                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
+                        toastMessage = String.format(getString(R.string.experiment_stopped), experimentName);
+                        break;
+                }
+                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                experimentsAdapter.notifyDataSetInvalidated();
+            }
+        }
+
+        @Override
+        public void onTaskCanceled() {
+            experimentStartStopTask = null;
         }
     }
 }

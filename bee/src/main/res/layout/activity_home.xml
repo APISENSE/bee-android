@@ -15,7 +15,6 @@
             android:id="@+id/user_information">
         <ImageView
                 android:src="@drawable/unknown_user"
-                android:contentDescription="@string/home_default_profile_image_description"
                 android:layout_width="@dimen/thumbnail_size"
                 android:layout_height="@dimen/thumbnail_size"
                 android:id="@+id/home_user_image"
@@ -30,38 +29,100 @@
                 />
     </LinearLayout>
 
+    <!-- Gamification
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/game_padding"
+            android:orientation="horizontal">
+
+        <com.apisense.bee.widget.ApisenseTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1850 Points"
+                android:layout_weight="0.5"/>
+
+        <com.apisense.bee.widget.ApisenseTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Rank #40"
+                android:layout_weight="0.5"/>
+
+    </LinearLayout> -->
+
+    <!-- Go to Bee Store
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/game_padding"
+            android:orientation="horizontal">
+
+        <Button
+                android:background="@drawable/button_rounded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textColor="@color/white"
+                android:id="@+id/home_go_to_store"
+                android:onClick="doGoToStore" />
+
+        <com.apisense.bee.widget.ApisenseTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:clickable="true"
+                android:onClick="doGoToStore"
+                android:text="Contribute to awesome experiments" />
+
+
+    </LinearLayout> -->
+
+
+
     <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
             android:paddingBottom="@dimen/add_margin">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:id="@+id/home_empty_list">
+
+            <!-- <Button
+                    android:id="@+id/bigAddButton"
+                    android:background="@drawable/big_button_rounded"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:onClick="doGoToStore" /> -->
 
             <com.apisense.bee.widget.ApisenseTextView
                     style="@style/ApisenseSlideText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/add_new_experiments"
                     android:textColor="@color/grey"/>
         </LinearLayout>
 
+
+
         <!-- Exp list -->
-        <LinearLayout
+        <ListView
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:background="#DEDEDE"
-                android:layout_height="match_parent"
-                android:id="@+id/home_experiment_fragment"
-                />
+                android:layout_height="wrap_content"
+                android:id="@+id/home_experiment_lists"
+                android:layout_weight="1" />
 
         <Button
                 android:id="@+id/smallAddButton"
                 android:background="@drawable/small_button_rounded"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
+                android:layout_weight="0"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/add_button_margin"
                 android:textColor="@color/white"
