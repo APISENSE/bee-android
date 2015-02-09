@@ -39,7 +39,7 @@ dependencies {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '21'
+    buildToolsVersion '21.1.1'
 
     lintOptions {
         abortOnError false
@@ -79,13 +79,15 @@ android {
 
 // Unit tests
 // See: https://plugins.jetbrains.com/plugin/7488?pr=idea
-apply plugin: 'android-unit-test'
+apply plugin: 'robolectric'
 
 dependencies {
     testCompile 'junit:junit:4.10'
     testCompile 'org.robolectric:robolectric:2.3'
 }
-
+robolectric {
+    include '**/*Tests.class'
+}
 // Coverage
 // See: http://chrisjenx.com/gradle-robolectric-jacoco-dagger/
 apply plugin: "jacoco"
