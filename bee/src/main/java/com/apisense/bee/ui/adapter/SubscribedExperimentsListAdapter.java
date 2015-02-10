@@ -7,12 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
 import com.apisense.bee.R;
-import fr.inria.bsense.appmodel.Experiment;
-import fr.inria.bsense.service.BeeSenseServiceManager;
 
 import java.util.List;
+
+import fr.inria.bsense.appmodel.Experiment;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 
 public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     private final String TAG = getClass().getSimpleName();
@@ -36,8 +39,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param context
      * @param layoutResourceId
-     * @param experiments
-     *            list of experiments
+     * @param experiments      list of experiments
      */
     public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
         super(context, layoutResourceId, experiments);
@@ -50,7 +52,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param dataSet
      */
-    public void setDataSet(List<Experiment> dataSet){
+    public void setDataSet(List<Experiment> dataSet) {
         this.data = dataSet;
     }
 
@@ -67,8 +69,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     /**
      * Get an experiment from position in the ListView
      *
-     * @param position
-     *            position in the ListView
+     * @param position position in the ListView
      * @return an experiment
      */
     @Override
@@ -79,8 +80,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     /**
      * Get the experiment ID
      *
-     * @param position
-     *            position in the ListView
+     * @param position position in the ListView
      * @return the experiment ID
      */
     @Override
@@ -111,7 +111,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         description.setText(decode);
 
         TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
-        String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running) ;
+        String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running);
         textStatus.setText(" - " + state);
 
 //        convertView.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +131,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
 
         // Display state of the current experiment
         View status = convertView.findViewById(R.id.item);
-        if (item.state){
+        if (item.state) {
             showAsStarted(status);
         } else {
             showAsStopped(status);
@@ -140,11 +140,11 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         return convertView;
     }
 
-    public void showAsStarted(View v){
+    public void showAsStarted(View v) {
         v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
     }
 
-    public void showAsStopped(View v){
+    public void showAsStopped(View v) {
         v.setBackgroundColor(getContext().getResources().getColor(R.color.light_grey));
     }
 }

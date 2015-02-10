@@ -8,28 +8,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.*;
+import com.apisense.bee.backend.experiment.StartStopExperimentTask;
+import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import fr.inria.apislog.APISLog;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
+
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
+
+import fr.inria.apislog.APISLog;
+import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.appmodel.Experiment;
 
 public class ExperimentDetailsActivity extends Activity {
 
@@ -76,7 +76,7 @@ public class ExperimentDetailsActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
+        overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
     }
 
     @Override
@@ -108,14 +108,14 @@ public class ExperimentDetailsActivity extends Activity {
         graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);
     }
-    
+
     public void displayExperimentInformation() {
         Bundle b = getIntent().getExtras();
         // TODO : Switch to parcelable when available
         // Experiment expe =  b.getParcelable("experiment");
 
         // TODO Send directly experiment instead of experimentSerializable when possible
-        ExperimentSerializable experimentS  = (ExperimentSerializable) b.getSerializable("experiment");
+        ExperimentSerializable experimentS = (ExperimentSerializable) b.getSerializable("experiment");
         try {
             experiment = APISENSE.apisMobileService().getExperiment(experimentS.getName());
         } catch (JSONException e) {
@@ -140,14 +140,14 @@ public class ExperimentDetailsActivity extends Activity {
             final Calendar currentCalendar = new GregorianCalendar();
 
             final Map<String, Object>[] stats = APISENSE.statistic().readUploadStatistic(experiment.name);
-            for (Map<String,Object> stat : stats){
+            for (Map<String, Object> stat : stats) {
                 final String[] uploadTime = stat.get("date").toString().split("-");
                 final Calendar uploadCalandar = new GregorianCalendar(
                         Integer.parseInt(uploadTime[0]),
-                        Integer.parseInt(uploadTime[1])-1,
+                        Integer.parseInt(uploadTime[1]) - 1,
                         Integer.parseInt(uploadTime[2]));
 
-                int diffDay =  currentCalendar.get(Calendar.DAY_OF_YEAR) - uploadCalandar.get(Calendar.DAY_OF_YEAR);
+                int diffDay = currentCalendar.get(Calendar.DAY_OF_YEAR) - uploadCalandar.get(Calendar.DAY_OF_YEAR);
                 int indexData = (barGraphShowDay - 1) - diffDay;
 
                 if (indexData >= 0)
@@ -173,7 +173,7 @@ public class ExperimentDetailsActivity extends Activity {
         } */
     }
 
-    private void updateStartMenu(){
+    private void updateStartMenu() {
         if (!experiment.state) {
             mStartButton.setTitle(getString(R.string.action_start));
         } else {
@@ -205,7 +205,7 @@ public class ExperimentDetailsActivity extends Activity {
             experimentStartStopTask = null;
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch((Integer)response) {
+                switch ((Integer) response) {
                     case StartStopExperimentTask.EXPERIMENT_STARTED:
                         graph.setActived();
                         toastMessage = String.format(getString(R.string.experiment_started), experiment.niceName);
@@ -235,7 +235,7 @@ public class ExperimentDetailsActivity extends Activity {
             String experimentName = experiment.niceName;
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch ((Integer) response){
+                switch ((Integer) response) {
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
                         updateSubscriptionMenu();

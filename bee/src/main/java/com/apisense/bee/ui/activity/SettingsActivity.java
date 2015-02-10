@@ -11,19 +11,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.SignOutTask;
+
 import fr.inria.bsense.APISENSE;
 
 public class SettingsActivity extends FragmentActivity {
 
     private final String TAG = "SettingsActivity";
-
+    TextView aboutView, versionView;
     // Asynchronous Tasks
     private SignOutTask signOut;
+    /**
+     * Click event for disconnect
+     */
+    private final View.OnClickListener disconnectEvent = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (signOut == null) {
+                signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
+                signOut.execute();
+            }
+        }
 
-    TextView aboutView, versionView;
+        ;
+    };
     private Button mLogoutButton;
     private Button mRegisterButton;
 
@@ -45,7 +59,7 @@ public class SettingsActivity extends FragmentActivity {
 
         mLogoutButton = (Button) findViewById(R.id.settings_logout);
         mRegisterButton = (Button) findViewById(R.id.settings_register);
-        
+
         mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
 
         if (!isUserAuthenticated()) {
@@ -56,23 +70,10 @@ public class SettingsActivity extends FragmentActivity {
 
     public void goToRegister(View v) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo","register");
+        slideIntent.putExtra("goTo", "register");
         startActivity(slideIntent);
         finish();
     }
-
-    /**
-     * Click event for disconnect
-     */
-    private final View.OnClickListener disconnectEvent = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (signOut == null) {
-                signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
-                signOut.execute();
-            }
-        };
-    };
 
     /**
      * Helper to get the app version info
@@ -89,6 +90,10 @@ public class SettingsActivity extends FragmentActivity {
         return null;
     }
 
+    private boolean isUserAuthenticated() {
+        return APISENSE.apisServerService().isConnected();
+    }
+
     public class SignedOutCallback implements AsyncTasksCallbacks {
         @Override
         public void onTaskCompleted(int result, Object response) {
@@ -103,9 +108,6 @@ public class SettingsActivity extends FragmentActivity {
         public void onTaskCanceled() {
             signOut = null;
         }
-    }
-    private boolean isUserAuthenticated() {
-        return APISENSE.apisServerService().isConnected();
     }
 
 }

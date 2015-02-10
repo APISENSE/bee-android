@@ -2,25 +2,30 @@ package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.*;
+import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
+import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.appmodel.Experiment;
 
 
 public class HomeActivity extends Activity {
@@ -42,8 +47,8 @@ public class HomeActivity extends Activity {
 
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
-                                                                  R.layout.fragment_experiment_element,
-                                                                  new ArrayList<Experiment>());
+                R.layout.fragment_experiment_element,
+                new ArrayList<Experiment>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
         subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
         subscribedCollects.setAdapter(experimentsAdapter);
@@ -89,7 +94,7 @@ public class HomeActivity extends Activity {
         this.experimentsAdapter.setDataSet(experiments);
     }
 
-    private void updateUI(){
+    private void updateUI() {
         retrieveActiveExperiments();
 
         // Generating messages depending on the logged user
@@ -140,7 +145,7 @@ public class HomeActivity extends Activity {
 
     public void doLoginForm(MenuItem button) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo","register");
+        slideIntent.putExtra("goTo", "register");
         startActivity(slideIntent);
         finish();
     }
@@ -168,7 +173,7 @@ public class HomeActivity extends Activity {
             List<Experiment> exp = (List<Experiment>) response;
             Log.i(TAG, "number of Active Experiments: " + exp.size());
 
-           // Updating listview
+            // Updating listview
             setExperiments(exp);
             experimentsAdapter.notifyDataSetChanged();
         }
@@ -179,7 +184,7 @@ public class HomeActivity extends Activity {
         }
     }
 
-    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener{
+    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), ExperimentDetailsActivity.class);
@@ -237,7 +242,7 @@ public class HomeActivity extends Activity {
             String experimentName = concernedExp.niceName;
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch((Integer)response) {
+                switch ((Integer) response) {
                     case StartStopExperimentTask.EXPERIMENT_STARTED:
                         toastMessage = String.format(getString(R.string.experiment_started), experimentName);
                         break;

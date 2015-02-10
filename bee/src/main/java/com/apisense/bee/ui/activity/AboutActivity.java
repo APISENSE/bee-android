@@ -3,7 +3,7 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
+
 import com.apisense.bee.R;
 
 public class AboutActivity extends Activity {

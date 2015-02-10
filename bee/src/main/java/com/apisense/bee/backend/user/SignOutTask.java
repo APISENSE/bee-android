@@ -3,6 +3,7 @@ package com.apisense.bee.backend.user;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+
 import fr.inria.apislog.APISLog;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;
@@ -11,7 +12,6 @@ import fr.inria.bsense.service.BeeSenseServiceManager;
 
 /**
  * Represents an asynchronous Sign out task used to de-authenticate the user.
- *
  */
 public class SignOutTask extends AsyncTaskWithCallback<String, Void, String> {
     private final String TAG = this.getClass().getSimpleName();
@@ -31,7 +31,7 @@ public class SignOutTask extends AsyncTaskWithCallback<String, Void, String> {
         try {
             mobService.sendAllTrack();
             mobService.stopAllExperiments(0);
-            for(Experiment xp: mobService.getInstalledExperiments().values())
+            for (Experiment xp : mobService.getInstalledExperiments().values())
                 mobService.uninstallExperiment(xp);
         } catch (Exception e) {
             e.printStackTrace();

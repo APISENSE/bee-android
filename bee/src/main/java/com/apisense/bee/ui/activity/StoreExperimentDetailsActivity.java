@@ -6,29 +6,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
+
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 /**
  * Shows detailed informations about a given available Experiment from the store
- *
  */
 public class StoreExperimentDetailsActivity extends Activity {
     private final String TAG = getClass().getSimpleName();
-
-    private Experiment experiment;
-
     TextView mExperimentName;
     TextView mExperimentOrganization;
     TextView mExperimentVersion;
-
-     MenuItem mSubscribeButton;
-
+    MenuItem mSubscribeButton;
+    private Experiment experiment;
     // Async Tasks
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
 
@@ -45,8 +42,9 @@ public class StoreExperimentDetailsActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
+        overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
     }
+
     public void initializeViews() {
         mExperimentName = (TextView) findViewById(R.id.store_detail_exp_name);
         mExperimentOrganization = (TextView) findViewById(R.id.store_detail_exp_organization);
@@ -58,7 +56,7 @@ public class StoreExperimentDetailsActivity extends Activity {
         // TODO : Switch to parcelable when available
         // Experiment expe =  b.getParcelable("experiment");
         // TODO Send directly experiment instead of experimentSerializable when possible
-        ExperimentSerializable experimentS  = (ExperimentSerializable) b.getSerializable("experiment");
+        ExperimentSerializable experimentS = (ExperimentSerializable) b.getSerializable("experiment");
         experiment = APISENSE.apisServerService().getRemoteExperiment(experimentS.getName());
 
         mExperimentName.setText(experiment.niceName);
@@ -76,7 +74,7 @@ public class StoreExperimentDetailsActivity extends Activity {
         return true;
     }
 
-    private void updateSubscriptionMenu(){
+    private void updateSubscriptionMenu() {
         // TODO: Change to API method when available (isSubscribedExperiment)
         if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
             mSubscribeButton.setTitle(getString(R.string.action_subscribe));
@@ -108,7 +106,7 @@ public class StoreExperimentDetailsActivity extends Activity {
             String experimentName = experiment.niceName;
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch ((Integer) response){
+                switch ((Integer) response) {
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
                         updateSubscriptionMenu();

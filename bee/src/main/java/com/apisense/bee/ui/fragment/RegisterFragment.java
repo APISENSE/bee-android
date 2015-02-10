@@ -9,29 +9,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.TextView;
-import com.apisense.bee.BeeApplication;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.RegisterTask;
 import com.apisense.bee.ui.activity.HomeActivity;
+
 import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.APISENSEListenner;
-import fr.inria.bsense.service.BeeSenseServiceManager;
 
 public class RegisterFragment extends Fragment {
-
-    private final String TAG = "Register fragment";
 
     /**
      * The default email to populate the email field with.
      */
     public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
-
+    private final String TAG = "Register fragment";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -148,7 +144,7 @@ public class RegisterFragment extends Fragment {
                 public void onTaskCompleted(int result, Object response) {
                     Log.i(TAG, "Register result: " + result);
                     Log.i(TAG, "Register details: " + response);
-                    if ((Integer)result == BeeApplication.ASYNC_SUCCESS) {
+                    if ((Integer) result == BeeApplication.ASYNC_SUCCESS) {
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

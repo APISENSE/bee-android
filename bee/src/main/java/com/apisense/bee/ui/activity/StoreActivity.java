@@ -1,13 +1,23 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.*;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
@@ -15,25 +25,23 @@ import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.appmodel.Experiment;
 // TODO: Think about index usage (when to load next 'page' of experiment)
 // TODO: Think about Tags usage (Server filter is better)
 
 public class StoreActivity extends Activity implements SearchView.OnQueryTextListener {
     private final String TAG = getClass().getSimpleName();
 
-    protected  ActionBar actionBar;
-
-    // Search view
-    private SearchView mSearchView;
-
+    protected ActionBar actionBar;
     // Content Adapter
     protected AvailableExperimentsListAdapter experimentsAdapter;
-
+    // Search view
+    private SearchView mSearchView;
     // Asynchronous Task
     private RetrieveAvailableExperimentsTask experimentsRetrieval;
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
@@ -47,8 +55,8 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
 
         // Setting up available experiments list behavior
         experimentsAdapter = new AvailableExperimentsListAdapter(getBaseContext(),
-                                                                  R.layout.fragment_experiment_store_element,
-                                                                  new ArrayList<Experiment>());
+                R.layout.fragment_experiment_store_element,
+                new ArrayList<Experiment>());
         ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiment_lists);
         subscribedExperiments.setEmptyView(findViewById(R.id.store_empty_list));
         subscribedExperiments.setAdapter(experimentsAdapter);
@@ -131,6 +139,17 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
 
     // Callbacks definitions
 
+    public void getExperiments() {
+        if (experimentsRetrieval != null) {
+            experimentsRetrieval.cancel(true);
+        }
+        // Creating new request to retrieve Experiments
+        if (experimentsRetrieval == null) {
+            experimentsRetrieval = new RetrieveAvailableExperimentsTask(APISENSE.apisense(), new OnExperimentsRetrieved());
+            experimentsRetrieval.execute();
+        }
+    }
+
     private class OnExperimentsRetrieved implements AsyncTasksCallbacks {
         @Override
         public void onTaskCompleted(int result, Object response) {
@@ -149,23 +168,12 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         }
     }
 
-    public void getExperiments() {
-        if (experimentsRetrieval != null) {
-            experimentsRetrieval.cancel(true);
-        }
-        // Creating new request to retrieve Experiments
-        if (experimentsRetrieval == null) {
-            experimentsRetrieval = new RetrieveAvailableExperimentsTask(APISENSE.apisense(), new OnExperimentsRetrieved());
-            experimentsRetrieval.execute();
-        }
-    }
-
     // TODO: Export (Un)Subscription indocator management to Adapter (with a boolean field 'subscribed' in the Experiment)
     private class onExperimentSubscriptionChanged implements AsyncTasksCallbacks {
         private View statusView;
         private View concernedView;
 
-        public onExperimentSubscriptionChanged(View v){
+        public onExperimentSubscriptionChanged(View v) {
             super();
             this.concernedView = v;
             this.statusView = concernedView.findViewById(R.id.item);
@@ -176,10 +184,10 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         public void onTaskCompleted(int result, Object response) {
             experimentChangeSubscriptionStatus = null;
             String experimentName = ((TextView) concernedView.findViewById(R.id.experimentelement_sampletitle))
-                                                              .getText().toString();
+                    .getText().toString();
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch ((Integer) response){
+                switch ((Integer) response) {
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
                         experimentsAdapter.showAsSubscribed(statusView);
@@ -202,7 +210,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
 
     // Listeners definitions
 
-    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener{
+    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), StoreExperimentDetailsActivity.class);
@@ -222,7 +230,7 @@ public class StoreActivity extends Activity implements SearchView.OnQueryTextLis
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment exp = (Experiment) parent.getAdapter().getItem(position);
-            if (experimentChangeSubscriptionStatus == null){
+            if (experimentChangeSubscriptionStatus == null) {
                 experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new onExperimentSubscriptionChanged(view));
                 experimentChangeSubscriptionStatus.execute(exp);
             }

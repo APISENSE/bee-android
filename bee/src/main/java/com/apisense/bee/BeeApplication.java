@@ -1,7 +1,18 @@
 package com.apisense.bee;
 
 import fr.inria.apisense.view.notification.NotificationActivity;
-import fr.inria.asl.android.facade.*;
+import fr.inria.asl.android.facade.AndroidFacade;
+import fr.inria.asl.android.facade.BatteryFacade;
+import fr.inria.asl.android.facade.BluetoothFacade;
+import fr.inria.asl.android.facade.EventFacade;
+import fr.inria.asl.android.facade.LatenceFacade;
+import fr.inria.asl.android.facade.LocationFacade;
+import fr.inria.asl.android.facade.LogFacade;
+import fr.inria.asl.android.facade.NetworkFacade;
+import fr.inria.asl.android.facade.SensorFacade;
+import fr.inria.asl.android.facade.SoundFacade;
+import fr.inria.asl.android.facade.TelephonyFacade;
+import fr.inria.asl.android.facade.WifiFacade;
 import fr.inria.asl.android.facade.system.ApplicationFacade;
 import fr.inria.asl.android.facade.system.LogCatFacade;
 import fr.inria.asl.android.facade.wv.WebViewFacade;
@@ -47,7 +58,7 @@ public class BeeApplication extends BeeSenseApplication {
             APISENSE.apisMobileService().registerPrivacyFacade("Bluetooth", "Collect bluetooth info", String.valueOf(R.drawable.ic_sensor_bluetooth_on), String.valueOf(R.drawable.ic_sensor_bluetooth_off), BluetoothFacade.class);
             APISENSE.apisMobileService().registerPrivacyFacade("Réseau", "Collect telephony network info", String.valueOf(R.drawable.ic_sensor_network_on), String.valueOf(R.drawable.ic_sensor_network_off), TelephonyFacade.class);
             APISENSE.apisMobileService().registerPrivacyFacade("Capteur", "Collect sensor info", String.valueOf(R.drawable.ic_sensor_on), String.valueOf(R.drawable.ic_sensor_off), SensorFacade.class);
-            APISENSE.apisMobileService().registerPrivacyFacade("Bruit sonore","Collect noise info", String.valueOf(R.drawable.ic_sensor_on), String.valueOf(R.drawable.ic_sensor_off), SoundFacade.class);
+            APISENSE.apisMobileService().registerPrivacyFacade("Bruit sonore", "Collect noise info", String.valueOf(R.drawable.ic_sensor_on), String.valueOf(R.drawable.ic_sensor_off), SoundFacade.class);
 
             APISENSE.apisMobileService().registerFacade(WebViewFacade.class);
             APISENSE.apisMobileService().registerFacade(ViewFacade.class);

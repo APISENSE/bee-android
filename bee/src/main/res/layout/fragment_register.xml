@@ -1,94 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:id="@+id/registerView">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/registerView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="@dimen/activity_horizontal_margin">
 
     <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <!-- Login Form -->
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <!--  Email Label -->
             <com.apisense.bee.widget.ApisenseTextView
                 style="@style/ApisenseText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/pseudo"/>
+                android:text="@string/pseudo" />
+
             <com.apisense.bee.widget.ApisenseEditText
-                style="@style/ApisenseEditText"
                 android:id="@+id/registerPseudo"
+                style="@style/ApisenseEditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"/>
+                android:singleLine="true" />
 
             <!--  Password Label -->
             <com.apisense.bee.widget.ApisenseTextView
                 style="@style/ApisenseText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/password"/>
+                android:text="@string/password" />
+
             <com.apisense.bee.widget.ApisenseEditText
-                style="@style/ApisenseEditText"
                 android:id="@+id/registerPassword"
+                style="@style/ApisenseEditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:singleLine="true" />
 
             <!--  Password confirm Label -->
             <com.apisense.bee.widget.ApisenseTextView
                 style="@style/ApisenseText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/passwordConfirm"/>
+                android:text="@string/passwordConfirm" />
+
             <com.apisense.bee.widget.ApisenseEditText
-                style="@style/ApisenseEditText"
                 android:id="@+id/registerPasswordConfirm"
+                style="@style/ApisenseEditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:singleLine="true" />
 
             <!-- Hive -->
             <com.apisense.bee.widget.ApisenseTextView
-                    style="@style/ApisenseText"
-                    android:id="@+id/apisenseHive"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hive_label"
-                    android:visibility="invisible"/>
+                android:id="@+id/apisenseHive"
+                style="@style/ApisenseText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hive_label"
+                android:visibility="invisible" />
+
             <com.apisense.bee.widget.ApisenseEditText
-                    style="@style/ApisenseEditText"
-                    android:id="@+id/apisenseEditText"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hive_url"
-                    android:visibility="invisible" />
+                android:id="@+id/apisenseEditText"
+                style="@style/ApisenseEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hive_url"
+                android:visibility="invisible" />
 
             <!-- Login button -->
-            <Button android:id="@+id/registerBtn"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/api_button_rounded"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:text="@string/register"/>
+            <Button
+                android:id="@+id/registerBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/api_button_rounded"
+                android:text="@string/register" />
 
-            <com.apisense.bee.widget.ApisenseTextView android:id="@+id/anonymousBtn"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:text="@string/register_anonymous"
-                    android:gravity="center"
-                    android:clickable="true"/>
+            <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/anonymousBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/register_anonymous" />
 
         </LinearLayout>
         <!-- Login Form Ends -->

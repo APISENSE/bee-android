@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+
 import com.apisense.bee.R;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
-import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.inria.bsense.appmodel.Experiment;
 
 public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     private final String TAG = getClass().getSimpleName();
@@ -40,8 +42,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param context
      * @param layoutResourceId
-     * @param experiments
-     *            list of experiments
+     * @param experiments      list of experiments
      */
     public AvailableExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
         super(context, layoutResourceId, experiments);
@@ -55,7 +56,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param dataSet
      */
-    public void setDataSet(List<Experiment> dataSet){
+    public void setDataSet(List<Experiment> dataSet) {
         this.data = dataSet;
         this.filteredData = dataSet;
     }
@@ -73,8 +74,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     /**
      * Get an experiment from position in the ListView
      *
-     * @param position
-     *            position in the ListView
+     * @param position position in the ListView
      * @return an experiment
      */
     @Override
@@ -85,8 +85,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     /**
      * Get the experiment ID
      *
-     * @param position
-     *            position in the ListView
+     * @param position position in the ListView
      * @return the experiment ID
      */
     @Override
@@ -119,7 +118,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
 
         // Contains a background color associated to current status
         View status = convertView.findViewById(R.id.item);
-        if (SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(item)){
+        if (SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(item)) {
             showAsSubscribed(status);
         } else {
             showAsUnsubscribed(status);
@@ -127,11 +126,11 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         return convertView;
     }
 
-    public void showAsSubscribed(View v){
+    public void showAsSubscribed(View v) {
         v.setBackgroundColor(getContext().getResources().getColor(R.color.light_grey));
     }
 
-    public void showAsUnsubscribed(View v){
+    public void showAsUnsubscribed(View v) {
         v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
     }
 

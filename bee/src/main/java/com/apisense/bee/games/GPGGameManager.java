@@ -4,15 +4,13 @@ package com.apisense.bee.games;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.IntentSender;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.content.IntentSender;
-import android.os.Bundle;
-import android.widget.Toast;
+import android.util.Log;
 
-import com.apisense.bee.ui.activity.SlideshowActivity;
-import com.apisense.core.api.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -62,23 +60,24 @@ public class GPGGameManager implements GameManagerInterface {
 
         return true;
     }
-    
+
     public boolean isResolvingError() {
         return this.mResolvingConnectionFailure;
     }
+
     public void setResolvingStatus(boolean resolving) {
         this.mResolvingConnectionFailure = resolving;
-        
+
     }
-    
+
     public boolean isConnecting() {
         return this.mGoogleApiClient.isConnecting();
-        
+
     }
-    
+
     public boolean isConnected() {
         return this.mGoogleApiClient.isConnected();
-        
+
     }
 
     public boolean signin() {
@@ -154,13 +153,14 @@ public class GPGGameManager implements GameManagerInterface {
         Bundle args = new Bundle();
         args.putInt(DIALOG_ERROR, errorCode);
         dialogFragment.setArguments(args);
-        
+
         FragmentManager fragmentManager = ((FragmentActivity) this.currentContext).getSupportFragmentManager();
         dialogFragment.show(fragmentManager, "errordialog");
     }
 
     public static class ErrorDialogFragment extends DialogFragment {
-        public ErrorDialogFragment() { }
+        public ErrorDialogFragment() {
+        }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {

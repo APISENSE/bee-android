@@ -1,9 +1,11 @@
 package com.apisense.bee.ui.activity;
 
+import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
+
 import com.apisense.bee.R;
 import com.robotium.solo.Solo;
-import android.test.ActivityInstrumentationTestCase2;
+
 import junit.framework.Assert;
 
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<Slid
     // Test buttons
     public void testSignInButton() {
         activity.clickOnView(signInBtn);
-            Assert.assertTrue(activity.waitForView(R.id.signInView));
+        Assert.assertTrue(activity.waitForView(R.id.signInView));
     }
 
     public void testRegisterButton() {

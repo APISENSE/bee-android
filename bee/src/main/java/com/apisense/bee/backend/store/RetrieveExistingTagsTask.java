@@ -9,9 +9,8 @@ import java.util.List;
 
 /**
  * Task to fetch every existing Tag settled on experiments
- *
  */
-public class RetrieveExistingTagsTask extends AsyncTaskWithCallback<Void, Void, List<String>>{
+public class RetrieveExistingTagsTask extends AsyncTaskWithCallback<Void, Void, List<String>> {
 
     public RetrieveExistingTagsTask(AsyncTasksCallbacks listener) {
         super(listener);

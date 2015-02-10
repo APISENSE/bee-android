@@ -1,6 +1,5 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,20 +8,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
 import com.apisense.bee.R;
 import com.apisense.bee.games.GPGGameManager;
-import com.apisense.bee.ui.fragment.*;
+import com.apisense.bee.ui.fragment.HowFragment;
+import com.apisense.bee.ui.fragment.NotFoundFragment;
+import com.apisense.bee.ui.fragment.RegisterFragment;
+import com.apisense.bee.ui.fragment.RewardFragment;
+import com.apisense.bee.ui.fragment.SignInFragment;
+import com.apisense.bee.ui.fragment.WhatFragment;
 import com.viewpagerindicator.CirclePageIndicator;
+
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.APISENSEListenner;
 import fr.inria.bsense.service.BeeSenseServiceManager;
-
-import java.lang.Override;
 
 public class SlideshowActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -72,7 +73,7 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
         }
 
         //Bind the title indicator to the adapter
-        CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
+        CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mPager);
 
         // Add onClick listeners
@@ -119,9 +120,9 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
     protected void onStart() {
         // connect the GPG Game Manager
         GPGGameManager.getInstance().initialize(this);
-        
+
         // Connect
-        if(!GPGGameManager.getInstance().isResolvingError()) {
+        if (!GPGGameManager.getInstance().isResolvingError()) {
             GPGGameManager.getInstance().signin();
         }
         super.onStart();
@@ -132,14 +133,14 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
         GPGGameManager.getInstance().signout();
         super.onStop();
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GPGGameManager.REQUEST_RESOLVE_ERROR) {
             GPGGameManager.getInstance().setResolvingStatus(false);
             if (resultCode == RESULT_OK) {
                 // Make sure the app is not already connected or attempting to connect
-                if (!GPGGameManager.getInstance().isConnecting() && 
+                if (!GPGGameManager.getInstance().isConnecting() &&
                         !GPGGameManager.getInstance().isConnected()) {
                     GPGGameManager.getInstance().signin();
                 }
@@ -152,8 +153,7 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
         if (view.getId() == R.id.sign_in_button) {
             // connect the asynchronous sign in flow
             GPGGameManager.getInstance().signin();
-        }
-        else if (view.getId() == R.id.sign_out_button) {
+        } else if (view.getId() == R.id.sign_out_button) {
 
             GPGGameManager.getInstance().signout();
             // show sign-in button, hide the sign-out button
@@ -178,12 +178,18 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case WHAT: return new WhatFragment();
-                case HOW: return new HowFragment();
-                case REWARD: return new RewardFragment();
-                case SIGNIN: return new SignInFragment();
-                case REGISTER: return new RegisterFragment();
-                default: return new NotFoundFragment();
+                case WHAT:
+                    return new WhatFragment();
+                case HOW:
+                    return new HowFragment();
+                case REWARD:
+                    return new RewardFragment();
+                case SIGNIN:
+                    return new SignInFragment();
+                case REGISTER:
+                    return new RegisterFragment();
+                default:
+                    return new NotFoundFragment();
             }
         }
 

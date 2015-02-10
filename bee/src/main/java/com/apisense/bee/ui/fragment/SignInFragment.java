@@ -9,25 +9,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.SignInTask;
 import com.apisense.bee.ui.activity.HomeActivity;
+
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 public class SignInFragment extends Fragment {
 
+    private final String TAG = "SignInFragment";
     private Button mSignInBtn;
     private EditText mPseudoEditText;
     private EditText mPasswordEditText;
-
-    private final String TAG = "SignInFragment";
 
     /**
      * Default constructor
@@ -62,6 +62,7 @@ public class SignInFragment extends Fragment {
 
     /**
      * Check if current user is authenticated
+     *
      * @return true or false
      */
     private boolean isUserAuthenticated() {
@@ -70,6 +71,7 @@ public class SignInFragment extends Fragment {
 
     /**
      * Check if sign in form is correctly filled
+     *
      * @return true or false
      */
     private boolean isInputCorrect() {
@@ -85,9 +87,10 @@ public class SignInFragment extends Fragment {
 
     /**
      * Run sign in task in background
+     *
      * @param loginButton button pressed to start task
      */
-    public void doLoginLogout(View loginButton){
+    public void doLoginLogout(View loginButton) {
         if (!isInputCorrect()) {
             Toast.makeText(getActivity(), getResources().getString(R.string.empty_field), Toast.LENGTH_LONG).show();
             return;
@@ -97,7 +100,7 @@ public class SignInFragment extends Fragment {
             try {
                 APISENSE.apisMobileService().sendAllTrack();
                 APISENSE.apisMobileService().stopAllExperiments(0);
-                for(Experiment xp: APISENSE.apisMobileService().getInstalledExperiments().values())
+                for (Experiment xp : APISENSE.apisMobileService().getInstalledExperiments().values())
                     APISENSE.apisMobileService().uninstallExperiment(xp);
             } catch (Exception e) {
                 e.printStackTrace();

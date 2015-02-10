@@ -1,15 +1,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_padding"
         android:paddingLeft="@dimen/activity_padding"
-        android:paddingRight="@dimen/activity_padding"
-        android:paddingBottom="@dimen/activity_padding">
+        android:paddingRight="@dimen/activity_padding">
 
         <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/privacy_section_sensor"
@@ -24,13 +23,12 @@
             android:id="@+id/privacy_sensor_grid"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:columnWidth="100dp"
-            android:gravity="center"
-            android:focusable="true"
             android:clickable="true"
+            android:columnWidth="100dp"
+            android:focusable="true"
+            android:gravity="center"
             android:numColumns="auto_fit"
-            android:stretchMode="columnWidth" >
-        </com.apisense.bee.widget.ExpandableGridView>
+            android:stretchMode="columnWidth"></com.apisense.bee.widget.ExpandableGridView>
 
         <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/privacy_section_filter"
