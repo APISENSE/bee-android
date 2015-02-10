@@ -11,10 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import com.apisense.bee.R;
+import com.apisense.bee.games.GPGGameManager;
 import com.apisense.bee.ui.fragment.*;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class SlideshowActivity extends FragmentActivity {
+import java.lang.Override;
+
+public class SlideshowActivity extends FragmentActivity implements View.OnClickListener {
 
     final public static String KEY_AUTHENTICATION_ACTION = "apisense.authentication.key";
 
@@ -58,6 +61,8 @@ public class SlideshowActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slideshow);
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.sign_out_button).setOnClickListener(this);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -95,6 +100,53 @@ public class SlideshowActivity extends FragmentActivity {
                 mPager.setCurrentItem(REGISTER);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        // connect the GPG Game Manager
+        GPGGameManager.getInstance().initialize(this);
+        
+        // Connect
+        if(!GPGGameManager.getInstance().isResolvingError()) {
+            GPGGameManager.getInstance().signin();
+        }
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        GPGGameManager.getInstance().signout();
+        super.onStop();
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GPGGameManager.REQUEST_RESOLVE_ERROR) {
+            GPGGameManager.getInstance().setResolvingStatus(false);
+            if (resultCode == RESULT_OK) {
+                // Make sure the app is not already connected or attempting to connect
+                if (!GPGGameManager.getInstance().isConnecting() && 
+                        !GPGGameManager.getInstance().isConnected()) {
+                    GPGGameManager.getInstance().signin();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.sign_in_button) {
+            // connect the asynchronous sign in flow
+            GPGGameManager.getInstance().signin();
+        }
+        else if (view.getId() == R.id.sign_out_button) {
+
+            GPGGameManager.getInstance().signout();
+            // show sign-in button, hide the sign-out button
+            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+        }
     }
 
     @Override

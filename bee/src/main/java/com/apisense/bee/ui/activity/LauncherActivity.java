@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.apisense.android.APSApplication;
 import com.apisense.android.api.APS;
 import com.apisense.android.api.APSRequest;
+import com.apisense.bee.games.GPGGameManager;
 import com.apisense.core.api.APSException;
 import com.apisense.core.api.Callback;
 import com.apisense.core.api.Log;
@@ -20,7 +21,6 @@ public class LauncherActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // setup APISENSE SDK
         APS.ready((APSApplication) getApplicationContext(), new Callback<Void>() {
             @Override
