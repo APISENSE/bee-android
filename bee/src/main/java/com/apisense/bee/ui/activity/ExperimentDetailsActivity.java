@@ -1,28 +1,43 @@
 package com.apisense.bee.ui.activity;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import com.apisense.android.api.APS;
-import com.apisense.android.api.APSLocalCrop;
+import android.widget.Toast;
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.*;
+import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
-import com.apisense.core.api.APSLogEvent;
-import com.apisense.core.api.Callable;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import fr.inria.apislog.APISLog;
+import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.appmodel.Experiment;
+import org.json.JSONException;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Map;
 
 public class ExperimentDetailsActivity extends Activity {
 
     private static String TAG = "Experiment Details Activity";
 
-    private APSLocalCrop experiment;
+    private Experiment experiment;
+
+    private CardView mMapCardView;
 
     private TextView mExperimentName;
     private TextView mExperimentOrganization;
@@ -32,13 +47,20 @@ public class ExperimentDetailsActivity extends Activity {
     // private MenuItem mSubscribeButton;
     private MenuItem mStartButton;
 
+    private GoogleMap mGoogleMap;
+
     private BarGraphView graph;
     private int barGraphShowDay = 7;
-    private ArrayList<Long> traces = new ArrayList<Long>();
+    private ArrayList<Long> traces;
 
     // Async Tasks
     private StartStopExperimentTask experimentStartStopTask;
-    private BroadcastReceiver eventReceiver;
+    private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
+
+    protected boolean canDisplayMap() {
+        return (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext())
+                == ConnectionResult.SUCCESS);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,54 +68,15 @@ public class ExperimentDetailsActivity extends Activity {
         setContentView(R.layout.activity_experiment_details);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
-        try {
-            experiment = APS.getCropDescription(getBaseContext(),getIntent().getStringExtra("experiment"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         initializeViews();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         displayExperimentInformation();
         displayExperimentActivity();
-
-        eventReceiver = APS.registerToAPSEvent(this, new Callable<Void, APSLogEvent>() {
-            @Override
-            public Void call(APSLogEvent apsLogEvent) throws Exception {
-                Log.i(TAG, "Got event (" + apsLogEvent + ") for crop: " + apsLogEvent.cropName);
-                updateCrop();
-                if (apsLogEvent instanceof APSLogEvent.StartCrop) {
-                    showAsActivated();
-                } else if (apsLogEvent instanceof APSLogEvent.StopCrop) {
-                    showAsDeactivated();
-                }
-                return null;
-            }
-
-            private void updateCrop() {
-                try {
-                    experiment = APS.getCropDescription(getApplicationContext(), experiment.getName());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        APS.unregisterToAPSEvent(this, eventReceiver);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
+        overridePendingTransition(R.anim.slide_back_in,R.anim.slide_back_out);
     }
 
     @Override
@@ -104,10 +87,13 @@ public class ExperimentDetailsActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.experiment_details, menu);
+        // mSubscribeButton = menu.findItem(R.id.detail_action_subscribe);
         mStartButton = menu.findItem(R.id.detail_action_start);
 
         updateStartMenu();
+        updateSubscriptionMenu();
         return true;
     }
 
@@ -124,65 +110,149 @@ public class ExperimentDetailsActivity extends Activity {
     }
     
     public void displayExperimentInformation() {
-        mExperimentName.setText(experiment.getNiceName());
-        mExperimentOrganization.setText(experiment.getOrganisation());
-        mExperimentVersion.setText(" - v" + experiment.getVersion());
+        Bundle b = getIntent().getExtras();
+        // TODO : Switch to parcelable when available
+        // Experiment expe =  b.getParcelable("experiment");
+
+        // TODO Send directly experiment instead of experimentSerializable when possible
+        ExperimentSerializable experimentS  = (ExperimentSerializable) b.getSerializable("experiment");
+        try {
+            experiment = APISENSE.apisMobileService().getExperiment(experimentS.getName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            APISLog.send(e, APISLog.ERROR);
+        }
+
+        mExperimentName.setText(experiment.niceName);
+        mExperimentOrganization.setText(experiment.organization);
+        mExperimentVersion.setText(" - v" + experiment.version);
     }
 
     public void displayExperimentActivity() {
         BarGraphView graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);
-        updateGraph();
-    }
 
-    private void updateGraph(){
-        final Calendar currentCalendar = new GregorianCalendar();
+        if (!experiment.state)
+            graph.setDeactived();
 
-        final List<Map<String, Object>> stats = new ArrayList<Map<String, Object>>();
-        // TODO: Add fetch Statistic method call
-//        APISENSE.statistic().readUploadStatistic(experiment.name);
-        for (Map<String,Object> stat : stats){
-            final String[] uploadTime = stat.get("date").toString().split("-");
-            final Calendar uploadCalendar = new GregorianCalendar(
-                    Integer.parseInt(uploadTime[0]),
-                    Integer.parseInt(uploadTime[1])-1,
-                    Integer.parseInt(uploadTime[2]));
+        try {
+            traces = new ArrayList<Long>();
+            final Calendar currentCalendar = new GregorianCalendar();
 
-            int diffDay =  currentCalendar.get(Calendar.DAY_OF_YEAR) - uploadCalendar.get(Calendar.DAY_OF_YEAR);
-            int indexData = (barGraphShowDay - 1) - diffDay;
+            final Map<String, Object>[] stats = APISENSE.statistic().readUploadStatistic(experiment.name);
+            for (Map<String,Object> stat : stats){
+                final String[] uploadTime = stat.get("date").toString().split("-");
+                final Calendar uploadCalandar = new GregorianCalendar(
+                        Integer.parseInt(uploadTime[0]),
+                        Integer.parseInt(uploadTime[1])-1,
+                        Integer.parseInt(uploadTime[2]));
 
-            if (indexData >= 0)
-                traces.add(Long.parseLong(stat.get("sizeByte").toString()));
+                int diffDay =  currentCalendar.get(Calendar.DAY_OF_YEAR) - uploadCalandar.get(Calendar.DAY_OF_YEAR);
+                int indexData = (barGraphShowDay - 1) - diffDay;
+
+                if (indexData >= 0)
+                    traces.add(Long.parseLong(stat.get("sizeByte").toString()));
+            }
+            graph.updateGraphWith(traces);
+        } catch (Exception ex) {
+            Log.i(TAG, "statistics not available for the experiment " + experiment.name);
+            APISLog.send(ex, APISLog.WARNING);
         }
-        graph.updateGraphWith(traces);
-        Log.i(TAG, "statistics not available for the experiment " + experiment.getName());
     }
+
 
     // Action bar update
-    private void updateStartMenu(){
-        if(experiment.isRunning()) {
-            showAsActivated();
+
+    private void updateSubscriptionMenu() {
+        // TODO: Change to API method when available (isSubscribedExperiment)
+        /* if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
+            mSubscribeButton.setTitle(getString(R.string.action_subscribe));
         } else {
-            showAsDeactivated();
+            mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
+
+        } */
+    }
+
+    private void updateStartMenu(){
+        if (!experiment.state) {
+            mStartButton.setTitle(getString(R.string.action_start));
+        } else {
+            mStartButton.setTitle(getString(R.string.action_stop));
         }
-    }
-
-    private void showAsActivated(){
-        mStartButton.setTitle(getString(R.string.action_stop));
-        graph.setActived();
-        updateGraph();
-    }
-
-    private void showAsDeactivated() {
-        mStartButton.setTitle(getString(R.string.action_start));
-        graph.setDeactived();
-        updateGraph();
     }
 
     // Buttons Handlers
 
     public void doStartStop(MenuItem item) {
-        experimentStartStopTask = new StartStopExperimentTask(getApplicationContext());
-        experimentStartStopTask.execute(experiment.getName());
+        if (experimentStartStopTask == null) {
+            experimentStartStopTask = new StartStopExperimentTask(APISENSE.apisense(), new OnExperimentExecutionStatusChanged());
+            experimentStartStopTask.execute(experiment);
+        }
+    }
+
+    public void doSubscribeUnsubscribe(MenuItem item) {
+        if (experimentChangeSubscriptionStatus == null) {
+            experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new OnExperimentSubscriptionChanged());
+            experimentChangeSubscriptionStatus.execute(experiment);
+        }
+    }
+
+    // Callbacks
+
+    private class OnExperimentExecutionStatusChanged implements AsyncTasksCallbacks {
+        @Override
+        public void onTaskCompleted(int result, Object response) {
+            experimentStartStopTask = null;
+            String toastMessage = "";
+            if (result == BeeApplication.ASYNC_SUCCESS) {
+                switch((Integer)response) {
+                    case StartStopExperimentTask.EXPERIMENT_STARTED:
+                        graph.setActived();
+                        toastMessage = String.format(getString(R.string.experiment_started), experiment.niceName);
+                        break;
+                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
+                        graph.setDeactived();
+                        toastMessage = String.format(getString(R.string.experiment_stopped), experiment.niceName);
+                        break;
+                }
+                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                graph.updateGraphWith(traces);
+                updateStartMenu();
+            }
+        }
+
+        @Override
+        public void onTaskCanceled() {
+            experimentStartStopTask = null;
+        }
+    }
+
+    private class OnExperimentSubscriptionChanged implements AsyncTasksCallbacks {
+
+        @Override
+        public void onTaskCompleted(int result, Object response) {
+            experimentChangeSubscriptionStatus = null;
+            String experimentName = experiment.niceName;
+            String toastMessage = "";
+            if (result == BeeApplication.ASYNC_SUCCESS) {
+                switch ((Integer) response){
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
+                        toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                        updateSubscriptionMenu();
+                        break;
+                    case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
+                        toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
+                        updateSubscriptionMenu();
+                        break;
+                }
+                // User feedback
+                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onTaskCanceled() {
+            experimentChangeSubscriptionStatus = null;
+        }
     }
 }

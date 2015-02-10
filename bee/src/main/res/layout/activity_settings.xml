@@ -69,12 +69,6 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/settings_update"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_btn_update" />
-
         <TextView
             android:id="@+id/settings_section_about"
             style="@style/sectionHeader"

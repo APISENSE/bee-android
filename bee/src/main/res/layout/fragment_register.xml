@@ -88,8 +88,7 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:text="@string/register_anonymous"
                     android:gravity="center"
-                    android:clickable="true"
-                    android:onClick=""/>
+                    android:clickable="true"/>
 
         </LinearLayout>
         <!-- Login Form Ends -->

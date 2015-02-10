@@ -14,7 +14,6 @@ public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<Slid
 
     private View signInBtn;
     private View registerBtn;
-    private View skipBtn;
 
     public SlideshowActivityTest() {
         super(SlideshowActivity.class);
@@ -24,7 +23,6 @@ public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<Slid
         activity = new Solo(getInstrumentation(), getActivity());
 
         signInBtn = activity.getView(R.id.signIn);
-        skipBtn = activity.getView(R.id.skip);
         registerBtn = activity.getView(R.id.register);
     }
 
@@ -34,12 +32,6 @@ public class SlideshowActivityTest extends ActivityInstrumentationTestCase2<Slid
     }
 
     // Test buttons
-
-    public void testSkipButton() {
-        activity.clickOnView(skipBtn);
-        activity.assertCurrentActivity("Expected HomeActivity to be launched", HomeActivity.class);
-    }
-
     public void testSignInButton() {
         activity.clickOnView(signInBtn);
             Assert.assertTrue(activity.waitForView(R.id.signInView));

@@ -1,5 +1,6 @@
 package com.apisense.bee.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,34 +9,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.games.GPGGameManager;
 import com.apisense.bee.ui.fragment.*;
 import com.viewpagerindicator.CirclePageIndicator;
+import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.APISENSEListenner;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 
 import java.lang.Override;
 
 public class SlideshowActivity extends FragmentActivity implements View.OnClickListener {
-
-    final public static String KEY_AUTHENTICATION_ACTION = "apisense.authentication.key";
-
-    final public static String LOGIN_ANONYMOUS_ACTION = "apisense.anonymous.action";
-
-    final public static String LOGIN_ACTION = "apisense.signin.action";
-
-    final public static String LOGIN_PSEUDO= "apisense.signin.login";
-
-    final public static String LOGIN_PWD = "apisense.signin.pwd";
-
-    final public static String REGISTER_ACTION = "apisense.register.action";
-
-    final public static String REGISTER_PSEUDO = "apisense.register.pseudo";
-
-    final public static String REGISTER_PWD = "apisense.register.pwd";
-
-    final public static String REGISTER_URL = "apisense.register.url";
 
     /**
      * The number of pages (wizard steps) to show
@@ -44,11 +33,11 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
     private static final int NUM_PAGES = 5;
 
     /* Page order */
-    public final static int SIGNIN = 0;
-    public final static int WHAT = 1;
-    public final static int HOW = 2;
-    public final static int REWARD = 3;
-    public final static int REGISTER = 4;
+    private final static int SIGNIN = 0;
+    private final static int WHAT = 1;
+    private final static int HOW = 2;
+    private final static int REWARD = 3;
+    private final static int REGISTER = 4;
 
     private ViewPager mPager;
 
@@ -69,25 +58,27 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        //Bind the title indicator to the adapter
-        CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
-
         // Check if we are coming from Anonymous HomeActivity
         try {
             Intent intent = getIntent(); // gets the previously created intent
-            Integer destination = intent.getIntExtra("goTo", WHAT);
-
-            mPager.setCurrentItem(destination); // Coming from an other activity
-
-
+            String destination = intent.getStringExtra("goTo");
+            if (destination.equals("register")) {
+                mPager.setCurrentItem(REGISTER); // Coming from an other activity
+            } else {
+                mPager.setCurrentItem(WHAT); // Default
+            }
         } catch (NullPointerException e) {
             mPager.setCurrentItem(WHAT); // Launching the app
         }
 
+        //Bind the title indicator to the adapter
+        CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
+
         // Add onClick listeners
         Button signInBtn = (Button) findViewById(R.id.signIn);
         Button registerBtn = (Button) findViewById(R.id.register);
+        // Button skipBtn = (Button) findViewById(R.id.skip);
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -100,6 +91,28 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
                 mPager.setCurrentItem(REGISTER);
             }
         });
+
+        /* skipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent slideIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(slideIntent);
+                finish();
+            }
+        }); */
+
+        // Init APISENSE and check if already connected, just go to home Activity
+        APISENSE.init(getApplicationContext(), new APISENSEListenner() {
+            @Override
+            public void onConnected(BeeSenseServiceManager beeSenseServiceManager) {
+                if (APISENSE.apisServerService().isConnected()) {
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
     }
 
     @Override

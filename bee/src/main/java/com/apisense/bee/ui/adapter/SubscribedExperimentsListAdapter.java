@@ -2,40 +2,55 @@ package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.apisense.android.api.APSLocalCrop;
 import com.apisense.bee.R;
+import fr.inria.bsense.appmodel.Experiment;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 
 import java.util.List;
 
-public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop> {
+public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
     private final String TAG = getClass().getSimpleName();
 
-    private List<APSLocalCrop> data;
+    private BeeSenseServiceManager apisense = null;
+    private List<Experiment> data;
 
     /**
      * Constructor
      *
-     * @param context The activity context
-     * @param layoutResourceId The id of the resource to inflate with each element
+     * @param context
+     * @param layoutResourceId
+     */
+    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId) {
+        super(context, layoutResourceId);
+        //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
+    }
+
+    /**
+     * Constructor
+     *
+     * @param context
+     * @param layoutResourceId
      * @param experiments
      *            list of experiments
      */
-    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<APSLocalCrop> experiments) {
+    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
         super(context, layoutResourceId, experiments);
+        //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
         this.setDataSet(experiments);
     }
 
     /**
      * Change the dataSet of the adapter
      *
-     * @param dataSet The set of data to put in the adapter
+     * @param dataSet
      */
-    public void setDataSet(List<APSLocalCrop> dataSet){
+    public void setDataSet(List<Experiment> dataSet){
         this.data = dataSet;
     }
 
@@ -57,8 +72,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
      * @return an experiment
      */
     @Override
-    public APSLocalCrop getItem(int position) {
-
+    public Experiment getItem(int position) {
         return data.get(position);
     }
 
@@ -71,7 +85,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
      */
     @Override
     public long getItemId(int position) {
-        return position;
+        return Long.valueOf(getItem(position).id);
     }
 
     /**
@@ -82,32 +96,46 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<APSLocalCrop>
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        final APSLocalCrop item = getItem(position);
+        final Experiment item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
-        title.setText(item.getNiceName());
+        title.setText(item.niceName);
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" " + getContext().getString(R.string.by) + " " + item.getOrganisation());
+        company.setText(" " + getContext().getString(R.string.by) + " " + item.organization);
 
         TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        description.setText(item.getDescription());
+        String decode = new String(Base64.decode(item.description.getBytes(), Base64.DEFAULT));
+        description.setText(decode);
 
         TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
-        String state;
+        String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running) ;
+        textStatus.setText(" - " + state);
+
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(v.getContext(), ExperimentDetailsActivity.class);
+//
+//                Bundle bundle = new Bundle();
+//                // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
+//                // bundle.putParcelable("experiment", getItem(position));
+//                // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
+//                bundle.putSerializable("experiment", new ExperimentSerializable(item));
+//                intent.putExtras(bundle); //Put your id to your next Intent
+//                v.getContext().startActivity(intent);
+//            }
+//        });
 
         // Display state of the current experiment
         View status = convertView.findViewById(R.id.item);
-        if ( item.isRunning() ) {
+        if (item.state){
             showAsStarted(status);
-            state = getContext().getString(R.string.running);
         } else {
             showAsStopped(status);
-            state = getContext().getString(R.string.not_running);
         }
-        textStatus.setText(" - " + state);
 
         return convertView;
     }
