@@ -3,7 +3,6 @@ package com.apisense.bee.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -13,6 +12,12 @@ import android.widget.Button;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.GPGGameManager;
+import com.apisense.bee.games.GameActionListener;
+import com.apisense.bee.games.action.GameAchievement;
+import com.apisense.bee.games.action.GameAction;
+import com.apisense.bee.games.action.SignInGameAchievement;
+import com.apisense.bee.games.utils.BaseGameActivity;
+import com.apisense.bee.games.utils.GameHelper;
 import com.apisense.bee.ui.fragment.HowFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
 import com.apisense.bee.ui.fragment.RegisterFragment;
@@ -21,11 +26,12 @@ import com.apisense.bee.ui.fragment.SignInFragment;
 import com.apisense.bee.ui.fragment.WhatFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import fr.inria.asl.utils.Log;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.APISENSEListenner;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
-public class SlideshowActivity extends FragmentActivity implements View.OnClickListener {
+public class SlideshowActivity extends BaseGameActivity implements View.OnClickListener, GameActionListener, GameHelper.GameHelperListener {
 
     /**
      * The number of pages (wizard steps) to show
@@ -54,6 +60,12 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
 
+        GameHelper gh = new GameHelper(this, GameHelper.CLIENT_GAMES);
+        gh.enableDebugLog(true);
+        gh.setConnectOnStart(true);
+        this.mHelper = gh;
+        mHelper.setup(this);
+
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -77,15 +89,15 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
         indicator.setViewPager(mPager);
 
         // Add onClick listeners
-        Button signInBtn = (Button) findViewById(R.id.signIn);
+        //Button signInBtn = (Button) findViewById(R.id.sign_in_button);
         Button registerBtn = (Button) findViewById(R.id.register);
         // Button skipBtn = (Button) findViewById(R.id.skip);
 
-        signInBtn.setOnClickListener(new View.OnClickListener() {
+       /* signInBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mPager.setCurrentItem(SIGNIN);
             }
-        });
+        });*/
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -117,49 +129,43 @@ public class SlideshowActivity extends FragmentActivity implements View.OnClickL
     }
 
     @Override
-    protected void onStart() {
-        // connect the GPG Game Manager
-        GPGGameManager.getInstance().initialize(this);
+    public void onSignInFailed() {
 
-        // Connect
-        if (!GPGGameManager.getInstance().isResolvingError()) {
-            GPGGameManager.getInstance().signin();
-        }
-        super.onStart();
     }
 
     @Override
-    protected void onStop() {
-        GPGGameManager.getInstance().signout();
-        super.onStop();
-    }
+    public void onSignInSucceeded() {
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == GPGGameManager.REQUEST_RESOLVE_ERROR) {
-            GPGGameManager.getInstance().setResolvingStatus(false);
-            if (resultCode == RESULT_OK) {
-                // Make sure the app is not already connected or attempting to connect
-                if (!GPGGameManager.getInstance().isConnecting() &&
-                        !GPGGameManager.getInstance().isConnected()) {
-                    GPGGameManager.getInstance().signin();
-                }
-            }
-        }
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
+            boolean signed = GPGGameManager.getInstance().signin();
+
+            Log.getInstance().i("Bee GPG isConnected/signed : " + GPGGameManager.getInstance().isConnected() + " " + signed);
             // connect the asynchronous sign in flow
-            GPGGameManager.getInstance().signin();
+            if (GPGGameManager.getInstance().isConnected()) {
+
+                mPager.setCurrentItem(SIGNIN);
+
+                handleGameAction(new SignInGameAchievement());
+            }
+            // show sign-in button, hide the sign-out button
+            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.sign_out_button) {
 
-            GPGGameManager.getInstance().signout();
+            //GPGGameManager.getInstance().signout();
             // show sign-in button, hide the sign-out button
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void handleGameAction(GameAction action) {
+        GPGGameManager.getInstance().pushAchievement((GameAchievement) action);
     }
 
     @Override

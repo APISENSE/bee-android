@@ -120,6 +120,8 @@
 
     <!-- Google Play Games -->
     <string name="signin_other_error">GPG Error</string>
-
-
+    <string name="gamehelper_unknown_error">GPG Unknown error</string>
+    <string name="gamehelper_app_misconfigured">GPG app misconfigured</string>
+    <string name="gamehelper_sign_in_failed">GPG Sign in failed</string>
+    <string name="gamehelper_license_failed">GPG licence failed</string>
 </resources>

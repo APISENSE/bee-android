@@ -4,17 +4,21 @@ package com.apisense.bee.games;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.IntentSender;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
+import com.apisense.bee.games.action.GameAchievement;
+import com.apisense.bee.games.utils.BaseGameUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.plus.Plus;
+
+import fr.inria.asl.utils.Log;
 
 public class GPGGameManager implements GameManagerInterface {
 
@@ -23,6 +27,8 @@ public class GPGGameManager implements GameManagerInterface {
     public static final int REQUEST_RESOLVE_ERROR = 1001;
     // Unique tag for the error dialog fragment
     public static final String DIALOG_ERROR = "dialog_error";
+
+    public static final String MISSIONS_LEADERBOARD_ID = "CgkIl-DToIgLEAIQBA";
 
     private static GPGGameManager instance;
 
@@ -46,46 +52,70 @@ public class GPGGameManager implements GameManagerInterface {
 
     @Override
     public boolean initialize(Activity context) {
-        if (this.currentContext != null) return false;
-
         // Bind the app currentContext
         this.currentContext = context;
 
-        // Create the Google Api Client with access to the Play Game services
-        mGoogleApiClient = new GoogleApiClient.Builder(this.currentContext)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
-                .build();
+        if (this.mGoogleApiClient == null) {
+            // Create the Google Api Client with access to the Play Game services
+            mGoogleApiClient = new GoogleApiClient.Builder(this.currentContext)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(Games.API).addScope(Games.SCOPE_GAMES).addScope(Plus.SCOPE_PLUS_LOGIN)
+                    .build();
 
+
+            return true;
+        }
         return true;
     }
 
-    public boolean isResolvingError() {
-        return this.mResolvingConnectionFailure;
+    @Override
+    public void pushAchievement(GameAchievement gameAchievement) {
+        if (!isConnected())
+            return;
+
+        if (gameAchievement.isIncremental()) {
+            Games.Achievements.increment(mGoogleApiClient, gameAchievement.getId(), gameAchievement.getIncrementPart());
+        }
+        Games.Achievements.unlock(mGoogleApiClient, gameAchievement.getId());
+        Log.getInstance().i("GPG Push Achievement : " + gameAchievement);
     }
 
-    public void setResolvingStatus(boolean resolving) {
-        this.mResolvingConnectionFailure = resolving;
-
+    @Override
+    public Intent getAchievements() {
+        return Games.Achievements.getAchievementsIntent(mGoogleApiClient);
     }
 
-    public boolean isConnecting() {
-        return this.mGoogleApiClient.isConnecting();
+    @Override
+    public void pushScore(String leardboardId, int score) {
+        if (!isConnected())
+            return;
 
+        Games.Leaderboards.submitScore(mGoogleApiClient, leardboardId, score);
     }
 
+    @Override
+    public Intent getLeaderboard(String leaderboardId) {
+        return Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient,
+                leaderboardId);
+    }
+
+    @Override
     public boolean isConnected() {
         return this.mGoogleApiClient.isConnected();
 
     }
 
+    @Override
     public boolean signin() {
+        if (this.isConnected()) return false;
         this.mSignInClicked = true;
         return this.connect();
     }
 
+    @Override
     public boolean signout() {
+        if (!this.isConnected()) return false;
         // sign out.
         this.mSignInClicked = false;
         Games.signOut(mGoogleApiClient);
@@ -97,6 +127,7 @@ public class GPGGameManager implements GameManagerInterface {
     public boolean connect() {
         if (this.currentContext == null) return false;
         mGoogleApiClient.connect();
+
         return true;
     }
 
@@ -126,27 +157,47 @@ public class GPGGameManager implements GameManagerInterface {
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         if (mResolvingConnectionFailure) {
-            // Already attempting to resolve an error.
+            // Already resolving
             return;
-        } else if (connectionResult.hasResolution()) {
-            try {
-                mResolvingConnectionFailure = true;
-                connectionResult.startResolutionForResult(currentContext, REQUEST_RESOLVE_ERROR);
-            } catch (IntentSender.SendIntentException e) {
-                // There was an error with the resolution intent. Try again.
-                mGoogleApiClient.connect();
-            }
-        } else {
-            // Show dialog using GooglePlayServicesUtil.getErrorDialog()
-            showErrorDialog(connectionResult.getErrorCode());
-            mResolvingConnectionFailure = true;
         }
 
-        Log.i("Bee GPG", "GPG Connection Failed. ErrorCode=" + connectionResult.getErrorCode());
+        // If the sign in button was clicked or if auto sign-in is enabled,
+        // launch the sign-in flow
+        if (mSignInClicked || mAutoStartSignInFlow) {
+            mAutoStartSignInFlow = false;
+            mSignInClicked = false;
+            mResolvingConnectionFailure = true;
 
-        // Put code here to display the sign-in button
+            Log.i("Bee GPG", "GPG resolving error");
+
+
+            // Attempt to resolve the connection failure using BaseGameUtils.
+            // The R.string.signin_other_error value should reference a generic
+            // error string in your strings.xml file, such as "There was
+            // an issue with sign in, please try again later."
+            if (!BaseGameUtils.resolveConnectionFailure(currentContext,
+                    mGoogleApiClient, connectionResult,
+                    RC_SIGN_IN, "error")) {
+                Log.i("Bee GPG", "GPG resolving error failed");
+
+                mResolvingConnectionFailure = false;
+            }
+        }
     }
 
+    public boolean isResolvingError() {
+        return this.mResolvingConnectionFailure;
+    }
+
+    public void setResolvingStatus(boolean resolving) {
+        this.mResolvingConnectionFailure = resolving;
+
+    }
+
+    public boolean isConnecting() {
+        return this.mGoogleApiClient.isConnecting();
+
+    }
 
     private void showErrorDialog(int errorCode) {
         ErrorDialogFragment dialogFragment = new ErrorDialogFragment();

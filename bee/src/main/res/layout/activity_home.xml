@@ -1,56 +1,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context="com.apisense.bee.ui.activity.HomeActivity>">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.apisense.bee.ui.activity.HomeActivity>">
 
     <!-- User's infos -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/drop_shadow"
-            android:padding="5sp"
-            android:clickable="true"
-            android:onClick="doGoToProfil"
-            android:id="@+id/user_information">
+    <LinearLayout
+        android:id="@+id/user_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drop_shadow"
+        android:clickable="true"
+        android:onClick="doGoToProfil"
+        android:orientation="vertical"
+        android:padding="5sp">
+
         <ImageView
-                android:src="@drawable/unknown_user"
-                android:layout_width="@dimen/thumbnail_size"
-                android:layout_height="@dimen/thumbnail_size"
-                android:id="@+id/home_user_image"
-                android:layout_gravity="center_horizontal"/>
+            android:id="@+id/home_user_image"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/unknown_user" />
 
         <com.apisense.bee.widget.ApisenseTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_identity"
-                android:id="@+id/home_user_identity"
-                android:layout_gravity="center_horizontal"
-                />
+            android:id="@+id/home_user_identity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/user_identity" />
     </LinearLayout>
 
-    <!-- Gamification
+    <!-- Gamification -->
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/game_padding">
+
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/home_game_points"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/game_padding"
-            android:orientation="horizontal">
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="0" />
 
         <com.apisense.bee.widget.ApisenseTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="1850 Points"
-                android:layout_weight="0.5"/>
+            android:id="@+id/home_game_achievements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="Achievements" />
 
-        <com.apisense.bee.widget.ApisenseTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Rank #40"
-                android:layout_weight="0.5"/>
-
-    </LinearLayout> -->
+    </LinearLayout>
 
     <!-- Go to Bee Store
     <LinearLayout
@@ -80,15 +84,16 @@
     </LinearLayout> -->
 
 
-
-    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/add_margin">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/add_margin">
 
         <LinearLayout
+            android:id="@+id/home_empty_list"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/home_empty_list">
+            android:orientation="vertical">
 
             <!-- <Button
                     android:id="@+id/bigAddButton"
@@ -100,34 +105,33 @@
                     android:onClick="doGoToStore" /> -->
 
             <com.apisense.bee.widget.ApisenseTextView
-                    style="@style/ApisenseSlideText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/add_new_experiments"
-                    android:textColor="@color/grey"/>
+                style="@style/ApisenseSlideText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/add_new_experiments"
+                android:textColor="@color/grey" />
         </LinearLayout>
-
 
 
         <!-- Exp list -->
         <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/home_experiment_lists"
-                android:layout_weight="1" />
+            android:id="@+id/home_experiment_lists"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <Button
-                android:id="@+id/smallAddButton"
-                android:background="@drawable/small_button_rounded"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_weight="0"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/add_button_margin"
-                android:textColor="@color/white"
-                android:onClick="doGoToStore"
-                android:layout_alignParentBottom="true"/>
+            android:id="@+id/smallAddButton"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/add_button_margin"
+            android:layout_weight="0"
+            android:background="@drawable/small_button_rounded"
+            android:onClick="doGoToStore"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </LinearLayout>

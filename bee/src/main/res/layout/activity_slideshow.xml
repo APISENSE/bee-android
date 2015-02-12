@@ -1,66 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/background"/>
+        android:background="@drawable/background" />
 
     <com.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/indicator"
-            android:padding="10dip"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            app:radius="5dp"
-            app:fillColor="@color/light_grey"
-            app:pageColor="#FFFFFF"
-            app:strokeColor="@color/grey"
-            app:strokeWidth="1dp" />
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        app:fillColor="@color/light_grey"
+        app:pageColor="#FFFFFF"
+        app:radius="5dp"
+        app:strokeColor="@color/grey"
+        app:strokeWidth="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <!-- sign-in button -->
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
 
         <!-- sign-out button -->
         <Button
             android:id="@+id/sign_out_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:text="Sign Out"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/signIn"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:background="@drawable/api_button"
-            android:text="@string/login" >
-        </Button>
 
         <Button
             android:id="@+id/register"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
             android:background="@drawable/api_button"
-            android:text="@string/register" >
-        </Button>
+            android:text="@string/register"></Button>
 
     </LinearLayout>
 
