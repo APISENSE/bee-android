@@ -1,6 +1,5 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +17,8 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
 import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
-import com.apisense.bee.games.GPGGameManager;
+import com.apisense.bee.games.BeeGameManager;
+import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.ApisenseTextView;
@@ -30,8 +30,10 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends BaseGameActivity {
     private static final int MISSION_LEARDBOARD_REQUEST_CODE = 1;
+    private static final int MISSION_ACHIEVEMENTS_REQUEST_CODE = 2;
+
     private final String TAG = getClass().getSimpleName();
     // Data
     protected SubscribedExperimentsListAdapter experimentsAdapter;
@@ -41,13 +43,16 @@ public class HomeActivity extends Activity {
     private SignOutTask signOut;
     private StartStopExperimentTask experimentStartStopTask;
 
-    private ApisenseTextView atvAchievements;
-    private ApisenseTextView atvPoints;
+    private ApisenseTextView atvAchFinished;
+    private ApisenseTextView atvAchWip;
+    private ApisenseTextView atvGameProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        BeeGameManager.getInstance().initialize(this);
 
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
@@ -59,26 +64,41 @@ public class HomeActivity extends Activity {
         subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
         subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
 
-        atvAchievements = (ApisenseTextView) findViewById(R.id.home_game_achievements);
-        atvAchievements.setOnClickListener(new View.OnClickListener() {
+        atvAchFinished = (ApisenseTextView) findViewById(R.id.home_game_achievements_f);
+        atvAchFinished.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " WF");
+
+        atvAchWip = (ApisenseTextView) findViewById(R.id.home_game_achievements_wip);
+        atvAchWip.setText(BeeGameManager.getInstance().getAchievementLockCount() + " WIP");
+        atvAchWip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(BeeGameManager.getInstance().getAchievements(), MISSION_ACHIEVEMENTS_REQUEST_CODE);
+            }
+        });
+
+        atvGameProfile = (ApisenseTextView) findViewById(R.id.home_game_profile);
+        atvGameProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(
-                        GPGGameManager.getInstance().getLeaderboard(GPGGameManager.MISSIONS_LEADERBOARD_ID),
+                        BeeGameManager.getInstance().getLeaderboard(BeeGameManager.MISSIONS_LEADERBOARD_ID),
                         MISSION_LEARDBOARD_REQUEST_CODE
                 );
             }
         });
 
-        atvPoints = (ApisenseTextView) findViewById(R.id.home_game_points);
-        atvPoints.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         updateUI();
+    }
+
+    @Override
+    public void onSignInFailed() {
+
+    }
+
+    @Override
+    public void onSignInSucceeded() {
+
     }
 
     @Override
@@ -111,32 +131,6 @@ public class HomeActivity extends Activity {
     protected void onStart() {
         super.onStart();
         updateUI();
-
-        // connect the GPG Game Manager
-        GPGGameManager.getInstance().initialize(this);
-
-        // Connect
-        if (!GPGGameManager.getInstance().isResolvingError()) {
-            GPGGameManager.getInstance().signin();
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == GPGGameManager.REQUEST_RESOLVE_ERROR) {
-            GPGGameManager.getInstance().setResolvingStatus(false);
-            if (resultCode == RESULT_OK) {
-                fr.inria.asl.utils.Log.getInstance().i("OnActivityResult OK");
-                // Make sure the app is not already connected or attempting to connect
-                if (!GPGGameManager.getInstance().isConnecting() &&
-                        !GPGGameManager.getInstance().isConnected()) {
-                    GPGGameManager.getInstance().signin();
-                }
-            } else {
-                fr.inria.asl.utils.Log.getInstance().i("OnActivityResult NOT OK");
-            }
-        }
     }
 
     public void setExperiments(List<Experiment> experiments) {

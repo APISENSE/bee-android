@@ -71,6 +71,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.customDebug
             testCoverageEnabled = true
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
         }
 
         release {
