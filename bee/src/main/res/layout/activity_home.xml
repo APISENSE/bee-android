@@ -39,20 +39,28 @@
         android:padding="@dimen/game_padding">
 
         <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/home_game_points"
+            android:id="@+id/home_game_achievements_f"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:gravity="center"
-            android:text="0" />
+            android:text="" />
 
         <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/home_game_achievements"
+            android:id="@+id/home_game_achievements_wip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:gravity="center"
-            android:text="Achievements" />
+            android:text="" />
+
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/home_game_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="Game profile" />
 
     </LinearLayout>
 

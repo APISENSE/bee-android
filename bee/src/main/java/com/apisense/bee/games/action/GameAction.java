@@ -5,4 +5,5 @@ package com.apisense.bee.games.action;
  */
 public interface GameAction {
     boolean perform();
+
 }

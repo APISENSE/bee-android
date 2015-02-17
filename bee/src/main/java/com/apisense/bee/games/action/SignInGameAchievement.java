@@ -14,6 +14,7 @@ public class SignInGameAchievement extends GameAchievement {
 
     @Override
     public boolean perform() {
+
         return true;
     }
 }

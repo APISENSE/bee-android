@@ -1,21 +1,14 @@
 package com.apisense.bee.games;
 
 
-import android.app.Activity;
 import android.content.Intent;
 
 import com.apisense.bee.games.action.GameAchievement;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.apisense.bee.games.utils.BaseGameActivity;
 
-public interface GameManagerInterface extends GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public interface GameManagerInterface {
 
-    public boolean initialize(Activity context);
-    public boolean connect();
-    public boolean disconnect();
-
-    public boolean signin();
-
-    public boolean signout();
+    public void initialize(BaseGameActivity baseGameActivity);
 
     public boolean isConnected();
 

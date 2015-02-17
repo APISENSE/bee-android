@@ -96,6 +96,12 @@ public abstract class BaseGameActivity extends FragmentActivity implements
         return mHelper;
     }
 
+    public void setGameHelper(GameHelper gameHelper) {
+        if (mHelper == null) {
+            this.mHelper = gameHelper;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
@@ -123,7 +129,7 @@ public abstract class BaseGameActivity extends FragmentActivity implements
         mHelper.onActivityResult(request, response, data);
     }
 
-    protected GoogleApiClient getApiClient() {
+    public GoogleApiClient getApiClient() {
         return mHelper.getApiClient();
     }
 

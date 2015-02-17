@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.apisense.bee.R;
-import com.apisense.bee.games.GPGGameManager;
+import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.GameActionListener;
 import com.apisense.bee.games.action.GameAchievement;
 import com.apisense.bee.games.action.GameAction;
@@ -26,7 +26,6 @@ import com.apisense.bee.ui.fragment.SignInFragment;
 import com.apisense.bee.ui.fragment.WhatFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import fr.inria.asl.utils.Log;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.APISENSEListenner;
 import fr.inria.bsense.service.BeeSenseServiceManager;
@@ -60,11 +59,7 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
 
-        GameHelper gh = new GameHelper(this, GameHelper.CLIENT_GAMES);
-        gh.enableDebugLog(true);
-        gh.setConnectOnStart(true);
-        this.mHelper = gh;
-        mHelper.setup(this);
+        BeeGameManager.getInstance().initialize(this);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -89,30 +84,13 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
         indicator.setViewPager(mPager);
 
         // Add onClick listeners
-        //Button signInBtn = (Button) findViewById(R.id.sign_in_button);
         Button registerBtn = (Button) findViewById(R.id.register);
-        // Button skipBtn = (Button) findViewById(R.id.skip);
-
-       /* signInBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mPager.setCurrentItem(SIGNIN);
-            }
-        });*/
-
         registerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mPager.setCurrentItem(REGISTER);
             }
         });
 
-        /* skipBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent slideIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(slideIntent);
-                finish();
-            }
-        }); */
 
         // Init APISENSE and check if already connected, just go to home Activity
         APISENSE.init(getApplicationContext(), new APISENSEListenner() {
@@ -138,14 +116,12 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
 
     }
 
+
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
-            boolean signed = GPGGameManager.getInstance().signin();
 
-            Log.getInstance().i("Bee GPG isConnected/signed : " + GPGGameManager.getInstance().isConnected() + " " + signed);
-            // connect the asynchronous sign in flow
-            if (GPGGameManager.getInstance().isConnected()) {
+            if (mHelper.getApiClient().isConnected()) {
 
                 mPager.setCurrentItem(SIGNIN);
 
@@ -154,9 +130,9 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
             // show sign-in button, hide the sign-out button
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+
         } else if (view.getId() == R.id.sign_out_button) {
 
-            //GPGGameManager.getInstance().signout();
             // show sign-in button, hide the sign-out button
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
@@ -165,7 +141,7 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
 
     @Override
     public void handleGameAction(GameAction action) {
-        GPGGameManager.getInstance().pushAchievement((GameAchievement) action);
+        BeeGameManager.getInstance().pushAchievement((GameAchievement) action);
     }
 
     @Override
