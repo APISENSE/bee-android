@@ -1,20 +1,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.apisense.bee.ui.BeeApplication" >
+    tools:context="com.apisense.bee.ui.BeeApplication">
 
-    <item android:id="@+id/action_privacy"
-          android:title="@string/action_privacy"
-          android:icon="@drawable/ic_cop"
-          android:orderInCategory="2"
-          android:showAsAction="always" />
+    <item
+        android:id="@+id/home_menu_share"
+        android:showAsAction="ifRoom"
+        android:title="Share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
 
-    <group android:id="@+id/groupSettings"
-            android:icon="@drawable/icon_menu">
-        <item android:id="@+id/action_settings"
-              android:title="@string/action_settings" />
-        <item android:id="@+id/action_about"
-              android:title="@string/action_about" />
-        <item android:id="@+id/connectOrDisconnect"
-              android:title="@string/settings_action_logout" />
+    <item
+        android:id="@+id/action_privacy"
+        android:icon="@drawable/ic_cop"
+        android:orderInCategory="2"
+        android:showAsAction="always"
+        android:title="@string/action_privacy" />
+
+    <group
+        android:id="@+id/groupSettings"
+        android:icon="@drawable/icon_menu">
+        <item
+            android:id="@+id/action_settings"
+            android:title="@string/action_settings" />
+        <item
+            android:id="@+id/action_about"
+            android:title="@string/action_about" />
+        <item
+            android:id="@+id/connectOrDisconnect"
+            android:title="@string/settings_action_logout" />
     </group>
 </menu>

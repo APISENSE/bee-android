@@ -2,6 +2,9 @@ package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +21,9 @@ import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
 import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.games.BeeGameManager;
+import com.apisense.bee.games.GameActionListener;
+import com.apisense.bee.games.action.GameAction;
+import com.apisense.bee.games.action.ShareAceGameAchievement;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
@@ -30,7 +36,7 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 
-public class HomeActivity extends BaseGameActivity {
+public class HomeActivity extends BaseGameActivity implements GameActionListener {
     private static final int MISSION_LEARDBOARD_REQUEST_CODE = 1;
     private static final int MISSION_ACHIEVEMENTS_REQUEST_CODE = 2;
 
@@ -46,6 +52,8 @@ public class HomeActivity extends BaseGameActivity {
     private ApisenseTextView atvAchFinished;
     private ApisenseTextView atvAchWip;
     private ApisenseTextView atvGameProfile;
+
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,30 +95,55 @@ public class HomeActivity extends BaseGameActivity {
             }
         });
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
+
 
         updateUI();
     }
 
     @Override
     public void onSignInFailed() {
-
+        //TODO
     }
 
     @Override
     public void onSignInSucceeded() {
-
+        //TODO
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.home_menu_share);
+
+        // Fetch and store ShareActionProvider
+        ShareActionProvider shareAction = (ShareActionProvider) MenuItemCompat
+                .getActionProvider(item);
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND)
+                .setAction(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TEXT, "linktobee")
+                .setType("text/plain");
+        shareAction.setShareIntent(shareIntent);
+
         return true;
+    }
+
+    @Override
+    public void handleGameAction(GameAction action) {
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.home_menu_share:
+                handleGameAction(new ShareAceGameAchievement());
+                break;
             case R.id.connectOrDisconnect:
                 doDisconnect();
                 break;
