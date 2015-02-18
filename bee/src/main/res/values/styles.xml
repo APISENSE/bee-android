@@ -1,19 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-           xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
-    <style name="ApisenseTheme" parent="android:Theme.Holo">
+    <style name="ApisenseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="colorPrimary">@color/orange_light</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="colorPrimaryDark">@color/orange_dark</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="colorAccent">@color/orange</item>
+
         <!-- Customize your theme here. -->
+
+        <item name="actionBarStyle">@style/ApisenseActionBar</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:actionBarStyle">@style/ApisenseActionBar</item>
-        <item name="android:actionBarWidgetTheme">@style/SearchBar</item>
-        <item name="android:actionMenuTextColor">@color/actionBar_textColor</item>s
-        <item name="android:windowContentOverlay">@drawable/actionbar_shadow_v2</item>
 
-        <item name="android:popupMenuStyle">@android:style/Widget.Holo.Light.PopupMenu</item>
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionButton.Overflow</item>
     </style>
 
     <!-- TextView Styles -->
@@ -35,21 +38,17 @@
     <!-- EditText Styles -->
     <style name="ApisenseEditText" parent="android:Widget.EditText">
         <item name="android:textColor">@color/orange</item>
+        <item name="elevation">5dp</item>
     </style>
 
     <!-- ActionBar styles -->
-    <style name="ApisenseActionBar"
-           parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+    <style name="ApisenseActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
     </style>
 
     <style name="ApisenseActionBar.Text" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/black</item>
-    </style>
-
-    <style name="Widget.ActionButton.Overflow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_menu</item>
     </style>
 
     <style name="SearchBar">
