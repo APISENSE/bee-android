@@ -11,6 +11,9 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.achievement.Achievement;
 import com.google.android.gms.games.achievement.Achievements;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.inria.asl.utils.Log;
 
 public class BeeGameManager implements GameManagerInterface {
@@ -19,13 +22,12 @@ public class BeeGameManager implements GameManagerInterface {
     private static BeeGameManager instance;
 
     private BaseGameActivity currentActivity;
-    private int achievementUnlockCount;
-    private int achievementLockCount;
+    private Map<String, GameAchievement> currentAchievements;
+
 
     private BeeGameManager() {
         this.currentActivity = null;
-        this.achievementUnlockCount = 0;
-        this.achievementLockCount = 0;
+        this.currentAchievements = new HashMap<>();
     }
 
     public static BeeGameManager getInstance() {
@@ -55,13 +57,9 @@ public class BeeGameManager implements GameManagerInterface {
             Games.Achievements.load(this.currentActivity.getApiClient(), true).setResultCallback(new ResultCallback<Achievements.LoadAchievementsResult>() {
                 @Override
                 public void onResult(Achievements.LoadAchievementsResult loadAchievementsResult) {
+                    currentAchievements.clear();
                     for (Achievement achievement : loadAchievementsResult.getAchievements()) {
-
-                        if (achievement.getState() == Achievement.STATE_UNLOCKED) {
-                            achievementUnlockCount++;
-                        } else {
-                            achievementLockCount++;
-                        }
+                        currentAchievements.put(achievement.getAchievementId(), new GameAchievement(achievement));
 
                         Log.getInstance().i("BeeGameManager : Achievement=" + achievement.getName() + "&status=" + achievement.getState());
                     }
@@ -81,11 +79,26 @@ public class BeeGameManager implements GameManagerInterface {
         if (!isConnected())
             return;
 
-        if (gameAchievement.isIncremental()) {
-            Games.Achievements.increment(this.currentActivity.getApiClient(), gameAchievement.getId(), gameAchievement.getIncrementPart());
+        // Check if the achievement is not already finished
+        if (currentAchievements.get(gameAchievement.getId()).isFinished()) {
+            return;
         }
-        Games.Achievements.unlock(this.currentActivity.getApiClient(), gameAchievement.getId());
+
+        // Check if the achievement is incremental
+        if (gameAchievement.isIncremental()) {
+            Games.Achievements.increment(this.currentActivity.getApiClient(), gameAchievement.getId(), gameAchievement.getCurrentSteps());
+        } else {
+            Games.Achievements.unlock(this.currentActivity.getApiClient(), gameAchievement.getId());
+        }
+
         Log.getInstance().i("BeeGameManager : GPG Push Achievement : " + gameAchievement);
+
+        // Push the score if needed
+        this.pushScore(gameAchievement.getLeadboard(), gameAchievement.getScore());
+    }
+
+    public GameAchievement getAchievement(String achievementId) {
+        return this.currentAchievements.get(achievementId);
     }
 
     @Override
@@ -95,10 +108,16 @@ public class BeeGameManager implements GameManagerInterface {
 
     @Override
     public void pushScore(String leardboardId, int score) {
-        if (!isConnected())
+        if (!isConnected()) {
             return;
+        }
 
+        if (leardboardId == null || score <= 0) {
+            return;
+        }
         Games.Leaderboards.submitScore(this.currentActivity.getApiClient(), leardboardId, score);
+
+        Log.getInstance().i("BeeGameManager : GPG Push Score for leaderboard " + leardboardId + " with score + " + score);
     }
 
     @Override
@@ -114,11 +133,23 @@ public class BeeGameManager implements GameManagerInterface {
     }
 
     public int getAchievementUnlockCount() {
-        return this.achievementUnlockCount;
+        int count = 0;
+        for (GameAchievement achievement : currentAchievements.values()) {
+            if (achievement.isFinished()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public int getAchievementLockCount() {
-        return this.achievementLockCount;
+        int count = 0;
+        for (GameAchievement achievement : currentAchievements.values()) {
+            if (!achievement.isFinished()) {
+                count++;
+            }
+        }
+        return count;
     }
 
 }

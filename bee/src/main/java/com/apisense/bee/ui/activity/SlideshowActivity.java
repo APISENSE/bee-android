@@ -15,7 +15,7 @@ import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.GameActionListener;
 import com.apisense.bee.games.action.GameAchievement;
 import com.apisense.bee.games.action.GameAction;
-import com.apisense.bee.games.action.SignInGameAchievement;
+import com.apisense.bee.games.action.SignInAchievement;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.games.utils.GameHelper;
 import com.apisense.bee.ui.fragment.HowFragment;
@@ -125,7 +125,7 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
 
                 mPager.setCurrentItem(SIGNIN);
 
-                handleGameAction(new SignInGameAchievement());
+                handleGameAction(new SignInAchievement());
             }
             // show sign-in button, hide the sign-out button
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
