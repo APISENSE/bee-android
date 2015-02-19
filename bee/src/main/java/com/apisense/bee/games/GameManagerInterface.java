@@ -10,11 +10,15 @@ public interface GameManagerInterface {
 
     public void initialize(BaseGameActivity baseGameActivity);
 
+    public boolean refreshPlayerData();
+
     public boolean isConnected();
 
     public void pushAchievement(GameAchievement achievement);
 
-    public Intent getAchievements();
+    public GameAchievement getAchievement(String achievementId);
+
+    public Intent getAchievementList();
 
     public void pushScore(String leardboardId, int score);
 

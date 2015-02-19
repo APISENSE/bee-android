@@ -1,7 +1,6 @@
 package com.apisense.bee.ui.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -23,6 +22,7 @@ import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
+import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 
@@ -34,7 +34,7 @@ import fr.inria.bsense.appmodel.Experiment;
 // TODO: Think about index usage (when to load next 'page' of experiment)
 // TODO: Think about Tags usage (Server filter is better)
 
-public class StoreActivity extends Activity implements SearchView.OnQueryTextListener {
+public class StoreActivity extends BeeGameActivity implements SearchView.OnQueryTextListener {
     private final String TAG = getClass().getSimpleName();
 
     protected ActionBar actionBar;

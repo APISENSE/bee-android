@@ -1,6 +1,5 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +10,7 @@ import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
+import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 
 import fr.inria.bsense.APISENSE;
@@ -19,7 +19,7 @@ import fr.inria.bsense.appmodel.Experiment;
 /**
  * Shows detailed informations about a given available Experiment from the store
  */
-public class StoreExperimentDetailsActivity extends Activity {
+public class StoreExperimentDetailsActivity extends BeeGameActivity {
     private final String TAG = getClass().getSimpleName();
     TextView mExperimentName;
     TextView mExperimentOrganization;

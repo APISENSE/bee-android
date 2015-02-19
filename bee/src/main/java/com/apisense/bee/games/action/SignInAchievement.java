@@ -1,17 +1,19 @@
 package com.apisense.bee.games.action;
 
-import com.apisense.bee.games.BeeGameManager;
+import com.google.android.gms.games.achievement.Achievement;
 
 /**
- * Created by Warnant on 12-02-15.
+ * Created by Warnant on 19-02-15.
  */
 public class SignInAchievement extends GameAchievement {
 
-    private static final String SIGN_IN_GPG_ID_KEY = "CgkIl-DToIgLEAIQAQ";
+    public SignInAchievement(Achievement achievement) {
+        super(achievement);
+    }
 
-    public SignInAchievement() {
-        super(BeeGameManager.getInstance().getAchievement(SIGN_IN_GPG_ID_KEY).getGpgAchievement());
-
+    @Override
+    public boolean process() {
+        return true;
     }
 
     @Override
