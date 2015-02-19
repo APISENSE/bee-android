@@ -1,16 +1,22 @@
 package com.apisense.bee.games.action;
 
-import com.apisense.bee.games.BeeGameManager;
+import com.google.android.gms.games.achievement.Achievement;
 
 /**
- * Created by Warnant on 12-02-15.
+ * Created by Warnant on 19-02-15.
  */
 public class FirstMissionAchievement extends GameAchievement {
 
-    private static final String FIRST_MISSION_GPG_ID_KEY = "CgkIl-DToIgLEAIQAg";
+    public FirstMissionAchievement(Achievement achievement) {
+        super(achievement);
+    }
 
-    public FirstMissionAchievement() {
-        super(BeeGameManager.getInstance().getAchievement(FIRST_MISSION_GPG_ID_KEY).getGpgAchievement());
+    @Override
+    public boolean process() {
+
+        //TODO get experiment list and check count
+
+        return true;
     }
 
     @Override

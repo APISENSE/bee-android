@@ -4,6 +4,12 @@ package com.apisense.bee.games;
 import android.content.Intent;
 
 import com.apisense.bee.games.action.GameAchievement;
+import com.apisense.bee.games.action.GameAchievementFactory;
+import com.apisense.bee.games.event.GameEvent;
+import com.apisense.bee.games.event.GameEventListener;
+import com.apisense.bee.games.event.MissionSubscribeEvent;
+import com.apisense.bee.games.event.ShareEvent;
+import com.apisense.bee.games.event.SignInEvent;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.games.utils.GameHelper;
 import com.google.android.gms.common.api.ResultCallback;
@@ -16,7 +22,7 @@ import java.util.Map;
 
 import fr.inria.asl.utils.Log;
 
-public class BeeGameManager implements GameManagerInterface {
+public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     public static final String MISSIONS_LEADERBOARD_ID = "CgkIl-DToIgLEAIQBA";
     private static BeeGameManager instance;
@@ -38,6 +44,29 @@ public class BeeGameManager implements GameManagerInterface {
     }
 
     @Override
+    public void fireGameEventPerformed(GameEvent gameEvent) {
+        Log.getInstance().i("BeeGameManager : FireGameEventPerformed : " + gameEvent);
+
+        // TODO Get all achievements interested of the current event
+        GameAchievement gameAchievement = null;
+
+        if (gameEvent instanceof MissionSubscribeEvent) {
+            gameAchievement = currentAchievements.get(GameAchievement.FIRST_MISSION_GPG_KEY);
+        } else if (gameEvent instanceof ShareEvent) {
+            gameAchievement = currentAchievements.get(GameAchievement.SHARE_ACE_GPG_KEY);
+        } else if (gameEvent instanceof SignInEvent) {
+            gameAchievement = currentAchievements.get(GameAchievement.SIGN_IN_GPG_KEY);
+
+        } else {
+            throw new UnsupportedOperationException();
+        }
+
+        if (gameAchievement.process()) {
+            this.pushAchievement(gameAchievement);
+        }
+    }
+
+    @Override
     public void initialize(BaseGameActivity currentActivity) {
         this.currentActivity = currentActivity;
 
@@ -47,11 +76,11 @@ public class BeeGameManager implements GameManagerInterface {
         gh.setConnectOnStart(true);
         this.currentActivity.setGameHelper(gh);
 
-        Log.getInstance().i("BeeGameManager : Loading player data ... : " + this.loadGameData());
+        Log.getInstance().i("BeeGameManager : Loading player data ... : " + this.refreshPlayerData());
     }
 
-
-    public boolean loadGameData() {
+    @Override
+    public boolean refreshPlayerData() {
         if (this.currentActivity != null) {
             // load achievements
             Games.Achievements.load(this.currentActivity.getApiClient(), true).setResultCallback(new ResultCallback<Achievements.LoadAchievementsResult>() {
@@ -59,12 +88,17 @@ public class BeeGameManager implements GameManagerInterface {
                 public void onResult(Achievements.LoadAchievementsResult loadAchievementsResult) {
                     currentAchievements.clear();
                     for (Achievement achievement : loadAchievementsResult.getAchievements()) {
-                        currentAchievements.put(achievement.getAchievementId(), new GameAchievement(achievement));
+
+                        // Get the game achievement associated to the gpg achievement
+                        GameAchievement gameAchievement = GameAchievementFactory.getGameAchievement(achievement);
+                        // Put the achievement on the current list
+                        currentAchievements.put(achievement.getAchievementId(), gameAchievement);
+                        //TODO add the leadboard of the achievement in the object for push score
 
                         Log.getInstance().i("BeeGameManager : Achievement=" + achievement.getName() + "&status=" + achievement.getState());
                     }
 
-                    Log.getInstance().i("BeeGameManager : Handle method onResult for loadGameData");
+                    Log.getInstance().i("BeeGameManager : Handle method onResult for refreshPlayerData");
 
                 }
             });
@@ -97,12 +131,13 @@ public class BeeGameManager implements GameManagerInterface {
         this.pushScore(gameAchievement.getLeadboard(), gameAchievement.getScore());
     }
 
+    @Override
     public GameAchievement getAchievement(String achievementId) {
         return this.currentAchievements.get(achievementId);
     }
 
     @Override
-    public Intent getAchievements() {
+    public Intent getAchievementList() {
         return Games.Achievements.getAchievementsIntent(this.currentActivity.getApiClient());
     }
 
@@ -115,6 +150,8 @@ public class BeeGameManager implements GameManagerInterface {
         if (leardboardId == null || score <= 0) {
             return;
         }
+
+        //TODO check if this incremental of if we must make the computation
         Games.Leaderboards.submitScore(this.currentActivity.getApiClient(), leardboardId, score);
 
         Log.getInstance().i("BeeGameManager : GPG Push Score for leaderboard " + leardboardId + " with score + " + score);

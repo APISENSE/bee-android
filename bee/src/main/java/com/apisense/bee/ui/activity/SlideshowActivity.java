@@ -11,13 +11,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.apisense.bee.R;
+import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.BeeGameManager;
-import com.apisense.bee.games.GameActionListener;
-import com.apisense.bee.games.action.GameAchievement;
-import com.apisense.bee.games.action.GameAction;
-import com.apisense.bee.games.action.SignInAchievement;
-import com.apisense.bee.games.utils.BaseGameActivity;
-import com.apisense.bee.games.utils.GameHelper;
+import com.apisense.bee.games.event.SignInEvent;
 import com.apisense.bee.ui.fragment.HowFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
 import com.apisense.bee.ui.fragment.RegisterFragment;
@@ -30,7 +26,7 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.APISENSEListenner;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
-public class SlideshowActivity extends BaseGameActivity implements View.OnClickListener, GameActionListener, GameHelper.GameHelperListener {
+public class SlideshowActivity extends BeeGameActivity implements View.OnClickListener {
 
     /**
      * The number of pages (wizard steps) to show
@@ -106,16 +102,6 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
 
     }
 
-    @Override
-    public void onSignInFailed() {
-
-    }
-
-    @Override
-    public void onSignInSucceeded() {
-
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -125,7 +111,8 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
 
                 mPager.setCurrentItem(SIGNIN);
 
-                handleGameAction(new SignInAchievement());
+                BeeGameManager.getInstance().fireGameEventPerformed(new SignInEvent(this));
+
             }
             // show sign-in button, hide the sign-out button
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
@@ -137,11 +124,6 @@ public class SlideshowActivity extends BaseGameActivity implements View.OnClickL
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void handleGameAction(GameAction action) {
-        BeeGameManager.getInstance().pushAchievement((GameAchievement) action);
     }
 
     @Override

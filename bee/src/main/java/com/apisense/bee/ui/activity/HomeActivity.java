@@ -20,12 +20,9 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
 import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
+import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.BeeGameManager;
-import com.apisense.bee.games.GameActionListener;
-import com.apisense.bee.games.action.GameAchievement;
-import com.apisense.bee.games.action.GameAction;
-import com.apisense.bee.games.action.ShareAceAchievement;
-import com.apisense.bee.games.utils.BaseGameActivity;
+import com.apisense.bee.games.event.ShareEvent;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.ApisenseTextView;
@@ -37,7 +34,7 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 
-public class HomeActivity extends BaseGameActivity implements GameActionListener {
+public class HomeActivity extends BeeGameActivity {
     private static final int MISSION_LEARDBOARD_REQUEST_CODE = 1;
     private static final int MISSION_ACHIEVEMENTS_REQUEST_CODE = 2;
 
@@ -50,11 +47,10 @@ public class HomeActivity extends BaseGameActivity implements GameActionListener
     private SignOutTask signOut;
     private StartStopExperimentTask experimentStartStopTask;
 
+    // Gamification textviews
     private ApisenseTextView atvAchFinished;
     private ApisenseTextView atvAchWip;
     private ApisenseTextView atvGameProfile;
-
-    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +69,7 @@ public class HomeActivity extends BaseGameActivity implements GameActionListener
         subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
         subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
 
+        //TODO link on linear layout, not textviews only
         atvAchFinished = (ApisenseTextView) findViewById(R.id.home_game_achievements_f);
         atvAchFinished.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " WF");
 
@@ -81,7 +78,7 @@ public class HomeActivity extends BaseGameActivity implements GameActionListener
         atvAchWip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(BeeGameManager.getInstance().getAchievements(), MISSION_ACHIEVEMENTS_REQUEST_CODE);
+                startActivityForResult(BeeGameManager.getInstance().getAchievementList(), MISSION_ACHIEVEMENTS_REQUEST_CODE);
             }
         });
 
@@ -104,16 +101,6 @@ public class HomeActivity extends BaseGameActivity implements GameActionListener
     }
 
     @Override
-    public void onSignInFailed() {
-        //TODO
-    }
-
-    @Override
-    public void onSignInSucceeded() {
-        //TODO
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
@@ -124,27 +111,28 @@ public class HomeActivity extends BaseGameActivity implements GameActionListener
         // Fetch and store ShareActionProvider
         ShareActionProvider shareAction = (ShareActionProvider) MenuItemCompat
                 .getActionProvider(item);
+        shareAction.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
+            @Override
+            public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
+                BeeGameManager.getInstance().fireGameEventPerformed(new ShareEvent(HomeActivity.this));
+                return false;
+            }
+        });
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND)
                 .setAction(Intent.ACTION_SEND)
                 .putExtra(Intent.EXTRA_TEXT, "linktobee")
                 .setType("text/plain");
+        //TODO put the real play store bee link
         shareAction.setShareIntent(shareIntent);
 
         return true;
     }
 
-    @Override
-    public void handleGameAction(GameAction action) {
-        BeeGameManager.getInstance().pushAchievement((GameAchievement) action);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.home_menu_share:
-                handleGameAction(new ShareAceAchievement());
-                break;
             case R.id.connectOrDisconnect:
                 doDisconnect();
                 break;

@@ -1,18 +1,31 @@
 package com.apisense.bee.games.action;
 
+import com.apisense.bee.games.BeeGameManager;
 import com.google.android.gms.games.achievement.Achievement;
 
 /**
  * Created by Warnant on 12-02-15.
  */
-public class GameAchievement implements GameAction {
+public abstract class GameAchievement implements GameAction {
+
+    public static final String SHARE_ACE_GPG_KEY = "CgkIl-DToIgLEAIQAw";
+    public static final String SIGN_IN_GPG_KEY = "CgkIl-DToIgLEAIQAQ";
+    public static final String FIRST_MISSION_GPG_KEY = "CgkIl-DToIgLEAIQAg";
+    public static final String CROWD_SENSING_GPG_KEY = "CgkIl-DToIgLEAIQBQ";
 
     protected Achievement gpgAchievement;
     protected String leadboard;
 
+
     public GameAchievement(Achievement achievement) {
         this.gpgAchievement = achievement;
         this.leadboard = null;
+        this.load();
+    }
+
+    public boolean load() {
+        setLeadboard(BeeGameManager.MISSIONS_LEADERBOARD_ID);
+        return true;
     }
 
     public String getLeadboard() {
@@ -64,8 +77,6 @@ public class GameAchievement implements GameAction {
                 ", isIncremental=" + this.isIncremental();
     }
 
-    @Override
-    public int getScore() {
-        return -1;
-    }
+
+    public abstract boolean process();
 }
