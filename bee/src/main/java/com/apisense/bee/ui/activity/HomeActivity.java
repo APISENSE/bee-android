@@ -22,8 +22,9 @@ import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.GameActionListener;
+import com.apisense.bee.games.action.GameAchievement;
 import com.apisense.bee.games.action.GameAction;
-import com.apisense.bee.games.action.ShareAceGameAchievement;
+import com.apisense.bee.games.action.ShareAceAchievement;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
@@ -135,14 +136,14 @@ public class HomeActivity extends BaseGameActivity implements GameActionListener
 
     @Override
     public void handleGameAction(GameAction action) {
-
+        BeeGameManager.getInstance().pushAchievement((GameAchievement) action);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home_menu_share:
-                handleGameAction(new ShareAceGameAchievement());
+                handleGameAction(new ShareAceAchievement());
                 break;
             case R.id.connectOrDisconnect:
                 doDisconnect();
