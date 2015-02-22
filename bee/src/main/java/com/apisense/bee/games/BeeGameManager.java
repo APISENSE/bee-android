@@ -5,11 +5,12 @@ import android.content.Intent;
 
 import com.apisense.bee.games.action.GameAchievement;
 import com.apisense.bee.games.action.GameAchievementFactory;
+import com.apisense.bee.games.action.share.ShareAceAchievement;
+import com.apisense.bee.games.action.subscribe.MissionSuscribeAchievement;
 import com.apisense.bee.games.event.GameEvent;
 import com.apisense.bee.games.event.GameEventListener;
 import com.apisense.bee.games.event.MissionSubscribeEvent;
 import com.apisense.bee.games.event.ShareEvent;
-import com.apisense.bee.games.event.SignInEvent;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.games.utils.GameHelper;
 import com.google.android.gms.common.api.ResultCallback;
@@ -17,10 +18,13 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.achievement.Achievement;
 import com.google.android.gms.games.achievement.Achievements;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fr.inria.asl.utils.Log;
+import fr.inria.bsense.appmodel.Experiment;
 
 public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
@@ -29,11 +33,13 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     private BaseGameActivity currentActivity;
     private Map<String, GameAchievement> currentAchievements;
+    private List<Experiment> currentExperiments;
 
 
     private BeeGameManager() {
         this.currentActivity = null;
         this.currentAchievements = new HashMap<>();
+        this.currentExperiments = new ArrayList<>();
     }
 
     public static BeeGameManager getInstance() {
@@ -43,26 +49,42 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         return instance;
     }
 
+    private List<GameAchievement> getGameAchievements(GameEvent event) {
+        List<GameAchievement> achievements = new ArrayList<>();
+        for (GameAchievement ga : currentAchievements.values()) {
+            if ((ga instanceof MissionSuscribeAchievement && event instanceof MissionSubscribeEvent) ||
+                    (ga instanceof ShareAceAchievement && event instanceof ShareEvent)) {
+                achievements.add(ga);
+            }
+        }
+        return achievements;
+    }
+
+    private void refreshExperiments(GameEvent gameEvent) {
+        if (gameEvent instanceof MissionSubscribeEvent) {
+            List<Experiment> lastExperiments = ((MissionSubscribeEvent) gameEvent).getExperiments();
+            if (lastExperiments != null) {
+                this.currentExperiments = lastExperiments;
+            }
+        }
+    }
+
+    public List<Experiment> getCurrentExperiments() {
+        return this.currentExperiments;
+    }
+
     @Override
     public void fireGameEventPerformed(GameEvent gameEvent) {
         Log.getInstance().i("BeeGameManager : FireGameEventPerformed : " + gameEvent);
 
-        // TODO Get all achievements interested of the current event
-        GameAchievement gameAchievement = null;
+        refreshExperiments(gameEvent);
 
-        if (gameEvent instanceof MissionSubscribeEvent) {
-            gameAchievement = currentAchievements.get(GameAchievement.FIRST_MISSION_GPG_KEY);
-        } else if (gameEvent instanceof ShareEvent) {
-            gameAchievement = currentAchievements.get(GameAchievement.SHARE_ACE_GPG_KEY);
-        } else if (gameEvent instanceof SignInEvent) {
-            gameAchievement = currentAchievements.get(GameAchievement.SIGN_IN_GPG_KEY);
+        for (GameAchievement gameAchievement : getGameAchievements(gameEvent)) {
 
-        } else {
-            throw new UnsupportedOperationException();
-        }
+            if (gameAchievement.process()) {
+                this.pushAchievement(gameAchievement);
+            }
 
-        if (gameAchievement.process()) {
-            this.pushAchievement(gameAchievement);
         }
     }
 
