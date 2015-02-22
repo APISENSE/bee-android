@@ -52,16 +52,6 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     }
 
     /**
-     * Change the dataSet of the adapter
-     *
-     * @param dataSet
-     */
-    public void setDataSet(List<Experiment> dataSet) {
-        this.data = dataSet;
-        this.filteredData = dataSet;
-    }
-
-    /**
      * Get the size of experiment list
      *
      * @return the size of experiment list
@@ -132,6 +122,20 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
 
     public void showAsUnsubscribed(View v) {
         v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
+    }
+
+    public List<Experiment> getDataSet() {
+        return this.data;
+    }
+
+    /**
+     * Change the dataSet of the adapter
+     *
+     * @param dataSet
+     */
+    public void setDataSet(List<Experiment> dataSet) {
+        this.data = dataSet;
+        this.filteredData = dataSet;
     }
 
     /**

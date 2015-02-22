@@ -11,6 +11,8 @@ import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.games.BeeGameManager;
+import com.apisense.bee.games.event.MissionSubscribeEvent;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 
 import fr.inria.bsense.APISENSE;
@@ -109,6 +111,8 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
                 switch ((Integer) response) {
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                        BeeGameManager.getInstance().fireGameEventPerformed(new MissionSubscribeEvent(StoreExperimentDetailsActivity.this, null));
+
                         updateSubscriptionMenu();
                         break;
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:

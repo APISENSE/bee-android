@@ -1,11 +1,11 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +23,8 @@ import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.RetrieveAvailableExperimentsTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.games.BeeGameManager;
+import com.apisense.bee.games.event.MissionSubscribeEvent;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 
@@ -37,7 +39,7 @@ import fr.inria.bsense.appmodel.Experiment;
 public class StoreActivity extends BeeGameActivity implements SearchView.OnQueryTextListener {
     private final String TAG = getClass().getSimpleName();
 
-    protected ActionBar actionBar;
+    protected Toolbar actionBar;
     // Content Adapter
     protected AvailableExperimentsListAdapter experimentsAdapter;
     // Search view
@@ -51,7 +53,8 @@ public class StoreActivity extends BeeGameActivity implements SearchView.OnQuery
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
 
-        actionBar = getActionBar();
+        actionBar = (Toolbar) findViewById(R.id.material_toolbar);
+        setSupportActionBar(actionBar);
 
         // Setting up available experiments list behavior
         experimentsAdapter = new AvailableExperimentsListAdapter(getBaseContext(),
@@ -190,6 +193,7 @@ public class StoreActivity extends BeeGameActivity implements SearchView.OnQuery
                 switch ((Integer) response) {
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
+                        BeeGameManager.getInstance().fireGameEventPerformed(new MissionSubscribeEvent(StoreActivity.this, experimentsAdapter.getDataSet()));
                         experimentsAdapter.showAsSubscribed(statusView);
                         break;
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:

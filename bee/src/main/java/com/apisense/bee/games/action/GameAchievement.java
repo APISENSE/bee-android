@@ -8,10 +8,14 @@ import com.google.android.gms.games.achievement.Achievement;
  */
 public abstract class GameAchievement implements GameAction {
 
-    public static final String SHARE_ACE_GPG_KEY = "CgkIl-DToIgLEAIQAw";
-    public static final String SIGN_IN_GPG_KEY = "CgkIl-DToIgLEAIQAQ";
-    public static final String FIRST_MISSION_GPG_KEY = "CgkIl-DToIgLEAIQAg";
-    public static final String CROWD_SENSING_GPG_KEY = "CgkIl-DToIgLEAIQBQ";
+    public static final String SHARE_ACE_KEY = "CgkIl-DToIgLEAIQAw";
+    public static final String GOOGLE_SIGN_IN_KEY = "CgkIl-DToIgLEAIQAQ";
+    public static final String FACEBOOK_SIGN_IN_KEY = "CgkIl-DToIgLEAIQBg";
+    public static final String FIRST_MISSION_KEY = "CgkIl-DToIgLEAIQAg";
+    public static final String CROWD_SENSING_ACE_KEY = "CgkIl-DToIgLEAIQBQ";
+    public static final String CROWD_SENSING_PARTNER_KEY = "CgkIl-DToIgLEAIQBw";
+    public static final String CROWD_SENSING_SPECIALIST_KEY = "CgkIl-DToIgLEAIQCA";
+
 
     protected Achievement gpgAchievement;
     protected String leadboard;
@@ -26,6 +30,10 @@ public abstract class GameAchievement implements GameAction {
     public boolean load() {
         setLeadboard(BeeGameManager.MISSIONS_LEADERBOARD_ID);
         return true;
+    }
+
+    public long getPoints() {
+        return this.gpgAchievement.getXpValue() / 100;
     }
 
     public String getLeadboard() {
