@@ -53,9 +53,7 @@ public class SlideshowActivity extends BeeGameActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slideshow);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
 
-        BeeGameManager.getInstance().initialize(this);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -106,23 +104,12 @@ public class SlideshowActivity extends BeeGameActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.sign_in_button) {
+            mPager.setCurrentItem(SIGNIN);
 
-            if (mHelper.getApiClient().isConnected()) {
-
-                mPager.setCurrentItem(SIGNIN);
-
-                BeeGameManager.getInstance().fireGameEventPerformed(new SignInEvent(this));
-
-            }
-            // show sign-in button, hide the sign-out button
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
 
-        } else if (view.getId() == R.id.sign_out_button) {
-
-            // show sign-in button, hide the sign-out button
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+            BeeGameManager.getInstance().initialize(this);
+            BeeGameManager.getInstance().fireGameEventPerformed(new SignInEvent(this));
         }
     }
 

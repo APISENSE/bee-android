@@ -12,7 +12,7 @@ public interface GameManagerInterface {
 
     public boolean refreshPlayerData();
 
-    public boolean isConnected();
+    public boolean isLoad();
 
     public void pushAchievement(GameAchievement achievement);
 

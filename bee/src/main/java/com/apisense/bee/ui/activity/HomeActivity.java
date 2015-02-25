@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,10 +49,12 @@ public class HomeActivity extends BeeGameActivity {
     private SignOutTask signOut;
     private StartStopExperimentTask experimentStartStopTask;
 
-    // Gamification textviews
-    private ApisenseTextView atvAchFinished;
-    private ApisenseTextView atvAchWip;
-    private ApisenseTextView atvGameProfile;
+    // Gamification
+    private LinearLayout llGamificationPanel;
+    private LinearLayout llNoGamificationPanel;
+    private ApisenseTextView atvAchPoints;
+    private ApisenseTextView atvAchCounts;
+    private ImageView ivGameProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,21 +73,40 @@ public class HomeActivity extends BeeGameActivity {
         subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
         subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
 
-        //TODO link on linear layout, not textviews only
-        atvAchFinished = (ApisenseTextView) findViewById(R.id.home_game_achievements_f);
-        atvAchFinished.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " WF");
+        // Check visibility of gamification panels
+        llGamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
+        llNoGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
+        if (BeeGameManager.getInstance().isLoad()) {
+            llNoGamificationPanel.setVisibility(View.GONE);
+            llGamificationPanel.setVisibility(View.VISIBLE);
+        } else {
+            llNoGamificationPanel.setVisibility(View.VISIBLE);
+            llGamificationPanel.setVisibility(View.GONE);
+        }
 
-        atvAchWip = (ApisenseTextView) findViewById(R.id.home_game_achievements_wip);
-        atvAchWip.setText(BeeGameManager.getInstance().getAchievementLockCount() + " WIP");
-        atvAchWip.setOnClickListener(new View.OnClickListener() {
+        atvAchPoints = (ApisenseTextView) findViewById(R.id.home_game_points);
+        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + " POINTS");
+        atvAchPoints.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(
+                        BeeGameManager.getInstance().getLeaderboard(BeeGameManager.MISSIONS_LEADERBOARD_ID),
+                        MISSION_LEARDBOARD_REQUEST_CODE
+                );
+            }
+        });
+
+        atvAchCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
+        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " MISSIONS");
+        atvAchCounts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(BeeGameManager.getInstance().getAchievementList(), MISSION_ACHIEVEMENTS_REQUEST_CODE);
             }
         });
 
-        atvGameProfile = (ApisenseTextView) findViewById(R.id.home_game_profile);
-        atvGameProfile.setOnClickListener(new View.OnClickListener() {
+        ivGameProfile = (ImageView) findViewById(R.id.home_game_profile);
+        ivGameProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(
@@ -98,6 +121,15 @@ public class HomeActivity extends BeeGameActivity {
 
 
         updateUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Refresh gamification text views after the refresh of game data
+        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + " POINTS");
+        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " MISSIONS");
     }
 
     @Override

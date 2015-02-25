@@ -49,6 +49,19 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         return instance;
     }
 
+    public long getPlayerPoints() {
+        long points = 0;
+
+        for (GameAchievement a : currentAchievements.values()) {
+            if (a.isFinished()) {
+                points += a.getPoints();
+                Log.i("BeePoints", a.toString());
+            }
+        }
+
+        return points;
+    }
+
     private List<GameAchievement> getGameAchievements(GameEvent event) {
         List<GameAchievement> achievements = new ArrayList<>();
         for (GameAchievement ga : currentAchievements.values()) {
@@ -132,7 +145,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     @Override
     public void pushAchievement(GameAchievement gameAchievement) {
-        if (!isConnected())
+        if (!isLoad())
             return;
 
         // Check if the achievement is not already finished
@@ -165,7 +178,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     @Override
     public void pushScore(String leardboardId, int score) {
-        if (!isConnected()) {
+        if (!isLoad()) {
             return;
         }
 
@@ -186,8 +199,8 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
     }
 
     @Override
-    public boolean isConnected() {
-        return this.currentActivity.getApiClient().isConnected();
+    public boolean isLoad() {
+        return this.currentAchievements.size() > 0;
 
     }
 
