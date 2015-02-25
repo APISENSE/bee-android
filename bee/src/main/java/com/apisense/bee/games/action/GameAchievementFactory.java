@@ -1,6 +1,7 @@
 package com.apisense.bee.games.action;
 
 import com.apisense.bee.games.action.share.ShareAceAchievement;
+import com.apisense.bee.games.action.signin.FacebookSignInAchievement;
 import com.apisense.bee.games.action.signin.GoogleSignInAchievement;
 import com.apisense.bee.games.action.subscribe.CrowdSensingAceAchievement;
 import com.apisense.bee.games.action.subscribe.CrowdSensingPartnerAchievement;
@@ -8,12 +9,15 @@ import com.apisense.bee.games.action.subscribe.CrowdSensingSpecialistAchievement
 import com.apisense.bee.games.action.subscribe.FirstMissionAchievement;
 import com.google.android.gms.games.achievement.Achievement;
 
+import fr.inria.asl.utils.Log;
+
 /**
  * Created by Warnant on 19-02-15.
  */
 public class GameAchievementFactory {
 
     public static GameAchievement getGameAchievement(Achievement achievement) {
+        Log.getInstance().i("GameAchievementFactory", achievement.getAchievementId() + "" + achievement.getName());
         switch (achievement.getAchievementId()) {
             case GameAchievement.FIRST_MISSION_KEY:
                 return new FirstMissionAchievement(achievement);
@@ -21,6 +25,8 @@ public class GameAchievementFactory {
                 return new ShareAceAchievement(achievement);
             case GameAchievement.GOOGLE_SIGN_IN_KEY:
                 return new GoogleSignInAchievement(achievement);
+            case GameAchievement.FACEBOOK_SIGN_IN_KEY:
+                return new FacebookSignInAchievement(achievement);
             case GameAchievement.CROWD_SENSING_ACE_KEY:
                 return new CrowdSensingAceAchievement(achievement);
             case GameAchievement.CROWD_SENSING_PARTNER_KEY:

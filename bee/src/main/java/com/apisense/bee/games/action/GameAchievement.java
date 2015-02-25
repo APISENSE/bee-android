@@ -33,7 +33,10 @@ public abstract class GameAchievement implements GameAction {
     }
 
     public long getPoints() {
-        return this.gpgAchievement.getXpValue() / 100;
+        if (this.gpgAchievement.getXpValue() != 0)
+            return this.gpgAchievement.getXpValue();
+
+        return 5;
     }
 
     public String getLeadboard() {
@@ -82,7 +85,8 @@ public abstract class GameAchievement implements GameAction {
     public String toString() {
         return "id=" + this.gpgAchievement.getAchievementId() +
                 ", name=" + this.gpgAchievement.getName() +
-                ", isIncremental=" + this.isIncremental();
+                ", isIncremental=" + this.isIncremental() +
+                ", points=" + this.getPoints();
     }
 
 
