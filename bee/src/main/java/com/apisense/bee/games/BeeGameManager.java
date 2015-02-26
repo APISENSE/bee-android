@@ -73,14 +73,10 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         return achievements;
     }
 
-    private void refreshExperiments(GameEvent gameEvent) {
-        if (gameEvent instanceof MissionSubscribeEvent) {
-            List<Experiment> lastExperiments = ((MissionSubscribeEvent) gameEvent).getExperiments();
-            if (lastExperiments != null) {
-                this.currentExperiments = lastExperiments;
-            }
-        }
+    public void setExperiments(List<Experiment> experiments) {
+        this.currentExperiments = experiments;
     }
+
 
     public List<Experiment> getCurrentExperiments() {
         return this.currentExperiments;
@@ -90,11 +86,12 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
     public void fireGameEventPerformed(GameEvent gameEvent) {
         Log.getInstance().i("BeeGameManager : FireGameEventPerformed : " + gameEvent);
 
-        refreshExperiments(gameEvent);
-
         for (GameAchievement gameAchievement : getGameAchievements(gameEvent)) {
 
-            if (gameAchievement.process()) {
+            boolean process = gameAchievement.process();
+            Log.getInstance().i("BeeGameManager : FireGameEventPerformed : " + gameAchievement + " result=" + process);
+
+            if (process) {
                 this.pushAchievement(gameAchievement);
             }
 
@@ -108,7 +105,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         GameHelper gh = new GameHelper(this.currentActivity, GameHelper.CLIENT_GAMES);
         gh.setup(this.currentActivity);
         gh.enableDebugLog(true);
-        gh.setConnectOnStart(true);
+        gh.setConnectOnStart(false);
         this.currentActivity.setGameHelper(gh);
 
         Log.getInstance().i("BeeGameManager : Loading player data ... : " + this.refreshPlayerData());

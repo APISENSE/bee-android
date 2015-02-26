@@ -13,9 +13,8 @@ public class MissionSubscribeEvent extends GameEvent {
 
     private List<Experiment> experiments;
 
-    public MissionSubscribeEvent(BaseGameActivity source, List<Experiment> experiments) {
+    public MissionSubscribeEvent(BaseGameActivity source) {
         super(source);
-        this.experiments = experiments;
     }
 
     public List<Experiment> getExperiments() {

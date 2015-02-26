@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -36,6 +37,9 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_experiment_details);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+
+        Toolbar actionBar = (Toolbar) findViewById(R.id.material_toolbar);
+        setSupportActionBar(actionBar);
 
         initializeViews();
         displayExperimentInformation();
@@ -111,7 +115,7 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
                 switch ((Integer) response) {
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-                        BeeGameManager.getInstance().fireGameEventPerformed(new MissionSubscribeEvent(StoreExperimentDetailsActivity.this, null));
+                        BeeGameManager.getInstance().fireGameEventPerformed(new MissionSubscribeEvent(StoreExperimentDetailsActivity.this));
 
                         updateSubscriptionMenu();
                         break;

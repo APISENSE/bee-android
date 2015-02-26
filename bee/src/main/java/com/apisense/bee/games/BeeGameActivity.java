@@ -1,5 +1,7 @@
 package com.apisense.bee.games;
 
+import android.os.Bundle;
+
 import com.apisense.bee.games.utils.BaseGameActivity;
 
 /**
@@ -7,6 +9,17 @@ import com.apisense.bee.games.utils.BaseGameActivity;
  */
 public class BeeGameActivity extends BaseGameActivity {
 
+    @Override
+    protected void onCreate(Bundle b) {
+        super.onCreate(b);
+        BeeGameManager.getInstance().initialize(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BeeGameManager.getInstance().refreshPlayerData();
+    }
 
     @Override
     public void onSignInFailed() {
@@ -16,13 +29,5 @@ public class BeeGameActivity extends BaseGameActivity {
     @Override
     public void onSignInSucceeded() {
         //TODO
-    }
-
-    @Override
-    protected void onResume() {
-        BeeGameManager.getInstance().refreshPlayerData();
-
-        super.onResume();
-
     }
 }
