@@ -21,5 +21,10 @@ public class ShareAceAchievement extends GameAchievement {
     public int getScore() {
         return 1;
     }
+
+    @Override
+    public long getPoints() {
+        return 2 * super.getPoints();
+    }
 }
 

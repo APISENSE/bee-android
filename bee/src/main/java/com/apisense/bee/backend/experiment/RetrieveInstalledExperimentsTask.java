@@ -5,6 +5,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import com.apisense.bee.games.BeeGameManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +43,8 @@ public class RetrieveInstalledExperimentsTask extends AsyncTaskWithCallback<Void
         try {
             Collection exp = gotExperiments.values();
             returnedExperiments = (exp instanceof List) ? (List) exp : new ArrayList(exp);
+            // Refresh experiments list of the game manager
+            BeeGameManager.getInstance().setExperiments(returnedExperiments);
         } catch (NullPointerException e) {
             APISLog.send(e, APISLog.ERROR);
         }

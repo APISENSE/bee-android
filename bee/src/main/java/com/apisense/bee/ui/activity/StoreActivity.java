@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -72,12 +71,12 @@ public class StoreActivity extends BeeGameActivity implements SearchView.OnQuery
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_view, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) searchItem.getActionView();
-        mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
-        setupSearchView(searchItem);
+        //MenuInflater inflater = getMenuInflater();
+        // inflater.inflate(R.menu.search_view, menu);
+        // MenuItem searchItem = menu.findItem(R.id.action_search);
+        //mSearchView = (SearchView) searchItem.getActionView();
+        //mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
+        //setupSearchView(searchItem);
 
         return true;
     }
@@ -193,7 +192,7 @@ public class StoreActivity extends BeeGameActivity implements SearchView.OnQuery
                 switch ((Integer) response) {
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-                        BeeGameManager.getInstance().fireGameEventPerformed(new MissionSubscribeEvent(StoreActivity.this, experimentsAdapter.getDataSet()));
+                        BeeGameManager.getInstance().fireGameEventPerformed(new MissionSubscribeEvent(StoreActivity.this));
                         experimentsAdapter.showAsSubscribed(statusView);
                         break;
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:

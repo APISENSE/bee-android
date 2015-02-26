@@ -124,10 +124,6 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
     }
 
-    public List<Experiment> getDataSet() {
-        return this.data;
-    }
-
     /**
      * Change the dataSet of the adapter
      *

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+import com.apisense.bee.games.BeeGameManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +47,10 @@ public class RetrieveAvailableExperimentsTask extends AsyncTaskWithCallback<Stri
             servService.searchRemoteExperiment(index, RETURN_SIZE);
             gotExperiments = servService.getRemoteExperiments();
             gotExperiments = (gotExperiments != null) ? gotExperiments : new ArrayList<Experiment>();
+
+            // Refresh experiments list of the game manager
+            BeeGameManager.getInstance().setExperiments(gotExperiments);
+
             this.errcode = BeeApplication.ASYNC_SUCCESS;
         } catch (Exception e) {
             Log.e(TAG, "Error while retrieving available experiments: " + e.getMessage());

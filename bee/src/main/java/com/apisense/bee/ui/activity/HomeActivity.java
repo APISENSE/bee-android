@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
@@ -61,8 +62,6 @@ public class HomeActivity extends BeeGameActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        BeeGameManager.getInstance().initialize(this);
-
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
                 R.layout.fragment_experiment_element,
@@ -76,6 +75,12 @@ public class HomeActivity extends BeeGameActivity {
         // Check visibility of gamification panels
         llGamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
         llNoGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
+        llNoGamificationPanel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHelper.connect();
+            }
+        });
         if (BeeGameManager.getInstance().isLoad()) {
             llNoGamificationPanel.setVisibility(View.GONE);
             llGamificationPanel.setVisibility(View.VISIBLE);
@@ -127,9 +132,8 @@ public class HomeActivity extends BeeGameActivity {
     protected void onResume() {
         super.onResume();
 
-        // Refresh gamification text views after the refresh of game data
-        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + " POINTS");
-        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " MISSIONS");
+
+        new LoadGamificationTask().execute();
     }
 
     @Override
@@ -357,4 +361,15 @@ public class HomeActivity extends BeeGameActivity {
             experimentStartStopTask = null;
         }
     }
+
+    private class LoadGamificationTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+            // Refresh gamification text views after the refresh of game data
+            atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + " POINTS");
+            atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " MISSIONS");
+
+            return null;
+        }
+    }
+
 }

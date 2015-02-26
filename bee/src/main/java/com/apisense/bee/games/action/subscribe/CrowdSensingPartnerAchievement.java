@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.inria.asl.utils.Log;
 import fr.inria.bsense.appmodel.Experiment;
 
 /**
@@ -25,6 +26,8 @@ public class CrowdSensingPartnerAchievement extends GameAchievement implements M
     public boolean process() {
 
         List<Experiment> experiments = BeeGameManager.getInstance().getCurrentExperiments();
+        Log.getInstance().i("CrowdSensingPartnerAchievement", "size=" + BeeGameManager.getInstance().getCurrentExperiments().size());
+
         Map<String, Integer> authors = new HashMap<>();
 
         for (Experiment e : experiments) {
@@ -42,6 +45,11 @@ public class CrowdSensingPartnerAchievement extends GameAchievement implements M
         }
 
         return false;
+    }
+
+    @Override
+    public long getPoints() {
+        return 4 * super.getPoints();
     }
 
     @Override

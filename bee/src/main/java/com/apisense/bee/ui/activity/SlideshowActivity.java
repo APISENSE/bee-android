@@ -106,9 +106,12 @@ public class SlideshowActivity extends BeeGameActivity implements View.OnClickLi
         if (view.getId() == R.id.sign_in_button) {
             mPager.setCurrentItem(SIGNIN);
 
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            mHelper.connect();
 
-            BeeGameManager.getInstance().initialize(this);
+            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.register).setVisibility(View.GONE);
+
+
             BeeGameManager.getInstance().fireGameEventPerformed(new SignInEvent(this));
         }
     }
