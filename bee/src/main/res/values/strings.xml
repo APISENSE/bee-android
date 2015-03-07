@@ -57,7 +57,11 @@
     <string name="slide_welcome_back">Welcome back</string>
     <string name="slide_what">Bee makes it easy to collect data with crowds of mobile phone sensors.</string>
     <string name="slide_how">Share your data with us to get a better World :O</string>
-    <string name="slide_reward">The more you give, the more you get ! Trade points for real stuff ! Amazing ;)</string>
+    <string name="slide_reward_title">Get reward by sharing data</string>
+    <string name="slide_reward_desc">Help compagnies, cities or researches to make better products, services or research by sharing data</string>
+    <string name="slide_connect_join">By joining you agree to the Terms and Privacy.</string>
+    <string name="slide_connect_anonym">Enter as Anonymous without any rewards.</string>
+    <string name="slide_connect_continue">OR CONTINUE WITH</string>
 
     <!-- Experiments -->
     <string name="experiment_activity_7_days">Activity for the past 7 days</string>

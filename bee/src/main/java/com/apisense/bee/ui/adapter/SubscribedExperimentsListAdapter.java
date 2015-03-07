@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apisense.bee.R;
@@ -110,9 +111,18 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         String decode = new String(Base64.decode(item.description.getBytes(), Base64.DEFAULT));
         description.setText(decode);
 
+        ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
+        if (item.state) {
+            ivExp.setBackgroundResource(R.drawable.icon_mission_running);
+        } else {
+            ivExp.setBackgroundResource(R.drawable.icon_mission_break);
+        }
+        /*
         TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
         String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running);
         textStatus.setText(" - " + state);
+        */
+
 
 //        convertView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -129,22 +139,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
 //            }
 //        });
 
-        // Display state of the current experiment
-        View status = convertView.findViewById(R.id.item);
-        if (item.state) {
-            showAsStarted(status);
-        } else {
-            showAsStopped(status);
-        }
-
         return convertView;
     }
 
-    public void showAsStarted(View v) {
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
-    }
-
-    public void showAsStopped(View v) {
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.light_grey));
-    }
 }
