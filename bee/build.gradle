@@ -31,6 +31,12 @@ dependencies {
         exclude module: 'support-v4'
     }
 
+    // Tests with Robotium
+    androidTestCompile('com.jayway.android.robotium:robotium-solo:5.2.1') {
+        exclude module: 'support-v4'
+    }
+
+    // Android Lollipop support animation and views
     compile 'com.android.support:support-v4:21.+'
     // Sexy android-L support
     compile('com.android.support:appcompat-v7:21.0.+') {
@@ -43,10 +49,8 @@ dependencies {
         exclude module: 'support-v4'
     }
 
-    // Tests with Robotium
-    androidTestCompile('com.jayway.android.robotium:robotium-solo:5.2.1') {
-        exclude module: 'support-v4'
-    }
+    compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
 
 
 }

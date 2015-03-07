@@ -11,13 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.SignInTask;
 import com.apisense.bee.ui.activity.HomeActivity;
+import com.gc.materialdesign.widgets.SnackBar;
 
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
@@ -92,7 +92,8 @@ public class SignInFragment extends Fragment {
      */
     public void doLoginLogout(View loginButton) {
         if (!isInputCorrect()) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.empty_field), Toast.LENGTH_LONG).show();
+            SnackBar snackbar = new SnackBar(getActivity(), getResources().getString(R.string.empty_field), null, null);
+            snackbar.show();
             return;
         }
 
@@ -104,11 +105,13 @@ public class SignInFragment extends Fragment {
                     APISENSE.apisMobileService().uninstallExperiment(xp);
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(getActivity(), R.string.experiment_exception_on_closure, Toast.LENGTH_SHORT).show();
+                SnackBar snackbar = new SnackBar(getActivity(), getResources().getString(R.string.experiment_exception_on_closure), null, null);
+                snackbar.show();
             }
             APISENSE.apisServerService().disconnect();
             mSignInBtn.setText("Login");
-            Toast.makeText(getActivity(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
+            SnackBar snackbar = new SnackBar(getActivity(), getResources().getString(R.string.status_changed_to_anonymous), null, null);
+            snackbar.show();
         } else {
             SignInTask signInTask = new SignInTask(APISENSE.apisense(), new AsyncTasksCallbacks() {
                 @Override
@@ -121,7 +124,8 @@ public class SignInFragment extends Fragment {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();
+                        SnackBar snackbar = new SnackBar(getActivity(), getResources().getString(R.string.failed_to_connect), null, null);
+                        snackbar.show();
                     }
                 }
 

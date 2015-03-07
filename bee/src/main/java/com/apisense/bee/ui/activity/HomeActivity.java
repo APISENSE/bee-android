@@ -1,10 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -14,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
@@ -25,7 +21,6 @@ import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.BeeGameManager;
-import com.apisense.bee.games.event.ShareEvent;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.ApisenseTextView;
@@ -62,6 +57,9 @@ public class HomeActivity extends BeeGameActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
+
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
                 R.layout.fragment_experiment_element,
@@ -81,7 +79,7 @@ public class HomeActivity extends BeeGameActivity {
                 mHelper.connect();
             }
         });
-        if (BeeGameManager.getInstance().isLoad()) {
+        if (!BeeGameManager.getInstance().isLoad()) {
             llNoGamificationPanel.setVisibility(View.GONE);
             llGamificationPanel.setVisibility(View.VISIBLE);
         } else {
@@ -90,7 +88,7 @@ public class HomeActivity extends BeeGameActivity {
         }
 
         atvAchPoints = (ApisenseTextView) findViewById(R.id.home_game_points);
-        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + " POINTS");
+        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + "");
         atvAchPoints.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +100,7 @@ public class HomeActivity extends BeeGameActivity {
         });
 
         atvAchCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
-        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " MISSIONS");
+        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + "");
         atvAchCounts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,8 +108,7 @@ public class HomeActivity extends BeeGameActivity {
             }
         });
 
-        ivGameProfile = (ImageView) findViewById(R.id.home_game_profile);
-        ivGameProfile.setOnClickListener(new View.OnClickListener() {
+        llGamificationPanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(
@@ -121,9 +118,6 @@ public class HomeActivity extends BeeGameActivity {
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
-        setSupportActionBar(toolbar);
-
 
         updateUI();
     }
@@ -132,36 +126,15 @@ public class HomeActivity extends BeeGameActivity {
     protected void onResume() {
         super.onResume();
 
-
-        new LoadGamificationTask().execute();
+        // Refresh gamification text views after the refresh of game data
+        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + "");
+        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + "");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-
-        // Locate MenuItem with ShareActionProvider
-        MenuItem item = menu.findItem(R.id.home_menu_share);
-
-        // Fetch and store ShareActionProvider
-        ShareActionProvider shareAction = (ShareActionProvider) MenuItemCompat
-                .getActionProvider(item);
-        shareAction.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
-            @Override
-            public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
-                BeeGameManager.getInstance().fireGameEventPerformed(new ShareEvent(HomeActivity.this));
-                return false;
-            }
-        });
-
-        Intent shareIntent = new Intent(Intent.ACTION_SEND)
-                .setAction(Intent.ACTION_SEND)
-                .putExtra(Intent.EXTRA_TEXT, "linktobee")
-                .setType("text/plain");
-        //TODO put the real play store bee link
-        shareAction.setShareIntent(shareIntent);
-
         return true;
     }
 
@@ -181,8 +154,19 @@ public class HomeActivity extends BeeGameActivity {
             case R.id.action_privacy:
                 doLaunchPrivacy();
                 break;
+            case R.id.action_share:
+                doApplicationShare();
+                break;
         }
         return true;
+    }
+
+    protected void doApplicationShare() {
+        Intent sendIntent = new Intent(Intent.ACTION_SEND)
+                .setAction(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TEXT, "linktobee");
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.action_share)));
     }
 
     @Override
@@ -198,14 +182,10 @@ public class HomeActivity extends BeeGameActivity {
     private void updateUI() {
         retrieveActiveExperiments();
 
-        // Generating messages depending on the logged user
-        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
-        // Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
-
+        // Generating title depending on the logged user
         if (isUserAuthenticated()) {
-            user_identity.setText(getString(R.string.user_identity, "Username"));
-        } else {
-            user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
+            Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+            toolbar.setTitle(getString(R.string.user_identity, "Username"));
         }
     }
 
@@ -361,15 +341,4 @@ public class HomeActivity extends BeeGameActivity {
             experimentStartStopTask = null;
         }
     }
-
-    private class LoadGamificationTask extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... params) {
-            // Refresh gamification text views after the refresh of game data
-            atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + " POINTS");
-            atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + " MISSIONS");
-
-            return null;
-        }
-    }
-
 }

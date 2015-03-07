@@ -1,0 +1,77 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apisense.bee.ui.fragment.ConnectivityFragment">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:background="@drawable/api_grey_button_rounded"
+                android:text="@string/login" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:background="@drawable/api_grey_button_rounded"
+                android:text="@string/register" />
+        </LinearLayout>
+
+        <com.apisense.bee.widget.ApisenseTextView
+            style="@style/ApisenseSlideText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:text="@string/slide_connect_continue" />
+
+        <Button
+            android:id="@+id/btnFacebookSignIn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/fb_button" />
+
+
+        <com.google.android.gms.common.SignInButton
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/activity_horizontal_margin" />
+
+
+        <com.apisense.bee.widget.ApisenseTextView
+            style="@style/ApisenseSlideTinyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:text="@string/slide_connect_join" />
+
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/atvAnonymousCo"
+            style="@style/ApisenseSlideTinyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/slide_connect_anonym" />
+
+    </LinearLayout>
+</FrameLayout>

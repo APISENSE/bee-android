@@ -13,6 +13,7 @@ public class BeeGameActivity extends BaseGameActivity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         BeeGameManager.getInstance().initialize(this);
+        getGameHelper().setMaxAutoSignInAttempts(0);
     }
 
     @Override
