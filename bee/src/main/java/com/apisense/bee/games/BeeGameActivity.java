@@ -14,6 +14,7 @@ public class BeeGameActivity extends BaseGameActivity {
         super.onCreate(b);
         BeeGameManager.getInstance().initialize(this);
         getGameHelper().setMaxAutoSignInAttempts(0);
+
     }
 
     @Override

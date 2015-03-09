@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -32,7 +31,7 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
 
-public class HomeActivity extends BeeGameActivity {
+public class HomeActivity extends BeeGameActivity implements View.OnClickListener {
     private static final int MISSION_LEARDBOARD_REQUEST_CODE = 1;
     private static final int MISSION_ACHIEVEMENTS_REQUEST_CODE = 2;
 
@@ -50,7 +49,6 @@ public class HomeActivity extends BeeGameActivity {
     private LinearLayout llNoGamificationPanel;
     private ApisenseTextView atvAchPoints;
     private ApisenseTextView atvAchCounts;
-    private ImageView ivGameProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,54 +70,48 @@ public class HomeActivity extends BeeGameActivity {
 
         // Check visibility of gamification panels
         llGamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
+        llGamificationPanel.setOnClickListener(this);
+
         llNoGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
-        llNoGamificationPanel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mHelper.connect();
-            }
-        });
-        if (!BeeGameManager.getInstance().isLoad()) {
+        llNoGamificationPanel.setOnClickListener(this);
+
+        if (BeeGameManager.getInstance().isLoad()) {
             llNoGamificationPanel.setVisibility(View.GONE);
             llGamificationPanel.setVisibility(View.VISIBLE);
+            // toolbar.setLogo(getPlayer().getImage());
+            toolbar.setTitle(BeeGameManager.getInstance().getPlayer().getDisplayName());
         } else {
             llNoGamificationPanel.setVisibility(View.VISIBLE);
             llGamificationPanel.setVisibility(View.GONE);
         }
 
         atvAchPoints = (ApisenseTextView) findViewById(R.id.home_game_points);
-        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + "");
-        atvAchPoints.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(
-                        BeeGameManager.getInstance().getLeaderboard(BeeGameManager.MISSIONS_LEADERBOARD_ID),
-                        MISSION_LEARDBOARD_REQUEST_CODE
-                );
-            }
-        });
+        atvAchPoints.setOnClickListener(this);
 
         atvAchCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
-        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + "");
-        atvAchCounts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(BeeGameManager.getInstance().getAchievementList(), MISSION_ACHIEVEMENTS_REQUEST_CODE);
-            }
-        });
-
-        llGamificationPanel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(
-                        BeeGameManager.getInstance().getLeaderboard(BeeGameManager.MISSIONS_LEADERBOARD_ID),
-                        MISSION_LEARDBOARD_REQUEST_CODE
-                );
-            }
-        });
-
+        atvAchCounts.setOnClickListener(this);
 
         updateUI();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.no_gamification_panel:
+                mHelper.connect();
+                break;
+            case R.id.gamification_panel:
+                Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.home_game_points:
+                startActivityForResult(BeeGameManager.getInstance().getLeaderboard(BeeGameManager.MISSIONS_LEADERBOARD_ID), MISSION_LEARDBOARD_REQUEST_CODE);
+                break;
+            case R.id.home_game_achievements:
+                startActivityForResult(BeeGameManager.getInstance().getAchievementList(), MISSION_ACHIEVEMENTS_REQUEST_CODE);
+                break;
+        }
     }
 
     @Override

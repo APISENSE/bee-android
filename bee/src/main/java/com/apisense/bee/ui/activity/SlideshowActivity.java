@@ -51,7 +51,6 @@ public class SlideshowActivity extends BeeGameActivity {
         setContentView(R.layout.activity_slideshow);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
-        toolbar.setLogo(R.drawable.ic_launcher);
         setSupportActionBar(toolbar);
 
         // Instantiate a ViewPager and a PagerAdapter.

@@ -42,11 +42,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
  */
 public abstract class BaseGameActivity extends ActionBarActivity implements
         GameHelper.GameHelperListener {
-
     // We expose these constants here because we don't want users of this class
     // to have to know about GameHelper at all.
     public static final int CLIENT_GAMES = GameHelper.CLIENT_GAMES;
-    // Requested clients. By default, that's just the games client.
+    // Requested clients. By default, that's just the games client
     protected int mRequestedClients = CLIENT_GAMES;
     public static final int CLIENT_APPSTATE = GameHelper.CLIENT_APPSTATE;
     public static final int CLIENT_PLUS = GameHelper.CLIENT_PLUS;

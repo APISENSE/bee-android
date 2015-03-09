@@ -17,6 +17,9 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.achievement.Achievement;
 import com.google.android.gms.games.achievement.Achievements;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
     private Map<String, GameAchievement> currentAchievements;
     private List<Experiment> currentExperiments;
 
+    private GameHelper gh;
 
     private BeeGameManager() {
         this.currentActivity = null;
@@ -100,9 +104,12 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     @Override
     public void initialize(BaseGameActivity currentActivity) {
+        if (currentActivity == null) {
+            return;
+        }
         this.currentActivity = currentActivity;
 
-        GameHelper gh = new GameHelper(this.currentActivity, GameHelper.CLIENT_GAMES);
+        gh = new GameHelper(this.currentActivity, GameHelper.CLIENT_GAMES + GameHelper.CLIENT_PLUS + GameHelper.CLIENT_SNAPSHOT);
         gh.setup(this.currentActivity);
         gh.enableDebugLog(true);
         gh.setConnectOnStart(false);
@@ -219,6 +226,15 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
             }
         }
         return count;
+    }
+
+    public void connectPlayer() {
+        this.gh.connect();
+    }
+
+    public Person getPlayer() {
+        People.LoadPeopleResult result = Plus.PeopleApi.loadConnected(this.gh.getApiClient()).await();
+        return result.getPersonBuffer().get(0);
     }
 
 }
