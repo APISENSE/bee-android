@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="100dp"
             android:orientation="horizontal">
 
             <Button
@@ -22,7 +22,8 @@
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:background="@drawable/api_grey_button_rounded"
-                android:text="@string/login" />
+                android:text="@string/login"
+                android:textColor="@color/button_material_dark" />
 
             <Button
                 android:id="@+id/btnRegister"
@@ -31,7 +32,8 @@
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_weight="1"
                 android:background="@drawable/api_grey_button_rounded"
-                android:text="@string/register" />
+                android:text="@string/register"
+                android:textColor="@color/button_material_dark" />
         </LinearLayout>
 
         <com.apisense.bee.widget.ApisenseTextView
@@ -51,6 +53,7 @@
 
 
         <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnGoogleSignIn"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
