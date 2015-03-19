@@ -69,12 +69,20 @@
             android:text="@string/slide_connect_join" />
 
         <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/atvAnonymousCo"
+            android:id="@+id/atvAnonymousSignIn"
             style="@style/ApisenseSlideTinyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/slide_connect_anonym" />
+
+        <com.apisense.bee.widget.ApisenseEditText
+            android:id="@+id/aptUrl"
+            style="@style/ApisenseEditText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hive_url"
+            android:visibility="invisible" />
 
     </LinearLayout>
 </FrameLayout>

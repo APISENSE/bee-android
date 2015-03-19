@@ -98,6 +98,16 @@ public class SlideshowActivity extends BeeGameActivity {
         super.onBackPressed();
     }
 
+    @Override
+    public void onSignInSucceeded() {
+        super.onSignInSucceeded();
+    }
+
+    @Override
+    public void onSignInFailed() {
+        super.onSignInFailed();
+    }
+
     /**
      * Slide show adapter used to generate all slides
      */
