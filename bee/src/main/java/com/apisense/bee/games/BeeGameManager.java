@@ -10,16 +10,15 @@ import com.apisense.bee.games.action.subscribe.MissionSuscribeAchievement;
 import com.apisense.bee.games.event.GameEvent;
 import com.apisense.bee.games.event.GameEventListener;
 import com.apisense.bee.games.event.MissionSubscribeEvent;
+import com.apisense.bee.games.event.OnGameDataLoadedEvent;
 import com.apisense.bee.games.event.ShareEvent;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.games.utils.GameHelper;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.achievement.Achievement;
 import com.google.android.gms.games.achievement.Achievements;
-import com.google.android.gms.plus.People;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +34,8 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
     private static BeeGameManager instance;
 
     private BaseGameActivity currentActivity;
+    private List<OnGameDataLoadedListener> gameDataLoadedListeners;
+
     private Map<String, GameAchievement> currentAchievements;
     private List<Experiment> currentExperiments;
 
@@ -44,6 +45,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         this.currentActivity = null;
         this.currentAchievements = new HashMap<>();
         this.currentExperiments = new ArrayList<>();
+        this.gameDataLoadedListeners = new ArrayList<>();
     }
 
     public static BeeGameManager getInstance() {
@@ -53,6 +55,12 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         return instance;
     }
 
+    /**
+     * This method returns the current player points for the Google Play Games account
+     * with all achievements done
+     *
+     * @return long the point amount
+     */
     public long getPlayerPoints() {
         long points = 0;
 
@@ -66,6 +74,12 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         return points;
     }
 
+    /**
+     * This method returns the list of the interested achievements depending on the game event type
+     *
+     * @param event GameEvent the incoming game event
+     * @return List the list of the interested achievements
+     */
     private List<GameAchievement> getGameAchievements(GameEvent event) {
         List<GameAchievement> achievements = new ArrayList<>();
         for (GameAchievement ga : currentAchievements.values()) {
@@ -84,6 +98,20 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     public List<Experiment> getCurrentExperiments() {
         return this.currentExperiments;
+    }
+
+    public boolean addOnGameDataLoadedListener(OnGameDataLoadedListener listener) {
+        return this.gameDataLoadedListeners.add(listener);
+    }
+
+    public boolean removeOnGameDataLoadedListener(OnGameDataLoadedListener listener) {
+        return this.gameDataLoadedListeners.remove(listener);
+    }
+
+    private void notifyGameDataLoadedListeners() {
+        for (OnGameDataLoadedListener listener : gameDataLoadedListeners) {
+            listener.onRefresh(new OnGameDataLoadedEvent());
+        }
     }
 
     @Override
@@ -109,7 +137,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         }
         this.currentActivity = currentActivity;
 
-        gh = new GameHelper(this.currentActivity, GameHelper.CLIENT_GAMES + GameHelper.CLIENT_PLUS + GameHelper.CLIENT_SNAPSHOT);
+        gh = new GameHelper(this.currentActivity, GameHelper.CLIENT_ALL);
         gh.setup(this.currentActivity);
         gh.enableDebugLog(true);
         gh.setConnectOnStart(false);
@@ -126,19 +154,19 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
                 @Override
                 public void onResult(Achievements.LoadAchievementsResult loadAchievementsResult) {
                     currentAchievements.clear();
+
                     for (Achievement achievement : loadAchievementsResult.getAchievements()) {
 
                         // Get the game achievement associated to the gpg achievement
                         GameAchievement gameAchievement = GameAchievementFactory.getGameAchievement(achievement);
                         // Put the achievement on the current list
                         currentAchievements.put(achievement.getAchievementId(), gameAchievement);
-                        //TODO add the leadboard of the achievement in the object for push score
 
                         Log.getInstance().i("BeeGameManager : Achievement=" + achievement.getName() + "&status=" + achievement.getState());
                     }
 
+                    notifyGameDataLoadedListeners();
                     Log.getInstance().i("BeeGameManager : Handle method onResult for refreshPlayerData");
-
                 }
             });
             return true;
@@ -149,7 +177,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     @Override
     public void pushAchievement(GameAchievement gameAchievement) {
-        if (!isLoad())
+        if (!isConnected())
             return;
 
         // Check if the achievement is not already finished
@@ -168,6 +196,9 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
         // Push the score if needed
         this.pushScore(gameAchievement.getLeadboard(), gameAchievement.getScore());
+
+        // Refresh player data
+        this.refreshPlayerData();
     }
 
     @Override
@@ -182,7 +213,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     @Override
     public void pushScore(String leardboardId, int score) {
-        if (!isLoad()) {
+        if (!isConnected()) {
             return;
         }
 
@@ -203,9 +234,17 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
     }
 
     @Override
+    public boolean isConnected() {
+        return this.getGoogleApiClient().isConnected();
+
+    }
+
     public boolean isLoad() {
         return this.currentAchievements.size() > 0;
+    }
 
+    public GoogleApiClient getGoogleApiClient() {
+        return this.gh.getApiClient();
     }
 
     public int getAchievementUnlockCount() {
@@ -218,23 +257,8 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         return count;
     }
 
-    public int getAchievementLockCount() {
-        int count = 0;
-        for (GameAchievement achievement : currentAchievements.values()) {
-            if (!achievement.isFinished()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     public void connectPlayer() {
         this.gh.connect();
-    }
-
-    public Person getPlayer() {
-        People.LoadPeopleResult result = Plus.PeopleApi.loadConnected(this.gh.getApiClient()).await();
-        return result.getPersonBuffer().get(0);
     }
 
 }

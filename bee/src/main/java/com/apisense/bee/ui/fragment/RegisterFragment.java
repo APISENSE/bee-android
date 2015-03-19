@@ -26,7 +26,6 @@ public class RegisterFragment extends Fragment {
     /**
      * The default email to populate the email field with.
      */
-    public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
     private final String TAG = "Register fragment";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -137,27 +136,27 @@ public class RegisterFragment extends Fragment {
             // form field with an error.
             focusView.requestFocus();
         else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            mRegisterTask = new RegisterTask(APISENSE.apisense(), new AsyncTasksCallbacks() {
-                @Override
-                public void onTaskCompleted(int result, Object response) {
-                    Log.i(TAG, "Register result: " + result);
-                    Log.i(TAG, "Register details: " + response);
-                    if ((Integer) result == BeeApplication.ASYNC_SUCCESS) {
-                        Intent intent = new Intent(getActivity(), HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                }
+            mRegisterTask = new RegisterTask(APISENSE.apisense(), new OnUserRegisteredCallback());
+            mRegisterTask.execute(mPseudo, mPassword, mApisenseUrl);
+        }
+    }
 
-                @Override
-                public void onTaskCanceled() {
+    private class OnUserRegisteredCallback implements AsyncTasksCallbacks {
+        @Override
+        public void onTaskCompleted(int result, Object response) {
+            Log.i(TAG, "Register result: " + result);
+            Log.i(TAG, "Register details: " + response);
+            if (result == BeeApplication.ASYNC_SUCCESS) {
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        }
 
-                }
-            });
+        public void onTaskCanceled() {
 
             mRegisterTask.execute(mPseudo, mPassword, mApisenseUrl);
         }
+
     }
 }

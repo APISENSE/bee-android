@@ -1,7 +1,7 @@
 package com.apisense.bee.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.IntentCompat;
@@ -19,12 +19,18 @@ import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.activity.SlideshowActivity;
+import com.apisense.bee.widget.ApisenseEditText;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.gc.materialdesign.widgets.SnackBar;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
+import java.util.UUID;
+
 import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.service.BeeSenseServiceManager;
 
 /**
  * Created by Warnant on 05-03-15.
@@ -38,12 +44,18 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
      */
     private RegisterTask mRegisterTask = null;
 
-    private ApisenseTextView atvAnonymousCo;
+    private ApisenseTextView atvAnonymousSignIn;
+    private ApisenseEditText aptUrl;
+
     private Button btnRegister;
     private Button btnLogin;
 
     private SignInButton btnGoogleSignIn;
     private Button btnFacebookSignIn;
+
+    private String username;
+    private String password;
+    private String apisenseUrl;
 
     /**
      * Default constructor
@@ -62,14 +74,17 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
         this.btnRegister = (Button) root.findViewById(R.id.btnRegister);
         this.btnRegister.setOnClickListener(this);
 
-        this.atvAnonymousCo = (ApisenseTextView) root.findViewById(R.id.atvAnonymousCo);
-        this.atvAnonymousCo.setOnClickListener(this);
+        this.atvAnonymousSignIn = (ApisenseTextView) root.findViewById(R.id.atvAnonymousSignIn);
+        this.atvAnonymousSignIn.setOnClickListener(this);
 
         this.btnGoogleSignIn = (SignInButton) root.findViewById(R.id.btnGoogleSignIn);
         this.btnGoogleSignIn.setOnClickListener(this);
 
         this.btnFacebookSignIn = (Button) root.findViewById(R.id.btnFacebookSignIn);
         this.btnFacebookSignIn.setOnClickListener(this);
+
+        this.aptUrl = (ApisenseEditText) root.findViewById(R.id.aptUrl);
+        this.apisenseUrl = this.aptUrl.getText().toString();
 
         // Inflate the layout for this fragment
         return root;
@@ -88,9 +103,8 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
                 slideIntentRegister.putExtra("goTo", "register");
                 startActivity(slideIntentRegister);
                 break;
-            case R.id.atvAnonymousCo:
-                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(homeIntent);
+            case R.id.atvAnonymousSignIn:
+                performAnonymousRegistration();
                 break;
             case R.id.btnGoogleSignIn:
                 performGoogleRegistration();
@@ -98,56 +112,96 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
             case R.id.btnFacebookSignIn:
                 // TODO
                 new SnackBar(getActivity(), getResources().getString(R.string.failed_to_connect), null, null).show();
-            default:
-                return;
         }
+    }
+
+    private void performAnonymousRegistration() {
+        this.username = "anonymous-" + UUID.randomUUID().toString();
+        this.password = username;
+        mRegisterTask = new RegisterTask(APISENSE.apisense(), new OnUserRegisteredCallback());
+        mRegisterTask.execute(username, password, apisenseUrl);
+
     }
 
     private void performGoogleRegistration() {
         if (mRegisterTask != null)
             return;
 
-        BeeGameManager.getInstance().initialize((BeeGameActivity) this.getActivity());
+        BeeGameManager.getInstance().initialize((BeeGameActivity) getActivity());
         BeeGameManager.getInstance().connectPlayer();
 
+        mRegisterTask = new GoogleRegisterTask(APISENSE.apisense(), new OnUserRegisteredCallback());
+        mRegisterTask.execute("");
 
-        mRegisterTask = new RegisterTask(APISENSE.apisense(), new AsyncTasksCallbacks() {
-            @Override
-            public void onTaskCompleted(int result, Object response) {
-                Log.i(TAG, "Register result: " + result);
-                Log.i(TAG, "Register details: " + response);
-                if ((Integer) result == BeeApplication.ASYNC_SUCCESS) {
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onTaskCanceled() {
-
-            }
-        });
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(final Void... params) {
-                Person currentPlayer = BeeGameManager.getInstance().getPlayer();
-
-                Log.i(TAG, "Google register result: " + currentPlayer);
-
-                if (currentPlayer == null) {
-
-                    new SnackBar(getActivity(), getResources().getString(R.string.failed_to_connect), null, null).show();
-                    return null;
-                }
-
-                mRegisterTask.execute(currentPlayer.getDisplayName(), currentPlayer.getDisplayName(), getString(R.string.hive_url));
-
-                return null;
-            }
-
-
-        }.execute();
     }
+
+    private class OnUserRegisteredCallback implements AsyncTasksCallbacks {
+        @Override
+        public void onTaskCompleted(int result, Object response) {
+            Log.i(TAG, "Register result: " + result);
+            Log.i(TAG, "Register details: " + response);
+            if (result == BeeApplication.ASYNC_SUCCESS) {
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        }
+
+        public void onTaskCanceled() {
+            fr.inria.asl.utils.Log.getInstance().i("BeeGoogle", "Task canceled");
+
+            mRegisterTask.execute(username, password, apisenseUrl);
+        }
+    }
+
+    private class GoogleRegisterTask extends RegisterTask {
+
+        private ProgressDialog dialog;
+
+        public GoogleRegisterTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener) {
+            super(apiServices, listener);
+
+            this.dialog = new ProgressDialog(getActivity());
+            this.dialog.setMessage("Connexion");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.show();
+                }
+            });
+
+            People.LoadPeopleResult result = Plus.PeopleApi.loadConnected(BeeGameManager.getInstance().getGoogleApiClient()).await();
+            Person currentPlayer = result.getPersonBuffer().get(0);
+
+            fr.inria.asl.utils.Log.getInstance().i("BeeGoogle", "Person : " + currentPlayer);
+
+            if (currentPlayer == null) {
+                fr.inria.asl.utils.Log.getInstance().i("BeeGoogle", "Person failed");
+
+                cancel(false);
+                return "";
+            }
+
+            return super.doInBackground(currentPlayer.getNickname(), currentPlayer.getNickname(), apisenseUrl);
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            this.dialog.dismiss();
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            this.dialog.dismiss();
+        }
+    }
+
+
 }

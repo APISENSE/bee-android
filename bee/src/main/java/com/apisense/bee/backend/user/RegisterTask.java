@@ -14,8 +14,8 @@ import fr.inria.bsense.service.BeeSenseServiceManager;
  * Represents an asynchronous registration task used to create a new user.
  */
 public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
+    protected final BSenseServerService servService;
     private final String TAG = this.getClass().getSimpleName();
-    private final BSenseServerService servService;
 
     public RegisterTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener) {
         super(listener);

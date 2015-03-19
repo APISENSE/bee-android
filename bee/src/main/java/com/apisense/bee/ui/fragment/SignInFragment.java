@@ -1,7 +1,9 @@
 package com.apisense.bee.ui.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
@@ -117,6 +119,13 @@ public class SignInFragment extends Fragment {
                     Log.i(TAG, "Connection details: " + response);
                     if ((Integer) result == BeeApplication.ASYNC_SUCCESS) {
                         mSignInBtn.setText(getString(R.string.logout));
+
+                        // Set username name after sign in
+                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString("username", mPseudoEditText.getText().toString());
+                        editor.apply();
+
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
