@@ -1,14 +1,11 @@
-package com.apisense.bee.ui.fragment;
+package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,11 +14,11 @@ import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.user.RegisterTask;
-import com.apisense.bee.ui.activity.HomeActivity;
+import com.apisense.bee.games.BeeGameActivity;
 
 import fr.inria.bsense.APISENSE;
 
-public class RegisterFragment extends Fragment {
+public class RegisterActivity extends BeeGameActivity {
 
     /**
      * The default email to populate the email field with.
@@ -47,23 +44,21 @@ public class RegisterFragment extends Fragment {
     private Button mRegisterButton;
 
 
-    public RegisterFragment() {
+    public RegisterActivity() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.fragment_register, container, false);
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
         // Get all views
-        mPseudoEditText = (EditText) root.findViewById(R.id.registerPseudo);
-        mPasswordEditText = (EditText) root.findViewById(R.id.registerPassword);
-        mPasswordConfirmEditText = (EditText) root.findViewById(R.id.registerPasswordConfirm);
-        mApisenseHiveLabel = (TextView) root.findViewById(R.id.apisenseHive);
-        mApisenseUrlEditText = (EditText) root.findViewById(R.id.apisenseEditText);
-        mRegisterButton = (Button) root.findViewById(R.id.registerBtn);
+        mPseudoEditText = (EditText) findViewById(R.id.registerPseudo);
+        mPasswordEditText = (EditText) findViewById(R.id.registerPassword);
+        mPasswordConfirmEditText = (EditText) findViewById(R.id.registerPasswordConfirm);
+        mApisenseHiveLabel = (TextView) findViewById(R.id.apisenseHive);
+        mApisenseUrlEditText = (EditText) findViewById(R.id.apisenseEditText);
+        mRegisterButton = (Button) findViewById(R.id.registerBtn);
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,9 +80,6 @@ public class RegisterFragment extends Fragment {
                 return false;
             }
         });
-
-        // Inflate the layout for this fragment
-        return root;
     }
 
     /**
@@ -147,7 +139,7 @@ public class RegisterFragment extends Fragment {
             Log.i(TAG, "Register result: " + result);
             Log.i(TAG, "Register details: " + response);
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }

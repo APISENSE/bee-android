@@ -42,6 +42,8 @@
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
     <string name="passwordConfirm">Confirmez mot de passe</string>
+    <string name="registration_not_implemented">Ce type d\'inscription n\'est pas encore disponible.</string>
+
 
     <!-- Label form -->
     <string name="hive_url">http://beta.apisense.io/hive</string>
@@ -51,7 +53,22 @@
     <string name="slide_what">APISENSE rend la collecte massive de données facile grace aux capteurs des téléphones portables.
         Ouvrez votre esprit et rejoingnez le top de la collecte en temps réel !</string>
     <string name="slide_how">Partagez vos données et aidez la science à progresser !</string>
-    <string name="slide_reward">Plus vous partagez, plus vous êtes récompensé ! Echangez des points contre des lots réels !</string>
+    <string name="slide_reward_title">Obtenez des récompenses en partageant des données</string>
+    <string name="slide_reward_desc">Aidez des entreprises, chercheurs ou votre ville à développer de meilleurs produits, services ou recherches en partageant des données</string>
+    <string name="slide_connect_join">
+                <![CDATA[
+                <p>
+                    En vous vous inscrivant, vous acceptez les <a href="http://www.apisense.com/terms/bee">termes d\'utilisation</a> et
+                    <a href="http://www.apisense.com/privacy/bee">conditions générales</a>.
+                </p>
+        	    ]]>
+    </string>
+    <string name="slide_connect_anonym">
+        <![CDATA[
+            Enregistrez vous <u>comme anonyme</u> sans aucune récompense.
+        ]]>
+        </string>
+    <string name="slide_connect_continue">OU CONTINUEZ AVEC</string>
 
     <!-- Experiments -->
     <string name="experiment_activity_7_days">Activité des 7 derniers jours</string>
