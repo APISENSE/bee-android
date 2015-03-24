@@ -13,9 +13,7 @@ import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.fragment.ConnectivityFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
-import com.apisense.bee.ui.fragment.RegisterFragment;
 import com.apisense.bee.ui.fragment.RewardFragment;
-import com.apisense.bee.ui.fragment.SignInFragment;
 import com.apisense.bee.ui.fragment.WhatFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -29,7 +27,7 @@ public class SlideshowActivity extends BeeGameActivity {
      * The number of pages (wizard steps) to show
      * Be careful if you are adding some slides, button listeners may not match
      */
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 3;
 
     /* Page order */
     private final static int REWARD = 0;
@@ -57,21 +55,7 @@ public class SlideshowActivity extends BeeGameActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
-        // Check if we are coming from Anonymous HomeActivity
-        try {
-            Intent intent = getIntent(); // gets the previously created intent
-            String destination = intent.getStringExtra("goTo");
-            if (destination.equals("register")) {
-                mPager.setCurrentItem(REGISTER); // Coming from an other activity
-            } else if (destination.equals("signin")) {
-                mPager.setCurrentItem(SIGNIN); // Coming from an other activity
-            } else {
-                mPager.setCurrentItem(WHAT); // Default
-            }
-        } catch (NullPointerException e) {
-            mPager.setCurrentItem(WHAT); // Launching the app
-        }
+        mPager.setCurrentItem(WHAT); // Launching the app
 
         //Bind the title indicator to the adapter
         CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.indicator);
@@ -123,10 +107,6 @@ public class SlideshowActivity extends BeeGameActivity {
                     return new WhatFragment();
                 case REWARD:
                     return new RewardFragment();
-                case SIGNIN:
-                    return new SignInFragment();
-                case REGISTER:
-                    return new RegisterFragment();
                 case CONNECTIVITY:
                     return new ConnectivityFragment();
                 default:

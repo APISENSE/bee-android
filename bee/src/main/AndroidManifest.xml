@@ -104,7 +104,17 @@
         <activity
             android:name="com.apisense.bee.ui.activity.RewardActivity"
             android:label="@string/title_activity_about"
-            android:parentActivityName="com.apisense.bee.ui.activity.RewardActivity"></activity>
+            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity"></activity>
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.SignInActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName="com.apisense.bee.ui.activity.SlideshowActivity"></activity>
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.RegisterActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName="com.apisense.bee.ui.activity.SlideshowActivity"></activity>
     </application>
 
 </manifest>

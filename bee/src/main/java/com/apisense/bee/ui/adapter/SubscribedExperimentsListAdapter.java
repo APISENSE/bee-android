@@ -2,7 +2,6 @@ package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,11 +104,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" " + getContext().getString(R.string.by) + " " + item.organization);
-
-        TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        String decode = new String(Base64.decode(item.description.getBytes(), Base64.DEFAULT));
-        description.setText(decode);
+        company.setText(item.organization);
 
         ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
         if (item.state) {
@@ -117,12 +112,6 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         } else {
             ivExp.setBackgroundResource(R.drawable.icon_mission_break);
         }
-        /*
-        TextView textStatus = (TextView) convertView.findViewById(R.id.experimentelement_status);
-        String state = (item.state) ? getContext().getString(R.string.running) : getContext().getString(R.string.not_running);
-        textStatus.setText(" - " + state);
-        */
-
 
 //        convertView.setOnClickListener(new View.OnClickListener() {
 //            @Override

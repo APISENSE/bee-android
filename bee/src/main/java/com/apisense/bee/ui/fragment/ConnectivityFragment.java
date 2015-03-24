@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.IntentCompat;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,8 @@ import com.apisense.bee.backend.user.RegisterTask;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.ui.activity.HomeActivity;
-import com.apisense.bee.ui.activity.SlideshowActivity;
+import com.apisense.bee.ui.activity.RegisterActivity;
+import com.apisense.bee.ui.activity.SignInActivity;
 import com.apisense.bee.widget.ApisenseEditText;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.gc.materialdesign.widgets.SnackBar;
@@ -46,6 +48,7 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
 
     private ApisenseTextView atvAnonymousSignIn;
     private ApisenseEditText aptUrl;
+    private ApisenseTextView atvTermsPrivacy;
 
     private Button btnRegister;
     private Button btnLogin;
@@ -75,6 +78,7 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
         this.btnRegister.setOnClickListener(this);
 
         this.atvAnonymousSignIn = (ApisenseTextView) root.findViewById(R.id.atvAnonymousSignIn);
+        this.atvAnonymousSignIn.setText(Html.fromHtml(getString(R.string.slide_connect_anonym)));
         this.atvAnonymousSignIn.setOnClickListener(this);
 
         this.btnGoogleSignIn = (SignInButton) root.findViewById(R.id.btnGoogleSignIn);
@@ -84,6 +88,9 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
         this.btnFacebookSignIn.setOnClickListener(this);
 
         this.aptUrl = (ApisenseEditText) root.findViewById(R.id.aptUrl);
+        this.atvTermsPrivacy = (ApisenseTextView) root.findViewById(R.id.atvTermsPrivacy);
+        this.atvTermsPrivacy.setText(Html.fromHtml(getString(R.string.slide_connect_join)));
+
         this.apisenseUrl = this.aptUrl.getText().toString();
 
         // Inflate the layout for this fragment
@@ -94,24 +101,23 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnLogin:
-                Intent slideIntentLogin = new Intent(getActivity(), SlideshowActivity.class);
-                slideIntentLogin.putExtra("goTo", "signin");
-                startActivity(slideIntentLogin);
+                Intent signInIntent = new Intent(getActivity(), SignInActivity.class);
+                startActivity(signInIntent);
                 break;
             case R.id.btnRegister:
-                Intent slideIntentRegister = new Intent(getActivity(), SlideshowActivity.class);
-                slideIntentRegister.putExtra("goTo", "register");
-                startActivity(slideIntentRegister);
+                Intent registerIntent = new Intent(getActivity(), RegisterActivity.class);
+                startActivity(registerIntent);
                 break;
             case R.id.atvAnonymousSignIn:
                 performAnonymousRegistration();
                 break;
             case R.id.btnGoogleSignIn:
-                performGoogleRegistration();
+                //TODO performGoogleRegistration();
+                new SnackBar(getActivity(), getResources().getString(R.string.registration_not_implemented), null, null).show();
                 break;
             case R.id.btnFacebookSignIn:
                 // TODO
-                new SnackBar(getActivity(), getResources().getString(R.string.failed_to_connect), null, null).show();
+                new SnackBar(getActivity(), getResources().getString(R.string.registration_not_implemented), null, null).show();
         }
     }
 

@@ -49,6 +49,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="passwordConfirm">Confirm password</string>
+    <string name="registration_not_implemented">This kind of registration is not enabled yet.</string>
 
     <!-- Label form -->
     <string name="hive_label" translatable="false">Hive URL</string>
@@ -60,8 +61,19 @@
     <string name="slide_how">Share your data with us to get a better World :O</string>
     <string name="slide_reward_title">Get reward by sharing data</string>
     <string name="slide_reward_desc">Help compagnies, cities or researches to make better products, services or research by sharing data</string>
-    <string name="slide_connect_join">By joining you agree to the Terms and Privacy.</string>
-    <string name="slide_connect_anonym">Enter as Anonymous without any rewards.</string>
+    <string name="slide_connect_join">
+        <![CDATA[
+                <p>
+                    By joining, you accept the <a href="http://www.apisense.com/terms/bee">Terms</a> and
+                    <a href="http://www.apisense.com/privacy/bee">Privacy</a>.
+                </p>
+        	    ]]>
+    </string>
+    <string name="slide_connect_anonym">
+                <![CDATA[
+                    Enter as <u>Anonymous</u> without any rewards.
+                ]]>
+        </string>
     <string name="slide_connect_continue">OR CONTINUE WITH</string>
 
     <!-- Experiments -->

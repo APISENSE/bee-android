@@ -7,30 +7,32 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:orientation="horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <Button
                 android:id="@+id/btnLogin"
-                android:layout_width="fill_parent"
+                android:layout_width="128dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
                 android:background="@drawable/api_grey_button_rounded"
                 android:text="@string/login"
                 android:textColor="@color/button_material_dark" />
 
             <Button
                 android:id="@+id/btnRegister"
-                android:layout_width="fill_parent"
+                android:layout_width="125dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
+                android:layout_weight="0.10"
                 android:background="@drawable/api_grey_button_rounded"
                 android:text="@string/register"
                 android:textColor="@color/button_material_dark" />
@@ -42,11 +44,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:gravity="center"
-            android:text="@string/slide_connect_continue" />
+            android:text="@string/slide_connect_continue"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnFacebookSignIn"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/fb_button" />
@@ -54,35 +57,43 @@
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btnGoogleSignIn"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/activity_horizontal_margin" />
 
-
-        <com.apisense.bee.widget.ApisenseTextView
-            style="@style/ApisenseSlideTinyText"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:gravity="center"
-            android:text="@string/slide_connect_join" />
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
 
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/atvAnonymousSignIn"
-            style="@style/ApisenseSlideTinyText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/slide_connect_anonym" />
+        </LinearLayout>
 
         <com.apisense.bee.widget.ApisenseEditText
             android:id="@+id/aptUrl"
-            style="@style/ApisenseEditText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/hive_url"
             android:visibility="invisible" />
+
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/atvAnonymousSignIn"
+            style="@style/ApisenseSlideText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:text="@string/slide_connect_anonym" />
+
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/atvTermsPrivacy"
+            style="@style/ApisenseSlideText"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+
+            android:gravity="center"
+            android:text="@string/slide_connect_join" />
 
     </LinearLayout>
 </FrameLayout>
