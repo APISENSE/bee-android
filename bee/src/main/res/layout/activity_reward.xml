@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
+    android:background="@color/background_material_light"
     tools:context="com.apisense.bee.ui.activity.RewardActivity">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,102 +37,128 @@
         android:orientation="vertical">
 
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <!--<LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardCornerRadius="4dp">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/reward_game_points"
+                style="@style/ApisenseHugeGameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/game_padding"
+                android:layout_marginRight="@dimen/game_padding"
+                android:text="0" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/big_money_grey" />
 
                 <com.apisense.bee.widget.ApisenseTextView
-                    android:id="@+id/reward_game_points"
-                    style="@style/ApisenseBigGameText"
+                    style="@style/ApisenseSlideTextBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/game_padding"
-                    android:layout_marginRight="@dimen/game_padding"
-                    android:text="0" />
 
+                    android:text="@string/reward_dollars" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        </LinearLayout>-->
+
+
+        <LinearLayout
+            android:id="@+id/reward_game_badge_panel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardCornerRadius="4dp">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+
+            <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/reward_game_achievements"
+                style="@style/ApisenseHugeGameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/game_padding"
+                android:layout_marginRight="@dimen/game_padding"
+                android:text="0" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/big_badge_grey" />
 
                 <com.apisense.bee.widget.ApisenseTextView
-                    android:id="@+id/reward_game_achievements"
-                    style="@style/ApisenseBigGameText"
+                    style="@style/ApisenseSlideTextBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/game_padding"
-                    android:layout_marginRight="@dimen/game_padding"
-                    android:text="0" />
 
+                    android:text="@string/reward_badges" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        </LinearLayout>
+
+
+        <!--<LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            card_view:cardCornerRadius="4dp">
+            android:gravity="center_horizontal"
+
+            android:orientation="horizontal">
+
+            <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/reward_game_thanks"
+                style="@style/ApisenseHugeGameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/game_padding"
+                android:layout_marginRight="@dimen/game_padding"
+                android:text="0" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-
-                android:orientation="horizontal">
-
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/big_thanks_grey" />
 
                 <com.apisense.bee.widget.ApisenseTextView
-                    android:id="@+id/reward_game_thanks"
-                    style="@style/ApisenseBigGameText"
+                    style="@style/ApisenseSlideTextBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/game_padding"
-                    android:layout_marginRight="@dimen/game_padding"
-                    android:text="0" />
 
-
+                    android:text="@string/reward_thanks" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+
+        </LinearLayout>-->
 
 
     </LinearLayout>
+
 
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/smallAddButton"
@@ -147,4 +173,17 @@
         android:textColor="@color/black"
         materialdesign:animate="true"
         materialdesign:iconDrawable="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <com.apisense.bee.widget.ApisenseTextView
+        android:id="@+id/reward_monthly_button"
+        style="@style/ApisenseSlideTextBold"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/smallAddButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/smallAddButton"
+        android:layout_marginLeft="15dp"
+        android:text="@string/reward_monthly" />
+
 </RelativeLayout>

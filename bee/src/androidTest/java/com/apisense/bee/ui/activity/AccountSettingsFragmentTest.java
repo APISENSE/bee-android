@@ -1,15 +1,16 @@
 package com.apisense.bee.ui.activity;
 
 import android.test.ActivityInstrumentationTestCase2;
-import com.robotium.solo.Solo;
-import junit.framework.TestCase;
 
-public class SettingsActivityTest extends ActivityInstrumentationTestCase2<SettingsActivity> {
+import com.apisense.bee.ui.fragment.AccountSettingsFragment;
+import com.robotium.solo.Solo;
+
+public class AccountSettingsFragmentTest extends ActivityInstrumentationTestCase2<AccountSettingsFragment> {
 
     private Solo activity;
 
-    public SettingsActivityTest() {
-        super(SettingsActivity.class);
+    public AccountSettingsFragmentTest() {
+        super(AccountSettingsFragment.class);
     }
 
     public void setUp() {
@@ -17,7 +18,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
     }
 
     @Override
-    public void tearDown()  {
+    public void tearDown() {
         activity.finishOpenedActivities();
     }
 

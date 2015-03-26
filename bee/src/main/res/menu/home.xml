@@ -17,14 +17,11 @@
     <group
         android:id="@+id/groupSettings"
         android:icon="@drawable/ic_action_overflow">
-    <item
+        <item
             android:id="@+id/action_settings"
             android:title="@string/action_settings" />
         <item
             android:id="@+id/action_about"
             android:title="@string/action_about" />
-        <item
-            android:id="@+id/connectOrDisconnect"
-            android:title="@string/settings_action_logout" />
     </group>
 </menu>

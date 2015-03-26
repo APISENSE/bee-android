@@ -12,9 +12,9 @@
     android:shape="rectangle" >
 
     <size
-        android:height="2dp"
-        android:width="1000dp" />
+        android:width="1000dp"
+        android:height="2dp" />
 
-    <solid android:color="@color/red" />
+    <solid android:color="@color/material_deep_teal_500" />
 
 </shape>

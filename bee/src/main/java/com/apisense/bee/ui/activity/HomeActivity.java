@@ -36,9 +36,6 @@ import fr.inria.bsense.appmodel.Experiment;
 
 
 public class HomeActivity extends BeeGameActivity implements View.OnClickListener {
-    private static final int MISSION_LEARDBOARD_REQUEST_CODE = 1;
-    private static final int MISSION_ACHIEVEMENTS_REQUEST_CODE = 2;
-
     private final String TAG = getClass().getSimpleName();
     // Data
     protected SubscribedExperimentsListAdapter experimentsAdapter;
@@ -80,8 +77,8 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         llNoGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
         llNoGamificationPanel.setOnClickListener(this);
 
-        atvAchPoints = (ApisenseTextView) findViewById(R.id.home_game_points);
-        atvAchPoints.setOnClickListener(this);
+        //atvAchPoints = (ApisenseTextView) findViewById(R.id.home_game_points);
+        //atvAchPoints.setOnClickListener(this);
 
         atvAchCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
         atvAchCounts.setOnClickListener(this);
@@ -112,7 +109,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
             llGamificationPanel.setVisibility(View.GONE);
         }
         // Refresh gamification text views after the refresh of game data
-        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + "");
+//        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + "");
         atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + "");
     }
 
@@ -132,12 +129,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
                 Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
                 startActivity(intent);
                 finish();
-                break;
-            case R.id.home_game_points:
-                startActivityForResult(BeeGameManager.getInstance().getLeaderboard(BeeGameManager.MISSIONS_LEADERBOARD_ID), MISSION_LEARDBOARD_REQUEST_CODE);
-                break;
-            case R.id.home_game_achievements:
-                startActivityForResult(BeeGameManager.getInstance().getAchievementList(), MISSION_ACHIEVEMENTS_REQUEST_CODE);
                 break;
         }
     }
@@ -159,9 +150,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.connectOrDisconnect:
-                doDisconnect();
-                break;
             case R.id.action_about:
                 doLaunchAbout();
                 break;
@@ -230,14 +218,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     public void doLaunchPrivacy() {
         Intent privacyIntent = new Intent(this, PrivacyActivity.class);
         startActivity(privacyIntent);
-    }
-
-    /**
-     * Click event for disconnect
-     */
-    private void doDisconnect() {
-        signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
-        signOut.execute();
     }
 
     private void doLaunchAbout() {

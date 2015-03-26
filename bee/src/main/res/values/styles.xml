@@ -26,6 +26,11 @@
         <item name="android:typeface">sans</item>
     </style>
 
+    <style name="ApisenseSlideTextBold" parent="android:Widget.TextView">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="ApisenseSlideTinyText" parent="android:Widget.TextView">
         <item name="android:textSize">12sp</item>
         <item name="android:typeface">sans</item>
@@ -58,6 +63,12 @@
     <style name="ApisenseBigGameText" parent="android:Widget.TextView">
         <item name="android:typeface">monospace</item>
         <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ApisenseHugeGameText" parent="android:Widget.TextView">
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">90sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -97,7 +108,7 @@
         <item name="android:paddingLeft">4dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">@color/material_deep_teal_500</item>
         <item name="android:textStyle">bold</item>
     </style>
 

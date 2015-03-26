@@ -16,6 +16,7 @@
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_about">A propos</string>
+    <string name="action_share">Partager</string>
     <string name="action_privacy">Intimité</string>
     <string name="by">par</string>
     <string name="search_hint">Nom de l\'expérience</string>
@@ -65,7 +66,9 @@
     </string>
     <string name="slide_connect_anonym">
         <![CDATA[
+            <p>
             Enregistrez vous <u>comme anonyme</u> sans aucune récompense.
+            </p>
         ]]>
         </string>
     <string name="slide_connect_continue">OU CONTINUEZ AVEC</string>
@@ -95,6 +98,7 @@
     <string name="settings_btn_update">Vérifier les mises à jour</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">A propos</string>
+
     <string name="settings_about_content">
         <![CDATA[
 	    	<p>
@@ -110,7 +114,14 @@
     <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
     <string name="action_subscribe">S\'inscrire</string>
     <string name="action_unsubscribe">Se désinscrire</string>
-    <string name="no_available_experiments">Aucune expérience trouvé !</string>
+    <string name="no_available_experiments">Aucune expérience trouvée !</string>
+
+    <!-- Rewards -->
+    <string name="reward_dollars">DOLLARS</string>
+    <string name="reward_badges">BADGES</string>
+    <string name="reward_thanks">THANKS</string>
+    <string name="reward_monthly">REWARDS THIS MONTH</string>
+
 
     <!-- About -->
     <string name="about_content">

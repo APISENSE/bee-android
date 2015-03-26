@@ -1,113 +1,91 @@
 package com.apisense.bee.ui.activity;
 
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.user.SignOutTask;
+import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.ui.fragment.AccountSettingsFragment;
+import com.apisense.bee.ui.fragment.GeneralSettingsFragment;
+import com.apisense.bee.ui.fragment.NotFoundFragment;
+import com.viewpagerindicator.CirclePageIndicator;
 
-import fr.inria.bsense.APISENSE;
+/**
+ * Created by Warnant on 26-03-15.
+ */
+public class SettingsActivity extends BeeGameActivity {
 
-public class SettingsActivity extends FragmentActivity {
 
-    private final String TAG = "SettingsActivity";
-    TextView aboutView, versionView;
-    // Asynchronous Tasks
-    private SignOutTask signOut;
     /**
-     * Click event for disconnect
+     * The number of pages (wizard steps) to show
+     * Be careful if you are adding some slides, button listeners may not match
      */
-    private final View.OnClickListener disconnectEvent = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (signOut == null) {
-                signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
-                signOut.execute();
-            }
-        }
+    private static final int NUM_PAGES = 2;
 
-        ;
-    };
-    private Button mLogoutButton;
-    private Button mRegisterButton;
+    /* Page order */
+    private final static int ACCOUNT = 0;
+    private final static int GENERAL = 1;
+    private ViewPager mPager;
+
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private PagerAdapter mPagerAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        versionView = (TextView) findViewById(R.id.settings_version);
-        aboutView = (TextView) findViewById(R.id.settings_about_content);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        setSupportActionBar(toolbar);
 
-        if (versionView != null)
-            versionView.setText(getAppInfo().versionName);
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new SettingsPagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(ACCOUNT);
 
-        if (aboutView != null) {
-            aboutView.setText(Html.fromHtml(getString(R.string.settings_about_content)));
-            aboutView.setMovementMethod(LinkMovementMethod.getInstance());
-        }
+        //Bind the title indicator to the adapter
+        CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(mPager);
 
-        mLogoutButton = (Button) findViewById(R.id.settings_logout);
-        mRegisterButton = (Button) findViewById(R.id.settings_register);
-
-        mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
-
-        if (!isUserAuthenticated()) {
-            mLogoutButton.setVisibility(View.GONE);
-            mRegisterButton.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void goToRegister(View v) {
-        Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo", "register");
-        startActivity(slideIntent);
-        finish();
     }
 
     /**
-     * Helper to get the app version info
-     *
-     * @return a PackageInfo object
+     * Slide show adapter used to generate all slides
      */
-    private PackageInfo getAppInfo() {
-        PackageManager manager = getPackageManager();
-        try {
-            return manager.getPackageInfo(getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private boolean isUserAuthenticated() {
-        return APISENSE.apisServerService().isConnected();
-    }
-
-    public class SignedOutCallback implements AsyncTasksCallbacks {
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            signOut = null;
-            Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SettingsActivity.this, SlideshowActivity.class);
-            startActivity(intent);
-            finish();
+    private class SettingsPagerAdapter extends FragmentPagerAdapter {
+        public SettingsPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
         @Override
-        public void onTaskCanceled() {
-            signOut = null;
+        public Fragment getItem(int position) {
+            switch (position) {
+                case ACCOUNT:
+                    return new AccountSettingsFragment();
+                case GENERAL:
+                    return new GeneralSettingsFragment();
+                default:
+                    return new NotFoundFragment();
+            }
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "test";
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
         }
     }
-
 }
