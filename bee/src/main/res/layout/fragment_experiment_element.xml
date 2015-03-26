@@ -33,7 +33,7 @@
             android:layout_alignTop="@+id/thumbnail"
             android:layout_toEndOf="@id/thumbnail"
             android:layout_toRightOf="@id/thumbnail"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <!-- Experiment title-->
             <com.apisense.bee.widget.ApisenseTextView
@@ -41,13 +41,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <!-- Company -->
+            <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/experimentelement_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+
+                android:background="@color/light_grey" />
+
         </LinearLayout>
 
-        <!-- Company -->
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/experimentelement_company"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 </RelativeLayout>

@@ -3,7 +3,6 @@ package com.apisense.bee.ui.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,11 +99,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" by " + item.organization);
-
-        TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        String decode = new String(Base64.decode(item.description.getBytes(), Base64.DEFAULT));
-        description.setText(decode);
+        company.setText(item.organization);
 
         // Contains a background color associated to current status
         View status = convertView.findViewById(R.id.item);

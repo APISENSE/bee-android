@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_padding"
+            android:paddingLeft="@dimen/activity_padding"
+            android:paddingRight="@dimen/activity_padding">
+
+            <TextView
+                android:id="@+id/settings_section_account"
+                style="@style/sectionHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_section_account"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <Button
+                android:id="@+id/settings_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/api_green_button_material"
+                android:text="@string/settings_action_logout"
+                android:textColor="@color/abc_primary_text_material_dark" />
+
+            <Button
+                android:id="@+id/settings_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="goToRegister"
+                android:text="@string/settings_action_register"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

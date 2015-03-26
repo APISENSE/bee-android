@@ -1,7 +1,7 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -18,7 +18,7 @@ import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
 
-public class PrivacyActivity extends Activity {
+public class PrivacyActivity extends ActionBarActivity {
 
     private final String TAG = this.getClass().getSimpleName();
     private final List<PrivacyGridItem> sensor = new ArrayList<PrivacyGridItem>();

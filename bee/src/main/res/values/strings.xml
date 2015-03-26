@@ -63,15 +63,17 @@
     <string name="slide_reward_desc">Help compagnies, cities or researches to make better products, services or research by sharing data</string>
     <string name="slide_connect_join">
         <![CDATA[
-                <p>
+
                     By joining, you accept the <a href="http://www.apisense.com/terms/bee">Terms</a> and
                     <a href="http://www.apisense.com/privacy/bee">Privacy</a>.
-                </p>
+
         	    ]]>
     </string>
     <string name="slide_connect_anonym">
                 <![CDATA[
+
                     Enter as <u>Anonymous</u> without any rewards.
+
                 ]]>
         </string>
     <string name="slide_connect_continue">OR CONTINUE WITH</string>
@@ -119,6 +121,12 @@
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="title_activity_store_search">StoreSearch</string>
     <string name="no_available_sensors">No sensor available!</string>
+
+    <!-- Rewards -->
+    <string name="reward_dollars">DOLLARS</string>
+    <string name="reward_badges">BADGES</string>
+    <string name="reward_thanks">THANKS</string>
+    <string name="reward_monthly">REWARDS THIS MONTH</string>
 
 
     <!-- About -->
