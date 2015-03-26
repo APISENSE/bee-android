@@ -103,7 +103,7 @@
             android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity"></activity>
         <activity
             android:name="com.apisense.bee.ui.activity.RewardActivity"
-            android:label="@string/title_activity_about"
+            android:label="@string/title_activity_reward"
             android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity"></activity>
 
         <activity
@@ -118,7 +118,7 @@
 
         <activity
             android:name="com.apisense.bee.ui.activity.RewardDetailsActivity"
-            android:label="@string/title_activity_about"
+            android:label="@string/title_activity_reward"
             android:parentActivityName="com.apisense.bee.ui.activity.RewardActivity"></activity>
     </application>
 
