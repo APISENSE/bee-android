@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
@@ -27,6 +28,8 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
         setSupportActionBar(toolbar);
 
+        LinearLayout layoutAchievements = (LinearLayout) findViewById(R.id.reward_game_badge_panel);
+        layoutAchievements.setOnClickListener(this);
 
         //ApisenseTextView apvPoints = (ApisenseTextView) findViewById(R.id.reward_game_points);
         //apvPoints.setText("" + 0);

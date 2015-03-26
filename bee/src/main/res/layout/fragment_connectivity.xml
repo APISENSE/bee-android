@@ -71,7 +71,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:gravity="center|bottom"
             android:orientation="vertical">
 
             <com.apisense.bee.widget.ApisenseTextView
@@ -81,7 +82,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginTop="40dp"
                 android:text="@string/slide_connect_anonym" />
 
             <com.apisense.bee.widget.ApisenseTextView
