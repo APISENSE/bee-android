@@ -112,29 +112,37 @@ public class SignInActivity extends BeeGameActivity {
                     Log.i(TAG, "Connection result: " + result);
                     Log.i(TAG, "Connection details: " + response);
                     if ((Integer) result == BeeApplication.ASYNC_SUCCESS) {
-                        mSignInBtn.setText(getString(R.string.logout));
-
-                        // Set username name after sign in
-                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString("username", mPseudoEditText.getText().toString());
-                        editor.apply();
-
-                        Intent intent = new Intent(getParent(), HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                        signInSuccess();
                     } else {
-                        new SnackBar(getParent(), getResources().getString(R.string.failed_to_connect), null, null).show();
+                        signInFailed();
                     }
                 }
 
                 @Override
                 public void onTaskCanceled() {
-
+                    signInFailed();
                 }
             });
 
             signInTask.execute(mPseudoEditText.getText().toString(), mPasswordEditText.getText().toString(), "");
         }
+    }
+
+    protected void signInSuccess() {
+        mSignInBtn.setText(getString(R.string.logout));
+
+        // Set username name after sign in
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("username", mPseudoEditText.getText().toString());
+        editor.apply();
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    protected void signInFailed() {
+        new SnackBar(this, getResources().getString(R.string.failed_to_connect), null, null).show();
     }
 }
