@@ -31,7 +31,7 @@
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/player_information"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:background="@color/background_material_light"
         android:onClick="doGoToProfil"
@@ -39,20 +39,17 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:padding="@dimen/game_padding">
+            android:orientation="horizontal">
 
             <!-- Gamification -->
             <LinearLayout
                 android:id="@+id/gamification_panel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/game_padding"
+                android:layout_height="fill_parent"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="@dimen/game_padding">
+                android:orientation="horizontal">
 
                 <!-- <LinearLayout
                      android:layout_width="wrap_content"
@@ -80,15 +77,16 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
+
                     android:orientation="horizontal">
 
                     <com.apisense.bee.widget.ApisenseTextView
                         android:id="@+id/home_game_achievements"
                         style="@style/ApisenseGameText"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/game_padding"
                         android:layout_marginRight="@dimen/game_padding"
                         android:text="0" />
@@ -97,6 +95,7 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
 
+                        android:layout_gravity="center_vertical"
                         android:background="@drawable/big_badge_grey" />
 
 
@@ -134,7 +133,7 @@
                 android:id="@+id/no_gamification_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="@dimen/game_padding">
 
@@ -142,8 +141,8 @@
                 <com.apisense.bee.widget.ApisenseTextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="5"
+                    android:gravity="center"
                     android:text="CONNECT TO G+ TO PLAY GAME" />
 
             </LinearLayout>

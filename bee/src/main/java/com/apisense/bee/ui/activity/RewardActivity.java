@@ -58,13 +58,13 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.reward_game_badge_panel:
-                startActivityForResult(BeeGameManager.getInstance().getLeaderboard(BeeGameManager.MISSIONS_LEADERBOARD_ID), MISSION_ACHIEVEMENTS_REQUEST_CODE);
+                startActivityForResult(BeeGameManager.getInstance().getAchievementList(), MISSION_ACHIEVEMENTS_REQUEST_CODE);
                 break;
-            case R.id.reward_monthly_button:
+           /* case R.id.reward_monthly_button:
                 Intent intent = new Intent(getApplicationContext(), RewardDetailsActivity.class);
                 startActivity(intent);
                 finish();
-                break;
+                break;*/
             default:
                 break;
         }
