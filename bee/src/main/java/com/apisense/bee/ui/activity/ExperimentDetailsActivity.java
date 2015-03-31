@@ -1,8 +1,8 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +14,7 @@ import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
 import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
+import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
 import com.google.android.gms.common.ConnectionResult;
@@ -31,7 +32,7 @@ import fr.inria.apislog.APISLog;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 
-public class ExperimentDetailsActivity extends Activity {
+public class ExperimentDetailsActivity extends BeeGameActivity {
 
     private static String TAG = "Experiment Details Activity";
 
@@ -66,6 +67,10 @@ public class ExperimentDetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_details);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
+
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         initializeViews();
