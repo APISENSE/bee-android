@@ -10,18 +10,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:orientation="vertical"
+
             android:paddingBottom="@dimen/activity_padding"
             android:paddingLeft="@dimen/activity_padding"
             android:paddingRight="@dimen/activity_padding">
-
-            <TextView
-                android:id="@+id/settings_section_account"
-                style="@style/sectionHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_section_account"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
                 android:id="@+id/settings_logout"

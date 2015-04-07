@@ -26,7 +26,6 @@ import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.event.OnGameDataLoadedEvent;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import com.apisense.bee.ui.fragment.AboutSettingsFragment;
 import com.apisense.bee.widget.ApisenseTextView;
 
 import java.util.ArrayList;
@@ -151,9 +150,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_about:
-                doLaunchAbout();
-                break;
             case R.id.action_settings:
                 doLaunchSettings();
                 break;
@@ -221,10 +217,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         startActivity(privacyIntent);
     }
 
-    private void doLaunchAbout() {
-        Intent aboutIntent = new Intent(this, AboutSettingsFragment.class);
-        startActivity(aboutIntent);
-    }
 
     public void doLoginForm(MenuItem button) {
         Intent slideIntent = new Intent(this, SlideshowActivity.class);
