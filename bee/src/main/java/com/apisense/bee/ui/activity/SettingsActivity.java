@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.ui.fragment.AboutSettingsFragment;
 import com.apisense.bee.ui.fragment.AccountSettingsFragment;
 import com.apisense.bee.ui.fragment.GeneralSettingsFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
@@ -25,11 +26,12 @@ public class SettingsActivity extends BeeGameActivity {
      * The number of pages (wizard steps) to show
      * Be careful if you are adding some slides, button listeners may not match
      */
-    private static final int NUM_PAGES = 2;
+    private static final int NUM_PAGES = 3;
 
     /* Page order */
     private final static int ACCOUNT = 0;
     private final static int GENERAL = 1;
+    private final static int ABOUT = 2;
     private ViewPager mPager;
 
     /**
@@ -73,6 +75,8 @@ public class SettingsActivity extends BeeGameActivity {
                     return new AccountSettingsFragment();
                 case GENERAL:
                     return new GeneralSettingsFragment();
+                case ABOUT:
+                    return new AboutSettingsFragment();
                 default:
                     return new NotFoundFragment();
             }

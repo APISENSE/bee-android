@@ -1,4 +1,2 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.apisense.bee.ui.activity.AboutActivity">
-</menu>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.apisense.bee.ui.fragment.AboutSettingsFragment"></menu>

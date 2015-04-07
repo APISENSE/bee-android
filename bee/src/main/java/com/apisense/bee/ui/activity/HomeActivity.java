@@ -26,6 +26,7 @@ import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.event.OnGameDataLoadedEvent;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
+import com.apisense.bee.ui.fragment.AboutSettingsFragment;
 import com.apisense.bee.widget.ApisenseTextView;
 
 import java.util.ArrayList;
@@ -221,7 +222,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     }
 
     private void doLaunchAbout() {
-        Intent aboutIntent = new Intent(this, AboutActivity.class);
+        Intent aboutIntent = new Intent(this, AboutSettingsFragment.class);
         startActivity(aboutIntent);
     }
 
