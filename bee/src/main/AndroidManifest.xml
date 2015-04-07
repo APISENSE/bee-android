@@ -98,7 +98,7 @@
             android:label="@string/title_activity_store_experiment_details"
             android:parentActivityName="com.apisense.bee.ui.activity.StoreActivity"></activity>
         <activity
-            android:name="com.apisense.bee.ui.activity.AboutActivity"
+            android:name=".ui.fragment.AboutSettingsFragment"
             android:label="@string/title_activity_about"
             android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity"></activity>
         <activity

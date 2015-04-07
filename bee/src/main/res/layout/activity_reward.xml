@@ -73,6 +73,12 @@
                     android:text="@string/reward_dollars" />
             </LinearLayout>
 
+                        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_arrow"/>
+
         </LinearLayout>-->
 
 
@@ -114,6 +120,12 @@
                     android:text="@string/reward_badges" />
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_arrow" />
+
         </LinearLayout>
 
 
@@ -153,6 +165,12 @@
 
                     android:text="@string/reward_thanks" />
             </LinearLayout>
+
+                        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_arrow"/>
 
         </LinearLayout>-->
 
