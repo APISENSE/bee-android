@@ -2,8 +2,8 @@ package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +15,7 @@ import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.event.MissionSubscribeEvent;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
+import com.gc.materialdesign.views.ButtonFloat;
 
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
@@ -32,6 +33,8 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
     // Async Tasks
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
 
+    private ButtonFloat experimentSubBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,16 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         Toolbar actionBar = (Toolbar) findViewById(R.id.material_toolbar);
+//        actionBar.setLogo(R.drawable.ic_launcher);
         setSupportActionBar(actionBar);
+
+        this.experimentSubBtn = (ButtonFloat) findViewById(R.id.experimentSubBtn);
+        this.experimentSubBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doSubscribeUnsubscribe();
+            }
+        });
 
         initializeViews();
         displayExperimentInformation();
@@ -70,16 +82,6 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         mExperimentVersion.setText(" - v" + experiment.version);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.store_experiment_details, menu);
-
-        mSubscribeButton = menu.findItem(R.id.store_detail_action_subscribe);
-        updateSubscriptionMenu();
-        return true;
-    }
-
     private void updateSubscriptionMenu() {
         // TODO: Change to API method when available (isSubscribedExperiment)
         if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
@@ -97,7 +99,7 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
     }
 
-    public void doSubscribeUnsubscribe(MenuItem item) {
+    public void doSubscribeUnsubscribe() {
         if (experimentChangeSubscriptionStatus == null) {
             experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new OnExperimentSubscriptionChanged());
             experimentChangeSubscriptionStatus.execute(experiment);

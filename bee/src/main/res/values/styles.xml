@@ -48,8 +48,6 @@
         <item name="android:paddingBottom">20sp</item>
     </style>
 
-    <style name="ApisenseButton" parent="android:style/Widget.Material.Button"></style>
-
     <style name="ApisenseText" parent="android:Widget.TextView">
         <item name="android:typeface">sans</item>
     </style>
@@ -84,10 +82,17 @@
         <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:maxHeight">30dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:title">@string/app_name</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ApisenseActionBarTransp" parent="ApisenseActionBar">
+        <item name="android:background">@null</item>
+        <!-- Support library compatibility -->
+        <item name="background">@null</item>
     </style>
 
     <style name="ApisenseActionBar.Text" parent="@android:style/TextAppearance">

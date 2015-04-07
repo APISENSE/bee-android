@@ -15,14 +15,6 @@
             android:paddingLeft="@dimen/activity_padding"
             android:paddingRight="@dimen/activity_padding">
 
-            <TextView
-                android:id="@+id/settings_section_general"
-                style="@style/sectionHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_section_general"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

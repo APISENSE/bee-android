@@ -84,7 +84,17 @@ public class SettingsActivity extends BeeGameActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "test";
+            switch (position) {
+                case ACCOUNT:
+                    return getString(R.string.settings_section_account);
+                case GENERAL:
+                    return getString(R.string.settings_section_general);
+                case ABOUT:
+                    return getString(R.string.settings_section_about);
+                default:
+                    return "";
+            }
+
         }
 
         @Override
