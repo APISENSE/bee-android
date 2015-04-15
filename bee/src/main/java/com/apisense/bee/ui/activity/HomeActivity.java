@@ -58,6 +58,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         setContentView(R.layout.activity_home);
 
         toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        toolbar.setLogo(R.drawable.ic_bee_menu);
         setSupportActionBar(toolbar);
 
         // Set installed experiment list behavior
