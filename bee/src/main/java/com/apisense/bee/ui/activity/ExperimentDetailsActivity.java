@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +17,7 @@ import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
+import com.gc.materialdesign.views.ButtonFloat;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
@@ -58,6 +59,8 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
     private StartStopExperimentTask experimentStartStopTask;
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
 
+    private ButtonFloat experimentSubBtn;
+
     protected boolean canDisplayMap() {
         return (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext())
                 == ConnectionResult.SUCCESS);
@@ -90,18 +93,6 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
         overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.experiment_details, menu);
-        // mSubscribeButton = menu.findItem(R.id.detail_action_subscribe);
-        mStartButton = menu.findItem(R.id.detail_action_start);
-
-        updateStartMenu();
-        updateSubscriptionMenu();
-        return true;
-    }
-
     // UI Initialisation
 
     public void initializeViews() {
@@ -112,6 +103,14 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
 
         graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);
+
+        this.experimentSubBtn = (ButtonFloat) findViewById(R.id.experimentSubBtn);
+        this.experimentSubBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doSubscribeUnsubscribe();
+            }
+        });
     }
 
     public void displayExperimentInformation() {
@@ -128,6 +127,7 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
             APISLog.send(e, APISLog.ERROR);
         }
 
+        getSupportActionBar().setTitle(experiment.niceName);
         mExperimentName.setText(experiment.niceName);
         mExperimentOrganization.setText(experiment.organization);
         mExperimentVersion.setText(" - v" + experiment.version);
@@ -195,7 +195,7 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
         }
     }
 
-    public void doSubscribeUnsubscribe(MenuItem item) {
+    public void doSubscribeUnsubscribe() {
         if (experimentChangeSubscriptionStatus == null) {
             experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new OnExperimentSubscriptionChanged());
             experimentChangeSubscriptionStatus.execute(experiment);

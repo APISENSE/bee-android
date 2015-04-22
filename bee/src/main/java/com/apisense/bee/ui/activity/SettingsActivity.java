@@ -14,7 +14,7 @@ import com.apisense.bee.ui.fragment.AboutSettingsFragment;
 import com.apisense.bee.ui.fragment.AccountSettingsFragment;
 import com.apisense.bee.ui.fragment.GeneralSettingsFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
-import com.viewpagerindicator.CirclePageIndicator;
+import com.astuetz.PagerSlidingTabStrip;
 
 /**
  * Created by Warnant on 26-03-15.
@@ -54,9 +54,9 @@ public class SettingsActivity extends BeeGameActivity {
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(ACCOUNT);
 
-        //Bind the title indicator to the adapter
-        CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
+        // Bind the tabs to the ViewPager
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setViewPager(mPager);
 
     }
 
@@ -86,11 +86,11 @@ public class SettingsActivity extends BeeGameActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case ACCOUNT:
-                    return getString(R.string.settings_section_account);
+                    return getString(R.string.settings_section_account).toUpperCase();
                 case GENERAL:
-                    return getString(R.string.settings_section_general);
+                    return getString(R.string.settings_section_general).toUpperCase();
                 case ABOUT:
-                    return getString(R.string.settings_section_about);
+                    return getString(R.string.settings_section_about).toUpperCase();
                 default:
                     return "";
             }
