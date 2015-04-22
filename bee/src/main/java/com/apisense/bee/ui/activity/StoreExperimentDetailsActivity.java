@@ -41,9 +41,9 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         setContentView(R.layout.activity_store_experiment_details);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
-        Toolbar actionBar = (Toolbar) findViewById(R.id.material_toolbar);
-//        actionBar.setLogo(R.drawable.ic_launcher);
-        setSupportActionBar(actionBar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        setSupportActionBar(toolbar);
 
         this.experimentSubBtn = (ButtonFloat) findViewById(R.id.experimentSubBtn);
         this.experimentSubBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +77,7 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         ExperimentSerializable experimentS = (ExperimentSerializable) b.getSerializable("experiment");
         experiment = APISENSE.apisServerService().getRemoteExperiment(experimentS.getName());
 
+        getSupportActionBar().setTitle(experiment.niceName);
         mExperimentName.setText(experiment.niceName);
         mExperimentOrganization.setText(experiment.organization);
         mExperimentVersion.setText(" - v" + experiment.version);

@@ -154,9 +154,9 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
             case R.id.action_settings:
                 doLaunchSettings();
                 break;
-            case R.id.action_privacy:
-                doLaunchPrivacy();
-                break;
+            //case R.id.action_privacy:
+            //    doLaunchPrivacy();
+            //    break;
             case R.id.action_share:
                 doApplicationShare();
                 break;
@@ -218,14 +218,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         startActivity(privacyIntent);
     }
 
-
-    public void doLoginForm(MenuItem button) {
-        Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo", "register");
-        startActivity(slideIntent);
-        finish();
-    }
-
     public void doGoToStore(View storeButton) {
         Intent storeIntent = new Intent(this, StoreActivity.class);
         startActivity(storeIntent);
@@ -285,23 +277,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
                 experimentStartStopTask.execute(exp);
             }
             return true;
-        }
-    }
-
-
-    public class SignedOutCallback implements AsyncTasksCallbacks {
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            signOut = null;
-            Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        @Override
-        public void onTaskCanceled() {
-            signOut = null;
         }
     }
 

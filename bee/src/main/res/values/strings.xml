@@ -114,6 +114,8 @@
     </string>
 
     <!-- Store -->
+    <string name="store_section_categories">Categories</string>
+    <string name="store_section_home">Home</string>
     <string name="experiment_subscribed">You now contribute to experiment %1$s</string>
     <string name="experiment_unsubscribed">You don\'t contribute to experiment %1$s anymore</string>
     <string name="action_subscribe">Subscribe</string>

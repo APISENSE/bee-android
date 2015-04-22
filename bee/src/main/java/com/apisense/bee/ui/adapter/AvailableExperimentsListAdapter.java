@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apisense.bee.R;
-import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,22 +101,11 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
         company.setText(item.organization);
 
-        // Contains a background color associated to current status
-        View status = convertView.findViewById(R.id.item);
-        if (SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(item)) {
-            showAsSubscribed(status);
-        } else {
-            showAsUnsubscribed(status);
-        }
+        ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
+        ivExp.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_launcher));
+
+
         return convertView;
-    }
-
-    public void showAsSubscribed(View v) {
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.light_grey));
-    }
-
-    public void showAsUnsubscribed(View v) {
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
     }
 
     /**

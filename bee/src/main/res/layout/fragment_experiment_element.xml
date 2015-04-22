@@ -6,9 +6,10 @@
     <RelativeLayout
         android:id="@+id/item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!--  ListRow Left side Thumbnail image -->
+    <!--  ListRow Left side Thumbnail image -->
         <LinearLayout
             android:id="@+id/thumbnail"
             android:layout_width="wrap_content"
@@ -57,6 +58,7 @@
 
         </LinearLayout>
 
-
     </RelativeLayout>
+
+
 </RelativeLayout>
