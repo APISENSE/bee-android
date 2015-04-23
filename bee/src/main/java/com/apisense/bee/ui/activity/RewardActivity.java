@@ -26,6 +26,7 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
         setContentView(R.layout.activity_reward);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
         setSupportActionBar(toolbar);
 
         LinearLayout layoutAchievements = (LinearLayout) findViewById(R.id.reward_game_badge_panel);
@@ -44,11 +45,6 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
     public void doGoToHome(View homeButton) {
         Intent homeIntent = new Intent(this, HomeActivity.class);
         startActivity(homeIntent);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     @Override
