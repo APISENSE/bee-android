@@ -129,7 +129,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
             case R.id.gamification_panel:
                 Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
                 startActivity(intent);
-                finish();
                 break;
         }
     }
@@ -190,9 +189,9 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
 
         if (isUserAuthenticated()) {
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            toolbar.setTitle(settings.getString("username", getString(R.string.user_identity, getString(R.string.anonymous_user))));
+            toolbar.setTitle(settings.getString("username", " " + getString(R.string.user_identity, getString(R.string.anonymous_user))));
         } else {
-            toolbar.setTitle(getString(R.string.user_identity, getString(R.string.anonymous_user)));
+            toolbar.setTitle(getString(R.string.user_identity, " " + getString(R.string.anonymous_user)));
         }
     }
 
