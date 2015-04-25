@@ -18,6 +18,15 @@
             android:paddingRight="@dimen/activity_padding">
 
             <Button
+                android:id="@+id/settings_share"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/api_green_button_material"
+                android:text="@string/action_share"
+                android:textColor="@color/abc_primary_text_material_dark" />
+
+            <Button
                 android:id="@+id/settings_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

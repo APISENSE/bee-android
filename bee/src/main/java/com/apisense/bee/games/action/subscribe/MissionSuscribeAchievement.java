@@ -1,7 +1,10 @@
 package com.apisense.bee.games.action.subscribe;
 
 /**
- * Created by Warnant on 22-02-15.
+ * This interface describes a common type for the mission subscribing achievements of the game
+ *
+ * @author Quentin Warnant
+ * @version 1.0
  */
 public interface MissionSuscribeAchievement {
 }

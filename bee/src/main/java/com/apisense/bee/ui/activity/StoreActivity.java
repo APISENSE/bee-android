@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.ui.fragment.CategoryStoreFragment;
 import com.apisense.bee.ui.fragment.HomeStoreFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
 import com.astuetz.PagerSlidingTabStrip;
@@ -63,7 +64,7 @@ public class StoreActivity extends BeeGameActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case CATEGORIES:
-                    return new NotFoundFragment();
+                    return new CategoryStoreFragment();
                 case HOME:
                     return new HomeStoreFragment();
                 default:

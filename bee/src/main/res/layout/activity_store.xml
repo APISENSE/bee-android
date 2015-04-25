@@ -9,12 +9,20 @@
         style="@style/ApisenseActionBarStore"
         app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
 
+
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
-        app:pstsIndicatorColor="@color/orange"
-        app:pstsUnderlineColor="@color/abc_primary_text_material_dark" />
+        android:background="@color/orange"
+        android:textColor="@color/background_material_light"
+        app:pstsIndicatorColor="@color/background_material_light" />
+
+    <View
+        android:id="@+id/toolbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/toolbar_dropshadow" />
 
 
     <android.support.v4.view.ViewPager

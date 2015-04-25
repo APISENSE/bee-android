@@ -12,10 +12,20 @@ import com.google.android.gms.games.achievement.Achievement;
 import fr.inria.asl.utils.Log;
 
 /**
- * Created by Warnant on 19-02-15.
+ * This class creates the custom achievement objects from the official achievement object used by the application
+ *
+ * @author Quentin Warnant
+ * @version 1.0
+ * @see com.apisense.bee.games.action.GameAchievement
  */
 public class GameAchievementFactory {
 
+    /**
+     * This method creates the custom achievement object from the official achievement object
+     *
+     * @param achievement Achievement the official achievement object of the Play Games library
+     * @return GameAchievement the custom achievement object
+     */
     public static GameAchievement getGameAchievement(Achievement achievement) {
         Log.getInstance().i("GameAchievementFactory", achievement.getAchievementId() + "" + achievement.getName());
         switch (achievement.getAchievementId()) {

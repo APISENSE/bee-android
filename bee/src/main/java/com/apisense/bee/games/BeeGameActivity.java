@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import com.apisense.bee.games.event.OnGameDataLoadedEvent;
+import com.apisense.bee.games.event.OnGameDataLoadedListener;
 import com.apisense.bee.games.event.SignInEvent;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.google.android.gms.common.api.ResultCallback;
@@ -13,7 +14,11 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
 /**
- * Created by Warnant on 19-02-15.
+ * This class is used to encapsulate the default Play Games activity. The class initializes the BeeGameManager
+ * and the Google Play Games helper provided by the Google Team.
+ *
+ * @author Quentin Warnant
+ * @version 1.0
  */
 public class BeeGameActivity extends BaseGameActivity implements OnGameDataLoadedListener {
 

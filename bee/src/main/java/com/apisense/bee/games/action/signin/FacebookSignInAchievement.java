@@ -4,10 +4,18 @@ import com.apisense.bee.games.action.GameAchievement;
 import com.google.android.gms.games.achievement.Achievement;
 
 /**
- * Created by Warnant on 22-02-15.
+ * This class represents the methods of a specialized achievement of Facebook Sign-In
+ *
+ * @author Quentin Warnant
+ * @version 1.0
  */
 public class FacebookSignInAchievement extends GameAchievement implements SignInAchievement {
 
+    /**
+     * Constructor
+     *
+     * @param achievement Achievement the official achievement object
+     */
     public FacebookSignInAchievement(Achievement achievement) {
         super(achievement);
     }

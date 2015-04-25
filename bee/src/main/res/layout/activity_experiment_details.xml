@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
@@ -9,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:orientation="vertical">
 
@@ -20,40 +19,24 @@
             android:layout_height="wrap_content"
             app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/exp_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="25sp" />
-
     </LinearLayout>
 
-    <com.gc.materialdesign.views.ButtonFloat
-        android:id="@+id/experimentSubBtn"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="-10dp"
-        android:textColor="@color/white"
-        materialdesign:animate="true"
-        materialdesign:iconDrawable="@drawable/ic_action_new" />
-
-
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
-    <com.apisense.bee.widget.ApisenseTextView
+        <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/exp_organization"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
+
         <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/exp_version"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <!-- Gamification
@@ -82,23 +65,23 @@
     <!-- Activity -->
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <com.apisense.bee.widget.BarGraphView
-                android:id="@+id/inbox_item_graph"
-                style="@style/BarGraph"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="20sp" />
+            android:id="@+id/inbox_item_graph"
+            style="@style/BarGraph"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="20sp" />
 
         <com.apisense.bee.widget.ApisenseTextView
-                android:id="@+id/exp_activity"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/experiment_activity_7_days"/>
+            android:id="@+id/exp_activity"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/experiment_activity_7_days" />
 
     </LinearLayout>
 

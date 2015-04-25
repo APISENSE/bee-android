@@ -19,27 +19,11 @@ import com.apisense.bee.ui.activity.SlideshowActivity;
 
 import fr.inria.bsense.APISENSE;
 
-public class AccountSettingsFragment extends Fragment {
+public class AccountSettingsFragment extends Fragment implements View.OnClickListener {
 
-    TextView versionView;
+    private TextView versionView;
     // Asynchronous Tasks
     private SignOutTask signOut;
-    /**
-     * Click event for disconnect
-     */
-    private final View.OnClickListener disconnectEvent = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (signOut == null) {
-                signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
-                signOut.execute();
-            }
-        }
-
-        ;
-    };
-    private Button mLogoutButton;
-    private Button mRegisterButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,10 +35,13 @@ public class AccountSettingsFragment extends Fragment {
         if (versionView != null)
             versionView.setText(getAppInfo().versionName);
 
-        mLogoutButton = (Button) root.findViewById(R.id.settings_logout);
-        mRegisterButton = (Button) root.findViewById(R.id.settings_register);
+        Button mLogoutButton = (Button) root.findViewById(R.id.settings_logout);
+        mLogoutButton.setOnClickListener(this);
+        Button mRegisterButton = (Button) root.findViewById(R.id.settings_register);
+        mRegisterButton.setOnClickListener(this);
+        Button mShareButton = (Button) root.findViewById(R.id.settings_share);
+        mShareButton.setOnClickListener(this);
 
-        mLogoutButton.findViewById(R.id.settings_logout).setOnClickListener(disconnectEvent);
 
         if (!isUserAuthenticated()) {
             mLogoutButton.setVisibility(View.GONE);
@@ -64,10 +51,40 @@ public class AccountSettingsFragment extends Fragment {
         return root;
     }
 
-    public void goToRegister(View v) {
+    protected void doApplicationShare() {
+        Intent sendIntent = new Intent(Intent.ACTION_SEND)
+                .setAction(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TEXT, "linktobee");
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.action_share)));
+    }
+
+    protected void doDisconnect() {
+        if (signOut == null) {
+            signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
+            signOut.execute();
+        }
+    }
+
+    public void goToRegister() {
         Intent slideIntent = new Intent(getActivity(), SlideshowActivity.class);
         slideIntent.putExtra("goTo", "register");
         startActivity(slideIntent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.settings_logout:
+                doDisconnect();
+                break;
+            case R.id.settings_register:
+                goToRegister();
+                break;
+            case R.id.settings_share:
+                doApplicationShare();
+                break;
+        }
     }
 
     /**

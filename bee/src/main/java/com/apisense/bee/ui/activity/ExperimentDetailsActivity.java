@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +17,6 @@ import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.BarGraphView;
-import com.gc.materialdesign.views.ButtonFloat;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,13 +40,12 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
 
     private CardView mMapCardView;
 
-    private TextView mExperimentName;
     private TextView mExperimentOrganization;
     private TextView mExperimentVersion;
     private TextView mExperimentActivity;
 
-    // private MenuItem mSubscribeButton;
     private MenuItem mStartButton;
+    private MenuItem mStopButton;
 
     private GoogleMap mGoogleMap;
 
@@ -58,8 +56,6 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
     // Async Tasks
     private StartStopExperimentTask experimentStartStopTask;
     private SubscribeUnsubscribeExperimentTask experimentChangeSubscriptionStatus;
-
-    private ButtonFloat experimentSubBtn;
 
     protected boolean canDisplayMap() {
         return (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext())
@@ -72,6 +68,7 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
         setContentView(R.layout.activity_experiment_details);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
         setSupportActionBar(toolbar);
 
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
@@ -96,21 +93,12 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
     // UI Initialisation
 
     public void initializeViews() {
-        mExperimentName = (TextView) findViewById(R.id.exp_name);
         mExperimentOrganization = (TextView) findViewById(R.id.exp_organization);
         mExperimentVersion = (TextView) findViewById(R.id.exp_version);
         mExperimentActivity = (TextView) findViewById(R.id.exp_activity);
 
         graph = (BarGraphView) findViewById(R.id.inbox_item_graph);
         graph.setNumDays(barGraphShowDay);
-
-        this.experimentSubBtn = (ButtonFloat) findViewById(R.id.experimentSubBtn);
-        this.experimentSubBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSubscribeUnsubscribe();
-            }
-        });
     }
 
     public void displayExperimentInformation() {
@@ -128,7 +116,6 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
         }
 
         getSupportActionBar().setTitle(experiment.niceName);
-        mExperimentName.setText(experiment.niceName);
         mExperimentOrganization.setText(experiment.organization);
         mExperimentVersion.setText(" - v" + experiment.version);
     }
@@ -166,29 +153,19 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
     }
 
 
-    // Action bar update
-
-    private void updateSubscriptionMenu() {
-        // TODO: Change to API method when available (isSubscribedExperiment)
-        /* if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
-            mSubscribeButton.setTitle(getString(R.string.action_subscribe));
-        } else {
-            mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
-
-        } */
-    }
-
     private void updateStartMenu() {
         if (!experiment.state) {
-            mStartButton.setTitle(getString(R.string.action_start));
+            mStartButton.setVisible(true);
+            mStopButton.setVisible(false);
+
         } else {
-            mStartButton.setTitle(getString(R.string.action_stop));
+            mStartButton.setVisible(false);
+            mStopButton.setVisible(true);
         }
     }
 
     // Buttons Handlers
-
-    public void doStartStop(MenuItem item) {
+    public void doStartStop() {
         if (experimentStartStopTask == null) {
             experimentStartStopTask = new StartStopExperimentTask(APISENSE.apisense(), new OnExperimentExecutionStatusChanged());
             experimentStartStopTask.execute(experiment);
@@ -200,6 +177,35 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
             experimentChangeSubscriptionStatus = new SubscribeUnsubscribeExperimentTask(APISENSE.apisense(), new OnExperimentSubscriptionChanged());
             experimentChangeSubscriptionStatus.execute(experiment);
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.experiment_details, menu);
+
+        mStartButton = menu.findItem(R.id.detail_action_start);
+        mStopButton = menu.findItem(R.id.detail_action_stop);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.detail_action_start:
+                doStartStop();
+                break;
+            case R.id.detail_action_stop:
+                doStartStop();
+                break;
+            case R.id.detail_action_unsubscribe:
+                doSubscribeUnsubscribe();
+                break;
+
+        }
+        return true;
     }
 
     // Callbacks
@@ -243,11 +249,9 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
                 switch ((Integer) response) {
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_SUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-                        updateSubscriptionMenu();
                         break;
                     case SubscribeUnsubscribeExperimentTask.EXPERIMENT_UNSUBSCRIBED:
                         toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
-                        updateSubscriptionMenu();
                         break;
                 }
                 // User feedback
