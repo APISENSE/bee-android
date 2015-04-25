@@ -12,16 +12,27 @@ import fr.inria.asl.utils.Log;
 import fr.inria.bsense.appmodel.Experiment;
 
 /**
- * Created by Warnant on 19-02-15.
+ * This class represents the methods of a specialized achievement of sensing partner
+ *
+ * @author Quentin Warnant
+ * @version 1.0
  */
 public class CrowdSensingPartnerAchievement extends GameAchievement implements MissionSuscribeAchievement {
 
     public static final int NUMBER_MISSION_REQUIRED = 3;
 
+    /**
+     * Constructor
+     *
+     * @param achievement Achievement the official achievement object
+     */
     public CrowdSensingPartnerAchievement(Achievement achievement) {
         super(achievement);
     }
 
+    /**
+     * @see com.apisense.bee.games.action.GameAchievement
+     */
     @Override
     public boolean process() {
 
@@ -47,11 +58,17 @@ public class CrowdSensingPartnerAchievement extends GameAchievement implements M
         return false;
     }
 
+    /**
+     * @see com.apisense.bee.games.action.GameAchievement
+     */
     @Override
     public long getPoints() {
         return 4 * super.getPoints();
     }
 
+    /**
+     * @see com.apisense.bee.games.action.GameAchievement
+     */
     @Override
     public int getScore() {
         return 1;

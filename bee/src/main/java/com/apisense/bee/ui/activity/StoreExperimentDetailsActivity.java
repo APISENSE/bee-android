@@ -25,7 +25,6 @@ import fr.inria.bsense.appmodel.Experiment;
  */
 public class StoreExperimentDetailsActivity extends BeeGameActivity {
     private final String TAG = getClass().getSimpleName();
-    TextView mExperimentName;
     TextView mExperimentOrganization;
     TextView mExperimentVersion;
     MenuItem mSubscribeButton;
@@ -45,16 +44,9 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         setSupportActionBar(toolbar);
 
-        this.experimentSubBtn = (ButtonFloat) findViewById(R.id.experimentSubBtn);
-        this.experimentSubBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSubscribeUnsubscribe();
-            }
-        });
-
         initializeViews();
         displayExperimentInformation();
+        updateSubscriptionMenu();
     }
 
     @Override
@@ -64,9 +56,16 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
     }
 
     public void initializeViews() {
-        mExperimentName = (TextView) findViewById(R.id.store_detail_exp_name);
         mExperimentOrganization = (TextView) findViewById(R.id.store_detail_exp_organization);
         mExperimentVersion = (TextView) findViewById(R.id.store_detail_exp_version);
+        this.experimentSubBtn = (ButtonFloat) findViewById(R.id.experimentSubBtn);
+        this.experimentSubBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doSubscribeUnsubscribe();
+            }
+        });
+
     }
 
     public void displayExperimentInformation() {
@@ -78,7 +77,6 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         experiment = APISENSE.apisServerService().getRemoteExperiment(experimentS.getName());
 
         getSupportActionBar().setTitle(experiment.niceName);
-        mExperimentName.setText(experiment.niceName);
         mExperimentOrganization.setText(experiment.organization);
         mExperimentVersion.setText(" - v" + experiment.version);
     }
@@ -86,9 +84,9 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
     private void updateSubscriptionMenu() {
         // TODO: Change to API method when available (isSubscribedExperiment)
         if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
-            mSubscribeButton.setTitle(getString(R.string.action_subscribe));
+            experimentSubBtn.setDrawableIcon(getDrawable(R.drawable.ic_action_new));
         } else {
-            mSubscribeButton.setTitle(getString(R.string.action_unsubscribe));
+            experimentSubBtn.setDrawableIcon(getDrawable(R.drawable.ic_cancel));
 
         }
 

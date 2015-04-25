@@ -156,19 +156,8 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
             //case R.id.action_privacy:
             //    doLaunchPrivacy();
             //    break;
-            case R.id.action_share:
-                doApplicationShare();
-                break;
         }
         return true;
-    }
-
-    protected void doApplicationShare() {
-        Intent sendIntent = new Intent(Intent.ACTION_SEND)
-                .setAction(Intent.ACTION_SEND)
-                .putExtra(Intent.EXTRA_TEXT, "linktobee");
-        sendIntent.setType("text/plain");
-        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.action_share)));
     }
 
     @Override
@@ -189,9 +178,9 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
 
         if (isUserAuthenticated()) {
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            toolbar.setTitle(settings.getString("username", " " + getString(R.string.user_identity, getString(R.string.anonymous_user))));
+            toolbar.setTitle(settings.getString("username", "   " + getString(R.string.user_identity, getString(R.string.anonymous_user))));
         } else {
-            toolbar.setTitle(getString(R.string.user_identity, " " + getString(R.string.anonymous_user)));
+            toolbar.setTitle(getString(R.string.user_identity, "    " + getString(R.string.anonymous_user)));
         }
     }
 

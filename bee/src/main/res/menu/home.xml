@@ -1,10 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.apisense.bee.ui.BeeApplication">
-
-    <item
-        android:id="@+id/action_share"
-        android:title="@string/action_share" />
 
     <!--
     <item
@@ -15,11 +12,9 @@
         app:showAsAction="always" />
         -->
 
-    <group
-        android:id="@+id/groupSettings"
-        android:icon="@drawable/ic_action_overflow">
-        <item
-            android:id="@+id/action_settings"
-            android:title="@string/action_settings" />
-    </group>
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="always" />
 </menu>

@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,8 +9,9 @@
     tools:context="com.apisense.bee.ui.activity.ExperimentDetailsActivity">
 
     <LinearLayout
+        android:id="@+id/toolbar_container"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:background="@color/orange"
         android:orientation="vertical">
 
@@ -21,41 +22,40 @@
             android:layout_height="wrap_content"
             app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/store_detail_exp_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="25sp" />
-
     </LinearLayout>
 
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/experimentSubBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="-10dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
         android:textColor="@color/white"
-        materialdesign:animate="true"
-        materialdesign:iconDrawable="@drawable/ic_action_new" />
+        materialdesign:animate="false" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar_container"
         android:orientation="horizontal">
 
         <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/store_detail_exp_organization"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical" />
 
         <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/store_detail_exp_version"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

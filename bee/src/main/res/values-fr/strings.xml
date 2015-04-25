@@ -111,6 +111,8 @@
 
     <!-- Store -->
     <string name="store_section_categories">Catégories</string>
+    <string name="store_section_general">Général</string>
+
     <string name="store_section_home">Accueil</string>
     <string name="experiment_subscribed">Vous participez désormais à l\'expérience %1$s</string>
     <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
