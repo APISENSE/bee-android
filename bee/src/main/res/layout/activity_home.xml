@@ -166,8 +166,8 @@
 
         <com.gc.materialdesign.views.ButtonFloat
             android:id="@+id/smallAddButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/add_button_margin"

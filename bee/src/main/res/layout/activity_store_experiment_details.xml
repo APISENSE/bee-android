@@ -26,8 +26,8 @@
 
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/experimentSubBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"

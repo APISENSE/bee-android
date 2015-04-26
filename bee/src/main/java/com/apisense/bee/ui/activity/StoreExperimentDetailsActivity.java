@@ -84,9 +84,9 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
     private void updateSubscriptionMenu() {
         // TODO: Change to API method when available (isSubscribedExperiment)
         if (!SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(experiment)) {
-            experimentSubBtn.setDrawableIcon(getDrawable(R.drawable.ic_action_new));
+            experimentSubBtn.setDrawableIcon(getResources().getDrawable(R.drawable.ic_action_new));
         } else {
-            experimentSubBtn.setDrawableIcon(getDrawable(R.drawable.ic_cancel));
+            experimentSubBtn.setDrawableIcon(getResources().getDrawable(R.drawable.ic_cancel));
 
         }
 

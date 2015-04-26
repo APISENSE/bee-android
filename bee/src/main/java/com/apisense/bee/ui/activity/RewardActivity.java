@@ -3,7 +3,6 @@ package com.apisense.bee.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -45,13 +44,6 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
     public void doGoToHome(View homeButton) {
         Intent homeIntent = new Intent(this, HomeActivity.class);
         startActivity(homeIntent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
     }
 
     @Override
