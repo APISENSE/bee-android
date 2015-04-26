@@ -78,17 +78,6 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
         displayExperimentActivity();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_back_in, R.anim.slide_back_out);
-    }
 
     // UI Initialisation
 
