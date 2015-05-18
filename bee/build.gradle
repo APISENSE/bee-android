@@ -1,17 +1,5 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    jcenter()
-    mavenCentral()
-    maven {
-        url 'http://repo.apisense.com/apisense'
-        credentials {
-            username = "${artifactory_user}"
-            password = "${artifactory_password}"
-        }
-    }
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -21,7 +9,7 @@ dependencies {
     compile 'fr.inria.asl:asl-interpreter-javascript:2.1.0'
     compile 'fr.inria.asl:asl-node-android-facade:2.1.0'
 
-    compile 'com.viewpagerindicator:library:2.4.1'
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
 
     compile ('com.google.android.gms:play-services:3.2.25') {
         exclude module: 'support-v4'
@@ -39,7 +27,7 @@ dependencies {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '21.1.1'
+    buildToolsVersion '21.1.2'
 
     lintOptions {
         abortOnError false
@@ -79,15 +67,31 @@ android {
 
 // Unit tests
 // See: https://plugins.jetbrains.com/plugin/7488?pr=idea
-apply plugin: 'robolectric'
+apply plugin: 'org.robolectric'
 
 dependencies {
     testCompile 'junit:junit:4.10'
     testCompile 'org.robolectric:robolectric:2.3'
 }
-robolectric {
-    include '**/*Tests.class'
+
+// unitTests.setRoot('src/test')
+android.testOptions.unitTests.all {
+    // Configure includes / excludes
+    include '**/*Test.class'
+    testSrcDirs = ['src/test']
+    // Specify max number of processes (default is 1)
+    maxParallelForks = 4
+
+    // Specify max number of test classes to execute in a test process
+    // before restarting the process (default is unlimited)
+    forkEvery = 150
+
+    // use afterTest to listen to the test execution results
+    afterTest { descriptor, result ->
+        println "Executing test for ${descriptor.name} with result: ${result.resultType}"
+    }
 }
+
 // Coverage
 // See: http://chrisjenx.com/gradle-robolectric-jacoco-dagger/
 apply plugin: "jacoco"
