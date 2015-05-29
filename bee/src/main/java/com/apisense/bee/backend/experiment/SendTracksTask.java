@@ -1,20 +1,20 @@
 package com.apisense.bee.backend.experiment;
 
 import android.util.Log;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+
 import fr.inria.apislog.APISLog;
-import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
 import fr.inria.bsense.service.BSenseMobileService;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
 /**
- *   AsyncTask used to force the sent of Tracks for a given experiment
- *
+ * AsyncTask used to force the sent of Tracks for a given experiment
  */
-public class SendTracksTask extends AsyncTaskWithCallback<Experiment, Void, Void>{
+public class SendTracksTask extends AsyncTaskWithCallback<Experiment, Void, Void> {
     private final String TAG = this.getClass().getSimpleName();
     private final BSenseMobileService mobService;
 
@@ -27,7 +27,7 @@ public class SendTracksTask extends AsyncTaskWithCallback<Experiment, Void, Void
     protected Void doInBackground(Experiment... params) {
         if (params.length <= 0) {
             this.errcode = BeeApplication.ASYNC_ERROR;
-            Log.w(TAG, "No experiment given to SendTrackTask, nothing done" );
+            Log.w(TAG, "No experiment given to SendTrackTask, nothing done");
         } else {
             Experiment exp = params[0];
             try {

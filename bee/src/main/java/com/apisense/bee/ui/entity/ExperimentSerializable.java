@@ -1,9 +1,8 @@
 package com.apisense.bee.ui.entity;
 
-import fr.inria.bsense.appmodel.Experiment;
-import org.json.JSONException;
-
 import java.io.Serializable;
+
+import fr.inria.bsense.appmodel.Experiment;
 
 public class ExperimentSerializable implements Serializable {
 

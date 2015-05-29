@@ -3,35 +3,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:id="@+id/item">
-
-        <!--  ListRow Left sied Thumbnail image -->
-        <LinearLayout
-                android:id="@+id/thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="@dimen/thumbnail_margin">
-
-            <ImageView
-                    android:id="@+id/list_image"
-                    android:layout_width="50dip"
-                    android:layout_height="50dip"
-                    android:src="@drawable/ic_launcher"/>
-
-        </LinearLayout>
-
+    <RelativeLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
                 android:id="@+id/experiment_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignTop="@+id/thumbnail"
-                android:layout_toRightOf="@+id/thumbnail"
-                android:layout_toEndOf="@+id/thumbnail">
+            android:orientation="horizontal">
 
             <!-- Experiment title-->
             <com.apisense.bee.widget.ApisenseTextView
@@ -41,9 +22,9 @@
 
             <!-- Company -->
             <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/experimentelement_company"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/experimentelement_company"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -52,17 +33,15 @@
                 android:id="@+id/experimentelement_short_desc"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/experiment_header"
-                android:layout_toRightOf="@+id/thumbnail"
-                android:layout_toEndOf="@+id/thumbnail"/>
-
-        <!-- Rightend Arrow -->
-        <ImageView android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/ic_arrow"
-                   android:layout_alignParentRight="true"
-                   android:layout_alignParentEnd="true"
-                   android:layout_centerVertical="true"/>
-
+            android:layout_below="@id/experiment_header" />
     </RelativeLayout>
+
+    <com.apisense.bee.widget.ApisenseTextView
+        style="@style/ApisenseSlideTinyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="bottom"
+        android:text="INSTALLED" />
 </RelativeLayout>

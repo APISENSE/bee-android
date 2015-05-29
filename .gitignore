@@ -7,7 +7,7 @@ gradle.properties
 **/*.iml
 **/*.iws
 /local.properties
-
+bee/.idea
 /build
 **/gen
 /log

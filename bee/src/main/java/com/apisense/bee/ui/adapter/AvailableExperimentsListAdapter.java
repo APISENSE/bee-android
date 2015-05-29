@@ -3,20 +3,21 @@ package com.apisense.bee.ui.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.apisense.bee.R;
-import com.apisense.bee.backend.experiment.SubscribeUnsubscribeExperimentTask;
-import fr.inria.bsense.appmodel.Experiment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.inria.bsense.appmodel.Experiment;
 
 public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     private final String TAG = getClass().getSimpleName();
@@ -40,24 +41,13 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param context
      * @param layoutResourceId
-     * @param experiments
-     *            list of experiments
+     * @param experiments      list of experiments
      */
     public AvailableExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
         super(context, layoutResourceId, experiments);
         Log.i(TAG, "List size : " + experiments.size());
         data = experiments;
         filteredData = experiments;
-    }
-
-    /**
-     * Change the dataSet of the adapter
-     *
-     * @param dataSet
-     */
-    public void setDataSet(List<Experiment> dataSet){
-        this.data = dataSet;
-        this.filteredData = dataSet;
     }
 
     /**
@@ -73,8 +63,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     /**
      * Get an experiment from position in the ListView
      *
-     * @param position
-     *            position in the ListView
+     * @param position position in the ListView
      * @return an experiment
      */
     @Override
@@ -85,8 +74,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
     /**
      * Get the experiment ID
      *
-     * @param position
-     *            position in the ListView
+     * @param position position in the ListView
      * @return the experiment ID
      */
     @Override
@@ -111,28 +99,23 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(" by " + item.organization);
+        company.setText(item.organization);
 
-        TextView description = (TextView) convertView.findViewById(R.id.experimentelement_short_desc);
-        String decode = new String(Base64.decode(item.description.getBytes(), Base64.DEFAULT));
-        description.setText(decode);
+        ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
+        ivExp.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_launcher_bee));
 
-        // Contains a background color associated to current status
-        View status = convertView.findViewById(R.id.item);
-        if (SubscribeUnsubscribeExperimentTask.isSubscribedExperiment(item)){
-            showAsSubscribed(status);
-        } else {
-            showAsUnsubscribed(status);
-        }
+
         return convertView;
     }
 
-    public void showAsSubscribed(View v){
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.light_grey));
-    }
-
-    public void showAsUnsubscribed(View v){
-        v.setBackgroundColor(getContext().getResources().getColor(R.color.white));
+    /**
+     * Change the dataSet of the adapter
+     *
+     * @param dataSet
+     */
+    public void setDataSet(List<Experiment> dataSet) {
+        this.data = dataSet;
+        this.filteredData = dataSet;
     }
 
     /**

@@ -1,55 +1,141 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.*;
+import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
+import com.apisense.bee.backend.experiment.StartStopExperimentTask;
 import com.apisense.bee.backend.user.SignOutTask;
+import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.games.BeeGameManager;
+import com.apisense.bee.games.event.OnGameDataLoadedEvent;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.ui.entity.ExperimentSerializable;
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
+import com.apisense.bee.widget.ApisenseTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.inria.bsense.APISENSE;
+import fr.inria.bsense.appmodel.Experiment;
 
-public class HomeActivity extends Activity {
+
+public class HomeActivity extends BeeGameActivity implements View.OnClickListener {
     private final String TAG = getClass().getSimpleName();
-
     // Data
     protected SubscribedExperimentsListAdapter experimentsAdapter;
 
-   // Asynchronous Tasks
+    // Asynchronous Tasks
     private RetrieveInstalledExperimentsTask experimentsRetrieval;
     private SignOutTask signOut;
     private StartStopExperimentTask experimentStartStopTask;
 
+    // Gamification
+    private Toolbar toolbar;
+    private LinearLayout llGamificationPanel;
+    private LinearLayout llNoGamificationPanel;
+    private ApisenseTextView atvAchPoints;
+    private ApisenseTextView atvAchCounts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        toolbar.setLogo(R.drawable.ic_bee_menu);
+        setSupportActionBar(toolbar);
+
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
-                                                                  R.layout.fragment_experiment_element,
-                                                                  new ArrayList<Experiment>());
+                R.layout.fragment_experiment_element,
+                new ArrayList<Experiment>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
         subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
         subscribedCollects.setAdapter(experimentsAdapter);
         subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
         subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
 
+        // Check visibility of gamification panels
+        llGamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
+        llGamificationPanel.setOnClickListener(this);
+
+        llNoGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
+        llNoGamificationPanel.setOnClickListener(this);
+
+        //atvAchPoints = (ApisenseTextView) findViewById(R.id.home_game_points);
+        //atvAchPoints.setOnClickListener(this);
+
+        atvAchCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
+        atvAchCounts.setOnClickListener(this);
+
+        updateUI();
+
+    }
+
+    protected void updateGamificationPanels() {
+        if (BeeGameManager.getInstance().isLoad()) {
+            llNoGamificationPanel.setVisibility(View.GONE);
+            llGamificationPanel.setVisibility(View.VISIBLE);
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    //People.LoadPeopleResult result = Plus.PeopleApi.loadConnected(mHelper.getApiClient()).await();
+                    //Person player = result.getPersonBuffer().get(0);
+                    // toolbar.setLogo(getPlayer().getImage());
+
+                    //toolbar.setTitle(player.getDisplayName());
+                    return null;
+                }
+            }.execute();
+
+        } else {
+            llNoGamificationPanel.setVisibility(View.VISIBLE);
+            llGamificationPanel.setVisibility(View.GONE);
+        }
+        // Refresh gamification text views after the refresh of game data
+//        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + "");
+        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + "");
+    }
+
+    @Override
+    public void onRefresh(OnGameDataLoadedEvent event) {
+        updateUI();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.no_gamification_panel:
+                BeeGameManager.getInstance().initialize(this);
+                BeeGameManager.getInstance().connectPlayer();
+                break;
+            case R.id.gamification_panel:
+                Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         updateUI();
     }
 
@@ -60,21 +146,16 @@ public class HomeActivity extends Activity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.connectOrDisconnect:
-                doDisconnect();
-                break;
-            case R.id.action_about:
-                doLaunchAbout();
-                break;
             case R.id.action_settings:
                 doLaunchSettings();
                 break;
-            case R.id.action_privacy:
-                doLaunchPrivacy();
-                break;
+            //case R.id.action_privacy:
+            //    doLaunchPrivacy();
+            //    break;
         }
         return true;
     }
@@ -89,17 +170,17 @@ public class HomeActivity extends Activity {
         this.experimentsAdapter.setDataSet(experiments);
     }
 
-    private void updateUI(){
+    private void updateUI() {
         retrieveActiveExperiments();
+        updateGamificationPanels();
 
-        // Generating messages depending on the logged user
-        TextView user_identity = (TextView) findViewById(R.id.home_user_identity);
-        // Button loginButton = (Button) findViewById(R.id.home_login_logout_button);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
 
         if (isUserAuthenticated()) {
-            user_identity.setText(getString(R.string.user_identity, "Username"));
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            toolbar.setTitle(settings.getString("username", "   " + getString(R.string.user_identity, getString(R.string.anonymous_user))));
         } else {
-            user_identity.setText(getString(R.string.user_identity, getString(R.string.anonymous_user)));
+            toolbar.setTitle(getString(R.string.user_identity, "    " + getString(R.string.anonymous_user)));
         }
     }
 
@@ -109,40 +190,20 @@ public class HomeActivity extends Activity {
 
             experimentsRetrieval.execute();
         }
-   }
+    }
 
     private boolean isUserAuthenticated() {
         return APISENSE.apisServerService().isConnected();
     }
 
-    public void doLaunchSettings(){
+    public void doLaunchSettings() {
         Intent settingsIntent = new Intent(this, SettingsActivity.class);
         startActivity(settingsIntent);
     }
 
-    public void doLaunchPrivacy(){
+    public void doLaunchPrivacy() {
         Intent privacyIntent = new Intent(this, PrivacyActivity.class);
         startActivity(privacyIntent);
-    }
-
-    /**
-     * Click event for disconnect
-     */
-    private void doDisconnect() {
-        signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
-        signOut.execute();
-    }
-
-    private void doLaunchAbout() {
-        Intent aboutIntent = new Intent(this, AboutActivity.class);
-        startActivity(aboutIntent);
-    }
-
-    public void doLoginForm(MenuItem button) {
-        Intent slideIntent = new Intent(this, SlideshowActivity.class);
-        slideIntent.putExtra("goTo","register");
-        startActivity(slideIntent);
-        finish();
     }
 
     public void doGoToStore(View storeButton) {
@@ -153,7 +214,7 @@ public class HomeActivity extends Activity {
     public void doGoToProfil(View personalInformation) {
         if (!isUserAuthenticated()) {
             Intent slideIntent = new Intent(this, SlideshowActivity.class);
-            slideIntent.putExtra("goTo","register");
+            slideIntent.putExtra("goTo", "register");
             startActivity(slideIntent);
             finish();
         } else {
@@ -168,7 +229,7 @@ public class HomeActivity extends Activity {
             List<Experiment> exp = (List<Experiment>) response;
             Log.i(TAG, "number of Active Experiments: " + exp.size());
 
-           // Updating listview
+            // Updating listview
             setExperiments(exp);
             experimentsAdapter.notifyDataSetChanged();
         }
@@ -179,7 +240,7 @@ public class HomeActivity extends Activity {
         }
     }
 
-    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener{
+    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), ExperimentDetailsActivity.class);
@@ -207,23 +268,6 @@ public class HomeActivity extends Activity {
         }
     }
 
-
-    public class SignedOutCallback implements AsyncTasksCallbacks {
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            signOut = null;
-            Toast.makeText(getApplicationContext(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(HomeActivity.this, SlideshowActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        @Override
-        public void onTaskCanceled() {
-            signOut = null;
-        }
-    }
-
     private class OnExperimentStatusChanged implements AsyncTasksCallbacks {
         private Experiment concernedExp;
 
@@ -237,7 +281,7 @@ public class HomeActivity extends Activity {
             String experimentName = concernedExp.niceName;
             String toastMessage = "";
             if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch((Integer)response) {
+                switch ((Integer) response) {
                     case StartStopExperimentTask.EXPERIMENT_STARTED:
                         toastMessage = String.format(getString(R.string.experiment_started), experimentName);
                         break;

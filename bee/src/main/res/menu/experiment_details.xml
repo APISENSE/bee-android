@@ -1,18 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.apisense.bee.ui.activity.ExperimentDetailsActivity" >
+    tools:context="com.apisense.bee.ui.activity.ExperimentDetailsActivity">
 
+    <item
+        android:id="@+id/detail_action_start"
+        android:icon="@drawable/ic_action_play"
+        android:orderInCategory="1"
+        android:title="@string/action_start"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/detail_action_start"
-          android:title="@string/action_start"
-          android:onClick="doStartStop"
-          android:orderInCategory="1"
-          android:showAsAction="always" />
+    <item
+        android:id="@+id/detail_action_stop"
+        android:icon="@drawable/ic_action_break"
+        android:orderInCategory="1"
+        android:title="@string/action_start"
+        android:visible="false"
+        app:showAsAction="always" />
 
-    <!-- <item android:id="@+id/detail_action_subscribe"
-          android:title="@string/action_subscribe"
-          android:onClick="doSubscribeUnsubscribe"
-          android:orderInCategory="2"
-          android:showAsAction="ifRoom" /> -->
+    <item
+        android:id="@+id/detail_action_unsubscribe"
+        android:icon="@drawable/ic_trash"
+        android:orderInCategory="2"
+        android:title="@string/action_unsubscribe"
+        app:showAsAction="always" />
 
 </menu>
