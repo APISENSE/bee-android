@@ -9,12 +9,14 @@
     <string name="title_activity_settings">Réglages</string>
     <string name="title_activity_experiment_details">Détails</string>
     <string name="title_activity_about">A propos</string>
+    <string name="title_activity_reward">Récompenses</string>
     <string name="title_activity_store_experiment_details">Aperçu</string>
 
     <!-- Global -->
     <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_about">A propos</string>
+    <string name="action_share">Partager</string>
     <string name="action_privacy">Intimité</string>
     <string name="by">par</string>
     <string name="search_hint">Nom de l\'expérience</string>
@@ -41,6 +43,8 @@
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
     <string name="passwordConfirm">Confirmez mot de passe</string>
+    <string name="registration_not_implemented">Ce type d\'inscription n\'est pas encore disponible.</string>
+
 
     <!-- Label form -->
     <string name="hive_url">http://beta.apisense.io/hive</string>
@@ -50,7 +54,24 @@
     <string name="slide_what">APISENSE rend la collecte massive de données facile grace aux capteurs des téléphones portables.
         Ouvrez votre esprit et rejoingnez le top de la collecte en temps réel !</string>
     <string name="slide_how">Partagez vos données et aidez la science à progresser !</string>
-    <string name="slide_reward">Plus vous partagez, plus vous êtes récompensé ! Echangez des points contre des lots réels !</string>
+    <string name="slide_reward_title">Obtenez des récompenses en partageant des données</string>
+    <string name="slide_reward_desc">Aidez des entreprises, chercheurs ou votre ville à développer de meilleurs produits, services ou recherches en partageant des données</string>
+    <string name="slide_connect_join">
+                <![CDATA[
+                <p>
+                    En vous vous inscrivant, vous acceptez les <a href="http://www.apisense.com/terms/bee">termes d\'utilisation</a> et
+                    <a href="http://www.apisense.com/privacy/bee">conditions générales</a>.
+                </p>
+        	    ]]>
+    </string>
+    <string name="slide_connect_anonym">
+        <![CDATA[
+            <p>
+            Enregistrez vous <u>comme anonyme</u> sans aucune récompense.
+            </p>
+        ]]>
+        </string>
+    <string name="slide_connect_continue">OU CONTINUEZ AVEC</string>
 
     <!-- Experiments -->
     <string name="experiment_activity_7_days">Activité des 7 derniers jours</string>
@@ -77,6 +98,7 @@
     <string name="settings_btn_update">Vérifier les mises à jour</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">A propos</string>
+
     <string name="settings_about_content">
         <![CDATA[
 	    	<p>
@@ -88,11 +110,22 @@
     </string>
 
     <!-- Store -->
+    <string name="store_section_categories">Catégories</string>
+    <string name="store_section_general">Général</string>
+
+    <string name="store_section_home">Accueil</string>
     <string name="experiment_subscribed">Vous participez désormais à l\'expérience %1$s</string>
     <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
     <string name="action_subscribe">S\'inscrire</string>
     <string name="action_unsubscribe">Se désinscrire</string>
-    <string name="no_available_experiments">Aucune expérience trouvé !</string>
+    <string name="no_available_experiments">Aucune expérience trouvée !</string>
+
+    <!-- Rewards -->
+    <string name="reward_dollars">DOLLARS</string>
+    <string name="reward_badges">BADGES</string>
+    <string name="reward_thanks">THANKS</string>
+    <string name="reward_monthly">REWARDS THIS MONTH</string>
+
 
     <!-- About -->
     <string name="about_content">

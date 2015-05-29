@@ -1,20 +1,21 @@
 package com.apisense.bee.backend.user;
 
 import android.util.Log;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+
 import fr.inria.apislog.APISLog;
 import fr.inria.bsense.service.BSenseServerService;
 import fr.inria.bsense.service.BeeSenseServiceManager;
 
 /**
  * Represents an asynchronous registration task used to create a new user.
- *
  */
 public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
+    protected final BSenseServerService servService;
     private final String TAG = this.getClass().getSimpleName();
-    private final BSenseServerService servService;
 
     public RegisterTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener) {
         super(listener);
@@ -31,7 +32,7 @@ public class RegisterTask extends AsyncTaskWithCallback<String, Void, String> {
         if (params.length < 2) {
             Log.e(TAG, "Not enough parameters");
             this.errcode = BeeApplication.ASYNC_ERROR;
-        }else {
+        } else {
             if (params[0].isEmpty() || params[1].isEmpty()) {
                 Log.e(TAG, "Login or password is empty");
                 this.errcode = BeeApplication.ASYNC_ERROR;

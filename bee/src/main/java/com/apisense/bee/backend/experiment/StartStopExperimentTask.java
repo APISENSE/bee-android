@@ -1,9 +1,11 @@
 package com.apisense.bee.backend.experiment;
 
 import android.util.Log;
+
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.backend.AsyncTaskWithCallback;
 import com.apisense.bee.backend.AsyncTasksCallbacks;
+
 import fr.inria.apislog.APISLog;
 import fr.inria.bsense.APISENSE;
 import fr.inria.bsense.appmodel.Experiment;
@@ -12,36 +14,32 @@ import fr.inria.bsense.service.BeeSenseServiceManager;
 
 /**
  * Start and Stop AsyncTask wrapper to simplify usage in activities
- *
  */
 public class StartStopExperimentTask {
-    private String TAG = getClass().getSimpleName();
-
     public static final int EXPERIMENT_STARTED = 1;
     public static final int EXPERIMENT_STOPPED = 2;
-
     private final AsyncTasksCallbacks listener;
     private final BSenseMobileService mobServices;
-
+    private String TAG = getClass().getSimpleName();
     private APISLog mAPISLog;
 
     // This task can either be a Start or a Stop Task
     private AsyncTaskWithCallback<Experiment, Void, Integer> task;
 
-    public StartStopExperimentTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener){
+    public StartStopExperimentTask(BeeSenseServiceManager apiServices, AsyncTasksCallbacks listener) {
         this.listener = listener;
         this.mobServices = apiServices.getBSenseMobileService();
     }
 
     public void execute(Experiment experiment) {
-        if (! experiment.state) {
-                Log.i(TAG, "Starting experiment: " + experiment);
-                task = new StartExperimentTask(listener);
-                task.execute(experiment);
+        if (!experiment.state) {
+            Log.i(TAG, "Starting experiment: " + experiment);
+            task = new StartExperimentTask(listener);
+            task.execute(experiment);
         } else {
-                Log.i(TAG, "Stopping experiment: " + experiment);
-                task = new StopExperimentTask(listener);
-                task.execute(experiment);
+            Log.i(TAG, "Stopping experiment: " + experiment);
+            task = new StopExperimentTask(listener);
+            task.execute(experiment);
         }
     }
 
