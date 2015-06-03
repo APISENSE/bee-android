@@ -17,33 +17,23 @@ import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.experiment.RetrieveInstalledExperimentsTask;
-import com.apisense.bee.backend.experiment.StartStopExperimentTask;
-import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.event.OnGameDataLoadedEvent;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
-import com.apisense.bee.ui.entity.ExperimentSerializable;
 import com.apisense.bee.widget.ApisenseTextView;
+import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.core.store.Crop;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
 
 
 public class HomeActivity extends BeeGameActivity implements View.OnClickListener {
     private final String TAG = getClass().getSimpleName();
     // Data
     protected SubscribedExperimentsListAdapter experimentsAdapter;
-
-    // Asynchronous Tasks
-    private RetrieveInstalledExperimentsTask experimentsRetrieval;
-    private SignOutTask signOut;
-    private StartStopExperimentTask experimentStartStopTask;
 
     // Gamification
     private Toolbar toolbar;
@@ -52,10 +42,13 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     private ApisenseTextView atvAchPoints;
     private ApisenseTextView atvAchCounts;
 
+    private APISENSE.Sdk apisenseSdk;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        apisenseSdk = ((BeeApplication) getApplication()).getSdk();
 
         toolbar = (Toolbar) findViewById(R.id.material_toolbar);
         toolbar.setLogo(R.drawable.ic_bee_menu);
@@ -64,7 +57,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
                 R.layout.fragment_experiment_element,
-                new ArrayList<Experiment>());
+                new ArrayList<Crop>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
         subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
         subscribedCollects.setAdapter(experimentsAdapter);
@@ -153,9 +146,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
             case R.id.action_settings:
                 doLaunchSettings();
                 break;
-            //case R.id.action_privacy:
-            //    doLaunchPrivacy();
-            //    break;
         }
         return true;
     }
@@ -166,7 +156,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         updateUI();
     }
 
-    public void setExperiments(List<Experiment> experiments) {
+    public void setExperiments(List<Crop> experiments) {
         this.experimentsAdapter.setDataSet(experiments);
     }
 
@@ -185,25 +175,16 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     }
 
     private void retrieveActiveExperiments() {
-        if (experimentsRetrieval == null) {
-            experimentsRetrieval = new RetrieveInstalledExperimentsTask(APISENSE.apisense(), new ExperimentListRetrievedCallback());
-
-            experimentsRetrieval.execute();
-        }
+        apisenseSdk.getCropManager().getSubscriptions(new ExperimentListRetrievedCallback());
     }
 
     private boolean isUserAuthenticated() {
-        return APISENSE.apisServerService().isConnected();
+        return apisenseSdk.getSessionManager().isConnected();
     }
 
     public void doLaunchSettings() {
         Intent settingsIntent = new Intent(this, SettingsActivity.class);
         startActivity(settingsIntent);
-    }
-
-    public void doLaunchPrivacy() {
-        Intent privacyIntent = new Intent(this, PrivacyActivity.class);
-        startActivity(privacyIntent);
     }
 
     public void doGoToStore(View storeButton) {
@@ -222,21 +203,19 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         }
     }
 
-    public class ExperimentListRetrievedCallback implements AsyncTasksCallbacks {
+    public class ExperimentListRetrievedCallback implements APSCallback<List<Crop>> {
         @Override
-        public void onTaskCompleted(int result, Object response) {
-            experimentsRetrieval = null;
-            List<Experiment> exp = (List<Experiment>) response;
-            Log.i(TAG, "number of Active Experiments: " + exp.size());
+        public void onDone(List<Crop> response) {
+            Log.i(TAG, "number of Active Experiments: " + response.size());
 
-            // Updating listview
-            setExperiments(exp);
+            // Updating listView
+            setExperiments(response);
             experimentsAdapter.notifyDataSetChanged();
         }
 
         @Override
-        public void onTaskCanceled() {
-            experimentsRetrieval = null;
+        public void onError(Exception e) {
+
         }
     }
 
@@ -244,14 +223,11 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), ExperimentDetailsActivity.class);
-            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
+            Crop crop = (Crop) parent.getAdapter().getItem(position);
 
             Bundle bundle = new Bundle();
-            // TODO : Prefer parcelable in the future. Problem : CREATOR method doesn't exist (to check)
-            // bundle.putParcelable("experiment", getItem(position));
-            // TODO : Maybe something extending Experiment and using JSONObject to init but it seems to be empty
-            bundle.putSerializable("experiment", new ExperimentSerializable(exp));
-            intent.putExtras(bundle); //Put your id to your next Intent
+            bundle.putParcelable("crop", crop);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
     }
@@ -259,44 +235,37 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     private class StartStopExperimentListener implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            Experiment exp = (Experiment) parent.getAdapter().getItem(position);
-            if (experimentStartStopTask == null) {
-                experimentStartStopTask = new StartStopExperimentTask(APISENSE.apisense(), new OnExperimentStatusChanged(exp));
-                experimentStartStopTask.execute(exp);
+            final Crop crop = (Crop) parent.getAdapter().getItem(position);
+            if (apisenseSdk.getCropManager().isRunning(crop)) {
+                apisenseSdk.getCropManager().stop(crop, new APSCallback<Void>() {
+                    @Override
+                    public void onDone(Void aVoid) {
+                        String text = String.format(getString(R.string.experiment_stopped), crop.getName());
+                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                        experimentsAdapter.notifyDataSetInvalidated();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error on start (" + e.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                apisenseSdk.getCropManager().start(crop, new APSCallback<Void>() {
+                    @Override
+                    public void onDone(Void aVoid) {
+                        String text = String.format(getString(R.string.experiment_started), crop.getName());
+                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                        experimentsAdapter.notifyDataSetInvalidated();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
             }
             return true;
-        }
-    }
-
-    private class OnExperimentStatusChanged implements AsyncTasksCallbacks {
-        private Experiment concernedExp;
-
-        public OnExperimentStatusChanged(Experiment exp) {
-            this.concernedExp = exp;
-        }
-
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            experimentStartStopTask = null;
-            String experimentName = concernedExp.niceName;
-            String toastMessage = "";
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                switch ((Integer) response) {
-                    case StartStopExperimentTask.EXPERIMENT_STARTED:
-                        toastMessage = String.format(getString(R.string.experiment_started), experimentName);
-                        break;
-                    case StartStopExperimentTask.EXPERIMENT_STOPPED:
-                        toastMessage = String.format(getString(R.string.experiment_stopped), experimentName);
-                        break;
-                }
-                Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-                experimentsAdapter.notifyDataSetInvalidated();
-            }
-        }
-
-        @Override
-        public void onTaskCanceled() {
-            experimentStartStopTask = null;
         }
     }
 }

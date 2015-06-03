@@ -1,32 +1,38 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'spoonware'
+spoonware.modules = [
+        'fr.spoonware.handled.HandledModule',
+        'fr.spoonware.hotcatches.HotFixesModule',
+        'fr.spoonware.npe.NpeModule',
+//    'fr.spoonware.loop.LoopModule'
+]
+
+apply plugin: "jacoco"
+jacoco.toolVersion = "0.7.1.201405082137"
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    // APISENSE dependencies
-    compile('fr.inria.apisense:apisense-library:2.1.0') {
-        exclude module: 'support-v4'
+    // Features
+    compile('com.apisense.sdk:apisense-android-sdk:0.1@aar') {
+        transitive = true
     }
-    compile 'fr.inria.asl:asl:2.1.0@pom'
-    compile 'fr.inria.asl:asl-interpreter-javascript:2.1.0'
-    compile 'fr.inria.asl:asl-node-android-facade:2.1.0'
-
-    compile('com.viewpagerindicator:library:2.4.1@aar'){
-        exclude module: 'support-v4'
-    }
-
     compile('com.google.android.gms:play-services:6.5.87') {
         exclude module: 'support-v4'
     }
 
-    // Tests with Robotium
+    // Test and monitor
+    compile 'fr.spoonware:spoonware-library-android:0.0.42'
     androidTestCompile('com.jayway.android.robotium:robotium-solo:5.2.1') {
         exclude module: 'support-v4'
     }
 
-    // Android Lollipop support animation and views
-    compile 'com.android.support:support-v4:21.+'
-    // Sexy android-L support
+    // Graphical
+    compile('com.viewpagerindicator:library:2.4.1@aar'){
+        exclude module: 'support-v4'
+    }
+    //// Android Lollipop support animation and views
+    compile 'com.android.support:support-v4:22.0'
+    //// Sexy android-L support
     compile('com.android.support:appcompat-v7:21.0.+') {
         exclude module: 'support-v4'
     }
@@ -36,12 +42,9 @@ dependencies {
     compile('com.android.support:recyclerview-v7:21.0.+') {
         exclude module: 'support-v4'
     }
-
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile('com.github.navasmdc:MaterialDesign:1.5@aar')
     compile 'com.nineoldandroids:library:2.4.0'
-
-
 }
 
 android {
@@ -112,14 +115,6 @@ android.testOptions.unitTests.all {
     afterTest { descriptor, result ->
         println "Executing test for ${descriptor.name} with result: ${result.resultType}"
     }
-}
-
-// Coverage
-// See: http://chrisjenx.com/gradle-robolectric-jacoco-dagger/
-apply plugin: "jacoco"
-
-jacoco {
-    toolVersion = "0.7.1.201405082137"
 }
 
 // Merge Unit and Instrumented test execution results into one file

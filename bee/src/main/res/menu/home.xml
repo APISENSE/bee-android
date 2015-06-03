@@ -3,15 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.apisense.bee.ui.BeeApplication">
 
-    <!--
-    <item
-        android:id="@+id/action_privacy"
-        android:icon="@drawable/ic_privacy"
-        android:orderInCategory="2"
-        android:title="@string/action_privacy"
-        app:showAsAction="always" />
-        -->
-
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_action_settings"

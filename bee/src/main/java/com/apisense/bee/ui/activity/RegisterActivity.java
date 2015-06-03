@@ -12,11 +12,10 @@ import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.user.RegisterTask;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.core.bee.Bee;
 
-import fr.inria.bsense.APISENSE;
 
 public class RegisterActivity extends BeeGameActivity {
 
@@ -24,16 +23,11 @@ public class RegisterActivity extends BeeGameActivity {
      * The default email to populate the email field with.
      */
     private final String TAG = "Register fragment";
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private RegisterTask mRegisterTask = null;
 
     // Values for pseudo and password at the time of the login attempt.
     private String mPseudo = "";
     private String mPassword = "";
     private String mPasswordRepeat = "";
-    private String mApisenseUrl = "";
 
     // UI
     private EditText mPseudoEditText;
@@ -83,23 +77,14 @@ public class RegisterActivity extends BeeGameActivity {
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email, missing fields, etc.), the errors are presented and no actual login attempt is made.
+     * Attempts to sign in or register the account specified by the login form.
+     * <p/>
+     * If there are form errors (invalid email, missing fields, etc.),
+     * The errors are presented and no actual login attempt is made.
      */
     public void attemptRegister() {
-        if (mRegisterTask != null)
-            return;
-
-        // Reset errors.
-        mPseudoEditText.setError(null);
-        mPasswordEditText.setError(null);
-        mPasswordConfirmEditText.setError(null);
-        mApisenseUrlEditText.setError(null);
-
-        // Store values at the time of the login attempt.
-        mPseudo = mPseudoEditText.getText().toString();
-        mPassword = mPasswordEditText.getText().toString();
-        mPasswordRepeat = mPasswordConfirmEditText.getText().toString();
-        mApisenseUrl = mApisenseUrlEditText.getText().toString();
+        resetFieldsError();
+        catchFieldValues();
 
         boolean cancel = false;
         View focusView = null;
@@ -117,10 +102,6 @@ public class RegisterActivity extends BeeGameActivity {
             mPasswordConfirmEditText.setError(getString(R.string.register_error_invalid_repeat_password));
             focusView = mPasswordConfirmEditText;
             cancel = true;
-        } else if (TextUtils.isEmpty(mApisenseUrl)) {
-            mApisenseUrlEditText.setError(getString(R.string.error_field_required));
-            focusView = mApisenseUrlEditText;
-            cancel = true;
         }
 
         if (cancel)
@@ -128,27 +109,44 @@ public class RegisterActivity extends BeeGameActivity {
             // form field with an error.
             focusView.requestFocus();
         else {
-            mRegisterTask = new RegisterTask(APISENSE.apisense(), new OnUserRegisteredCallback());
-            mRegisterTask.execute(mPseudo, mPassword, mApisenseUrl);
+            ((BeeApplication) getApplication()).getSdk().getSessionManager().createBee(mPseudo, mPassword, new APSCallback<Bee>() {
+                @Override
+                public void onDone(Bee bee) {
+                    ((BeeApplication) getApplication()).getSdk().getSessionManager().login(bee.email, mPassword, new APSCallback<Void>() {
+
+                        @Override
+                        public void onDone(Void aVoid) {
+                            Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.e(TAG, "Error on login", e);
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e(TAG, "Error on account creation", e);
+                }
+            });
         }
     }
 
-    private class OnUserRegisteredCallback implements AsyncTasksCallbacks {
-        @Override
-        public void onTaskCompleted(int result, Object response) {
-            Log.i(TAG, "Register result: " + result);
-            Log.i(TAG, "Register details: " + response);
-            if (result == BeeApplication.ASYNC_SUCCESS) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        }
+    private void catchFieldValues() {
+        // Store values at the time of the login attempt.
+        mPseudo = mPseudoEditText.getText().toString();
+        mPassword = mPasswordEditText.getText().toString();
+        mPasswordRepeat = mPasswordConfirmEditText.getText().toString();
+    }
 
-        public void onTaskCanceled() {
-
-            mRegisterTask.execute(mPseudo, mPassword, mApisenseUrl);
-        }
-
+    private void resetFieldsError() {
+        // Reset errors.
+        mPseudoEditText.setError(null);
+        mPasswordEditText.setError(null);
+        mPasswordConfirmEditText.setError(null);
     }
 }

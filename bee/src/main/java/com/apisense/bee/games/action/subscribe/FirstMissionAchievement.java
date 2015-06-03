@@ -1,10 +1,10 @@
 package com.apisense.bee.games.action.subscribe;
 
+import android.util.Log;
+
 import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.action.GameAchievement;
 import com.google.android.gms.games.achievement.Achievement;
-
-import fr.inria.asl.utils.Log;
 
 /**
  * This class represents the methods of a specialized achievement of first mission
@@ -12,7 +12,9 @@ import fr.inria.asl.utils.Log;
  * @author Quentin Warnant
  * @version 1.0
  */
-public class FirstMissionAchievement extends GameAchievement implements MissionSuscribeAchievement {
+public class FirstMissionAchievement extends GameAchievement implements MissionSubscribeAchievement {
+
+    public static final String TAG = "BeeFirstMission";
 
     /**
      * Constructor
@@ -28,7 +30,7 @@ public class FirstMissionAchievement extends GameAchievement implements MissionS
      */
     @Override
     public boolean process() {
-        Log.getInstance().i("BeeFirstMission", "size=" + BeeGameManager.getInstance().getCurrentExperiments().size());
+        Log.i(TAG, "size=" + BeeGameManager.getInstance().getCurrentExperiments().size());
         return BeeGameManager.getInstance().getCurrentExperiments().size() >= 1;
     }
 

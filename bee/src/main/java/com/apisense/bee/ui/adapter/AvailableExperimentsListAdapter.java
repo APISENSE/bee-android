@@ -13,17 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apisense.bee.R;
+import com.apisense.sdk.core.store.Crop;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.inria.bsense.appmodel.Experiment;
-
-public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
+public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
     private final String TAG = getClass().getSimpleName();
 
-    private List<Experiment> data;
-    private List<Experiment> filteredData;
+    private List<Crop> data;
+    private List<Crop> filteredData;
 
 
     /**
@@ -43,7 +42,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      * @param layoutResourceId
      * @param experiments      list of experiments
      */
-    public AvailableExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
+    public AvailableExperimentsListAdapter(Context context, int layoutResourceId, List<Crop> experiments) {
         super(context, layoutResourceId, experiments);
         Log.i(TAG, "List size : " + experiments.size());
         data = experiments;
@@ -67,19 +66,13 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      * @return an experiment
      */
     @Override
-    public Experiment getItem(int position) {
+    public Crop getItem(int position) {
         return filteredData.get(position);
     }
 
-    /**
-     * Get the experiment ID
-     *
-     * @param position position in the ListView
-     * @return the experiment ID
-     */
     @Override
     public long getItemId(int position) {
-        return Long.valueOf(getItem(position).id);
+        return -1;
     }
 
     /**
@@ -90,16 +83,16 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        Experiment item = getItem(position);
+        Crop item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
 
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
-        title.setText(item.niceName);
+        title.setText(item.getName());
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(item.organization);
+        company.setText(item.getOwner());
 
         ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
         ivExp.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_launcher_bee));
@@ -113,7 +106,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param dataSet
      */
-    public void setDataSet(List<Experiment> dataSet) {
+    public void setDataSet(List<Crop> dataSet) {
         this.data = dataSet;
         this.filteredData = dataSet;
     }
@@ -130,18 +123,18 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
                 String filterString = constraint.toString().toLowerCase();
                 FilterResults results = new FilterResults();
 
-                final List<Experiment> items = data;
+                final List<Crop> items = data;
 
                 int count = items.size();
-                final ArrayList<Experiment> newItems = new ArrayList<Experiment>(count);
+                final ArrayList<Crop> newItems = new ArrayList<Crop>(count);
 
-                Experiment filterableExperiment;
+                Crop filterableExperiment;
 
                 if (TextUtils.isEmpty(constraint)) {
-                    for (Experiment exp : items) newItems.add(exp);
+                    for (Crop exp : items) newItems.add(exp);
                 } else {
-                    for (Experiment exp : items) {
-                        if (exp.niceName.toLowerCase().contains(filterString)) {
+                    for (Crop exp : items) {
+                        if (exp.getName().toLowerCase().contains(filterString)) {
                             newItems.add(exp);
                         }
                     }
@@ -156,7 +149,7 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Experiment> {
             @SuppressWarnings("unchecked")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredData = (ArrayList<Experiment>) results.values;
+                filteredData = (ArrayList<Crop>) results.values;
                 notifyDataSetChanged();
             }
 

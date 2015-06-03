@@ -6,5 +6,5 @@ package com.apisense.bee.games.action.subscribe;
  * @author Quentin Warnant
  * @version 1.0
  */
-public interface MissionSuscribeAchievement {
+public interface MissionSubscribeAchievement {
 }

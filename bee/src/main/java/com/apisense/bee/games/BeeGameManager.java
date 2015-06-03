@@ -2,11 +2,12 @@ package com.apisense.bee.games;
 
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.apisense.bee.games.action.GameAchievement;
 import com.apisense.bee.games.action.GameAchievementFactory;
 import com.apisense.bee.games.action.share.ShareAceAchievement;
-import com.apisense.bee.games.action.subscribe.MissionSuscribeAchievement;
+import com.apisense.bee.games.action.subscribe.MissionSubscribeAchievement;
 import com.apisense.bee.games.event.GameEvent;
 import com.apisense.bee.games.event.GameEventListener;
 import com.apisense.bee.games.event.MissionSubscribeEvent;
@@ -15,6 +16,7 @@ import com.apisense.bee.games.event.OnGameDataLoadedListener;
 import com.apisense.bee.games.event.ShareEvent;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.games.utils.GameHelper;
+import com.apisense.sdk.core.store.Crop;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
@@ -26,9 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.inria.asl.utils.Log;
-import fr.inria.bsense.appmodel.Experiment;
-
 /**
  * This singleton class is used to handle all game actions and interaction inside the app.
  * The class manages all events coming from the app and loads the game content.
@@ -37,7 +36,7 @@ import fr.inria.bsense.appmodel.Experiment;
  * @version 1.0
  */
 public class BeeGameManager implements GameManagerInterface, GameEventListener {
-
+    private static final String TAG = "BeeGameManager";
     /**
      * The ID of the mission leaderboard on the Play Games
      */
@@ -61,7 +60,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
     /**
      * The current Bee experiment list from the APISENSE server
      */
-    private List<Experiment> currentExperiments;
+    private List<Crop> currentExperiments;
 
     /**
      * @see com.apisense.bee.games.utils.GameHelper
@@ -118,7 +117,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
     private List<GameAchievement> getGameAchievements(GameEvent event) {
         List<GameAchievement> achievements = new ArrayList<>();
         for (GameAchievement ga : currentAchievements.values()) {
-            if ((ga instanceof MissionSuscribeAchievement && event instanceof MissionSubscribeEvent) ||
+            if ((ga instanceof MissionSubscribeAchievement && event instanceof MissionSubscribeEvent) ||
                     (ga instanceof ShareAceAchievement && event instanceof ShareEvent)) {
                 achievements.add(ga);
             }
@@ -133,7 +132,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
      *
      * @param experiments List<Experiment> the new experiment list
      */
-    public void setExperiments(List<Experiment> experiments) {
+    public void setExperiments(List<Crop> experiments) {
         this.currentExperiments = experiments;
     }
 
@@ -142,7 +141,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
      *
      * @return List<Experiment> the current list
      */
-    public List<Experiment> getCurrentExperiments() {
+    public List<Crop> getCurrentExperiments() {
         return this.currentExperiments;
     }
 
@@ -220,12 +219,12 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
     @Override
     public void fireGameEventPerformed(GameEvent gameEvent) {
-        Log.getInstance().i("BeeGameManager : FireGameEventPerformed : " + gameEvent);
+        Log.i(TAG, "FireGameEventPerformed : " + gameEvent);
 
         for (GameAchievement gameAchievement : getGameAchievements(gameEvent)) {
 
             boolean process = gameAchievement.process();
-            Log.getInstance().i("BeeGameManager : FireGameEventPerformed : " + gameAchievement + " result=" + process);
+            Log.i(TAG, "FireGameEventPerformed : " + gameAchievement + " result=" + process);
 
             if (process) {
                 this.pushAchievement(gameAchievement);
@@ -250,7 +249,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
         gh.setConnectOnStart(false);
         this.currentActivity.setGameHelper(gh);
 
-        Log.getInstance().i("BeeGameManager : Loading player data ... : " + this.refreshPlayerData());
+        Log.i(TAG, "Loading player data ... : " + this.refreshPlayerData());
     }
 
     /**
@@ -272,11 +271,11 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
                         // Put the achievement on the current list
                         currentAchievements.put(achievement.getAchievementId(), gameAchievement);
 
-                        Log.getInstance().i("BeeGameManager : Achievement=" + achievement.getName() + "&status=" + achievement.getState());
+                        Log.i(TAG, "Achievement=" + achievement.getName() + "&status=" + achievement.getState());
                     }
 
                     notifyGameDataLoadedListeners();
-                    Log.getInstance().i("BeeGameManager : Handle method onResult for refreshPlayerData");
+                    Log.i(TAG, "Handle method onResult for refreshPlayerData");
                 }
             });
             return true;
@@ -304,7 +303,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
             Games.Achievements.unlock(this.currentActivity.getApiClient(), gameAchievement.getId());
         }
 
-        Log.getInstance().i("BeeGameManager : GPG Push Achievement : " + gameAchievement);
+        Log.i(TAG, "GPG Push Achievement : " + gameAchievement);
 
         // Push the score if needed
         this.pushScore(gameAchievement.getLeadboard(), gameAchievement.getScore());
@@ -344,7 +343,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
 
         Games.Leaderboards.submitScore(this.currentActivity.getApiClient(), leardboardId, score);
 
-        Log.getInstance().i("BeeGameManager : GPG Push Score for leaderboard " + leardboardId + " with score + " + score);
+        Log.i(TAG, "GPG Push Score for leaderboard " + leardboardId + " with score + " + score);
     }
 
     /**
