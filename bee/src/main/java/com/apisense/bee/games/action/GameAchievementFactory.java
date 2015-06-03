@@ -1,5 +1,7 @@
 package com.apisense.bee.games.action;
 
+import android.util.Log;
+
 import com.apisense.bee.games.action.share.ShareAceAchievement;
 import com.apisense.bee.games.action.signin.FacebookSignInAchievement;
 import com.apisense.bee.games.action.signin.GoogleSignInAchievement;
@@ -9,8 +11,6 @@ import com.apisense.bee.games.action.subscribe.CrowdSensingSpecialistAchievement
 import com.apisense.bee.games.action.subscribe.FirstMissionAchievement;
 import com.google.android.gms.games.achievement.Achievement;
 
-import fr.inria.asl.utils.Log;
-
 /**
  * This class creates the custom achievement objects from the official achievement object used by the application
  *
@@ -19,6 +19,7 @@ import fr.inria.asl.utils.Log;
  * @see com.apisense.bee.games.action.GameAchievement
  */
 public class GameAchievementFactory {
+    private static final String TAG = "GameAchievementFactory";
 
     /**
      * This method creates the custom achievement object from the official achievement object
@@ -27,7 +28,7 @@ public class GameAchievementFactory {
      * @return GameAchievement the custom achievement object
      */
     public static GameAchievement getGameAchievement(Achievement achievement) {
-        Log.getInstance().i("GameAchievementFactory", achievement.getAchievementId() + "" + achievement.getName());
+        Log.i(TAG, achievement.getAchievementId() + "" + achievement.getName());
         switch (achievement.getAchievementId()) {
             case GameAchievement.FIRST_MISSION_KEY:
                 return new FirstMissionAchievement(achievement);

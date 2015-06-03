@@ -12,24 +12,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.user.SignOutTask;
 import com.apisense.bee.ui.activity.SlideshowActivity;
-
-import fr.inria.bsense.APISENSE;
+import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.core.APSCallback;
 
 public class AccountSettingsFragment extends Fragment implements View.OnClickListener {
 
     private TextView versionView;
-    // Asynchronous Tasks
-    private SignOutTask signOut;
+    private APISENSE.Sdk apisenseSdk;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_account_settings, container, false);
-
+        apisenseSdk = ((BeeApplication)getActivity().getApplication()).getSdk();
         versionView = (TextView) root.findViewById(R.id.settings_version);
 
         if (versionView != null)
@@ -60,10 +58,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
     }
 
     protected void doDisconnect() {
-        if (signOut == null) {
-            signOut = new SignOutTask(APISENSE.apisense(), new SignedOutCallback());
-            signOut.execute();
-        }
+        apisenseSdk.getSessionManager().logout(new SignedOutCallback());
     }
 
     public void goToRegister() {
@@ -103,21 +98,20 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
     }
 
     private boolean isUserAuthenticated() {
-        return APISENSE.apisServerService().isConnected();
+        return apisenseSdk.getSessionManager().isConnected();
     }
 
-    public class SignedOutCallback implements AsyncTasksCallbacks {
+    public class SignedOutCallback implements APSCallback<Void> {
         @Override
-        public void onTaskCompleted(int result, Object response) {
-            signOut = null;
+        public void onDone(Void aVoid) {
             Toast.makeText(getActivity(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity(), SlideshowActivity.class);
             startActivity(intent);
         }
 
         @Override
-        public void onTaskCanceled() {
-            signOut = null;
+        public void onError(Exception e) {
+
         }
     }
 

@@ -3,10 +3,12 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url 'http://spoonware-test.lille.inria.fr/repo' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
 
+        classpath 'fr.spoonware:spoonware-gradle-plugin:0.0.42'
         // Android-unit-test repo
         classpath 'org.robolectric:robolectric-gradle-plugin:1.0.1'
     }
@@ -14,7 +16,9 @@ buildscript {
 
 allprojects {
     repositories {
+        // "dl.bintray.com" Must stay before mavenCentral to retrieve the right version of viewPagerIndicator
         maven { url "http://dl.bintray.com/populov/maven" }
+        maven { url 'http://spoonware-test.lille.inria.fr/repo' }
         jcenter()
         mavenCentral()
         maven {
@@ -24,6 +28,7 @@ allprojects {
                 password = "${artifactory_password}"
             }
         }
+        maven{ url '/tmp/sdkRepo' }
     }
 }
 

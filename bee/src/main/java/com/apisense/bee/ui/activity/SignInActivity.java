@@ -1,9 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,13 +11,10 @@ import android.widget.EditText;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.backend.AsyncTasksCallbacks;
-import com.apisense.bee.backend.user.SignInTask;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.core.APSCallback;
 import com.gc.materialdesign.widgets.SnackBar;
-
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.appmodel.Experiment;
 
 public class SignInActivity extends BeeGameActivity {
 
@@ -27,6 +22,8 @@ public class SignInActivity extends BeeGameActivity {
     private Button mSignInBtn;
     private EditText mPseudoEditText;
     private EditText mPasswordEditText;
+
+    private APISENSE.Sdk apisenseSdk;
 
     /**
      * Default constructor
@@ -39,6 +36,7 @@ public class SignInActivity extends BeeGameActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        apisenseSdk = ((BeeApplication) getApplication()).getSdk();
 
         // Views
         mSignInBtn = (Button) findViewById(R.id.signInLoginBtn);
@@ -54,17 +52,6 @@ public class SignInActivity extends BeeGameActivity {
 
     }
 
-    // - - - - -
-
-    /**
-     * Check if current user is authenticated
-     *
-     * @return true or false
-     */
-    private boolean isUserAuthenticated() {
-        return APISENSE.apisServerService().isConnected();
-    }
-
     /**
      * Check if sign in form is correctly filled
      *
@@ -74,11 +61,7 @@ public class SignInActivity extends BeeGameActivity {
         String mPseudo = mPseudoEditText.getText().toString();
         String mPassword = mPasswordEditText.getText().toString();
 
-        if (TextUtils.isEmpty(mPseudo) || TextUtils.isEmpty(mPassword)) {
-            return false;
-        }
-
-        return true;
+        return !(TextUtils.isEmpty(mPseudo) || TextUtils.isEmpty(mPassword));
     }
 
     /**
@@ -92,57 +75,35 @@ public class SignInActivity extends BeeGameActivity {
             return;
         }
 
-        if (isUserAuthenticated()) {
-            try {
-                APISENSE.apisMobileService().sendAllTrack();
-                APISENSE.apisMobileService().stopAllExperiments(0);
-                for (Experiment xp : APISENSE.apisMobileService().getInstalledExperiments().values())
-                    APISENSE.apisMobileService().uninstallExperiment(xp);
-            } catch (Exception e) {
-                e.printStackTrace();
-                new SnackBar(this, getResources().getString(R.string.experiment_exception_on_closure), null, null).show();
-            }
-            APISENSE.apisServerService().disconnect();
-            mSignInBtn.setText("Login");
-            new SnackBar(this, getResources().getString(R.string.status_changed_to_anonymous), null, null).show();
-        } else {
-            SignInTask signInTask = new SignInTask(APISENSE.apisense(), new AsyncTasksCallbacks() {
+        if (apisenseSdk.getSessionManager().isConnected()) {
+            apisenseSdk.getSessionManager().logout(new APSCallback<Void>() {
                 @Override
-                public void onTaskCompleted(int result, Object response) {
-                    Log.i(TAG, "Connection result: " + result);
-                    Log.i(TAG, "Connection details: " + response);
-                    if ((Integer) result == BeeApplication.ASYNC_SUCCESS) {
-                        signInSuccess();
-                    } else {
-                        signInFailed();
-                    }
+                public void onDone(Void response) {
+                    mSignInBtn.setText("Login");
+                    new SnackBar(SignInActivity.this, getResources().getString(R.string.status_changed_to_anonymous), null, null).show();
                 }
 
                 @Override
-                public void onTaskCanceled() {
-                    signInFailed();
+                public void onError(Exception e) {
+                    new SnackBar(SignInActivity.this, getResources().getString(R.string.experiment_exception_on_closure), null, null).show();
                 }
             });
+        } else {
+            apisenseSdk.getSessionManager().login(mPseudoEditText.getText().toString(), mPasswordEditText.getText().toString(),
+                    new APSCallback<Void>() {
+                        @Override
+                        public void onDone(Void response) {
+                            mSignInBtn.setText(getString(R.string.logout));
+                            Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
 
-            signInTask.execute(mPseudoEditText.getText().toString(), mPasswordEditText.getText().toString(), "");
+                        @Override
+                        public void onError(Exception e) {
+                            new SnackBar(SignInActivity.this, getResources().getString(R.string.failed_to_connect), null, null).show();
+                        }
+                    });
         }
-    }
-
-    protected void signInSuccess() {
-        mSignInBtn.setText(getString(R.string.logout));
-
-        // Set username name after sign in
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("username", mPseudoEditText.getText().toString());
-        editor.apply();
-
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
-
-    protected void signInFailed() {
-        new SnackBar(this, getResources().getString(R.string.failed_to_connect), null, null).show();
     }
 }

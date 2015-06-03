@@ -10,29 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.core.store.Crop;
 
 import java.util.List;
 
-import fr.inria.bsense.appmodel.Experiment;
-import fr.inria.bsense.service.BeeSenseServiceManager;
-
-public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
+public class SubscribedExperimentsListAdapter extends ArrayAdapter<Crop> {
     private final String TAG = getClass().getSimpleName();
 
-    private BeeSenseServiceManager apisense = null;
-    private List<Experiment> data;
-
-    /**
-     * Constructor
-     *
-     * @param context
-     * @param layoutResourceId
-     */
-    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId) {
-        super(context, layoutResourceId);
-        //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
-    }
+    private APISENSE.Sdk apisenseSdk;
+    private List<Crop> data;
 
     /**
      * Constructor
@@ -41,9 +30,9 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      * @param layoutResourceId
      * @param experiments      list of experiments
      */
-    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<Experiment> experiments) {
+    public SubscribedExperimentsListAdapter(Context context, int layoutResourceId, List<Crop> experiments) {
         super(context, layoutResourceId, experiments);
-        //apisense = ((BeeSenseApplication) getContext().getApplicationContext()).getBService();
+        apisenseSdk = ((BeeApplication) context.getApplicationContext()).getSdk();
         this.setDataSet(experiments);
     }
 
@@ -52,7 +41,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      *
      * @param dataSet
      */
-    public void setDataSet(List<Experiment> dataSet) {
+    public void setDataSet(List<Crop> dataSet) {
         this.data = dataSet;
     }
 
@@ -73,7 +62,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      * @return an experiment
      */
     @Override
-    public Experiment getItem(int position) {
+    public Crop getItem(int position) {
         return data.get(position);
     }
 
@@ -85,7 +74,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
      */
     @Override
     public long getItemId(int position) {
-        return Long.valueOf(getItem(position).id);
+        return -1;
     }
 
     /**
@@ -96,18 +85,18 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Experiment> {
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
 
-        final Experiment item = getItem(position);
+        final Crop item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
         TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
-        title.setText(item.niceName);
+        title.setText(item.getName());
         title.setTypeface(null, Typeface.BOLD);
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
-        company.setText(item.organization);
+        company.setText(item.getOwner());
 
         ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
-        if (item.state) {
+        if (apisenseSdk.getCropManager().isRunning(item)) {
             ivExp.setBackgroundResource(R.drawable.icon_mission_running);
         } else {
             ivExp.setBackgroundResource(R.drawable.icon_mission_break);

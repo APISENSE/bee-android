@@ -1,10 +1,10 @@
 package com.apisense.bee.games.action.subscribe;
 
+import android.util.Log;
+
 import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.action.GameAchievement;
 import com.google.android.gms.games.achievement.Achievement;
-
-import fr.inria.asl.utils.Log;
 
 /**
  * This class represents the methods of a specialized achievement of sensing specialist
@@ -12,9 +12,10 @@ import fr.inria.asl.utils.Log;
  * @author Quentin Warnant
  * @version 1.0
  */
-public class CrowdSensingSpecialistAchievement extends GameAchievement implements MissionSuscribeAchievement {
+public class CrowdSensingSpecialistAchievement extends GameAchievement implements MissionSubscribeAchievement {
 
     public static final int NUMBER_MISSION_REQUIRED = 6;
+    public static final String TAG = "A:SensingSpecialist";
 
     /**
      * Constructor
@@ -30,7 +31,7 @@ public class CrowdSensingSpecialistAchievement extends GameAchievement implement
      */
     @Override
     public boolean process() {
-        Log.getInstance().i("CrowdSensingSpecialistAchievement", "size=" + BeeGameManager.getInstance().getCurrentExperiments().size());
+        Log.i(TAG, "size=" + BeeGameManager.getInstance().getCurrentExperiments().size());
         //TODO category field in experiment needed
         return BeeGameManager.getInstance().getCurrentExperiments().size() >= NUMBER_MISSION_REQUIRED;
 

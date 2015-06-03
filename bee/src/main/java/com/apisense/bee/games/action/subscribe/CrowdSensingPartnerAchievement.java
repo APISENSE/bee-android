@@ -1,15 +1,16 @@
 package com.apisense.bee.games.action.subscribe;
 
+import android.util.Log;
+
 import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.games.action.GameAchievement;
+import com.apisense.sdk.core.store.Crop;
 import com.google.android.gms.games.achievement.Achievement;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.inria.asl.utils.Log;
-import fr.inria.bsense.appmodel.Experiment;
 
 /**
  * This class represents the methods of a specialized achievement of sensing partner
@@ -17,9 +18,10 @@ import fr.inria.bsense.appmodel.Experiment;
  * @author Quentin Warnant
  * @version 1.0
  */
-public class CrowdSensingPartnerAchievement extends GameAchievement implements MissionSuscribeAchievement {
+public class CrowdSensingPartnerAchievement extends GameAchievement implements MissionSubscribeAchievement {
 
     public static final int NUMBER_MISSION_REQUIRED = 3;
+    public static final String TAG = "A:CrowdSensingPartner";
 
     /**
      * Constructor
@@ -35,18 +37,17 @@ public class CrowdSensingPartnerAchievement extends GameAchievement implements M
      */
     @Override
     public boolean process() {
-
-        List<Experiment> experiments = BeeGameManager.getInstance().getCurrentExperiments();
-        Log.getInstance().i("CrowdSensingPartnerAchievement", "size=" + BeeGameManager.getInstance().getCurrentExperiments().size());
+        List<Crop> experiments = BeeGameManager.getInstance().getCurrentExperiments();
+        Log.i(TAG, "size=" + BeeGameManager.getInstance().getCurrentExperiments().size());
 
         Map<String, Integer> authors = new HashMap<>();
 
-        for (Experiment e : experiments) {
-            if (!authors.containsKey(e.collector)) {
-                authors.put(e.collector, 0);
+        for (Crop e : experiments) {
+            if (!authors.containsKey(e.getLocation())) {
+                authors.put(e.getLocation(), 0);
             }
-            Integer count = authors.get(e.collector);
-            authors.put(e.collector, count + 1);
+            Integer count = authors.get(e.getLocation());
+            authors.put(e.getLocation(), count + 1);
         }
 
         for (Map.Entry<String, Integer> entry : authors.entrySet()) {

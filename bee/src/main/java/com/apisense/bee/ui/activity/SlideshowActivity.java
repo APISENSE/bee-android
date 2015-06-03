@@ -9,6 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.fragment.ConnectivityFragment;
@@ -17,9 +18,6 @@ import com.apisense.bee.ui.fragment.RewardFragment;
 import com.apisense.bee.ui.fragment.WhatFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import fr.inria.bsense.APISENSE;
-import fr.inria.bsense.APISENSEListenner;
-import fr.inria.bsense.service.BeeSenseServiceManager;
 
 public class SlideshowActivity extends BeeGameActivity {
 
@@ -62,17 +60,11 @@ public class SlideshowActivity extends BeeGameActivity {
         indicator.setViewPager(mPager);
 
 
-        // Init APISENSE and check if already connected, just go to home Activity
-        APISENSE.init(getApplicationContext(), new APISENSEListenner() {
-            @Override
-            public void onConnected(BeeSenseServiceManager beeSenseServiceManager) {
-                if (APISENSE.apisServerService().isConnected()) {
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
+        if (((BeeApplication)getApplication()).getSdk().getSessionManager().isConnected()) {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
     }
 
