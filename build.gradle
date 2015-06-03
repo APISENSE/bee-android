@@ -31,25 +31,3 @@ allprojects {
         maven{ url '/tmp/sdkRepo' }
     }
 }
-
-def computeVersionName() {
-    def date = new Date()
-    def formattedDate = date.format('yy.MM.dd')
-    return formattedDate
-}
-
-task updateChangelog(type: Exec) {
-    commandLine 'python', 'changelogGenerator.py', 'bee-android', computeVersionName()
-}
-
-task commitNewChangelog(dependsOn: ':updateChangelog', type: Exec) {
-    commandLine 'git', 'commit', 'CHANGELOG.md', '-m "Automatic changelog update"'
-}
-
-task tagAndroidRelease(dependsOn: ':commitNewChangelog', type: Exec) {
-    commandLine 'git', 'tag', '-a', computeVersionName(), '-m "New Release of the application"'
-}
-
-task pushNewRelease(dependsOn: ':tagAndroidRelease', type: Exec) {
-    commandLine 'git', 'push', '--follow-tags'
-}
