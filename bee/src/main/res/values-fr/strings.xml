@@ -141,4 +141,11 @@
         Ressources:\n
         Images de <a href="http://www.flaticon.com/">flaticon</a> et <a href="http://iconmonstr.com/">iconmostr</a>
     </string>
+    <string name="gamehelper_app_misconfigured">GPG mal configuré</string>
+    <string name="gamehelper_license_failed">Erreur de licence GPG</string>
+    <string name="gamehelper_sign_in_failed">Erreur de connexion GPG</string>
+    <string name="gamehelper_unknown_error">Erreur GPG inconnue</string>
+    <string name="no_available_sensors">Pas de capteur disponible</string>
+    <string name="signin_other_error">Erreur GPG</string>
+    <string name="title_activity_store_search">Recherche sur le Store</string>
 </resources>
