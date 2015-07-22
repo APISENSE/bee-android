@@ -19,6 +19,7 @@ import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
+import com.rollbar.android.Rollbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +132,7 @@ public class HomeStoreFragment extends Fragment {
         public void onError(Exception e) {
             String toastMessage = String.format("Error while unsubscribing from %s", experimentName);
             Toast.makeText(getActivity().getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            Rollbar.reportException(e);
         }
     }
 
@@ -151,6 +153,7 @@ public class HomeStoreFragment extends Fragment {
         public void onError(Exception e) {
             String toastMessage = String.format("Error while subscribing to %s", experimentName);
             Toast.makeText(getActivity().getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            Rollbar.reportException(e);
         }
     }
 }

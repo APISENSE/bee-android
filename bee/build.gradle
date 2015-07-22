@@ -12,6 +12,8 @@ apply plugin: "jacoco"
 jacoco.toolVersion = "0.7.1.201405082137"
 
 dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+
     // Features
     compile('com.apisense.sdk:apisense-android-sdk:1.0.0-SNAPSHOT@aar') {
         transitive = true
