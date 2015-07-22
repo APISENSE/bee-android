@@ -1,5 +1,6 @@
 package com.apisense.bee.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.Callbacks.OnCropSubscribed;
+import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.sdk.APISENSE;
@@ -88,37 +91,33 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
 
     public void doSubscribeUnsubscribe() {
         if (apisenseSdk.getCropManager().isSubscribed(crop)) {
-            apisenseSdk.getCropManager().unsubscribe(crop, new OnCropUnsubscribed());
+            apisenseSdk.getCropManager().unsubscribe(crop, new StoreDetailsCropUnsubscribed(getBaseContext(), crop.getName()));
         } else {
-            apisenseSdk.getCropManager().subscribe(crop, new OnCropSubscribed());
+            apisenseSdk.getCropManager().subscribe(crop, new StoreDetailsCropSubscribed(getBaseContext(), crop.getName()));
         }
     }
 
-    private class OnCropUnsubscribed implements APSCallback<Void> {
-        @Override
-        public void onDone(Void response) {
-            updateSubscriptionMenu();
-            String toastMessage = String.format(getString(R.string.experiment_unsubscribed), crop.getName());
-            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+    private class StoreDetailsCropUnsubscribed extends OnCropUnsubscribed {
+        public StoreDetailsCropUnsubscribed(Context context, String cropName) {
+            super(context, cropName);
         }
 
         @Override
-        public void onError(Exception e) {
-            Rollbar.reportException(e);
+        public void onDone(Void response) {
+            super.onDone(response);
+            updateSubscriptionMenu();
         }
     }
 
-    private class OnCropSubscribed implements APSCallback<Void> {
-        @Override
-        public void onDone(Void response) {
-            updateSubscriptionMenu();
-            String toastMessage = String.format(getString(R.string.experiment_subscribed), crop.getName());
-            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
+    private class StoreDetailsCropSubscribed extends OnCropSubscribed {
+        public StoreDetailsCropSubscribed(Context context, String cropName) {
+            super(context, cropName);
         }
 
         @Override
-        public void onError(Exception e) {
-            Rollbar.reportException(e);
+        public void onDone(Void response) {
+            super.onDone(response);
+            updateSubscriptionMenu();
         }
     }
 }

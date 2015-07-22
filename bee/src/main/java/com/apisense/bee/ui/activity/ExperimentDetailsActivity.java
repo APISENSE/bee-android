@@ -1,5 +1,6 @@
 package com.apisense.bee.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -8,6 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.Callbacks.OnCropStarted;
+import com.apisense.bee.Callbacks.OnCropStopped;
+import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.sdk.APISENSE;
@@ -17,7 +21,6 @@ import com.rollbar.android.Rollbar;
 
 
 public class ExperimentDetailsActivity extends BeeGameActivity {
-
     private static String TAG = "Experiment Details Activity";
 
     private Crop crop;
@@ -72,7 +75,7 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
         mStartButton = menu.findItem(R.id.detail_action_start);
         mStopButton = menu.findItem(R.id.detail_action_stop);
 
-        if (apisenseSdk.getCropManager().isRunning(crop)){
+        if (apisenseSdk.getCropManager().isRunning(crop)) {
             displayStopButton();
         } else {
             displayStartButton();
@@ -110,31 +113,19 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
     // Buttons Handlers
     public void doStartStop() {
         if (apisenseSdk.getCropManager().isRunning(crop)) {
-            apisenseSdk.getCropManager().stop(crop, new APSCallback<Void>() {
+            apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext(), crop.getName()) {
                 @Override
                 public void onDone(Void aVoid) {
-                    String message = String.format(getString(R.string.experiment_stopped), crop.getName());
-                    Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
+                    super.onDone(aVoid);
                     displayStartButton();
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    Toast.makeText(getApplicationContext(), "Error on stop (" + e.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            apisenseSdk.getCropManager().start(crop, new APSCallback<Void>() {
+            apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext(), crop.getName()) {
                 @Override
                 public void onDone(Void aVoid) {
-                    String message = String.format(getString(R.string.experiment_started), crop.getName());
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    super.onDone(aVoid);
                     displayStopButton();
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    Toast.makeText(getApplicationContext(), "Error on start (" + e.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -142,40 +133,12 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
     }
 
     public void doSubscribeUnsubscribe() {
-//        if (apisenseSdk.getCropManager().isSubscribed(crop)) {
-            apisenseSdk.getCropManager().unsubscribe(crop, new OnCropUnsubscribed());
-//        } else {
-//            apisenseSdk.getCropManager().subscribe(crop, new OnCropSubscribed());
-//        }
+        apisenseSdk.getCropManager().unsubscribe(crop, new OnCropUnsubscribed(getBaseContext(), crop.getName()) {
+            @Override
+            public void onDone(Void response) {
+                super.onDone(response);
+                finish();
+            }
+        });
     }
-
-    private class OnCropUnsubscribed implements APSCallback<Void> {
-        @Override
-        public void onDone(Void response) {
-            String toastMessage = String.format(getString(R.string.experiment_unsubscribed), crop.getName());
-            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
-        @Override
-        public void onError(Exception e) {
-            Rollbar.reportException(e);
-            String toastMessage = String.format("Error while unsubscribing from %s", crop.getName());
-            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-//    private class OnCropSubscribed implements APSCallback<Void> {
-//        @Override
-//        public void onDone(Void response) {
-//            updateSubscriptionMenu();
-//            String toastMessage = String.format(getString(R.string.experiment_subscribed), crop.getName());
-//            Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-//        }
-//
-//        @Override
-//        public void onError(Exception e) {
-//
-//        }
-//    }
 }
