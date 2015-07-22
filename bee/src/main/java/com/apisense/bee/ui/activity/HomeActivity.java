@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.Callbacks.OnCropStarted;
+import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.BeeGameManager;
@@ -237,31 +239,19 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             final Crop crop = (Crop) parent.getAdapter().getItem(position);
             if (apisenseSdk.getCropManager().isRunning(crop)) {
-                apisenseSdk.getCropManager().stop(crop, new APSCallback<Void>() {
+                apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext(), crop.getName()) {
                     @Override
                     public void onDone(Void aVoid) {
-                        String text = String.format(getString(R.string.experiment_stopped), crop.getName());
-                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                        super.onDone(aVoid);
                         experimentsAdapter.notifyDataSetInvalidated();
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error on start (" + e.getLocalizedMessage() + ")", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
-                apisenseSdk.getCropManager().start(crop, new APSCallback<Void>() {
+                apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext(), crop.getName()) {
                     @Override
                     public void onDone(Void aVoid) {
-                        String text = String.format(getString(R.string.experiment_started), crop.getName());
-                        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                        super.onDone(aVoid);
                         experimentsAdapter.notifyDataSetInvalidated();
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
                     }
                 });
             }

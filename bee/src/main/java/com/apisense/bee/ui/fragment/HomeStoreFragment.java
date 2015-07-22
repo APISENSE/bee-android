@@ -1,5 +1,6 @@
 package com.apisense.bee.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.Callbacks.OnCropSubscribed;
+import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.StoreExperimentDetailsActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
@@ -90,9 +93,9 @@ public class HomeStoreFragment extends Fragment {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Crop crop = (Crop) parent.getAdapter().getItem(position);
             if (apisenseSdk.getCropManager().isSubscribed(crop)) {
-                apisenseSdk.getCropManager().unsubscribe(crop, new OnCropUnsubscribed(view));
+                apisenseSdk.getCropManager().unsubscribe(crop, new StoreCropUnsubscribed(getActivity().getBaseContext(), view));
             } else {
-                apisenseSdk.getCropManager().subscribe(crop, new OnCropSubscribed(view));
+                apisenseSdk.getCropManager().subscribe(crop, new StoreCropSubscribed(getActivity().getBaseContext(), view));
             }
             return true;
         }
@@ -115,45 +118,15 @@ public class HomeStoreFragment extends Fragment {
         }
     }
 
-    private class OnCropUnsubscribed implements APSCallback<Void> {
-        protected String experimentName;
-
-        public OnCropUnsubscribed(View v) {
-            experimentName = ((TextView) v.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
-        }
-
-        @Override
-        public void onDone(Void response) {
-            String toastMessage = String.format(getString(R.string.experiment_unsubscribed), experimentName);
-            Toast.makeText(getActivity().getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onError(Exception e) {
-            String toastMessage = String.format("Error while unsubscribing from %s", experimentName);
-            Toast.makeText(getActivity().getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-            Rollbar.reportException(e);
+    private class StoreCropUnsubscribed extends OnCropUnsubscribed {
+        public StoreCropUnsubscribed(Context context, View v) {
+            super(context, ((TextView) v.findViewById(R.id.experimentelement_sampletitle)).getText().toString());
         }
     }
 
-        private class OnCropSubscribed implements APSCallback<Void> {
-            protected String experimentName;
-
-            public OnCropSubscribed(View v) {
-                experimentName = ((TextView) v.findViewById(R.id.experimentelement_sampletitle)).getText().toString();
-            }
-
-            @Override
-        public void onDone(Void response) {
-            String toastMessage = String.format(getString(R.string.experiment_subscribed), experimentName);
-            Toast.makeText(getActivity().getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onError(Exception e) {
-            String toastMessage = String.format("Error while subscribing to %s", experimentName);
-            Toast.makeText(getActivity().getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
-            Rollbar.reportException(e);
+    private class StoreCropSubscribed extends OnCropSubscribed {
+        public StoreCropSubscribed(Context context, View v) {
+            super(context, ((TextView) v.findViewById(R.id.experimentelement_sampletitle)).getText().toString());
         }
     }
 }
