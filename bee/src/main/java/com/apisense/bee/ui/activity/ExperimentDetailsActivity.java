@@ -13,6 +13,7 @@ import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
+import com.rollbar.android.Rollbar;
 
 
 public class ExperimentDetailsActivity extends BeeGameActivity {
@@ -158,6 +159,7 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
 
         @Override
         public void onError(Exception e) {
+            Rollbar.reportException(e);
             String toastMessage = String.format("Error while unsubscribing from %s", crop.getName());
             Toast.makeText(getBaseContext(), toastMessage, Toast.LENGTH_SHORT).show();
         }

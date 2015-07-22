@@ -14,6 +14,7 @@ import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.rollbar.android.Rollbar;
 
 /**
  * Shows detailed informations about a given available Experiment from the store
@@ -103,7 +104,7 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
 
         @Override
         public void onError(Exception e) {
-
+            Rollbar.reportException(e);
         }
     }
 
@@ -117,7 +118,7 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
 
         @Override
         public void onError(Exception e) {
-
+            Rollbar.reportException(e);
         }
     }
 }
