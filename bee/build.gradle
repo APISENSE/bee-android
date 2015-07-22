@@ -13,7 +13,7 @@ jacoco.toolVersion = "0.7.1.201405082137"
 
 dependencies {
     // Features
-    compile('com.apisense.sdk:apisense-android-sdk:1.0.0@aar') {
+    compile('com.apisense.sdk:apisense-android-sdk:1.0.0-SNAPSHOT@aar') {
         transitive = true
     }
     compile('com.google.android.gms:play-services:6.5.87') {
@@ -71,6 +71,12 @@ android {
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
+        customRelease {
+            storeFile file("KeystoreCertificates/release.keystore")
+            storePassword "${release_keystore_password}"
+            keyAlias "bee"
+            keyPassword "${release_key_password}"
+        }
     }
 
     buildTypes {
@@ -86,6 +92,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.customRelease
         }
     }
 }

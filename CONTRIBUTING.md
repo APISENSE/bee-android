@@ -8,6 +8,8 @@
     * artifactory_user = *username*
     * artifactory_password = *artifactory_hashed_password*
     * artifactory_contextUrl = http://repo.apisense.com
+    * release_keystore_password = *keystore password*
+    * release_key_password = *key password*
 
 # External Libraries
 1. HockeyKit
