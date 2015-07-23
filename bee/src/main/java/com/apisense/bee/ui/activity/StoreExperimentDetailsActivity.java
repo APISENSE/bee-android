@@ -91,15 +91,17 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
 
     public void doSubscribeUnsubscribe() {
         if (apisenseSdk.getCropManager().isSubscribed(crop)) {
-            apisenseSdk.getCropManager().unsubscribe(crop, new StoreDetailsCropUnsubscribed(getBaseContext(), crop.getName()));
+            apisenseSdk.getCropManager()
+                    .unsubscribe(crop, new StoreDetailsCropUnsubscribed());
         } else {
-            apisenseSdk.getCropManager().subscribe(crop, new StoreDetailsCropSubscribed(getBaseContext(), crop.getName()));
+            apisenseSdk.getCropManager()
+                    .subscribe(crop, new StoreDetailsCropSubscribed());
         }
     }
 
     private class StoreDetailsCropUnsubscribed extends OnCropUnsubscribed {
-        public StoreDetailsCropUnsubscribed(Context context, String cropName) {
-            super(context, cropName);
+        public StoreDetailsCropUnsubscribed() {
+            super(getBaseContext(), crop.getName());
         }
 
         @Override
@@ -110,8 +112,8 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
     }
 
     private class StoreDetailsCropSubscribed extends OnCropSubscribed {
-        public StoreDetailsCropSubscribed(Context context, String cropName) {
-            super(context, cropName);
+        public StoreDetailsCropSubscribed() {
+            super(getBaseContext(), crop, apisenseSdk);
         }
 
         @Override
