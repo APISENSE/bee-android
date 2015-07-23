@@ -93,9 +93,11 @@ public class HomeStoreFragment extends Fragment {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Crop crop = (Crop) parent.getAdapter().getItem(position);
             if (apisenseSdk.getCropManager().isSubscribed(crop)) {
-                apisenseSdk.getCropManager().unsubscribe(crop, new StoreCropUnsubscribed(getActivity().getBaseContext(), view));
+                apisenseSdk.getCropManager()
+                        .unsubscribe(crop, new StoreCropUnsubscribed(getActivity().getBaseContext(), crop));
             } else {
-                apisenseSdk.getCropManager().subscribe(crop, new StoreCropSubscribed(getActivity().getBaseContext(), view));
+                apisenseSdk.getCropManager()
+                        .subscribe(crop, new StoreCropSubscribed(getActivity().getBaseContext(), crop));
             }
             return true;
         }
@@ -119,14 +121,14 @@ public class HomeStoreFragment extends Fragment {
     }
 
     private class StoreCropUnsubscribed extends OnCropUnsubscribed {
-        public StoreCropUnsubscribed(Context context, View v) {
-            super(context, ((TextView) v.findViewById(R.id.experimentelement_sampletitle)).getText().toString());
+        public StoreCropUnsubscribed(Context context, Crop crop) {
+            super(context, crop.getName());
         }
     }
 
     private class StoreCropSubscribed extends OnCropSubscribed {
-        public StoreCropSubscribed(Context context, View v) {
-            super(context, ((TextView) v.findViewById(R.id.experimentelement_sampletitle)).getText().toString());
+        public StoreCropSubscribed(Context context, Crop crop) {
+            super(context, crop, apisenseSdk);
         }
     }
 }
