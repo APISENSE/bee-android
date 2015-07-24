@@ -9,7 +9,7 @@ import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 import com.rollbar.android.Rollbar;
 
-public class OnCropSubscribed implements APSCallback<Void> {
+public class OnCropSubscribed implements APSCallback<Crop> {
     private Context context;
     private Crop crop;
     private APISENSE.Sdk sdk;
@@ -21,7 +21,7 @@ public class OnCropSubscribed implements APSCallback<Void> {
     }
 
     @Override
-    public void onDone(Void response) {
+    public void onDone(Crop crop) {
         String toastMessage = String.format(context.getString(R.string.experiment_subscribed), crop.getName());
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
         sdk.getCropManager().start(crop, new OnCropStarted(context, crop.getName()));
