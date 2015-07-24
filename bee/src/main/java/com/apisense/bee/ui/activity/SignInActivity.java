@@ -94,21 +94,10 @@ public class SignInActivity extends BeeGameActivity {
                     new APSCallback<Void>() {
                         @Override
                         public void onDone(Void response) {
-                            apisenseSdk.getCropManager().synchroniseSubscriptions(new APSCallback<Crop>() {
-                                @Override
-                                public void onDone(Crop crop) {
-                                    Log.d(TAG, "Crop" + crop.getName() + "modified");
-                                    mSignInBtn.setText(getString(R.string.logout));
-                                    Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                }
-
-                                @Override
-                                public void onError(Exception e) {
-                                    e.printStackTrace();
-                                }
-                            });
+                            mSignInBtn.setText(getString(R.string.logout));
+                            Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         }
 
                         @Override
