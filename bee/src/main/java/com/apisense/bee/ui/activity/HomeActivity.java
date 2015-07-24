@@ -236,7 +236,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(view.getContext(), ExperimentDetailsActivity.class);
+            Intent intent = new Intent(view.getContext(), HomeExperimentDetailsActivity.class);
             Crop crop = (Crop) parent.getAdapter().getItem(position);
 
             Bundle bundle = new Bundle();
