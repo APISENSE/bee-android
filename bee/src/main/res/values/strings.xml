@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- TODO : Put somewhere else -->
-    <string name="apislog_url" translatable="false">http://05fb8faa429c4263a7c3da0dba9772c1:508dda19a40848fc8ba2b534b93568a4@bugs.apisense.com/4</string>
     <string name="gpg_app_id" translatable="false">380173086743</string>
 
     <!-- Other -->
