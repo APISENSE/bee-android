@@ -135,8 +135,8 @@ public class ExperimentDetailsActivity extends BeeGameActivity {
     public void doSubscribeUnsubscribe() {
         apisenseSdk.getCropManager().unsubscribe(crop, new OnCropUnsubscribed(getBaseContext(), crop.getName()) {
             @Override
-            public void onDone(Void response) {
-                super.onDone(response);
+            public void onDone(Crop crop) {
+                super.onDone(crop);
                 finish();
             }
         });

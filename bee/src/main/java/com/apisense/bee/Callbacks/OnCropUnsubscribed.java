@@ -6,9 +6,10 @@ import android.widget.Toast;
 
 import com.apisense.bee.R;
 import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.core.store.Crop;
 import com.rollbar.android.Rollbar;
 
-public class OnCropUnsubscribed implements APSCallback<Void> {
+public class OnCropUnsubscribed implements APSCallback<Crop> {
     private Context context;
     private String cropName;
 
@@ -18,7 +19,7 @@ public class OnCropUnsubscribed implements APSCallback<Void> {
     }
 
     @Override
-    public void onDone(Void response) {
+    public void onDone(Crop crop) {
         String toastMessage = String.format(context.getString(R.string.experiment_unsubscribed), cropName);
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
     }

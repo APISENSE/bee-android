@@ -105,8 +105,8 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         }
 
         @Override
-        public void onDone(Void response) {
-            super.onDone(response);
+        public void onDone(Crop crop) {
+            super.onDone(crop);
             updateSubscriptionMenu();
         }
     }
@@ -117,8 +117,8 @@ public class StoreExperimentDetailsActivity extends BeeGameActivity {
         }
 
         @Override
-        public void onDone(Void response) {
-            super.onDone(response);
+        public void onDone(Crop crop) {
+            super.onDone(crop);
             updateSubscriptionMenu();
         }
     }
