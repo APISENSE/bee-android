@@ -79,8 +79,20 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         atvAchCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
         atvAchCounts.setOnClickListener(this);
 
-        updateUI();
+        apisenseSdk.getCropManager().synchroniseSubscriptions(new APSCallback<Crop>() {
+            @Override
+            public void onDone(Crop crop) {
+                Log.d(TAG, "Crop" + crop.getName() + "modified");
+                updateUI();
+            }
 
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        updateUI();
     }
 
     protected void updateGamificationPanels() {
