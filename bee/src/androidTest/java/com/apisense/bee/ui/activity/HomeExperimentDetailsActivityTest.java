@@ -2,14 +2,13 @@ package com.apisense.bee.ui.activity;
 
 import android.test.ActivityInstrumentationTestCase2;
 import com.robotium.solo.Solo;
-import junit.framework.TestCase;
 
-public class ExperimentDetailsActivityTest extends ActivityInstrumentationTestCase2<ExperimentDetailsActivity> {
+public class HomeExperimentDetailsActivityTest extends ActivityInstrumentationTestCase2<HomeExperimentDetailsActivity> {
 
     private Solo activity;
 
-    public ExperimentDetailsActivityTest() {
-        super(ExperimentDetailsActivity.class);
+    public HomeExperimentDetailsActivityTest() {
+        super(HomeExperimentDetailsActivity.class);
     }
 
     public void setUp() {
