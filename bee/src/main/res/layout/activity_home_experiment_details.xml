@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    tools:context="com.apisense.bee.ui.activity.ExperimentDetailsActivity">
+    tools:context="com.apisense.bee.ui.activity.HomeExperimentDetailsActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
-
     </LinearLayout>
 
 
@@ -38,31 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
-    <!-- Gamification
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/game_padding"
-            android:orientation="horizontal">
-
-        <com.apisense.bee.widget.ApisenseTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="1850 Points"
-                android:layout_weight="0.5"/>
-
-        <com.apisense.bee.widget.ApisenseTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Rank #40"
-                android:layout_weight="0.5"/>
-
-    </LinearLayout> -->
-
-    <!-- Activity -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,35 +58,5 @@
             android:text="@string/experiment_activity_7_days" />
 
     </LinearLayout>
-
-    <!-- Google map
-    <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/map_card_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            card_view:cardElevation="@dimen/card_elevation"
-            card_view:cardCornerRadius="4dp">
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            <fragment
-                    android:id="@+id/map"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:name="com.google.android.gms.maps.MapFragment"/>
-
-            <com.apisense.bee.widget.ApisenseTextView
-                    android:id="@+id/map_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Map of your activity for the past few days !" />
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView> -->
 
 </LinearLayout>
