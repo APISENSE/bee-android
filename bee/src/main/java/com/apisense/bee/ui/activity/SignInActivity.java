@@ -14,6 +14,7 @@ import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.core.store.Crop;
 import com.gc.materialdesign.widgets.SnackBar;
 
 public class SignInActivity extends BeeGameActivity {
