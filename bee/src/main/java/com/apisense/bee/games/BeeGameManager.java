@@ -269,7 +269,9 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
                         // Get the game achievement associated to the gpg achievement
                         GameAchievement gameAchievement = GameAchievementFactory.getGameAchievement(achievement);
                         // Put the achievement on the current list
-                        currentAchievements.put(achievement.getAchievementId(), gameAchievement);
+                        if (achievement != null) {
+                            currentAchievements.put(achievement.getAchievementId(), gameAchievement);
+                        }
 
                         Log.i(TAG, "Achievement=" + achievement.getName() + "&status=" + achievement.getState());
                     }
