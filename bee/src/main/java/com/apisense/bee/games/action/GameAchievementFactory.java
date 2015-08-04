@@ -45,7 +45,8 @@ public class GameAchievementFactory {
             case GameAchievement.CROWD_SENSING_SPECIALIST_KEY:
                 return new CrowdSensingSpecialistAchievement(achievement);
             default:
-                throw new IllegalStateException();
+                Log.w(TAG, "Unknown achievement: "+ achievement.getAchievementId());
+                return null;
         }
     }
 
