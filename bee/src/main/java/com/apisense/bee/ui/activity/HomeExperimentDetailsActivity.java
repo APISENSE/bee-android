@@ -78,18 +78,18 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
     // Buttons Handlers
     public void doStartStop() {
         if (apisenseSdk.getCropManager().isRunning(crop)) {
-            apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext(), crop.getName()) {
+            apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext()) {
                 @Override
-                public void onDone(Void aVoid) {
-                    super.onDone(aVoid);
+                public void onDone(Crop crop) {
+                    super.onDone(crop);
                     displayStartButton();
                 }
             });
         } else {
-            apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext(), crop.getName()) {
+            apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext()) {
                 @Override
-                public void onDone(Void aVoid) {
-                    super.onDone(aVoid);
+                public void onDone(Crop crop) {
+                    super.onDone(crop);
                     displayStopButton();
                 }
             });

@@ -24,7 +24,7 @@ public class OnCropSubscribed implements APSCallback<Crop> {
     public void onDone(Crop crop) {
         String toastMessage = String.format(context.getString(R.string.experiment_subscribed), crop.getName());
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
-        sdk.getCropManager().start(crop, new OnCropStarted(context, crop.getName()));
+        sdk.getCropManager().start(crop, new OnCropStarted(context));
     }
 
     @Override

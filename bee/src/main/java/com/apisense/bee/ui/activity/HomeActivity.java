@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.Callbacks.OnCropStarted;
@@ -79,21 +78,22 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         atvAchCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
         atvAchCounts.setOnClickListener(this);
 
-        apisenseSdk.getCropManager().restartActive();
-        apisenseSdk.getCropManager().synchroniseSubscriptions(new APSCallback<Crop>() {
-            @Override
-            public void onDone(Crop crop) {
-                Log.d(TAG, "Crop" + crop.getName() + "modified");
-                updateUI();
-            }
-
-            @Override
-            public void onError(Exception e) {
-                e.printStackTrace();
-            }
-        });
-
+        apisenseSdk.getCropManager().synchroniseSubscriptions(new OnCropModifiedOnStartup());
+        apisenseSdk.getCropManager().restartActive(new OnCropModifiedOnStartup());
         updateUI();
+    }
+
+    private class OnCropModifiedOnStartup implements APSCallback<Crop> {
+        @Override
+        public void onDone(Crop crop) {
+            Log.d(TAG, "Crop" + crop.getName() + "started back");
+            updateUI();
+        }
+
+        @Override
+        public void onError(Exception e) {
+
+        }
     }
 
     protected void updateGamificationPanels() {
@@ -252,18 +252,18 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             final Crop crop = (Crop) parent.getAdapter().getItem(position);
             if (apisenseSdk.getCropManager().isRunning(crop)) {
-                apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext(), crop.getName()) {
+                apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext()) {
                     @Override
-                    public void onDone(Void aVoid) {
-                        super.onDone(aVoid);
+                    public void onDone(Crop crop) {
+                        super.onDone(crop);
                         experimentsAdapter.notifyDataSetInvalidated();
                     }
                 });
             } else {
-                apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext(), crop.getName()) {
+                apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext()) {
                     @Override
-                    public void onDone(Void aVoid) {
-                        super.onDone(aVoid);
+                    public void onDone(Crop crop) {
+                        super.onDone(crop);
                         experimentsAdapter.notifyDataSetInvalidated();
                     }
                 });
