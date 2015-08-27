@@ -38,7 +38,7 @@
     <string name="login">Connexion</string>
     <string name="logout">Déconnexion</string>
     <string name="user_identity">%1$s</string>
-    <string name="pseudo">Nom d\'utilisateur</string>
+    <string name="pseudo">Adresse Email</string>
     <string name="anonymous_user">Abeille inconnue</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>

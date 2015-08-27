@@ -41,7 +41,7 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="user_identity">%1$s</string>
-    <string name="pseudo">Username</string>
+    <string name="pseudo">Email Address</string>
     <string name="anonymous_user">Unknown Bee</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
