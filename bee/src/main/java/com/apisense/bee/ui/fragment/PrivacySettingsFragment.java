@@ -9,13 +9,9 @@ import android.view.ViewGroup;
 
 import com.apisense.bee.R;
 
-/**
- * Created by Warnant on 26-03-15.
- */
-public class GeneralSettingsFragment extends Fragment {
-
+public class PrivacySettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_general_settings, container, false);
+        return inflater.inflate(R.layout.fragment_privacy_settings, container, false);
     }
 }

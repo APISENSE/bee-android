@@ -38,7 +38,6 @@
                 android:id="@+id/settings_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="goToRegister"
                 android:text="@string/settings_action_register"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:visibility="gone" />

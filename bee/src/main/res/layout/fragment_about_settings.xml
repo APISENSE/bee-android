@@ -2,21 +2,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:gravity="top"
+    android:orientation="vertical"
     tools:context="com.apisense.bee.ui.fragment.AboutSettingsFragment">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/about_content" />
+    <TextView
+        android:id="@+id/about_version_title"
+        android:text="Softwares version:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="15dp"
+        />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/about_bee_version"
+        android:text="@string/bee_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/about_version_title"
+        android:layout_alignStart="@id/about_version_title"
+        android:layout_below="@id/about_version_title"
+        android:paddingLeft="30dp" />
 
+    <TextView
+        android:id="@+id/about_apisense_version"
+        android:text="@string/apisense_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/about_bee_version"
+        android:layout_alignStart="@id/about_bee_version"
+        android:layout_below="@id/about_bee_version"
+        android:paddingLeft="30dp"/>
+
+    <TextView
+        android:id="@+id/about_team"
+        android:text="@string/about_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:layout_below="@id/about_apisense_version"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/about_resources"
+        android:text="@string/about_resources"
+        android:autoLink="all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:layout_below="@id/about_team"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/about_copyright"
+        android:text="@string/about_copyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:layout_below="@id/about_resources"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="15dp"
+        android:autoLink="all"/>
 
 </RelativeLayout>
