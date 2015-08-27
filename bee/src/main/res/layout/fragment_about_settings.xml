@@ -9,74 +9,81 @@
     android:orientation="vertical"
     tools:context="com.apisense.bee.ui.fragment.AboutSettingsFragment">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <TextView
-        android:id="@+id/about_version_title"
-        android:text="Softwares version:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingLeft="15dp"
-        />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/about_bee_version"
-        android:text="@string/bee_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/about_version_title"
-        android:layout_alignStart="@id/about_version_title"
-        android:layout_below="@id/about_version_title"
-        android:paddingLeft="30dp" />
+            <TextView
+                android:id="@+id/about_version_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="15dp"
+                android:text="Softwares version:" />
 
-    <TextView
-        android:id="@+id/about_apisense_version"
-        android:text="@string/apisense_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/about_bee_version"
-        android:layout_alignStart="@id/about_bee_version"
-        android:layout_below="@id/about_bee_version"
-        android:paddingLeft="30dp"/>
+            <TextView
+                android:id="@+id/about_bee_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/about_version_title"
+                android:layout_alignStart="@id/about_version_title"
+                android:layout_below="@id/about_version_title"
+                android:paddingLeft="30dp"
+                android:text="@string/bee_version" />
 
-    <TextView
-        android:id="@+id/about_team"
-        android:text="@string/about_team"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:layout_below="@id/about_apisense_version"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
-        android:paddingLeft="15dp"/>
+            <TextView
+                android:id="@+id/about_apisense_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/about_bee_version"
+                android:layout_alignStart="@id/about_bee_version"
+                android:layout_below="@id/about_bee_version"
+                android:paddingLeft="30dp"
+                android:text="@string/apisense_version" />
 
-    <TextView
-        android:id="@+id/about_resources"
-        android:text="@string/about_resources"
-        android:autoLink="all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:layout_below="@id/about_team"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
-        android:paddingLeft="15dp"/>
+            <TextView
+                android:id="@+id/about_team"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/about_apisense_version"
+                android:layout_marginTop="40dp"
+                android:gravity="start"
+                android:paddingLeft="15dp"
+                android:text="@string/about_team" />
 
-    <TextView
-        android:id="@+id/about_copyright"
-        android:text="@string/about_copyright"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:layout_below="@id/about_resources"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
-        android:paddingLeft="15dp"
-        android:autoLink="all"/>
+            <TextView
+                android:id="@+id/about_resources"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/about_team"
+                android:layout_marginTop="40dp"
+                android:autoLink="all"
+                android:gravity="start"
+                android:paddingLeft="15dp"
+                android:text="@string/about_resources" />
 
+            <TextView
+                android:id="@+id/about_copyright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/about_resources"
+                android:layout_marginTop="40dp"
+                android:autoLink="all"
+                android:gravity="start"
+                android:paddingLeft="15dp"
+                android:text="@string/about_copyright" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
