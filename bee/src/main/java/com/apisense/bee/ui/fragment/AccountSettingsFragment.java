@@ -17,22 +17,18 @@ import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.SlideshowActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.core.bee.Bee;
 
 public class AccountSettingsFragment extends Fragment implements View.OnClickListener {
 
-    private TextView versionView;
     private APISENSE.Sdk apisenseSdk;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_account_settings, container, false);
-        apisenseSdk = ((BeeApplication)getActivity().getApplication()).getSdk();
-        versionView = (TextView) root.findViewById(R.id.settings_version);
+        apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
 
-        if (versionView != null)
-            versionView.setText(getAppInfo().versionName);
-
+        // Click listeners
         Button mLogoutButton = (Button) root.findViewById(R.id.settings_logout);
         mLogoutButton.setOnClickListener(this);
         Button mRegisterButton = (Button) root.findViewById(R.id.settings_register);
@@ -40,7 +36,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
         Button mShareButton = (Button) root.findViewById(R.id.settings_share);
         mShareButton.setOnClickListener(this);
 
-
+        // UI Setup
         if (!isUserAuthenticated()) {
             mLogoutButton.setVisibility(View.GONE);
             mRegisterButton.setVisibility(View.VISIBLE);
@@ -80,21 +76,6 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                 doApplicationShare();
                 break;
         }
-    }
-
-    /**
-     * Helper to get the app version info
-     *
-     * @return a PackageInfo object
-     */
-    private PackageInfo getAppInfo() {
-        PackageManager manager = getActivity().getPackageManager();
-        try {
-            return manager.getPackageInfo(getActivity().getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private boolean isUserAuthenticated() {

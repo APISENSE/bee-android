@@ -95,20 +95,11 @@
     <string name="settings_section_account">Account Management</string>
     <string name="settings_action_register">Create an account</string>
     <string name="settings_action_logout">Logout</string>
-    <string name="settings_section_general">General Settings</string>
+    <string name="settings_section_privacy">Privacy Settings</string>
     <string name="settings_label_version">Application Version</string>
     <string name="settings_btn_update">Look for update</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">About</string>
-    <string name="settings_about_content">
-        <![CDATA[
-	    	<p>
-	    	    Bee is a part of <a href="http://www.apisense.com">Apisense</a> platform and it aims to research. For any informations
-	    	    look at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
-			</p>
-	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.</p>
-	    ]]>
-    </string>
 
     <!-- Store -->
     <string name="store_section_categories">Categories</string>
@@ -130,18 +121,30 @@
 
 
     <!-- About -->
-    <string name="about_content">
+    <string name="bee_version" translatable="false">Bee:\t\t %1$s</string>
+    <string name="apisense_version" translatable="false">APISENSE SDK:\t\t %1$s</string>
+    <string name="about_team">
         APISENSE® Team:\n
-        \r\r- Romain Rouvoy\n
-        \r\r- Nicolas Haderer\n
-        \r\r- Christophe Ribeiro\n
-        \r\r- Clive Ferret-Canape\n
-        \r\r- Antoine Veuiller\n
-        \r\r- Julien Duribreux
+          \t\t- Romain Rouvoy\n
+          \t\t- Nicolas Haderer\n
+          \t\t- Christophe Ribeiro\n
+          \t\t- Clive Ferret-Canape\n
+          \t\t- Antoine Veuiller\n
+          \t\t- Julien Duribreux
+    </string>
 
-        \n\n
+    <string name="about_resources">
         Resources:\n
-        Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
+          \t\t- Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
+    </string>
+    <string name="about_copyright">
+        <![CDATA[
+	    	<p>
+	    	    Bee is a part of APISENSE (http://www.apisense.com) platform and it aims to research.
+	    	    For any informations, contact us at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
+			</p>
+	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.</p>
+	    ]]>
     </string>
 
     <!-- Google Play Games -->
