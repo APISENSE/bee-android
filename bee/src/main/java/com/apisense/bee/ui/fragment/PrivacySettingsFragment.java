@@ -23,17 +23,21 @@ import java.util.List;
 
 public class PrivacySettingsFragment extends Fragment {
     private static final String TAG = "PrivacySettingsFragment";
+    private SensorListAdapter sensorsAdapter;
+    private APISENSE.Sdk apisenseSdk;
+
+    private Preferences preferences = new Preferences();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_privacy_settings, container, false);
-        APISENSE.Sdk apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
+        apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
 
         List<Sensor> sensorList = new ArrayList<>(apisenseSdk.getPreferencesManager().retrieveAvailableSensors());
         Collections.sort(sensorList);
         Log.i(TAG, "Got sensors: " + sensorList);
 
-        SensorListAdapter sensorsAdapter = new SensorListAdapter(getActivity(), R.layout.list_item_sensor);
+        sensorsAdapter = new SensorListAdapter(getActivity(), R.layout.list_item_sensor);
 
         ListView sensorsListView = (ListView) root.findViewById(R.id.sensors_list);
         sensorsListView.setAdapter(sensorsAdapter);
@@ -41,23 +45,45 @@ public class PrivacySettingsFragment extends Fragment {
 
         sensorsAdapter.setDataSet(sensorList);
         sensorsAdapter.notifyDataSetChanged();
-//        apisenseSdk.getPreferencesManager().retrievePreferences(new OnPreferencesReturned());
+        apisenseSdk.getPreferencesManager().retrievePreferences(new OnPreferencesReturned());
 
         return root;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        preferences.privacyPreferences.disabledSensors = sensorsAdapter.getDisabledSensors();
+        apisenseSdk.getPreferencesManager().savePreferences(preferences, new EmptyCallback());
+    }
 
     private class OnPreferencesReturned implements APSCallback<Preferences> {
         @Override
-        public void onDone(Preferences preferences) {
-            List<String> disabled = preferences.privacyPreferences.disabledSensors;
-            Log.i(TAG, "Got disabled sensors: " + disabled);
-            // Set switch values.
+        public void onDone(Preferences prefs) {
+            preferences = prefs;
+            List<String> disabledSting = preferences.privacyPreferences.disabledSensors;
+            Log.i(TAG, "Got disabledSting sensors: " + disabledSting);
+            for (String stingName : disabledSting) {
+                sensorsAdapter.setSensortActivation(stingName, false);
+            }
+            sensorsAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void onError(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    private class EmptyCallback implements APSCallback<Void> {
+        @Override
+        public void onDone(Void aVoid) {
+
+        }
+
+        @Override
+        public void onError(Exception e) {
+            e.printStackTrace();
         }
     }
 }
