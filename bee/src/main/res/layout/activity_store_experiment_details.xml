@@ -35,27 +35,10 @@
         android:textColor="@color/white"
         materialdesign:animate="false" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar_container"
-        android:orientation="horizontal">
-
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/store_detail_exp_organization"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical" />
-
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/store_detail_exp_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical" />
-    </LinearLayout>
+    <include
+        layout="@layout/common_experiment_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_container" />
 
 </RelativeLayout>

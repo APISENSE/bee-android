@@ -57,7 +57,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
 
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
-                R.layout.fragment_experiment_element,
+                R.layout.list_item_home_experiment,
                 new ArrayList<Crop>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
         subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));

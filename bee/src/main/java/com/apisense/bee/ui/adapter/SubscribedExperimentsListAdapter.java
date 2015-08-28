@@ -83,7 +83,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Crop> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_home_experiment, parent, false);
 
         final Crop item = getItem(position);
 

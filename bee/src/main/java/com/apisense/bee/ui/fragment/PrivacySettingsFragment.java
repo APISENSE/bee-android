@@ -30,7 +30,7 @@ public class PrivacySettingsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_privacy_settings, container, false);
+        View root = inflater.inflate(R.layout.fragment_settings_privacy, container, false);
         apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
 
         List<Sensor> sensorList = new ArrayList<>(apisenseSdk.getPreferencesManager().retrieveAvailableSensors());

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Other -->
+    <!-- Titles -->
     <string name="title_activity_slideshow">Bee</string>
     <string name="title_activity_home">Bee</string>
     <string name="title_activity_store">Magasin Bee</string>
-    <string name="title_activity_privacy">Intimité</string>
     <string name="title_activity_settings">Réglages</string>
     <string name="title_activity_experiment_details">Détails</string>
     <string name="title_activity_about">A propos</string>
@@ -13,14 +12,11 @@
     <string name="title_activity_store_experiment_details">Aperçu</string>
 
     <!-- Global -->
-    <string name="hello_world">Bonjour Monde !</string>
     <string name="action_settings">Paramètres</string>
     <string name="action_about">A propos</string>
-    <string name="action_share">Partager</string>
     <string name="action_privacy">Intimité</string>
-    <string name="by">par</string>
+    <string name="action_share">Partager</string>
     <string name="search_hint">Nom de l\'expérience</string>
-    <string name="skip">Passer</string>
 
     <!-- User feedbacks -->
     <string name="error">Erreur</string>
@@ -44,10 +40,6 @@
     <string name="password">Mot de passe</string>
     <string name="passwordConfirm">Confirmez mot de passe</string>
     <string name="registration_not_implemented">Ce type d\'inscription n\'est pas encore disponible.</string>
-
-
-    <!-- Label form -->
-    <string name="hive_url">http://beta.apisense.io/hive</string>
 
     <!-- Slides text -->
     <string name="slide_welcome_back">Bonjour</string>
@@ -74,6 +66,10 @@
     <string name="slide_connect_continue">OU CONTINUEZ AVEC</string>
 
     <!-- Experiments -->
+    <string name="exp_details_name">%1$s</string>
+    <string name="exp_details_organization">par %1$s</string>
+    <string name="exp_details_version">v%1$d</string>
+    <string name="exp_details_description">Description:\n %1$s</string>
     <string name="experiment_activity_7_days">Activité des 7 derniers jours</string>
     <string name="experiment_started">Expérience %1$s démarrée</string>
     <string name="experiment_stopped">Expérience %1$s stoppée</string>
@@ -84,41 +80,26 @@
     <string name="running">Récolte</string>
     <string name="not_running">Eteinte</string>
 
-    <!-- Privacy -->
-    <string name="privacy_section_sensor">Capteurs activés</string>
-    <string name="privacy_section_filter">Filtres définis</string>
-    <string name="privacy_label_filter_none">Aucun filtre</string>
-
     <!-- Settings -->
     <string name="settings_section_account">Compte</string>
     <string name="settings_action_register">Créer un compte</string>
     <string name="settings_action_logout">Déconnexion</string>
-    <string name="settings_section_general">Paramètres généraux</string>
     <string name="settings_label_version">Version de l\'application</string>
     <string name="settings_btn_update">Vérifier les mises à jour</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">A propos</string>
-
-    <string name="settings_about_content">
-        <![CDATA[
-	    	<p>
-	    		L\'application Bee fait partie de la plateforme <a href="http://www.apisense.fr">Apisense</a>,
-	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.fr">contact@apisense.fr</a>.
-			</p>
-	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
-	    ]]>
-    </string>
+    <string name="no_available_sensors">Pas de capteur disponible</string>
 
     <!-- Store -->
     <string name="store_section_categories">Catégories</string>
     <string name="store_section_general">Général</string>
-
     <string name="store_section_home">Accueil</string>
     <string name="experiment_subscribed">Vous participez désormais à l\'expérience %1$s</string>
     <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
     <string name="action_subscribe">S\'inscrire</string>
     <string name="action_unsubscribe">Se désinscrire</string>
     <string name="no_available_experiments">Aucune expérience trouvée !</string>
+    <string name="title_activity_store_search">Recherche sur le Store</string>
 
     <!-- Rewards -->
     <string name="reward_dollars">DOLLARS</string>
@@ -128,24 +109,37 @@
 
 
     <!-- About -->
+    <string name="about_versions_title">Version de logicels:</string>
     <string name="about_team">
-        Equipe APISENSE® :\n
-        \r\r- Romain Rouvoy\n
-        \r\r- Nicolas Haderer\n
-        \r\r- Christophe Ribeiro\n
-        \r\r- Clive Ferret-Canape\n
-        \r\r- Antoine Veuiller\n
-        \r\r- Julien Duribreux
-
-        \n\n
-        Ressources:\n
-        Images de <a href="http://www.flaticon.com/">flaticon</a> et <a href="http://iconmonstr.com/">iconmostr</a>
+        Equipe APISENSE®:\n
+          \t\t- Romain Rouvoy\n
+          \t\t- Nicolas Haderer\n
+          \t\t- Christophe Ribeiro\n
+          \t\t- Clive Ferret-Canape\n
+          \t\t- Antoine Veuiller\n
+          \t\t- Julien Duribreux
     </string>
-    <string name="gamehelper_app_misconfigured">GPG mal configuré</string>
-    <string name="gamehelper_license_failed">Erreur de licence GPG</string>
-    <string name="gamehelper_sign_in_failed">Erreur de connexion GPG</string>
-    <string name="gamehelper_unknown_error">Erreur GPG inconnue</string>
-    <string name="no_available_sensors">Pas de capteur disponible</string>
+
+        <string name="about_resources">
+        Ressources:\n
+          \t\t- Images issues de <a href="http://www.flaticon.com/">flaticon</a> et <a href="http://iconmonstr.com/">iconmostr</a>
+    </string>
+
+        <string name="about_copyright">
+        <![CDATA[
+	    	<p>
+	    		L\'application Bee fait partie de la plateforme APISENSE (http://www.apisense.com),
+	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.fr">contact@apisense.com</a>.
+			</p>
+	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
+	    ]]>
+    </string>
+
+
     <string name="signin_other_error">Erreur GPG</string>
-    <string name="title_activity_store_search">Recherche sur le Store</string>
+    <string name="gamehelper_unknown_error">Erreur GPG inconnue</string>
+    <string name="gamehelper_app_misconfigured">GPG mal configuré</string>
+    <string name="gamehelper_sign_in_failed">Erreur de connexion GPG</string>
+    <string name="gamehelper_license_failed">Erreur de licence GPG</string>
+    <string name="settings_section_privacy">Paramètres d\'intimité</string>
 </resources>
