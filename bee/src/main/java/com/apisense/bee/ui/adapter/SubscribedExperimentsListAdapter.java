@@ -95,7 +95,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Crop> {
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
         company.setText(item.getOwner());
 
-        ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
+        ImageView ivExp = (ImageView) convertView.findViewById(R.id.home_item_icon);
         if (apisenseSdk.getCropManager().isRunning(item)) {
             ivExp.setBackgroundResource(R.drawable.icon_mission_running);
         } else {

@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/game_padding"
         android:src="@drawable/ic_bee_menu" />
 
     <Switch
@@ -19,16 +21,16 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:checked="true"/>
+        android:checked="true" />
 
-    <TextView
+    <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/sensor_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/sensor_icon"
-        android:layout_toRightOf="@id/sensor_icon"
         android:layout_toLeftOf="@id/sensor_enabled"
+        android:layout_toRightOf="@id/sensor_icon"
         android:layout_toStartOf="@id/sensor_enabled"
         android:text="NAME" />
 
@@ -38,10 +40,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sensor_name"
         android:layout_toEndOf="@id/sensor_icon"
-        android:layout_toRightOf="@id/sensor_icon"
         android:layout_toLeftOf="@id/sensor_enabled"
+        android:layout_toRightOf="@id/sensor_icon"
         android:layout_toStartOf="@id/sensor_enabled"
-        android:text="this is the description placeholder" />
+        android:text="this is the description placeholder"
+        android:textStyle="italic" />
 
 
 </RelativeLayout>
