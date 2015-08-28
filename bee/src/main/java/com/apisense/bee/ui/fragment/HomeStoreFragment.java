@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.Callbacks.OnCropSubscribed;
@@ -22,7 +20,6 @@ import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
-import com.rollbar.android.Rollbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +42,7 @@ public class HomeStoreFragment extends Fragment {
 
         // Setting up available experiments list behavior
         experimentsAdapter = new AvailableExperimentsListAdapter(getActivity().getBaseContext(),
-                R.layout.fragment_experiment_store_element,
+                R.layout.list_item_store_experiment,
                 new ArrayList<Crop>());
         ListView subscribedExperiments = (ListView) root.findViewById(R.id.store_experiment_lists);
         subscribedExperiments.setEmptyView(root.findViewById(R.id.store_empty_list));

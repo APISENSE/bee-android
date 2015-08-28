@@ -17,7 +17,6 @@ import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.activity.RegisterActivity;
 import com.apisense.bee.ui.activity.SignInActivity;
-import com.apisense.bee.widget.ApisenseEditText;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
@@ -51,7 +50,7 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_connectivity, container, false);
+        View root = inflater.inflate(R.layout.fragment_slide_connectivity, container, false);
         apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
 
         this.btnLogin = (Button) root.findViewById(R.id.btnLogin);

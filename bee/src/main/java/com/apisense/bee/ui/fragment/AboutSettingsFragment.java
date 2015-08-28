@@ -12,16 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.sdk.APISENSE;
 
 public class AboutSettingsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_about_settings, container, false);
+        View root = inflater.inflate(R.layout.fragment_settings_about, container, false);
 
         TextView beeVersion = (TextView) root.findViewById(R.id.about_bee_version);
         TextView apisenseVersion = (TextView) root.findViewById(R.id.about_apisense_version);

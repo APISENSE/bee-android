@@ -33,8 +33,6 @@ public class RegisterActivity extends BeeGameActivity {
     private EditText mPseudoEditText;
     private EditText mPasswordEditText;
     private EditText mPasswordConfirmEditText;
-    private EditText mApisenseUrlEditText;
-    private TextView mApisenseHiveLabel;
     private Button mRegisterButton;
 
 
@@ -50,28 +48,12 @@ public class RegisterActivity extends BeeGameActivity {
         mPseudoEditText = (EditText) findViewById(R.id.registerPseudo);
         mPasswordEditText = (EditText) findViewById(R.id.registerPassword);
         mPasswordConfirmEditText = (EditText) findViewById(R.id.registerPasswordConfirm);
-        mApisenseHiveLabel = (TextView) findViewById(R.id.apisenseHive);
-        mApisenseUrlEditText = (EditText) findViewById(R.id.apisenseEditText);
         mRegisterButton = (Button) findViewById(R.id.registerBtn);
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptRegister();
-            }
-        });
-
-        mRegisterButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (View.VISIBLE == mApisenseUrlEditText.getVisibility()) {
-                    mApisenseUrlEditText.setVisibility(View.INVISIBLE);
-                    mApisenseHiveLabel.setVisibility(View.INVISIBLE);
-                } else {
-                    mApisenseUrlEditText.setVisibility(View.VISIBLE);
-                    mApisenseHiveLabel.setVisibility(View.VISIBLE);
-                }
-                return false;
             }
         });
     }
