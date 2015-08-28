@@ -81,22 +81,24 @@ public class AvailableExperimentsListAdapter extends ArrayAdapter<Crop> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_home_experiment, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_store_experiment, parent, false);
 
         Crop item = getItem(position);
 
         Log.v(TAG, "View asked (as a listItem) for Experiment: " + item);
 
-        TextView title = (TextView) convertView.findViewById(R.id.experimentelement_sampletitle);
+        TextView title = (TextView) convertView.findViewById(R.id.store_item_name);
         title.setText(item.getName());
         title.setTypeface(null, Typeface.BOLD);
 
-        TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
+        TextView company = (TextView) convertView.findViewById(R.id.store_item_company);
         company.setText(item.getOwner());
 
-        ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
-        ivExp.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_launcher_bee));
+        TextView description = (TextView) convertView.findViewById(R.id.store_item_description);
+        description.setText(item.getShortDescription());
 
+        ImageView ivExp = (ImageView) convertView.findViewById(R.id.store_item_icon);
+        ivExp.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_launcher_bee));
 
         return convertView;
     }
