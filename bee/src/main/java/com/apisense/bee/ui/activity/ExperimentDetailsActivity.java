@@ -1,16 +1,19 @@
 package com.apisense.bee.ui.activity;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.ui.adapter.IconAdapter;
 import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.core.preferences.Sensor;
 import com.apisense.sdk.core.store.Crop;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +28,7 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
     protected TextView organizationView;
     protected TextView versionView;
     protected TextView descriptionView;
-    protected TextView stingListView;
+    protected GridView stingGridView;
 
     protected Crop crop;
     protected APISENSE.Sdk apisenseSdk;
@@ -59,7 +62,7 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
         nameView = (TextView) findViewById(R.id.detail_exp_name);
         versionView = (TextView) findViewById(R.id.detail_exp_version);
         organizationView = (TextView) findViewById(R.id.detail_exp_organization);
-        stingListView = (TextView) findViewById(R.id.detail_exp_used_stings);
+        stingGridView = (GridView) findViewById(R.id.detail_exp_used_stings);
         descriptionView = (TextView) findViewById(R.id.detail_exp_description);
     }
 
@@ -69,7 +72,21 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
         organizationView.setText(getString(R.string.exp_details_organization, crop.getOwner()));
         versionView.setText(getString(R.string.exp_details_version, crop.getVersion()));
         descriptionView.setText(getString(R.string.exp_details_description, crop.getShortDescription()));
-        stingListView.setText("Sensors: " + crop.getUsedStings().toString());
+        List<Integer> sensorIcons = getIconsForStings(crop.getUsedStings());
+        IconAdapter sensorIconsAdapter = new IconAdapter(getBaseContext(), R.layout.grid_item_icon, sensorIcons);
+        stingGridView.setAdapter(sensorIconsAdapter);
+    }
+
+    protected List<Integer> getIconsForStings(List<String> usedStings) {
+        List<Integer> result = new ArrayList<>();
+        Sensor sensor;
+        for (String sting : usedStings) {
+            sensor = apisenseSdk.getPreferencesManager().retrieveSensorForSting(sting);
+            if (sensor != null) {
+                result.add(sensor.iconID);
+            }
+        }
+        return result;
     }
 
 
