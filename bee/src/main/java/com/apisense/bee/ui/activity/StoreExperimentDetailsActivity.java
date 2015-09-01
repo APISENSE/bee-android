@@ -1,7 +1,6 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,8 +28,7 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
 
     @Override
     public void initializeViews() {
-        mExperimentOrganization = (TextView) findViewById(R.id.store_detail_exp_organization);
-        mExperimentVersion = (TextView) findViewById(R.id.store_detail_exp_version);
+        super.initializeViews();
         this.experimentSubBtn = (ButtonFloat) findViewById(R.id.experimentSubBtn);
         this.experimentSubBtn.setOnClickListener(new View.OnClickListener() {
             @Override
