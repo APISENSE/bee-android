@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,7 @@
     tools:context="com.apisense.bee.ui.activity.HomeExperimentDetailsActivity">
 
     <LinearLayout
+        android:id="@+id/material_toolbar_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -20,43 +21,31 @@
             app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/home_exp_details_container"
+        layout="@layout/common_experiment_details"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:layout_below="@id/material_toolbar_container" />
 
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/exp_organization"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/exp_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.apisense.bee.widget.BarGraphView
+        android:id="@+id/inbox_item_graph"
+        style="@style/BarGraph"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_below="@id/home_exp_details_container"
+        android:minHeight="40sp"
+        android:background="@drawable/custom_border_rounded"
+        />
 
-        <com.apisense.bee.widget.BarGraphView
-            android:id="@+id/inbox_item_graph"
-            style="@style/BarGraph"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="20sp" />
+    <com.apisense.bee.widget.ApisenseTextView
+        android:id="@+id/exp_activity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/inbox_item_graph"
+        android:text="@string/experiment_activity_7_days"
+        />
 
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/exp_activity"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/experiment_activity_7_days" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/store_item_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/thumbnail_margin"
+        android:contentDescription="@string/experiment_image_desc" />
+
+    <LinearLayout
+        android:id="@+id/experiment_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/store_item_icon"
+        android:layout_toEndOf="@id/store_item_icon"
+        android:layout_toRightOf="@id/store_item_icon"
+        android:orientation="vertical">
+
+        <!-- Name -->
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/store_item_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Company -->
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/store_item_company"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Description -->
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/store_item_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -25,13 +25,6 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
         initExperimentDetailsActivity();
     }
 
-    // UI Initialisation
-    @Override
-    public void initializeViews() {
-        mExperimentOrganization = (TextView) findViewById(R.id.exp_organization);
-        mExperimentVersion = (TextView) findViewById(R.id.exp_version);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
