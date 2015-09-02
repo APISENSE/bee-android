@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.apisense.bee.R;
+import com.apisense.sdk.APISENSE;
 
 public class AboutSettingsFragment extends Fragment {
 
@@ -29,7 +30,7 @@ public class AboutSettingsFragment extends Fragment {
         if (getAppInfo() != null)
             beeVersion.setText(String.format(res.getString(R.string.bee_version), getAppInfo().versionName));
         // TODO: APISENSE sdk must propose a versionName value
-        apisenseVersion.setText(String.format(res.getString(R.string.apisense_version), "1.2.0-SNAPSHOT"));
+        apisenseVersion.setText(String.format(res.getString(R.string.apisense_version), APISENSE.VERSION_NAME));
 
         copyright.setMovementMethod(LinkMovementMethod.getInstance());
         copyright.setText(Html.fromHtml(res.getString(R.string.about_copyright)));
