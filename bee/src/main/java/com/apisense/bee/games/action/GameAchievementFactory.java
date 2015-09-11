@@ -2,13 +2,12 @@ package com.apisense.bee.games.action;
 
 import android.util.Log;
 
-import com.apisense.bee.games.action.share.ShareAceAchievement;
-import com.apisense.bee.games.action.signin.FacebookSignInAchievement;
-import com.apisense.bee.games.action.signin.GoogleSignInAchievement;
-import com.apisense.bee.games.action.subscribe.CrowdSensingAceAchievement;
-import com.apisense.bee.games.action.subscribe.CrowdSensingPartnerAchievement;
-import com.apisense.bee.games.action.subscribe.CrowdSensingSpecialistAchievement;
-import com.apisense.bee.games.action.subscribe.FirstMissionAchievement;
+import com.apisense.bee.games.action.achievement.ContributeToCropAchievement;
+import com.apisense.bee.games.action.achievement.GooglePlayGamesSignInAchievement;
+import com.apisense.bee.games.action.achievement.LookedAtPrivacySettingsAchievement;
+import com.apisense.bee.games.action.achievement.LookedAtTheStoreAchievement;
+import com.apisense.bee.games.action.achievement.SentFeedbackAchievement;
+import com.apisense.bee.games.action.achievement.SharedTheApplicationAchievement;
 import com.google.android.gms.games.achievement.Achievement;
 
 /**
@@ -45,29 +44,29 @@ public class GameAchievementFactory {
         Log.i(TAG, achievement.getAchievementId() + "" + achievement.getName());
         switch (achievement.getAchievementId()) {
             case NEW_BEE_KEY:
-                return new FirstMissionAchievement(achievement);
+                return new GooglePlayGamesSignInAchievement(achievement);
             case JOIN_SWARM_KEY:
-                return new ShareAceAchievement(achievement);
+                return null; // Login with Facebook or Twitter account - Unachievable
             case CURIOUS_KEY:
-                return new GoogleSignInAchievement(achievement);
+                return new LookedAtTheStoreAchievement(achievement);
             case SECRETIVE_KEY:
-                return new FacebookSignInAchievement(achievement);
+                return new LookedAtPrivacySettingsAchievement(achievement);
             case RECRUITING_KEY:
-                return new CrowdSensingAceAchievement(achievement);
+                return new SharedTheApplicationAchievement(achievement);
             case CHATTY_KEY:
-                return new CrowdSensingPartnerAchievement(achievement);
+                return new SentFeedbackAchievement(achievement);
             case QUEEN_KEY:
-                return new CrowdSensingSpecialistAchievement(achievement);
+                return null; // Unachievable
             case BRONZE_WINGS_KEY:
-                return new CrowdSensingSpecialistAchievement(achievement);
+                return new ContributeToCropAchievement(achievement, 10);
             case SILVER_WINGS_KEY:
-                return new CrowdSensingSpecialistAchievement(achievement);
+                return new ContributeToCropAchievement(achievement, 100);
             case GOLD_WINGS_KEY:
-                return new CrowdSensingSpecialistAchievement(achievement);
+                return new ContributeToCropAchievement(achievement, 1000);
             case CRYSTAL_WINGS_KEY:
-                return new CrowdSensingSpecialistAchievement(achievement);
+                return new ContributeToCropAchievement(achievement, 10000);
             default:
-                Log.w(TAG, "Unknown achievement: "+ achievement.getAchievementId());
+                Log.w(TAG, "Unknown achievement: " + achievement.getAchievementId());
                 return null;
         }
     }

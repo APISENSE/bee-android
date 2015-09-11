@@ -6,14 +6,10 @@ import android.util.Log;
 
 import com.apisense.bee.games.action.GameAchievement;
 import com.apisense.bee.games.action.GameAchievementFactory;
-import com.apisense.bee.games.action.share.ShareAceAchievement;
-import com.apisense.bee.games.action.subscribe.MissionSubscribeAchievement;
 import com.apisense.bee.games.event.GameEvent;
 import com.apisense.bee.games.event.GameEventListener;
-import com.apisense.bee.games.event.MissionSubscribeEvent;
 import com.apisense.bee.games.event.OnGameDataLoadedEvent;
 import com.apisense.bee.games.event.OnGameDataLoadedListener;
-import com.apisense.bee.games.event.ShareEvent;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.games.utils.GameHelper;
 import com.apisense.sdk.core.store.Crop;
@@ -117,10 +113,7 @@ public class BeeGameManager implements GameManagerInterface, GameEventListener {
     private List<GameAchievement> getGameAchievements(GameEvent event) {
         List<GameAchievement> achievements = new ArrayList<>();
         for (GameAchievement ga : currentAchievements.values()) {
-            if ((ga instanceof MissionSubscribeAchievement && event instanceof MissionSubscribeEvent) ||
-                    (ga instanceof ShareAceAchievement && event instanceof ShareEvent)) {
-                achievements.add(ga);
-            }
+            achievements.add(ga);
         }
         return achievements;
     }
