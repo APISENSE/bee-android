@@ -30,19 +30,19 @@ public class GameAchievementFactory {
     public static GameAchievement getGameAchievement(Achievement achievement) {
         Log.i(TAG, achievement.getAchievementId() + "" + achievement.getName());
         switch (achievement.getAchievementId()) {
-            case GameAchievement.FIRST_MISSION_KEY:
+            case GameAchievement.CURIOUS_KEY:
                 return new FirstMissionAchievement(achievement);
-            case GameAchievement.SHARE_ACE_KEY:
+            case GameAchievement.SECRETIVE_KEY:
                 return new ShareAceAchievement(achievement);
-            case GameAchievement.GOOGLE_SIGN_IN_KEY:
+            case GameAchievement.NEW_BEE_KEY:
                 return new GoogleSignInAchievement(achievement);
-            case GameAchievement.FACEBOOK_SIGN_IN_KEY:
+            case GameAchievement.JOIN_SWARM_KEY:
                 return new FacebookSignInAchievement(achievement);
-            case GameAchievement.CROWD_SENSING_ACE_KEY:
+            case GameAchievement.RECRUITING_KEY:
                 return new CrowdSensingAceAchievement(achievement);
-            case GameAchievement.CROWD_SENSING_PARTNER_KEY:
+            case GameAchievement.CHATTY_KEY:
                 return new CrowdSensingPartnerAchievement(achievement);
-            case GameAchievement.CROWD_SENSING_SPECIALIST_KEY:
+            case GameAchievement.QUEEN_KEY:
                 return new CrowdSensingSpecialistAchievement(achievement);
             default:
                 Log.w(TAG, "Unknown achievement: "+ achievement.getAchievementId());

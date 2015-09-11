@@ -10,17 +10,14 @@ import com.google.android.gms.games.achievement.Achievement;
  * @version 1.0
  */
 public abstract class GameAchievement implements GameAction {
-
-    /**
-     * This constants are the official achievement keys in the Play Games Console
-     */
-    public static final String SHARE_ACE_KEY = "CgkIl-DToIgLEAIQAw";
-    public static final String GOOGLE_SIGN_IN_KEY = "CgkIl-DToIgLEAIQAQ";
-    public static final String FACEBOOK_SIGN_IN_KEY = "CgkIl-DToIgLEAIQBg";
-    public static final String FIRST_MISSION_KEY = "CgkIl-DToIgLEAIQAg";
-    public static final String CROWD_SENSING_ACE_KEY = "CgkIl-DToIgLEAIQBQ";
-    public static final String CROWD_SENSING_PARTNER_KEY = "CgkIl-DToIgLEAIQBw";
-    public static final String CROWD_SENSING_SPECIALIST_KEY = "CgkIl-DToIgLEAIQCA";
+    // Mapping from the bee developper console
+    public static final String NEW_BEE_KEY = "CgkIl-DToIgLEAIQAQ";
+    public static final String JOIN_SWARM_KEY = "CgkIl-DToIgLEAIQBg";
+    public static final String CURIOUS_KEY = "CgkIl-DToIgLEAIQAg";
+    public static final String SECRETIVE_KEY = "CgkIl-DToIgLEAIQAw";
+    public static final String RECRUITING_KEY = "CgkIl-DToIgLEAIQBQ";
+    public static final String CHATTY_KEY = "CgkIl-DToIgLEAIQBw";
+    public static final String QUEEN_KEY = "CgkIl-DToIgLEAIQCA";
 
     /**
      * The official achievement object from the Google Play Games library
