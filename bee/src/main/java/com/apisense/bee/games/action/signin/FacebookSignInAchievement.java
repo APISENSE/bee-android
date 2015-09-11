@@ -9,7 +9,7 @@ import com.google.android.gms.games.achievement.Achievement;
  * @author Quentin Warnant
  * @version 1.0
  */
-public class FacebookSignInAchievement extends GameAchievement implements SignInAchievement {
+public class FacebookSignInAchievement extends GameAchievement {
 
     /**
      * Constructor
