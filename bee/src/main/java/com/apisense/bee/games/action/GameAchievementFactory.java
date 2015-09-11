@@ -21,6 +21,20 @@ import com.google.android.gms.games.achievement.Achievement;
 public class GameAchievementFactory {
     private static final String TAG = "GameAchievementFactory";
 
+    // TODO: Some kind of smelly code to refactor
+    public static final String NEW_BEE_KEY = "CgkIl-DToIgLEAIQAQ";
+    public static final String JOIN_SWARM_KEY = "CgkIl-DToIgLEAIQBg";
+    public static final String CURIOUS_KEY = "CgkIl-DToIgLEAIQAg";
+    public static final String SECRETIVE_KEY = "CgkIl-DToIgLEAIQAw";
+    public static final String RECRUITING_KEY = "CgkIl-DToIgLEAIQBQ";
+    public static final String CHATTY_KEY = "CgkIl-DToIgLEAIQBw";
+    public static final String QUEEN_KEY = "CgkIl-DToIgLEAIQCA";
+
+    public static final String BRONZE_WINGS_KEY = "CgkIl-DToIgLEAIQEw";
+    public static final String SILVER_WINGS_KEY = "CgkIl-DToIgLEAIQFA";
+    public static final String GOLD_WINGS_KEY = "CgkIl-DToIgLEAIQFQ";
+    public static final String CRYSTAL_WINGS_KEY = "CgkIl-DToIgLEAIQFg";
+
     /**
      * This method creates the custom achievement object from the official achievement object
      *
@@ -30,19 +44,27 @@ public class GameAchievementFactory {
     public static GameAchievement getGameAchievement(Achievement achievement) {
         Log.i(TAG, achievement.getAchievementId() + "" + achievement.getName());
         switch (achievement.getAchievementId()) {
-            case GameAchievement.CURIOUS_KEY:
+            case NEW_BEE_KEY:
                 return new FirstMissionAchievement(achievement);
-            case GameAchievement.SECRETIVE_KEY:
+            case JOIN_SWARM_KEY:
                 return new ShareAceAchievement(achievement);
-            case GameAchievement.NEW_BEE_KEY:
+            case CURIOUS_KEY:
                 return new GoogleSignInAchievement(achievement);
-            case GameAchievement.JOIN_SWARM_KEY:
+            case SECRETIVE_KEY:
                 return new FacebookSignInAchievement(achievement);
-            case GameAchievement.RECRUITING_KEY:
+            case RECRUITING_KEY:
                 return new CrowdSensingAceAchievement(achievement);
-            case GameAchievement.CHATTY_KEY:
+            case CHATTY_KEY:
                 return new CrowdSensingPartnerAchievement(achievement);
-            case GameAchievement.QUEEN_KEY:
+            case QUEEN_KEY:
+                return new CrowdSensingSpecialistAchievement(achievement);
+            case BRONZE_WINGS_KEY:
+                return new CrowdSensingSpecialistAchievement(achievement);
+            case SILVER_WINGS_KEY:
+                return new CrowdSensingSpecialistAchievement(achievement);
+            case GOLD_WINGS_KEY:
+                return new CrowdSensingSpecialistAchievement(achievement);
+            case CRYSTAL_WINGS_KEY:
                 return new CrowdSensingSpecialistAchievement(achievement);
             default:
                 Log.w(TAG, "Unknown achievement: "+ achievement.getAchievementId());

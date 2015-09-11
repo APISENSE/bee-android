@@ -10,15 +10,6 @@ import com.google.android.gms.games.achievement.Achievement;
  * @version 1.0
  */
 public abstract class GameAchievement implements GameAction {
-    // Mapping from the bee developper console
-    public static final String NEW_BEE_KEY = "CgkIl-DToIgLEAIQAQ";
-    public static final String JOIN_SWARM_KEY = "CgkIl-DToIgLEAIQBg";
-    public static final String CURIOUS_KEY = "CgkIl-DToIgLEAIQAg";
-    public static final String SECRETIVE_KEY = "CgkIl-DToIgLEAIQAw";
-    public static final String RECRUITING_KEY = "CgkIl-DToIgLEAIQBQ";
-    public static final String CHATTY_KEY = "CgkIl-DToIgLEAIQBw";
-    public static final String QUEEN_KEY = "CgkIl-DToIgLEAIQCA";
-
     /**
      * The official achievement object from the Google Play Games library
      */
