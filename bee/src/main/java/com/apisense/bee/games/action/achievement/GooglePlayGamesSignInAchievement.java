@@ -1,28 +1,26 @@
-package com.apisense.bee.games.action.signin;
+package com.apisense.bee.games.action.achievement;
 
 import com.apisense.bee.games.action.GameAchievement;
 import com.google.android.gms.games.achievement.Achievement;
 
 /**
- * This class represents the methods of a specialized achievement of Facebook Sign-In
+ * This achievement is unlocked when the user sign in on the Google play Game.
+ * Always successful when using GPG.
  *
- * @author Quentin Warnant
- * @version 1.0
  */
-public class GoogleSignInAchievement extends GameAchievement {
+public class GooglePlayGamesSignInAchievement extends GameAchievement {
 
     /**
      * Constructor
      *
      * @param achievement Achievement the official achievement object
      */
-    public GoogleSignInAchievement(Achievement achievement) {
+    public GooglePlayGamesSignInAchievement(Achievement achievement) {
         super(achievement);
     }
 
     @Override
     public boolean process() {
-        //TODO Google signin integration needed
         return true;
     }
 
