@@ -18,7 +18,6 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:background="@color/background_material_light"
-        android:onClick="doGoToProfil"
         card_view:cardCornerRadius="4dp">
 
         <LinearLayout

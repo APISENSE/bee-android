@@ -17,7 +17,8 @@ public class ContributeToCropAchievement extends GameAchievement {
 
     @Override
     public boolean process() {
-        return BeeGameManager.getInstance().getCurrentExperiments().size() >= cropLimit;
+        return false;
+//        return BeeGameManager.getInstance().getCurrentExperiments().size() >= cropLimit;
     }
 
     @Override

@@ -55,7 +55,7 @@ public interface GameManagerInterface {
      *
      * @return Intent the achievement intent
      */
-    public Intent getAchievementList();
+    public Intent getAchievementListIntent();
 
     /**
      * This method is used to push remotely a score update in a specific leaderboard on the Play Games

@@ -41,7 +41,7 @@ public class GameAchievementFactory {
      * @return GameAchievement the custom achievement object
      */
     public static GameAchievement getGameAchievement(Achievement achievement) {
-        Log.i(TAG, achievement.getAchievementId() + "" + achievement.getName());
+        Log.i(TAG, achievement.getAchievementId() + " " + achievement.getName());
         switch (achievement.getAchievementId()) {
             case NEW_BEE_KEY:
                 return new GooglePlayGamesSignInAchievement(achievement);
