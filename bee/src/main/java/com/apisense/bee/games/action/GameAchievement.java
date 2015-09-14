@@ -9,7 +9,7 @@ import com.google.android.gms.games.achievement.Achievement;
  * @author Quentin Warnant
  * @version 1.0
  */
-public abstract class GameAchievement implements GameAction {
+public abstract class GameAchievement {
     /**
      * The official achievement object from the Google Play Games library
      */
@@ -113,15 +113,20 @@ public abstract class GameAchievement implements GameAction {
      */
     public abstract boolean process();
 
-    @Override
     public String getId() {
         return this.gpgAchievement.getAchievementId();
     }
 
-    @Override
     public String getName() {
         return this.gpgAchievement.getName();
     }
+
+    /**
+     * This method returns the score of the action reward when the action is completed
+     *
+     * @return int the score
+     */
+    public abstract int getScore();
 
     @Override
     public String toString() {
