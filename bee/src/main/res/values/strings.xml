@@ -4,6 +4,18 @@
     <string name="gpg_app_id" translatable="false">380173086743</string>
     <string name="android_key_app" translatable="false">AIzaSyAOIxnHPr89eoE7XgTYBmX_hm8C8ALV9QQ</string>
 
+    <string translatable="false" name="achievement_new_bee">CgkIl-DToIgLEAIQAQ</string>
+    <string translatable="false" name="achievement_join_the_swarm">CgkIl-DToIgLEAIQBg</string>
+    <string translatable="false" name="achievement_curious_bee">CgkIl-DToIgLEAIQAg</string>
+    <string translatable="false" name="achievement_bronze_wings">CgkIl-DToIgLEAIQEw</string>
+    <string translatable="false" name="achievement_silver_wings">CgkIl-DToIgLEAIQFA</string>
+    <string translatable="false" name="achievement_gold_wings">CgkIl-DToIgLEAIQFQ</string>
+    <string translatable="false" name="achievement_crystal_wings">CgkIl-DToIgLEAIQFg</string>
+    <string translatable="false" name="achievement_secretive_bee">CgkIl-DToIgLEAIQAw</string>
+    <string translatable="false" name="achievement_recruiting_bee">CgkIl-DToIgLEAIQBQ</string>
+    <string translatable="false" name="achievement_chatty_bee">CgkIl-DToIgLEAIQBw</string>
+    <string translatable="false" name="achievement_queen_bee">CgkIl-DToIgLEAIQCA</string>
+
     <!-- Titles -->
     <string name="app_name" translatable="false">Bee</string>
     <string name="title_activity_slideshow">Bee</string>

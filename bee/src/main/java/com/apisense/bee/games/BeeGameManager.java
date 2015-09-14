@@ -4,18 +4,17 @@ package com.apisense.bee.games;
 import android.content.Intent;
 import android.util.Log;
 
-import com.apisense.bee.games.action.GameAchievement;
-import com.apisense.bee.games.action.GameAchievementFactory;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.apisense.bee.games.utils.GameHelper;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.data.DataBuffer;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.achievement.Achievement;
 import com.google.android.gms.games.achievement.Achievements;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This singleton class is used to handle all game actions and interaction inside the app.
@@ -26,20 +25,12 @@ import java.util.Map;
  */
 public class BeeGameManager implements GameManagerInterface {
     private static final String TAG = "BeeGameManager";
-    /**
-     * The ID of the mission leaderboard on the Play Games
-     */
-    public static final String MISSIONS_LEADERBOARD_ID = "CgkIl-DToIgLEAIQBA";
     private static BeeGameManager instance;
-    /**
-     * The current activity attached to the Game Manager
-     */
-    private BaseGameActivity currentActivity;
 
     /**
      * The current achievement map data indexed by the Play Games ID
      */
-    private Map<String, GameAchievement> currentAchievements;
+    private List<Achievement> currentAchievements;
 
     /**
      * @see com.apisense.bee.games.utils.GameHelper
@@ -50,8 +41,7 @@ public class BeeGameManager implements GameManagerInterface {
      * Default constructor
      */
     private BeeGameManager() {
-        this.currentActivity = null;
-        this.currentAchievements = new HashMap<>();
+        this.currentAchievements = new ArrayList<>();
     }
 
     /**
@@ -64,15 +54,6 @@ public class BeeGameManager implements GameManagerInterface {
             instance = new BeeGameManager();
         }
         return instance;
-    }
-
-    /**
-     * This method returns the state of the game manager
-     *
-     * @return boolean true if the game data from the Google Play Games are loaded, false otherwise
-     */
-    public boolean isLoaded() {
-        return this.gh.isSignedIn();
     }
 
     /**
@@ -90,10 +71,10 @@ public class BeeGameManager implements GameManagerInterface {
      *
      * @return int the current count of finished achievements
      */
-    public int getAchievementUnlockCount() {
+    public int getUnlockedAchievementsCount() {
         int count = 0;
-        for (GameAchievement achievement : currentAchievements.values()) {
-            if (achievement.isFinished()) {
+        for (Achievement achievement : currentAchievements) {
+            if (achievement.getState() == Achievement.STATE_UNLOCKED) {
                 count++;
             }
         }
@@ -117,15 +98,13 @@ public class BeeGameManager implements GameManagerInterface {
         if (currentActivity == null) {
             return;
         }
-        this.currentActivity = currentActivity;
-
-        gh = new GameHelper(this.currentActivity, GameHelper.CLIENT_ALL);
-        gh.setup(this.currentActivity);
+        gh = new GameHelper(currentActivity, GameHelper.CLIENT_ALL);
+        gh.setup(currentActivity);
         gh.enableDebugLog(true);
         gh.setConnectOnStart(false);
-        this.currentActivity.setGameHelper(gh);
+        currentActivity.setGameHelper(gh);
 
-        Log.i(TAG, "Loading player data ... : " + this.refreshPlayerData());
+//        Log.i(TAG, "Loading player data ... : " + this.refreshPlayerData());
     }
 
     /**
@@ -133,28 +112,19 @@ public class BeeGameManager implements GameManagerInterface {
      */
     @Override
     public boolean refreshPlayerData() {
-        if (this.currentActivity != null) {
+        if (gh.isSignedIn()) {
             // load achievements
-            Games.Achievements.load(this.currentActivity.getApiClient(), true)
+            Games.Achievements.load(gh.getApiClient(), true)
                     .setResultCallback(new ResultCallback<Achievements.LoadAchievementsResult>() {
                         @Override
                         public void onResult(Achievements.LoadAchievementsResult loadAchievementsResult) {
-                            currentAchievements.clear();
-
-                            for (Achievement achievement : loadAchievementsResult.getAchievements()) {
-
-                                // Get the game achievement associated to the gpg achievement
-                                GameAchievement gameAchievement = GameAchievementFactory.getGameAchievement(achievement);
-                                // Put the achievement on the current list
-                                if (gameAchievement != null) {
-                                    currentAchievements.put(achievement.getAchievementId(), gameAchievement);
-                                }
-
-                                Log.i(TAG, "Achievement=" + achievement.getName() + "&status=" + achievement.getState());
-                            }
-
-//                    notifyGameDataLoadedListeners();
                             Log.i(TAG, "Handle method onResult for refreshPlayerData");
+                            currentAchievements.clear();
+                            DataBuffer<Achievement> achievementBuffer = loadAchievementsResult.getAchievements();
+                            for (Achievement achievement : achievementBuffer) {
+                                Log.i(TAG, "Achievement=" + achievement.getName() + "&status=" + achievement.getState());
+                                currentAchievements.add(achievement);
+                            }
                         }
                     });
             return true;
@@ -166,80 +136,15 @@ public class BeeGameManager implements GameManagerInterface {
      * @see com.apisense.bee.games.GameManagerInterface
      */
     @Override
-    public void pushAchievement(GameAchievement gameAchievement) {
-        if (!isConnected())
-            return;
-
-        // Check if the achievement is not already finished
-        if (currentAchievements.get(gameAchievement.getId()).isFinished()) {
-            return;
-        }
-
-        // Check if the achievement is incremental
-        if (gameAchievement.isIncremental()) {
-            Games.Achievements.increment(this.currentActivity.getApiClient(), gameAchievement.getId(), gameAchievement.getCurrentSteps());
-        } else {
-            Games.Achievements.unlock(this.currentActivity.getApiClient(), gameAchievement.getId());
-        }
-
-        Log.i(TAG, "GPG Push Achievement : " + gameAchievement);
-
-        // Push the score if needed
-        this.pushScore(gameAchievement.getLeadboard(), gameAchievement.getScore());
-
-        // Refresh player data
-        this.refreshPlayerData();
-    }
-
-    /**
-     * @see com.apisense.bee.games.GameManagerInterface
-     */
-    @Override
-    public GameAchievement getAchievement(String achievementId) {
-        return this.currentAchievements.get(achievementId);
-    }
-
-    /**
-     * @see com.apisense.bee.games.GameManagerInterface
-     */
-    @Override
     public Intent getAchievementListIntent() {
-        return Games.Achievements.getAchievementsIntent(this.currentActivity.getApiClient());
+        return Games.Achievements.getAchievementsIntent(gh.getApiClient());
     }
 
     /**
      * @see com.apisense.bee.games.GameManagerInterface
      */
     @Override
-    public void pushScore(String leardboardId, int score) {
-        if (!isConnected()) {
-            return;
-        }
-
-        if (leardboardId == null || score <= 0) {
-            return;
-        }
-
-        Games.Leaderboards.submitScore(this.currentActivity.getApiClient(), leardboardId, score);
-
-        Log.i(TAG, "GPG Push Score for leaderboard " + leardboardId + " with score + " + score);
+    public boolean alreadySignedIn() {
+        return gh.isSignedIn();
     }
-
-    /**
-     * @see com.apisense.bee.games.GameManagerInterface
-     */
-    @Override
-    public Intent getLeaderboard(String leaderboardId) {
-        return Games.Leaderboards.getLeaderboardIntent(this.currentActivity.getApiClient(),
-                leaderboardId);
-    }
-
-    /**
-     * @see com.apisense.bee.games.GameManagerInterface
-     */
-    @Override
-    public boolean isConnected() {
-        return this.getGoogleApiClient().isConnected();
-    }
-
 }

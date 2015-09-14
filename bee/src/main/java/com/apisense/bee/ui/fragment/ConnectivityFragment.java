@@ -107,8 +107,8 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
     }
 
     private void performGoogleRegistration() {
-        BeeGameManager.getInstance().initialize((BeeGameActivity) getActivity());
-        BeeGameManager.getInstance().connectPlayer();
+//        BeeGameManager.getInstance().initialize((BeeGameActivity) getActivity());
+//        BeeGameManager.getInstance().connectPlayer();
         // TODO: [Implement] apisenseSdk.getSessionManager().createBeeFromGoogle()
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.apisense.bee.R;
 import com.apisense.bee.games.utils.BaseGameActivity;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.plus.People;
@@ -25,7 +26,11 @@ public abstract class BeeGameActivity extends BaseGameActivity {
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
-        BeeGameManager.getInstance().initialize(this);
+        BeeGameManager gameManager = BeeGameManager.getInstance();
+        gameManager.initialize(this);
+        if (gameManager.alreadySignedIn()) {
+            gameManager.connectPlayer();
+        }
         getGameHelper().setMaxAutoSignInAttempts(0);
     }
 
@@ -36,7 +41,7 @@ public abstract class BeeGameActivity extends BaseGameActivity {
 
     @Override
     public void onSignInSucceeded() {
-//        new GooglePlayGamesSignInAchievement().unlock();
+        new SimpleGameAchievement(getString(R.string.achievement_new_bee)).unlock(this);
 
         // Get the person data
         Plus.PeopleApi.loadConnected(BeeGameManager.getInstance().getGoogleApiClient())
@@ -59,12 +64,6 @@ public abstract class BeeGameActivity extends BaseGameActivity {
                 });
 
 
-        BeeGameManager.getInstance().refreshPlayerData();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         BeeGameManager.getInstance().refreshPlayerData();
     }
 }
