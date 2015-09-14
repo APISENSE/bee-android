@@ -74,14 +74,19 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
 
         apisenseSdk.getCropManager().synchroniseSubscriptions(new OnCropModifiedOnStartup());
         apisenseSdk.getCropManager().restartActive(new OnCropModifiedOnStartup());
-//        updateUI();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateGamificationPanels();
         updateUI();
+        updateGamificationPanels();
+    }
+
+    @Override
+    public void onSignInSucceeded() {
+        super.onSignInSucceeded();
+        updateGamificationPanels();
     }
 
     private class OnCropModifiedOnStartup implements APSCallback<Crop> {
@@ -98,16 +103,15 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     }
 
     protected void updateGamificationPanels() {
-        if (BeeGameManager.getInstance().isLoaded()) {
+        if (BeeGameManager.getInstance().alreadySignedIn()) {
             noGamificationPanel.setVisibility(View.GONE);
             gamificationPanel.setVisibility(View.VISIBLE);
-            BeeGameManager.getInstance().refreshPlayerData();
         } else {
             noGamificationPanel.setVisibility(View.VISIBLE);
             gamificationPanel.setVisibility(View.GONE);
         }
         // Refresh gamification text views after the refresh of game data
-        int achievementUnlockCount = BeeGameManager.getInstance().getAchievementUnlockCount();
+        int achievementUnlockCount = BeeGameManager.getInstance().getUnlockedAchievementsCount();
         achievementsCounts.setText(String.valueOf(achievementUnlockCount));
     }
 
@@ -115,7 +119,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.no_gamification_panel:
-                BeeGameManager.getInstance().initialize(this);
                 BeeGameManager.getInstance().connectPlayer();
                 break;
             case R.id.gamification_panel:

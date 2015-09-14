@@ -27,7 +27,7 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
         layoutAchievements.setOnClickListener(this);
 
         ApisenseTextView apvAchievements = (ApisenseTextView) findViewById(R.id.reward_game_achievements);
-        apvAchievements.setText(String.valueOf(BeeGameManager.getInstance().getAchievementUnlockCount()));
+        apvAchievements.setText(String.valueOf(BeeGameManager.getInstance().getUnlockedAchievementsCount()));
     }
 
     public void doGoToHome(View homeButton) {
