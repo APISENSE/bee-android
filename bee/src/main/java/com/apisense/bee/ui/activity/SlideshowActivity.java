@@ -60,7 +60,7 @@ public class SlideshowActivity extends ActionBarActivity {
         indicator.setViewPager(mPager);
 
 
-        if (((BeeApplication)getApplication()).getSdk().getSessionManager().isConnected()) {
+        if (((BeeApplication) getApplication()).getSdk().getSessionManager().isConnected()) {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
             finish();

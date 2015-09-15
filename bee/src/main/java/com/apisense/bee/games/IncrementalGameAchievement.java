@@ -21,7 +21,7 @@ public class IncrementalGameAchievement {
         }
     }
 
-    public void increment(Fragment fromFragment){
+    public void increment(Fragment fromFragment) {
         Activity hostActivity = fromFragment.getActivity();
         if (hostActivity instanceof BeeGameActivity) {
             increment((BeeGameActivity) hostActivity);

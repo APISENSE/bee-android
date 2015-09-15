@@ -9,11 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.bee.Bee;
 

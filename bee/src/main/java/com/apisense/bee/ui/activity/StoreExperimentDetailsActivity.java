@@ -2,7 +2,6 @@ package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.apisense.bee.Callbacks.OnCropSubscribed;
 import com.apisense.bee.Callbacks.OnCropUnsubscribed;
