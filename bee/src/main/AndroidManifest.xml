@@ -12,9 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
 
-    <!-- GPG Permission, to show user identity -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
