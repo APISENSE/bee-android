@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.apisense.bee.Callbacks.OnCropSubscribed;
 import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
+import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.sdk.core.store.Crop;
 import com.gc.materialdesign.views.ButtonFloat;
 
@@ -78,6 +79,15 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
         public void onDone(Crop crop) {
             super.onDone(crop);
             updateSubscriptionMenu();
+            // Increment every subscription related achievements
+            new IncrementalGameAchievement(getString(R.string.achievement_bronze_wings))
+                    .increment(StoreExperimentDetailsActivity.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_silver_wings))
+                    .increment(StoreExperimentDetailsActivity.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_gold_wings))
+                    .increment(StoreExperimentDetailsActivity.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_crystal_wings))
+                    .increment(StoreExperimentDetailsActivity.this);
         }
     }
 }

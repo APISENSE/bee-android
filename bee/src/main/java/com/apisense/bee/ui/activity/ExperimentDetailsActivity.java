@@ -25,7 +25,7 @@ import java.util.List;
  * include the layout "common_experiment_details", i.e. contain the line:
  * <include layout="@layout/common_experiment_details"/>
  */
-public abstract class ExperimentDetailsActivity extends ActionBarActivity {
+public abstract class ExperimentDetailsActivity extends BeeGameActivity {
     protected TextView nameView;
     protected TextView organizationView;
     protected TextView versionView;

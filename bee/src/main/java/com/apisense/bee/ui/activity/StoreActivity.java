@@ -8,15 +8,17 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.fragment.CategoryStoreFragment;
 import com.apisense.bee.ui.fragment.HomeStoreFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
 import com.astuetz.PagerSlidingTabStrip;
 
-public class StoreActivity extends ActionBarActivity {
+public class StoreActivity extends BeeGameActivity {
 
     /**
      * The number of pages (wizard steps) to show
@@ -52,8 +54,13 @@ public class StoreActivity extends ActionBarActivity {
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(mPager);
+    }
 
-
+    @Override
+    public void onSignInSucceeded() {
+        super.onSignInSucceeded();
+        // New achievement unlocked!
+        new SimpleGameAchievement(getString(R.string.achievement_curious_bee)).unlock(this);
     }
 
     private class StorePagerAdapter extends FragmentPagerAdapter {
