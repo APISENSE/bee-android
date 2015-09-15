@@ -1,6 +1,8 @@
 package com.apisense.bee.games;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -13,6 +15,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.data.DataBuffer;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesStatusCodes;
+import com.google.android.gms.games.Player;
 import com.google.android.gms.games.achievement.Achievement;
 import com.google.android.gms.games.achievement.AchievementBuffer;
 import com.google.android.gms.games.achievement.Achievements;
@@ -20,6 +23,8 @@ import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,71 +33,110 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * This class is used to encapsulate the default Play Games activity.
- * The class initializes the BeeGameManager
- * and the Google Play Games helper provided by the Google Team.
+ * Also handle generic data retrieval about player and game statistics.
  *
  * @author Quentin Warnant
  * @version 1.0
  */
 public abstract class BeeGameActivity extends BaseGameActivity {
     private static final String TAG = "BeeGameActivity";
-    private Map<String, Achievement> currentAchievements = new HashMap<>();
+
+    private static String username;
+    private static Drawable userImage;
+    protected static int unlockedCount = 0;
 
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
     }
 
+    protected void onPlayGamesDataRecovered() {
+
+    }
+
     @Override
     public void onSignInSucceeded() {
         new SimpleGameAchievement(getString(R.string.achievement_new_bee)).unlock(this);
-
-        refreshAchievements();
-        String username = Games.getCurrentAccountName(getApiClient());
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("username", username);
-        editor.apply();
+        new RetrievePlayGamesData().execute();
     }
 
     @Override
     public void onSignInFailed() {
-        //TODO
+        // Nothing
     }
 
-    /**
-     * This method returns the count of finished achievements on the game
-     *
-     * @return int the current count of finished achievements
-     */
-    protected int getUnlockedAchievementsCount() {
-        int count = 0;
-        for (Achievement achievement : currentAchievements.values()) {
-            if (achievement.getState() == Achievement.STATE_UNLOCKED) {
-                count++;
+    protected String getUserDisplayName() {
+        return username != null ? username : getResources().getString(R.string.anonymous_user);
+    }
+
+    protected Drawable getUserImage() {
+        return userImage != null ? userImage : getResources().getDrawable(R.drawable.ic_launcher_bee);
+    }
+
+    private class RetrievePlayGamesData extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // Retrieve data about player
+            Player player = Games.Players.getCurrentPlayer(getApiClient());
+            username = player.getDisplayName();
+
+            if (userImage == null) { // Avoid retrieval of image on each refresh of the activity
+                userImage = retrieveDrawableFromLocation(player.getIconImageUrl());
+            }
+
+            // Retrieve data about achievements
+            refreshAchievements();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nothing) {
+            onPlayGamesDataRecovered();
+        }
+
+        private Drawable retrieveDrawableFromLocation(String location) {
+            try {
+                Log.d(TAG, "Retrieving user image from location: " + location);
+                InputStream is = (InputStream) new URL(location).getContent();
+                return Drawable.createFromStream(is, null);
+            } catch (Exception e) {
+                Log.w(TAG, "Unable to retrieve user icon: " + e.getMessage());
+                return null;
             }
         }
-        return count;
-    }
 
-    protected void refreshAchievements() {
-        if (isSignedIn()) {
-            // load achievements
-            Games.Achievements.load(getApiClient(), false) // true will disable cache usage.
-                    .setResultCallback(new ResultCallback<Achievements.LoadAchievementsResult>() {
-                        @Override
-                        public void onResult(Achievements.LoadAchievementsResult loadAchievementsResult) {
-                            Log.i(TAG, "Handle method onResult for refreshAchievements");
-                            DataBuffer<Achievement> achievementBuffer = loadAchievementsResult.getAchievements();
-                            for (Achievement achievement : achievementBuffer) {
-                                Log.i(TAG, "Achievement=" + achievement.getName() + "&status=" + achievement.getState());
-                                currentAchievements.put(achievement.getAchievementId(), achievement);
-                            }
-                            achievementBuffer.close();
-                            loadAchievementsResult.release();
-                        }
-                    });
+        private void refreshAchievements() {
+            final List<Achievement> currentAchievements = new ArrayList<>();
+            Achievements.LoadAchievementsResult loadAchievementsResult = Games.Achievements.load(getApiClient(), false).await(10, TimeUnit.SECONDS); // true will disable cache usage.
+            DataBuffer<Achievement> achievementBuffer = loadAchievementsResult.getAchievements();
+
+            for (Achievement achievement : achievementBuffer) {
+                Log.d(TAG, "Achievement=" + achievement.getName() + "&status=" + achievement.getState());
+                currentAchievements.add(achievement);
+            }
+
+            // Update data about achievements
+            updateUnlockedAchievementsCount(currentAchievements);
+
+            // Close buffers, achievement no more accessible
+            achievementBuffer.close();
+            loadAchievementsResult.release();
+        }
+
+        /**
+         * This method returns the count of finished achievements on the game
+         *
+         * @return int the current count of finished achievements
+         */
+        private void updateUnlockedAchievementsCount(List<Achievement> currentAchievements) {
+            int count = 0;
+            for (Achievement achievement : currentAchievements) {
+                if (achievement.getState() == Achievement.STATE_UNLOCKED) {
+                    count++;
+                }
+            }
+            unlockedCount = count;
         }
     }
 }

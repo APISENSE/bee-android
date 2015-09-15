@@ -1,9 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -18,13 +16,11 @@ import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
-import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
-import com.google.android.gms.games.Games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,13 +76,11 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        updateUI();
-        updateGamificationPanels();
+        retrieveActiveExperiments();
     }
 
     @Override
-    public void onSignInSucceeded() {
-        super.onSignInSucceeded();
+    protected void onPlayGamesDataRecovered() {
         updateGamificationPanels();
     }
 
@@ -94,18 +88,13 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         @Override
         public void onDone(Crop crop) {
             Log.d(TAG, "Crop" + crop.getName() + "started back");
-            updateUI();
+            experimentsAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void onError(Exception e) {
 
         }
-    }
-
-    @Override
-    public void onSignInFailed() {
-        //TODO
     }
 
     protected void updateGamificationPanels() {
@@ -117,8 +106,10 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
             gamificationPanel.setVisibility(View.GONE);
         }
         // Refresh gamification text views after the refresh of game data
-        int achievementUnlockCount = getUnlockedAchievementsCount();
-        achievementsCounts.setText(String.valueOf(achievementUnlockCount));
+        achievementsCounts.setText(String.valueOf(unlockedCount));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        toolbar.setLogo(getUserImage());
+        toolbar.setTitle(getUserDisplayName());
     }
 
     @Override
@@ -156,22 +147,8 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         this.experimentsAdapter.setDataSet(experiments);
     }
 
-    private void updateUI() {
-        retrieveActiveExperiments();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String username = settings.getString("username", getString(R.string.anonymous_user));
-        toolbar.setTitle(getString(R.string.user_identity, username));
-    }
-
     private void retrieveActiveExperiments() {
         apisenseSdk.getCropManager().getSubscriptions(new ExperimentListRetrievedCallback());
-    }
-
-    private boolean isUserAuthenticated() {
-        return apisenseSdk.getSessionManager().isConnected();
     }
 
     public void doLaunchSettings() {
@@ -222,7 +199,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
                     @Override
                     public void onDone(Crop crop) {
                         super.onDone(crop);
-                        experimentsAdapter.notifyDataSetInvalidated();
+                        experimentsAdapter.notifyDataSetChanged();
                     }
                 });
             } else {
@@ -230,7 +207,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
                     @Override
                     public void onDone(Crop crop) {
                         super.onDone(crop);
-                        experimentsAdapter.notifyDataSetInvalidated();
+                        experimentsAdapter.notifyDataSetChanged();
                     }
                 });
             }

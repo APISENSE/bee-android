@@ -25,14 +25,17 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
 
         LinearLayout layoutAchievements = (LinearLayout) findViewById(R.id.reward_game_badge_panel);
         layoutAchievements.setOnClickListener(this);
-
-        ApisenseTextView apvAchievements = (ApisenseTextView) findViewById(R.id.reward_game_achievements);
-        apvAchievements.setText(String.valueOf(getUnlockedAchievementsCount()));
     }
 
     public void doGoToHome(View homeButton) {
         Intent homeIntent = new Intent(this, HomeActivity.class);
         startActivity(homeIntent);
+    }
+
+    @Override
+    protected void onPlayGamesDataRecovered() {
+        ApisenseTextView apvAchievements = (ApisenseTextView) findViewById(R.id.reward_game_achievements);
+        apvAchievements.setText(String.valueOf(unlockedCount));
     }
 
     @Override
