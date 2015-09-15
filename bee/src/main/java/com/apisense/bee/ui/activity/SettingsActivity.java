@@ -12,13 +12,17 @@ import android.support.v7.widget.Toolbar;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.fragment.AboutSettingsFragment;
 import com.apisense.bee.ui.fragment.AccountSettingsFragment;
 import com.apisense.bee.ui.fragment.PrivacySettingsFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
+import com.apisense.sdk.core.bee.Bee;
 import com.astuetz.PagerSlidingTabStrip;
 
-public class SettingsActivity extends ActionBarActivity {
+import java.util.Set;
+
+public class SettingsActivity extends BeeGameActivity {
 
 
     /**

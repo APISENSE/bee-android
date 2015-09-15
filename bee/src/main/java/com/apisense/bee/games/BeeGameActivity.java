@@ -1,34 +1,21 @@
 package com.apisense.bee.games;
 
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.utils.BaseGameActivity;
-import com.apisense.bee.games.utils.GameHelper;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.data.DataBuffer;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.games.GamesStatusCodes;
 import com.google.android.gms.games.Player;
 import com.google.android.gms.games.achievement.Achievement;
-import com.google.android.gms.games.achievement.AchievementBuffer;
 import com.google.android.gms.games.achievement.Achievements;
-import com.google.android.gms.plus.People;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -44,11 +31,6 @@ public abstract class BeeGameActivity extends BaseGameActivity {
     private static String username;
     private static Drawable userImage;
     protected static int unlockedCount = 0;
-
-    @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
-    }
 
     protected void onPlayGamesDataRecovered() {
 
