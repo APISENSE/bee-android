@@ -18,12 +18,13 @@ import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
-import com.apisense.bee.games.BeeGameManager;
+import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
+import com.google.android.gms.games.Games;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +103,13 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         }
     }
 
+    @Override
+    public void onSignInFailed() {
+        //TODO
+    }
+
     protected void updateGamificationPanels() {
-        if (BeeGameManager.getInstance().alreadySignedIn()) {
+        if (isSignedIn()) {
             noGamificationPanel.setVisibility(View.GONE);
             gamificationPanel.setVisibility(View.VISIBLE);
         } else {
@@ -111,7 +117,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
             gamificationPanel.setVisibility(View.GONE);
         }
         // Refresh gamification text views after the refresh of game data
-        int achievementUnlockCount = BeeGameManager.getInstance().getUnlockedAchievementsCount();
+        int achievementUnlockCount = getUnlockedAchievementsCount();
         achievementsCounts.setText(String.valueOf(achievementUnlockCount));
     }
 
@@ -119,7 +125,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.no_gamification_panel:
-                BeeGameManager.getInstance().connectPlayer();
+                getGameHelper().connect();
                 break;
             case R.id.gamification_panel:
                 Intent intent = new Intent(getApplicationContext(), RewardActivity.class);

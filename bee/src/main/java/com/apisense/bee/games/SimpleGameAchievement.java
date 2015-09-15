@@ -1,6 +1,5 @@
 package com.apisense.bee.games;
 
-import com.apisense.bee.games.BeeGameActivity;
 import com.google.android.gms.games.Games;
 
 public class SimpleGameAchievement {
@@ -12,6 +11,5 @@ public class SimpleGameAchievement {
 
     public void unlock(BeeGameActivity fromActivity) {
         Games.Achievements.unlock(fromActivity.getApiClient(), achievementID);
-        BeeGameManager.getInstance().refreshPlayerData();
     }
 }

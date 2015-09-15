@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.apisense.bee.R;
@@ -15,7 +16,7 @@ import com.apisense.bee.ui.fragment.HomeStoreFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
 import com.astuetz.PagerSlidingTabStrip;
 
-public class StoreActivity extends BeeGameActivity {
+public class StoreActivity extends ActionBarActivity {
 
     /**
      * The number of pages (wizard steps) to show
