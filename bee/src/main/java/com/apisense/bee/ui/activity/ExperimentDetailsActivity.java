@@ -1,6 +1,8 @@
 package com.apisense.bee.ui.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ import java.util.List;
  * include the layout "common_experiment_details", i.e. contain the line:
  * <include layout="@layout/common_experiment_details"/>
  */
-public abstract class ExperimentDetailsActivity extends BeeGameActivity {
+public abstract class ExperimentDetailsActivity extends ActionBarActivity {
     protected TextView nameView;
     protected TextView organizationView;
     protected TextView versionView;

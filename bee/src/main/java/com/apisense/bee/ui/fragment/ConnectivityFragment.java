@@ -12,8 +12,6 @@ import android.widget.Button;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.games.BeeGameActivity;
-import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.activity.RegisterActivity;
 import com.apisense.bee.ui.activity.SignInActivity;

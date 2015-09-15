@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
 
+    <!-- GPG Permission, to show user identity -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -86,10 +89,6 @@
             android:name="com.apisense.bee.ui.activity.RegisterActivity"
             android:parentActivityName="com.apisense.bee.ui.activity.SlideshowActivity" />
 
-        <activity
-            android:name="com.apisense.bee.ui.activity.RewardDetailsActivity"
-            android:label="@string/title_activity_reward"
-            android:parentActivityName="com.apisense.bee.ui.activity.RewardActivity" />
     </application>
 
 </manifest>

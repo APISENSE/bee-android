@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
-import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.widget.ApisenseTextView;
+import com.google.android.gms.games.Games;
 
 public class RewardActivity extends BeeGameActivity implements View.OnClickListener {
     private static final int MISSION_ACHIEVEMENTS_REQUEST_CODE = 2;
@@ -27,7 +27,7 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
         layoutAchievements.setOnClickListener(this);
 
         ApisenseTextView apvAchievements = (ApisenseTextView) findViewById(R.id.reward_game_achievements);
-        apvAchievements.setText(String.valueOf(BeeGameManager.getInstance().getUnlockedAchievementsCount()));
+        apvAchievements.setText(String.valueOf(getUnlockedAchievementsCount()));
     }
 
     public void doGoToHome(View homeButton) {
@@ -41,7 +41,7 @@ public class RewardActivity extends BeeGameActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.reward_game_badge_panel:
                 startActivityForResult(
-                        BeeGameManager.getInstance().getAchievementListIntent(),
+                        Games.Achievements.getAchievementsIntent(getApiClient()),
                         MISSION_ACHIEVEMENTS_REQUEST_CODE
                 );
                 break;
