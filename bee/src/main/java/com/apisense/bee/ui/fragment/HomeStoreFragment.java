@@ -15,6 +15,7 @@ import com.apisense.bee.BeeApplication;
 import com.apisense.bee.Callbacks.OnCropSubscribed;
 import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
+import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.bee.ui.activity.StoreExperimentDetailsActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.sdk.APISENSE;
@@ -120,6 +121,16 @@ public class HomeStoreFragment extends Fragment {
     private class StoreCropUnsubscribed extends OnCropUnsubscribed {
         public StoreCropUnsubscribed(Context context, Crop crop) {
             super(context, crop.getName());
+        }
+
+        @Override
+        public void onDone(Crop crop) {
+            super.onDone(crop);
+            // Increment every subscription related achievements
+            new IncrementalGameAchievement(getString(R.string.achievement_bronze_wings)).increment(HomeStoreFragment.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_silver_wings)).increment(HomeStoreFragment.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_gold_wings)).increment(HomeStoreFragment.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_crystal_wings)).increment(HomeStoreFragment.this);
         }
     }
 

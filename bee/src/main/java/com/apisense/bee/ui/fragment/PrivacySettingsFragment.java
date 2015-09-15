@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.adapter.SensorListAdapter;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
@@ -46,6 +47,8 @@ public class PrivacySettingsFragment extends Fragment {
         sensorsAdapter.setDataSet(sensorList);
         sensorsAdapter.notifyDataSetChanged();
         apisenseSdk.getPreferencesManager().retrievePreferences(new OnPreferencesReturned());
+
+        new SimpleGameAchievement(getString(R.string.achievement_secretive_bee)).unlock(this);
 
         return root;
     }

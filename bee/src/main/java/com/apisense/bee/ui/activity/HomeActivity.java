@@ -1,10 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -19,8 +16,6 @@ import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
-import com.apisense.bee.games.BeeGameManager;
-import com.apisense.bee.games.event.OnGameDataLoadedEvent;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.apisense.sdk.APISENSE;
@@ -38,10 +33,9 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
 
     // Gamification
     private Toolbar toolbar;
-    private LinearLayout llGamificationPanel;
-    private LinearLayout llNoGamificationPanel;
-    private ApisenseTextView atvAchPoints;
-    private ApisenseTextView atvAchCounts;
+    private LinearLayout gamificationPanel;
+    private LinearLayout noGamificationPanel;
+    private ApisenseTextView achievementsCounts;
 
     private APISENSE.Sdk apisenseSdk;
 
@@ -66,28 +60,35 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
 
         // Check visibility of gamification panels
-        llGamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
-        llGamificationPanel.setOnClickListener(this);
+        gamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
+        gamificationPanel.setOnClickListener(this);
 
-        llNoGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
-        llNoGamificationPanel.setOnClickListener(this);
+        noGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
+        noGamificationPanel.setOnClickListener(this);
 
-        //atvAchPoints = (ApisenseTextView) findViewById(R.id.home_game_points);
-        //atvAchPoints.setOnClickListener(this);
-
-        atvAchCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
-        atvAchCounts.setOnClickListener(this);
+        achievementsCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
+        achievementsCounts.setOnClickListener(this);
 
         apisenseSdk.getCropManager().synchroniseSubscriptions(new OnCropModifiedOnStartup());
         apisenseSdk.getCropManager().restartActive(new OnCropModifiedOnStartup());
-        updateUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        retrieveActiveExperiments();
+    }
+
+    @Override
+    protected void onPlayGamesDataRecovered() {
+        updateGamificationPanels();
     }
 
     private class OnCropModifiedOnStartup implements APSCallback<Crop> {
         @Override
         public void onDone(Crop crop) {
             Log.d(TAG, "Crop" + crop.getName() + "started back");
-            updateUI();
+            experimentsAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -97,54 +98,31 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     }
 
     protected void updateGamificationPanels() {
-        if (BeeGameManager.getInstance().isLoad()) {
-            llNoGamificationPanel.setVisibility(View.GONE);
-            llGamificationPanel.setVisibility(View.VISIBLE);
-
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    //People.LoadPeopleResult result = Plus.PeopleApi.loadConnected(mHelper.getApiClient()).await();
-                    //Person player = result.getPersonBuffer().get(0);
-                    // toolbar.setLogo(getPlayer().getImage());
-
-                    //toolbar.setTitle(player.getDisplayName());
-                    return null;
-                }
-            }.execute();
-
+        if (isSignedIn()) {
+            noGamificationPanel.setVisibility(View.GONE);
+            gamificationPanel.setVisibility(View.VISIBLE);
         } else {
-            llNoGamificationPanel.setVisibility(View.VISIBLE);
-            llGamificationPanel.setVisibility(View.GONE);
+            noGamificationPanel.setVisibility(View.VISIBLE);
+            gamificationPanel.setVisibility(View.GONE);
         }
         // Refresh gamification text views after the refresh of game data
-//        atvAchPoints.setText(BeeGameManager.getInstance().getPlayerPoints() + "");
-        atvAchCounts.setText(BeeGameManager.getInstance().getAchievementUnlockCount() + "");
-    }
-
-    @Override
-    public void onRefresh(OnGameDataLoadedEvent event) {
-        updateUI();
+        achievementsCounts.setText(String.valueOf(unlockedCount));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
+        toolbar.setLogo(getUserImage());
+        toolbar.setTitle(getUserDisplayName());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.no_gamification_panel:
-                BeeGameManager.getInstance().initialize(this);
-                BeeGameManager.getInstance().connectPlayer();
+                getGameHelper().connect();
                 break;
             case R.id.gamification_panel:
                 Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
                 startActivity(intent);
                 break;
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateUI();
     }
 
     @Override
@@ -165,36 +143,12 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         return true;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        updateUI();
-    }
-
     public void setExperiments(List<Crop> experiments) {
         this.experimentsAdapter.setDataSet(experiments);
     }
 
-    private void updateUI() {
-        retrieveActiveExperiments();
-        updateGamificationPanels();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
-
-        if (isUserAuthenticated()) {
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            toolbar.setTitle(settings.getString("username", "   " + getString(R.string.user_identity, getString(R.string.anonymous_user))));
-        } else {
-            toolbar.setTitle(getString(R.string.user_identity, "    " + getString(R.string.anonymous_user)));
-        }
-    }
-
     private void retrieveActiveExperiments() {
         apisenseSdk.getCropManager().getSubscriptions(new ExperimentListRetrievedCallback());
-    }
-
-    private boolean isUserAuthenticated() {
-        return apisenseSdk.getSessionManager().isConnected();
     }
 
     public void doLaunchSettings() {
@@ -205,17 +159,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     public void doGoToStore(View storeButton) {
         Intent storeIntent = new Intent(this, StoreActivity.class);
         startActivity(storeIntent);
-    }
-
-    public void doGoToProfil(View personalInformation) {
-        if (!isUserAuthenticated()) {
-            Intent slideIntent = new Intent(this, SlideshowActivity.class);
-            slideIntent.putExtra("goTo", "register");
-            startActivity(slideIntent);
-            finish();
-        } else {
-            // Go to profil activity
-        }
     }
 
     public class ExperimentListRetrievedCallback implements APSCallback<List<Crop>> {
@@ -256,7 +199,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
                     @Override
                     public void onDone(Crop crop) {
                         super.onDone(crop);
-                        experimentsAdapter.notifyDataSetInvalidated();
+                        experimentsAdapter.notifyDataSetChanged();
                     }
                 });
             } else {
@@ -264,7 +207,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
                     @Override
                     public void onDone(Crop crop) {
                         super.onDone(crop);
-                        experimentsAdapter.notifyDataSetInvalidated();
+                        experimentsAdapter.notifyDataSetChanged();
                     }
                 });
             }

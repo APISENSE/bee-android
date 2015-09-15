@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.activity.SlideshowActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
@@ -42,6 +43,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
     }
 
     protected void doApplicationShare() {
+        new SimpleGameAchievement(getString(R.string.achievement_recruiting_bee)).unlock(this);
         Intent sendIntent = new Intent(Intent.ACTION_SEND)
                 .setAction(Intent.ACTION_SEND)
                 .putExtra(Intent.EXTRA_TEXT, "linktobee");
