@@ -12,8 +12,8 @@ import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.fragment.AboutSettingsFragment;
 import com.apisense.bee.ui.fragment.AccountSettingsFragment;
-import com.apisense.bee.ui.fragment.PrivacySettingsFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
+import com.apisense.bee.ui.fragment.PrivacySettingsFragment;
 import com.astuetz.PagerSlidingTabStrip;
 
 public class SettingsActivity extends BeeGameActivity {

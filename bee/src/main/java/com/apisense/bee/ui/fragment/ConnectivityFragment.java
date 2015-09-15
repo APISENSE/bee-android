@@ -12,8 +12,6 @@ import android.widget.Button;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.games.BeeGameActivity;
-import com.apisense.bee.games.BeeGameManager;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.activity.RegisterActivity;
 import com.apisense.bee.ui.activity.SignInActivity;
@@ -107,8 +105,8 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
     }
 
     private void performGoogleRegistration() {
-        BeeGameManager.getInstance().initialize((BeeGameActivity) getActivity());
-        BeeGameManager.getInstance().connectPlayer();
+//        BeeGameManager.getInstance().initialize((BeeGameActivity) getActivity());
+//        BeeGameManager.getInstance().connectPlayer();
         // TODO: [Implement] apisenseSdk.getSessionManager().createBeeFromGoogle()
     }
 

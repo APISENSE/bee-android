@@ -1,5 +1,6 @@
 package com.apisense.bee.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
@@ -8,16 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.bee.Bee;
 
 
-public class RegisterActivity extends BeeGameActivity {
+public class RegisterActivity extends Activity {
 
     /**
      * The default email to populate the email field with.
