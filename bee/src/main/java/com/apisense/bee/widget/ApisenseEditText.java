@@ -8,7 +8,7 @@ import android.widget.EditText;
 public class ApisenseEditText extends EditText {
 
     private Context mContext;
-    private static String mFontName = "Roboto/Roboto-Light.ttf" ;
+    private static String mFontName = "Roboto/Roboto-Light.ttf";
 
     public ApisenseEditText(Context context) {
         super(context);

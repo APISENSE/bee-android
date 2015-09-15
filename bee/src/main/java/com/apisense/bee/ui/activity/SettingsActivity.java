@@ -1,26 +1,20 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
-import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.fragment.AboutSettingsFragment;
 import com.apisense.bee.ui.fragment.AccountSettingsFragment;
-import com.apisense.bee.ui.fragment.PrivacySettingsFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
-import com.apisense.sdk.core.bee.Bee;
+import com.apisense.bee.ui.fragment.PrivacySettingsFragment;
 import com.astuetz.PagerSlidingTabStrip;
-
-import java.util.Set;
 
 public class SettingsActivity extends BeeGameActivity {
 

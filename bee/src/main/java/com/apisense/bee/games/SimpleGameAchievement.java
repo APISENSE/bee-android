@@ -21,7 +21,7 @@ public class SimpleGameAchievement {
         }
     }
 
-    public void unlock(Fragment fromFragment){
+    public void unlock(Fragment fromFragment) {
         Activity hostActivity = fromFragment.getActivity();
         if (hostActivity instanceof BeeGameActivity) {
             unlock((BeeGameActivity) hostActivity);

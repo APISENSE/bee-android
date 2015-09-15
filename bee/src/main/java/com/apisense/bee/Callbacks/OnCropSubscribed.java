@@ -33,4 +33,4 @@ public class OnCropSubscribed implements APSCallback<Crop> {
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
         Rollbar.reportException(e);
     }
- }
+}

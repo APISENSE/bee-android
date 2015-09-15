@@ -8,7 +8,7 @@ import android.widget.TextView;
 public class ApisenseTextView extends TextView {
 
     private Context mContext;
-    private static String mFontName = "Roboto/Roboto-Light.ttf" ;
+    private static String mFontName = "Roboto/Roboto-Light.ttf";
 
     public ApisenseTextView(Context context) {
         super(context);
