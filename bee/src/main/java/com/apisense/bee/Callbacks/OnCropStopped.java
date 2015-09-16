@@ -5,20 +5,19 @@ import android.widget.Toast;
 
 import com.apisense.bee.R;
 import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.core.store.Crop;
 
-public class OnCropStopped implements APSCallback<Void> {
+public class OnCropStopped implements APSCallback<Crop> {
 
     private Context context;
-    private String cropName;
 
-    public OnCropStopped(Context context, String cropName) {
+    public OnCropStopped(Context context) {
         this.context = context;
-        this.cropName = cropName;
     }
 
     @Override
-    public void onDone(Void aVoid) {
-        String message = String.format(context.getString(R.string.experiment_stopped), cropName);
+    public void onDone(Crop crop) {
+        String message = String.format(context.getString(R.string.experiment_stopped), crop.getName());
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 

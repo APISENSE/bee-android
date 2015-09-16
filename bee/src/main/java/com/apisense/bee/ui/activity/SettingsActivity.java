@@ -12,13 +12,10 @@ import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.fragment.AboutSettingsFragment;
 import com.apisense.bee.ui.fragment.AccountSettingsFragment;
-import com.apisense.bee.ui.fragment.GeneralSettingsFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
+import com.apisense.bee.ui.fragment.PrivacySettingsFragment;
 import com.astuetz.PagerSlidingTabStrip;
 
-/**
- * Created by Warnant on 26-03-15.
- */
 public class SettingsActivity extends BeeGameActivity {
 
 
@@ -30,7 +27,7 @@ public class SettingsActivity extends BeeGameActivity {
 
     /* Page order */
     private final static int ACCOUNT = 0;
-    private final static int GENERAL = 1;
+    private final static int PRIVACY = 1;
     private final static int ABOUT = 2;
     private ViewPager mPager;
 
@@ -73,8 +70,8 @@ public class SettingsActivity extends BeeGameActivity {
             switch (position) {
                 case ACCOUNT:
                     return new AccountSettingsFragment();
-                case GENERAL:
-                    return new GeneralSettingsFragment();
+                case PRIVACY:
+                    return new PrivacySettingsFragment();
                 case ABOUT:
                     return new AboutSettingsFragment();
                 default:
@@ -87,8 +84,8 @@ public class SettingsActivity extends BeeGameActivity {
             switch (position) {
                 case ACCOUNT:
                     return getString(R.string.settings_section_account).toUpperCase();
-                case GENERAL:
-                    return getString(R.string.settings_section_general).toUpperCase();
+                case PRIVACY:
+                    return getString(R.string.settings_section_privacy).toUpperCase();
                 case ABOUT:
                     return getString(R.string.settings_section_about).toUpperCase();
                 default:

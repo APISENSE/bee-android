@@ -5,16 +5,12 @@
     android:layout_height="fill_parent"
     android:padding="@dimen/activity_horizontal_margin">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
         <!-- Login Form -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
             <!--  Pseudo Label -->
             <com.apisense.bee.widget.ApisenseTextView
@@ -57,6 +53,4 @@
 
         </LinearLayout>
         <!-- Login Form Ends -->
-
-    </RelativeLayout>
 </ScrollView>

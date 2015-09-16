@@ -14,179 +14,65 @@
         app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
 
     <LinearLayout
+        android:id="@+id/reward_game_badge_panel"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-
-        <!--<LinearLayout
-            android:layout_width="fill_parent"
+        <com.apisense.bee.widget.ApisenseTextView
+            android:id="@+id/reward_game_achievements"
+            style="@style/ApisenseHugeGameText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <com.apisense.bee.widget.ApisenseTextView
-                android:id="@+id/reward_game_points"
-                style="@style/ApisenseHugeGameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/game_padding"
-                android:layout_marginRight="@dimen/game_padding"
-                android:text="0" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/big_money_grey" />
-
-                <com.apisense.bee.widget.ApisenseTextView
-                    style="@style/ApisenseSlideTextBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="@string/reward_dollars" />
-            </LinearLayout>
-
-                        <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ic_arrow"/>
-
-        </LinearLayout>-->
-
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/game_padding"
+            android:layout_marginRight="@dimen/game_padding"
+            android:text="0" />
 
         <LinearLayout
-            android:id="@+id/reward_game_badge_panel"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-
-            <com.apisense.bee.widget.ApisenseTextView
-                android:id="@+id/reward_game_achievements"
-                style="@style/ApisenseHugeGameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/game_padding"
-                android:layout_marginRight="@dimen/game_padding"
-                android:text="0" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/big_badge_grey" />
-
-                <com.apisense.bee.widget.ApisenseTextView
-                    style="@style/ApisenseSlideTextBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="@string/reward_badges" />
-            </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ic_arrow" />
-
-        </LinearLayout>
-
-
-        <!--<LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-
-            android:orientation="horizontal">
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@drawable/big_badge_grey" />
 
             <com.apisense.bee.widget.ApisenseTextView
-                android:id="@+id/reward_game_thanks"
-                style="@style/ApisenseHugeGameText"
+                style="@style/ApisenseSlideTextBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/game_padding"
-                android:layout_marginRight="@dimen/game_padding"
-                android:text="0" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                android:text="@string/reward_badges" />
+        </LinearLayout>
 
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/big_thanks_grey" />
-
-                <com.apisense.bee.widget.ApisenseTextView
-                    style="@style/ApisenseSlideTextBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="@string/reward_thanks" />
-            </LinearLayout>
-
-                        <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ic_arrow"/>
-
-        </LinearLayout>-->
-
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_arrow" />
 
     </LinearLayout>
-
 
     <com.gc.materialdesign.views.ButtonFloat
         android:id="@+id/smallAddButton"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginEnd="@dimen/add_button_margin"
         android:layout_marginRight="@dimen/add_button_margin"
-        android:layout_weight="0"
         android:background="@color/background_material_light"
         android:onClick="doGoToHome"
         android:textColor="@color/black"
         materialdesign:animate="false"
         materialdesign:iconDrawable="@android:drawable/ic_menu_close_clear_cancel" />
-
-    <!--
-    <com.apisense.bee.widget.ApisenseTextView
-        android:id="@+id/reward_monthly_button"
-        style="@style/ApisenseSlideTextBold"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/smallAddButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/smallAddButton"
-        android:layout_marginLeft="15dp"
-        android:text="@string/reward_monthly" />
-        -->
-
 </RelativeLayout>

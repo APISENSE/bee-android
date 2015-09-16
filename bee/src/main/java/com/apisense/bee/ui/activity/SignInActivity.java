@@ -1,23 +1,21 @@
 package com.apisense.bee.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.core.store.Crop;
 import com.gc.materialdesign.widgets.SnackBar;
 
-public class SignInActivity extends BeeGameActivity {
+public class SignInActivity extends Activity {
 
     private final String TAG = "SignInFragment";
     private Button mSignInBtn;

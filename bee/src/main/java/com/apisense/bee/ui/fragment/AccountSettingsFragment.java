@@ -1,38 +1,31 @@
 package com.apisense.bee.ui.fragment;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.activity.SlideshowActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 
 public class AccountSettingsFragment extends Fragment implements View.OnClickListener {
 
-    private TextView versionView;
     private APISENSE.Sdk apisenseSdk;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_account_settings, container, false);
-        apisenseSdk = ((BeeApplication)getActivity().getApplication()).getSdk();
-        versionView = (TextView) root.findViewById(R.id.settings_version);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_settings_account, container, false);
+        apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
 
-        if (versionView != null)
-            versionView.setText(getAppInfo().versionName);
-
+        // Click listeners
         Button mLogoutButton = (Button) root.findViewById(R.id.settings_logout);
         mLogoutButton.setOnClickListener(this);
         Button mRegisterButton = (Button) root.findViewById(R.id.settings_register);
@@ -40,7 +33,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
         Button mShareButton = (Button) root.findViewById(R.id.settings_share);
         mShareButton.setOnClickListener(this);
 
-
+        // UI Setup
         if (!isUserAuthenticated()) {
             mLogoutButton.setVisibility(View.GONE);
             mRegisterButton.setVisibility(View.VISIBLE);
@@ -50,6 +43,7 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
     }
 
     protected void doApplicationShare() {
+        new SimpleGameAchievement(getString(R.string.achievement_recruiting_bee)).unlock(this);
         Intent sendIntent = new Intent(Intent.ACTION_SEND)
                 .setAction(Intent.ACTION_SEND)
                 .putExtra(Intent.EXTRA_TEXT, "linktobee");
@@ -80,21 +74,6 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
                 doApplicationShare();
                 break;
         }
-    }
-
-    /**
-     * Helper to get the app version info
-     *
-     * @return a PackageInfo object
-     */
-    private PackageInfo getAppInfo() {
-        PackageManager manager = getActivity().getPackageManager();
-        try {
-            return manager.getPackageInfo(getActivity().getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private boolean isUserAuthenticated() {

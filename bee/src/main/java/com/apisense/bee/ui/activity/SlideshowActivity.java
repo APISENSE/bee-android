@@ -7,11 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.fragment.ConnectivityFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
 import com.apisense.bee.ui.fragment.RewardFragment;
@@ -19,7 +19,7 @@ import com.apisense.bee.ui.fragment.WhatFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
 
-public class SlideshowActivity extends BeeGameActivity {
+public class SlideshowActivity extends ActionBarActivity {
 
     /**
      * The number of pages (wizard steps) to show
@@ -60,7 +60,7 @@ public class SlideshowActivity extends BeeGameActivity {
         indicator.setViewPager(mPager);
 
 
-        if (((BeeApplication)getApplication()).getSdk().getSessionManager().isConnected()) {
+        if (((BeeApplication) getApplication()).getSdk().getSessionManager().isConnected()) {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
             finish();

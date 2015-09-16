@@ -15,7 +15,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
     // Features
-    compile('com.apisense.sdk:apisense-android-sdk:1.1.0@aar') {
+    compile('com.apisense.sdk:apisense-android-sdk:1.2.0@aar') {
         transitive = true
     }
     compile('com.google.android.gms:play-services:6.5.87') {
@@ -33,7 +33,7 @@ dependencies {
         exclude module: 'support-v4'
     }
     //// Android Lollipop support animation and views
-    compile 'com.android.support:support-v4:22.0'
+    compile 'com.android.support:support-v4:22.2.1'
     //// Sexy android-L support
     compile('com.android.support:appcompat-v7:21.0.+') {
         exclude module: 'support-v4'
@@ -51,7 +51,7 @@ dependencies {
 
 android {
     compileSdkVersion 21
-    buildToolsVersion '21.1.2'
+    buildToolsVersion '22.0.1'
 
     lintOptions {
         abortOnError false
@@ -62,8 +62,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 19
         versionCode 7
-        versionName "1.1.0"
-
+        versionName "1.2.0"
     }
 
     signingConfigs {

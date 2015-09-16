@@ -10,19 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.Callbacks.OnCropSubscribed;
 import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
+import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.bee.ui.activity.StoreExperimentDetailsActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
-import com.rollbar.android.Rollbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,7 @@ public class HomeStoreFragment extends Fragment {
 
         // Setting up available experiments list behavior
         experimentsAdapter = new AvailableExperimentsListAdapter(getActivity().getBaseContext(),
-                R.layout.fragment_experiment_store_element,
+                R.layout.list_item_store_experiment,
                 new ArrayList<Crop>());
         ListView subscribedExperiments = (ListView) root.findViewById(R.id.store_experiment_lists);
         subscribedExperiments.setEmptyView(root.findViewById(R.id.store_empty_list));
@@ -123,6 +121,16 @@ public class HomeStoreFragment extends Fragment {
     private class StoreCropUnsubscribed extends OnCropUnsubscribed {
         public StoreCropUnsubscribed(Context context, Crop crop) {
             super(context, crop.getName());
+        }
+
+        @Override
+        public void onDone(Crop crop) {
+            super.onDone(crop);
+            // Increment every subscription related achievements
+            new IncrementalGameAchievement(getString(R.string.achievement_bronze_wings)).increment(HomeStoreFragment.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_silver_wings)).increment(HomeStoreFragment.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_gold_wings)).increment(HomeStoreFragment.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_crystal_wings)).increment(HomeStoreFragment.this);
         }
     }
 

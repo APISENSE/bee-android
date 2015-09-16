@@ -64,11 +64,6 @@
             android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
 
         <activity
-            android:name="com.apisense.bee.ui.activity.PrivacyActivity"
-            android:label="@string/title_activity_privacy"
-            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
-
-        <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
@@ -91,10 +86,6 @@
             android:name="com.apisense.bee.ui.activity.RegisterActivity"
             android:parentActivityName="com.apisense.bee.ui.activity.SlideshowActivity" />
 
-        <activity
-            android:name="com.apisense.bee.ui.activity.RewardDetailsActivity"
-            android:label="@string/title_activity_reward"
-            android:parentActivityName="com.apisense.bee.ui.activity.RewardActivity" />
     </application>
 
 </manifest>
