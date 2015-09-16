@@ -18,6 +18,7 @@ public class IncrementalGameAchievement {
         if (fromActivity.getGameHelper().isSignedIn()) {
             Log.d(TAG, "Increasing achievement value: " + achievementID);
             Games.Achievements.increment(fromActivity.getApiClient(), achievementID, 1);
+             fromActivity.refreshPlayGamesData();
         }
     }
 

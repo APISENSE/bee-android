@@ -2,6 +2,7 @@ package com.apisense.bee.games;
 
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.apisense.bee.R;
@@ -32,19 +33,39 @@ public abstract class BeeGameActivity extends BaseGameActivity {
     private static Drawable userImage;
     protected static int unlockedCount = 0;
 
-    protected void onPlayGamesDataRecovered() {
+    @Override
+    protected void onCreate(Bundle b) {
+        super.onCreate(b);
+        // Disable auto-login
+        getGameHelper().setMaxAutoSignInAttempts(0);
+    }
 
+    /**
+     * Defines the reaction of the UI when the GPG data are found.
+     */
+    protected void onPlayGamesDataRecovered() {
+        // To override if needed
     }
 
     @Override
     public void onSignInSucceeded() {
         new SimpleGameAchievement(getString(R.string.achievement_new_bee)).unlock(this);
-        new RetrievePlayGamesData().execute();
+        if (firstConnection()) {
+            refreshPlayGamesData();
+        }
+    }
+
+    private boolean firstConnection() {
+        return username == null && userImage == null;
     }
 
     @Override
     public void onSignInFailed() {
         // Nothing
+    }
+
+    public void refreshPlayGamesData() {
+        new RetrievePlayGamesData().execute();
     }
 
     protected String getUserDisplayName() {
