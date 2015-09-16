@@ -31,7 +31,7 @@
                 android:layout_margin="@dimen/thumbnail_margin">
 
                 <ImageView
-                    android:id="@+id/list_image"
+                    android:id="@+id/home_item_icon"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/ic_launcher_bee"

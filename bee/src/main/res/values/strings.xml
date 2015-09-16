@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Keys & IDs -->
     <string name="gpg_app_id" translatable="false">380173086743</string>
+    <string name="android_key_app" translatable="false">AIzaSyAOIxnHPr89eoE7XgTYBmX_hm8C8ALV9QQ</string>
 
-    <!-- Other -->
+    <string translatable="false" name="achievement_new_bee">CgkIl-DToIgLEAIQAQ</string>
+    <string translatable="false" name="achievement_join_the_swarm">CgkIl-DToIgLEAIQBg</string>
+    <string translatable="false" name="achievement_curious_bee">CgkIl-DToIgLEAIQAg</string>
+    <string translatable="false" name="achievement_bronze_wings">CgkIl-DToIgLEAIQEw</string>
+    <string translatable="false" name="achievement_silver_wings">CgkIl-DToIgLEAIQFA</string>
+    <string translatable="false" name="achievement_gold_wings">CgkIl-DToIgLEAIQFQ</string>
+    <string translatable="false" name="achievement_crystal_wings">CgkIl-DToIgLEAIQFg</string>
+    <string translatable="false" name="achievement_secretive_bee">CgkIl-DToIgLEAIQAw</string>
+    <string translatable="false" name="achievement_recruiting_bee">CgkIl-DToIgLEAIQBQ</string>
+    <string translatable="false" name="achievement_chatty_bee">CgkIl-DToIgLEAIQBw</string>
+    <string translatable="false" name="achievement_queen_bee">CgkIl-DToIgLEAIQCA</string>
+
+    <!-- Titles -->
     <string name="app_name" translatable="false">Bee</string>
     <string name="title_activity_slideshow">Bee</string>
     <string name="title_activity_home">Bee</string>
     <string name="title_activity_store">Bee Store</string>
-    <string name="title_activity_privacy">Privacy</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_experiment_details">Details</string>
     <string name="title_activity_store_experiment_details">Preview</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_reward">Reward</string>
-    <string name="android_key_app" translatable="false">AIzaSyAOIxnHPr89eoE7XgTYBmX_hm8C8ALV9QQ</string>
 
     <!-- Global -->
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
     <string name="action_privacy">Privacy</string>
     <string name="action_share">Share</string>
-    <string name="by">by</string>
     <string name="search_hint">Experiment name</string>
-    <string name="skip">Skip</string>
 
     <!-- User feedbacks -->
     <string name="error">Error</string>
@@ -41,16 +50,12 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="user_identity">%1$s</string>
-    <string name="pseudo">Username</string>
+    <string name="pseudo">Email Address</string>
     <string name="anonymous_user">Unknown Bee</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="passwordConfirm">Confirm password</string>
     <string name="registration_not_implemented">This kind of registration is not enabled yet.</string>
-
-    <!-- Label form -->
-    <string name="hive_label" translatable="false">Hive URL</string>
-    <string name="hive_url">http://beta.apisense.io/hive</string>
 
     <!-- Slides text -->
     <string name="slide_welcome_back">Welcome back</string>
@@ -76,6 +81,10 @@
     <string name="slide_connect_continue">OR CONTINUE WITH</string>
 
     <!-- Experiments -->
+    <string name="exp_details_name">%1$s</string>
+    <string name="exp_details_organization">by %1$s</string>
+    <string name="exp_details_version">v%1$d</string>
+    <string name="exp_details_description">Description:\n %1$s</string>
     <string name="experiment_activity_7_days">Activity for the past 7 days</string>
     <string name="experiment_started">Experiment %1$s started</string>
     <string name="experiment_stopped">Experiment %1$s stopped</string>
@@ -86,29 +95,16 @@
     <string name="running">Running</string>
     <string name="not_running">Not running</string>
 
-    <!-- Privacy -->
-    <string name="privacy_section_sensor">Activated Sensors</string>
-    <string name="privacy_section_filter">Defined Filters</string>
-    <string name="privacy_label_filter_none">No filter yet</string>
-
     <!-- Settings -->
     <string name="settings_section_account">Account Management</string>
     <string name="settings_action_register">Create an account</string>
     <string name="settings_action_logout">Logout</string>
-    <string name="settings_section_general">General Settings</string>
+    <string name="settings_section_privacy">Privacy Settings</string>
     <string name="settings_label_version">Application Version</string>
     <string name="settings_btn_update">Look for update</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">About</string>
-    <string name="settings_about_content">
-        <![CDATA[
-	    	<p>
-	    	    Bee is a part of <a href="http://www.apisense.com">Apisense</a> platform and it aims to research. For any informations
-	    	    look at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
-			</p>
-	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.</p>
-	    ]]>
-    </string>
+    <string name="no_available_sensors">No sensor available!</string>
 
     <!-- Store -->
     <string name="store_section_categories">Categories</string>
@@ -120,7 +116,6 @@
     <string name="action_unsubscribe">UnSubscribe</string>
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="title_activity_store_search">StoreSearch</string>
-    <string name="no_available_sensors">No sensor available!</string>
 
     <!-- Rewards -->
     <string name="reward_dollars">DOLLARS</string>
@@ -128,20 +123,32 @@
     <string name="reward_thanks">THANKS</string>
     <string name="reward_monthly">REWARDS THIS MONTH</string>
 
-
     <!-- About -->
-    <string name="about_content">
+    <string name="about_versions_title">Softwares version:</string>
+    <string name="bee_version" translatable="false">Bee:\t\t %1$s</string>
+    <string name="apisense_version" translatable="false">APISENSE SDK:\t\t %1$s</string>
+    <string name="about_team">
         APISENSE® Team:\n
-        \r\r- Romain Rouvoy\n
-        \r\r- Nicolas Haderer\n
-        \r\r- Christophe Ribeiro\n
-        \r\r- Clive Ferret-Canape\n
-        \r\r- Antoine Veuiller\n
-        \r\r- Julien Duribreux
+          \t\t- Romain Rouvoy\n
+          \t\t- Nicolas Haderer\n
+          \t\t- Christophe Ribeiro\n
+          \t\t- Clive Ferret-Canape\n
+          \t\t- Antoine Veuiller\n
+          \t\t- Julien Duribreux
+    </string>
 
-        \n\n
+    <string name="about_resources">
         Resources:\n
-        Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
+          \t\t- Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
+    </string>
+    <string name="about_copyright">
+        <![CDATA[
+	    	<p>
+	    	    Bee is a part of APISENSE (http://www.apisense.com) platform and it aims to research.
+	    	    For any informations, contact us at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
+			</p>
+	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.</p>
+	    ]]>
     </string>
 
     <!-- Google Play Games -->

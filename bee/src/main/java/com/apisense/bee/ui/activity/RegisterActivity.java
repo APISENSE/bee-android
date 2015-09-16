@@ -1,5 +1,6 @@
 package com.apisense.bee.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
@@ -8,16 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.bee.Bee;
 
 
-public class RegisterActivity extends BeeGameActivity {
+public class RegisterActivity extends Activity {
 
     /**
      * The default email to populate the email field with.
@@ -33,8 +32,6 @@ public class RegisterActivity extends BeeGameActivity {
     private EditText mPseudoEditText;
     private EditText mPasswordEditText;
     private EditText mPasswordConfirmEditText;
-    private EditText mApisenseUrlEditText;
-    private TextView mApisenseHiveLabel;
     private Button mRegisterButton;
 
 
@@ -50,28 +47,12 @@ public class RegisterActivity extends BeeGameActivity {
         mPseudoEditText = (EditText) findViewById(R.id.registerPseudo);
         mPasswordEditText = (EditText) findViewById(R.id.registerPassword);
         mPasswordConfirmEditText = (EditText) findViewById(R.id.registerPasswordConfirm);
-        mApisenseHiveLabel = (TextView) findViewById(R.id.apisenseHive);
-        mApisenseUrlEditText = (EditText) findViewById(R.id.apisenseEditText);
         mRegisterButton = (Button) findViewById(R.id.registerBtn);
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptRegister();
-            }
-        });
-
-        mRegisterButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (View.VISIBLE == mApisenseUrlEditText.getVisibility()) {
-                    mApisenseUrlEditText.setVisibility(View.INVISIBLE);
-                    mApisenseHiveLabel.setVisibility(View.INVISIBLE);
-                } else {
-                    mApisenseUrlEditText.setVisibility(View.VISIBLE);
-                    mApisenseHiveLabel.setVisibility(View.VISIBLE);
-                }
-                return false;
             }
         });
     }

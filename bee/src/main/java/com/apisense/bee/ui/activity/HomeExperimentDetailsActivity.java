@@ -3,7 +3,6 @@ package com.apisense.bee.ui.activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropStopped;
@@ -23,13 +22,6 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_experiment_details);
         initExperimentDetailsActivity();
-    }
-
-    // UI Initialisation
-    @Override
-    public void initializeViews() {
-        mExperimentOrganization = (TextView) findViewById(R.id.exp_organization);
-        mExperimentVersion = (TextView) findViewById(R.id.exp_version);
     }
 
     @Override
@@ -78,18 +70,18 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
     // Buttons Handlers
     public void doStartStop() {
         if (apisenseSdk.getCropManager().isRunning(crop)) {
-            apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext(), crop.getName()) {
+            apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext()) {
                 @Override
-                public void onDone(Void aVoid) {
-                    super.onDone(aVoid);
+                public void onDone(Crop crop) {
+                    super.onDone(crop);
                     displayStartButton();
                 }
             });
         } else {
-            apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext(), crop.getName()) {
+            apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext()) {
                 @Override
-                public void onDone(Void aVoid) {
-                    super.onDone(aVoid);
+                public void onDone(Crop crop) {
+                    super.onDone(crop);
                     displayStopButton();
                 }
             });

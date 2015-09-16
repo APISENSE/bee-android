@@ -1,6 +1,17 @@
 package com.apisense.bee.widget;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.util.AttributeSet;
+import android.widget.LinearLayout;
+
+import com.apisense.bee.R;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
 import static com.apisense.bee.R.styleable.BarChartView_viewsWeekdayColor;
 import static com.apisense.bee.R.styleable.BarChartView_viewsWeekendColor;
 import static java.util.Calendar.DAY_OF_WEEK;
@@ -8,21 +19,9 @@ import static java.util.Calendar.DAY_OF_YEAR;
 import static java.util.Calendar.SATURDAY;
 import static java.util.Calendar.SUNDAY;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import android.widget.LinearLayout;
-import com.apisense.bee.R;
-import com.apisense.bee.widget.BarGraphDrawable;
-
 public class BarGraphView extends LinearLayout {
 
-    private static final long[] NO_TRAFFIC = new long[] { 0, 0 };
+    private static final long[] NO_TRAFFIC = new long[]{0, 0};
 
     private int[] weekdayColors, weekendColors;
 
@@ -43,8 +42,8 @@ public class BarGraphView extends LinearLayout {
         mAttrs = attrs;
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BarChartView);
-        weekdayColors = new int[] { array.getColor(BarChartView_viewsWeekdayColor, 0), array.getColor(BarChartView_viewsWeekdayColor, 0) };
-        weekendColors = new int[] { array.getColor(BarChartView_viewsWeekendColor, 0), array.getColor(BarChartView_viewsWeekendColor, 0) };
+        weekdayColors = new int[]{array.getColor(BarChartView_viewsWeekdayColor, 0), array.getColor(BarChartView_viewsWeekdayColor, 0)};
+        weekendColors = new int[]{array.getColor(BarChartView_viewsWeekendColor, 0), array.getColor(BarChartView_viewsWeekendColor, 0)};
 
         array.recycle();
     }
@@ -55,8 +54,8 @@ public class BarGraphView extends LinearLayout {
     public void setDeactived() {
         int weekdayColorDeactived = getResources().getColor(R.color.barchart_weekday_deactived);
         int weekendColorDeactived = getResources().getColor(R.color.barchart_weekend_deactived);
-        weekdayColors = new int[] { weekdayColorDeactived, weekdayColorDeactived };
-        weekendColors = new int[] { weekendColorDeactived, weekendColorDeactived };
+        weekdayColors = new int[]{weekdayColorDeactived, weekdayColorDeactived};
+        weekendColors = new int[]{weekendColorDeactived, weekendColorDeactived};
     }
 
     /**
@@ -65,16 +64,15 @@ public class BarGraphView extends LinearLayout {
     public void setActived() {
         int weekdayColorDeactived = getResources().getColor(R.color.barchart_weekday);
         int weekendColorDeactived = getResources().getColor(R.color.barchart_weekend);
-        weekdayColors = new int[] { weekdayColorDeactived, weekdayColorDeactived };
-        weekendColors = new int[] { weekendColorDeactived, weekendColorDeactived };
+        weekdayColors = new int[]{weekdayColorDeactived, weekdayColorDeactived};
+        weekendColors = new int[]{weekendColorDeactived, weekendColorDeactived};
     }
 
     /**
      * This should be set before the graph is updated with traffic data, and
      * will not take effect until {@link # updateGraphWith(java.util.List)} is called.
      *
-     * @param numDays
-     *            the number of days to display in the graph, 1 bar per day
+     * @param numDays the number of days to display in the graph, 1 bar per day
      */
     public void setNumDays(int numDays) {
         data = new long[numDays][];
@@ -86,8 +84,7 @@ public class BarGraphView extends LinearLayout {
      * truncated to match the number of days specifed with
      * {@link #setNumDays(int)}.
      *
-     * @param tracesData
-     *            a list of traffic data by day in reverse-chronological order
+     * @param tracesData a list of traffic data by day in reverse-chronological order
      */
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
@@ -105,7 +102,7 @@ public class BarGraphView extends LinearLayout {
         for (int barIndex = data.length - 1; barIndex >= 0; --barIndex) {
             if (daySummaryIndex < tracesData.size()) {
                 int tracesIndex = data.length - barIndex - 1;
-                data[barIndex] = new long[] { tracesData.get(tracesIndex), 0L };
+                data[barIndex] = new long[]{tracesData.get(tracesIndex), 0L};
             } else {
                 calendar.add(DAY_OF_YEAR, -1);
                 data[barIndex] = NO_TRAFFIC;

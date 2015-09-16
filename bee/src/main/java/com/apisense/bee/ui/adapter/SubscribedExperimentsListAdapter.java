@@ -83,7 +83,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Crop> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_experiment_element, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_home_experiment, parent, false);
 
         final Crop item = getItem(position);
 
@@ -95,7 +95,7 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Crop> {
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
         company.setText(item.getOwner());
 
-        ImageView ivExp = (ImageView) convertView.findViewById(R.id.list_image);
+        ImageView ivExp = (ImageView) convertView.findViewById(R.id.home_item_icon);
         if (apisenseSdk.getCropManager().isRunning(item)) {
             ivExp.setBackgroundResource(R.drawable.icon_mission_running);
         } else {
