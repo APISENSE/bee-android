@@ -18,6 +18,7 @@ public class SimpleGameAchievement {
         if (fromActivity.getGameHelper().isSignedIn()) {
             Log.d(TAG, "Unlocking achievement: " + achievementID);
             Games.Achievements.unlock(fromActivity.getApiClient(), achievementID);
+            fromActivity.refreshPlayGamesData();
         }
     }
 

@@ -84,6 +84,22 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         updateGamificationPanels();
     }
 
+
+    @Override
+    public void onSignInSucceeded() {
+        super.onSignInSucceeded();
+        noGamificationPanel.setVisibility(View.GONE);
+        gamificationPanel.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onSignInFailed() {
+        noGamificationPanel.setVisibility(View.VISIBLE);
+        gamificationPanel.setVisibility(View.GONE);
+        Log.w(TAG, "Error on GPG signin: " + String.valueOf(getSignInError()));
+    }
+
+
     private class OnCropModifiedOnStartup implements APSCallback<Crop> {
         @Override
         public void onDone(Crop crop) {
@@ -98,13 +114,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     }
 
     protected void updateGamificationPanels() {
-        if (isSignedIn()) {
-            noGamificationPanel.setVisibility(View.GONE);
-            gamificationPanel.setVisibility(View.VISIBLE);
-        } else {
-            noGamificationPanel.setVisibility(View.VISIBLE);
-            gamificationPanel.setVisibility(View.GONE);
-        }
         // Refresh gamification text views after the refresh of game data
         achievementsCounts.setText(String.valueOf(unlockedCount));
         Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
@@ -116,7 +125,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.no_gamification_panel:
-                getGameHelper().connect();
+                beginUserInitiatedSignIn();
                 break;
             case R.id.gamification_panel:
                 Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
@@ -131,7 +140,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
