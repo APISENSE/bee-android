@@ -68,6 +68,8 @@
     <!-- Experiments -->
     <string name="exp_details_name">%1$s</string>
     <string name="exp_details_organization">par %1$s</string>
+    <string name="crop_stats_subscribers">Nombre de souscriptions: %1$s</string>
+    <string name="crop_stats_data_volume">Volume de données exporté: %1$.2f Kib</string>
     <string name="exp_details_version">v%1$d</string>
     <string name="exp_details_description">Description:\n %1$s</string>
     <string name="experiment_activity_7_days">Activité des 7 derniers jours</string>
