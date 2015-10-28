@@ -28,13 +28,13 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
     protected TextView organizationView;
     protected TextView versionView;
     protected TextView descriptionView;
+    private TextView creationDateView;
     private TextView exportedVolumeView;
     private TextView nbSubscribersView;
     protected GridView stingGridView;
 
     protected Crop crop;
     protected APISENSE.Sdk apisenseSdk;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
         organizationView = (TextView) findViewById(R.id.detail_exp_organization);
         stingGridView = (GridView) findViewById(R.id.detail_exp_used_stings);
         descriptionView = (TextView) findViewById(R.id.detail_exp_description);
+        creationDateView = (TextView) findViewById(R.id.detail_stats_creation_date);
         nbSubscribersView = (TextView) findViewById(R.id.detail_stats_subscribers);
         exportedVolumeView = (TextView) findViewById(R.id.detail_stats_data_volume);
     }
@@ -77,11 +78,17 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
         organizationView.setText(getString(R.string.exp_details_organization, crop.getOwner()));
         versionView.setText(getString(R.string.exp_details_version, crop.getVersion()));
         descriptionView.setText(getString(R.string.exp_details_description, crop.getShortDescription()));
-        nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers));
-        exportedVolumeView.setText(getString(R.string.crop_stats_data_volume, crop.getStatistics().size));
+        updateCropStats();
         List<Integer> sensorIcons = getIconsForStings(crop.getUsedStings());
         IconAdapter sensorIconsAdapter = new IconAdapter(getBaseContext(), R.layout.grid_item_icon, sensorIcons);
         stingGridView.setAdapter(sensorIconsAdapter);
+    }
+
+
+    private void updateCropStats(){
+        creationDateView.setText(getString(R.string.crop_stats_creation_date, crop.getStatistics().creationDate()));
+        nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers));
+        exportedVolumeView.setText(getString(R.string.crop_stats_data_volume, crop.getStatistics().size));
     }
 
     protected List<Integer> getIconsForStings(List<String> usedStings) {

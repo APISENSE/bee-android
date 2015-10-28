@@ -115,6 +115,7 @@ public class HomeStoreFragment extends Fragment {
 
         @Override
         public void onError(Exception e) {
+            e.printStackTrace();
         }
     }
 
