@@ -58,12 +58,21 @@
         android:stretchMode="columnWidth" />
 
     <com.apisense.bee.widget.ApisenseTextView
-        android:id="@+id/detail_stats_subscribers"
+        android:id="@+id/detail_stats_creation_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/detail_exp_used_stings"
+        android:text="@string/crop_stats_creation_date" />
+
+    <com.apisense.bee.widget.ApisenseTextView
+        android:id="@+id/detail_stats_subscribers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/detail_stats_creation_date"
         android:text="@string/crop_stats_subscribers" />
 
     <com.apisense.bee.widget.ApisenseTextView
