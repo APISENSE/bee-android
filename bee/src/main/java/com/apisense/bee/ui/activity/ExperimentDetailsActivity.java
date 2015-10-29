@@ -13,8 +13,10 @@ import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.preferences.Sensor;
 import com.apisense.sdk.core.store.Crop;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Common class for Activities showing details of an experiment
@@ -85,8 +87,9 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
     }
 
 
-    private void updateCropStats(){
-        creationDateView.setText(getString(R.string.crop_stats_creation_date, crop.getStatistics().creationDate()));
+    private void updateCropStats() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        creationDateView.setText(getString(R.string.crop_stats_creation_date, dateFormat.format(crop.getStatistics().creationDate())));
         nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers));
         exportedVolumeView.setText(getString(R.string.crop_stats_data_volume, crop.getStatistics().size));
     }
