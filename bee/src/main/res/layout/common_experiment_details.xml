@@ -51,12 +51,38 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/detail_exp_icon"
         android:layout_gravity="center_horizontal|center_vertical"
+        android:columnWidth="40dp"
         android:gravity="start"
         android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:columnWidth="40dp"
         android:padding="5dp"
-        />
+        android:stretchMode="columnWidth" />
+
+    <com.apisense.bee.widget.ApisenseTextView
+        android:id="@+id/detail_stats_creation_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/detail_exp_used_stings"
+        android:text="@string/crop_stats_creation_date" />
+
+    <com.apisense.bee.widget.ApisenseTextView
+        android:id="@+id/detail_stats_subscribers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/detail_stats_creation_date"
+        android:text="@string/crop_stats_subscribers" />
+
+    <com.apisense.bee.widget.ApisenseTextView
+        android:id="@+id/detail_stats_data_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/detail_stats_subscribers"
+        android:text="@string/crop_stats_data_volume" />
 
     <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/detail_exp_description"
@@ -64,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/detail_exp_used_stings"
+        android:layout_below="@id/detail_stats_data_volume"
         android:layout_gravity="center_horizontal|center_vertical"
         android:text="@string/exp_details_description" />
 
