@@ -46,7 +46,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         apisenseSdk = ((BeeApplication) getApplication()).getSdk();
 
         toolbar = (Toolbar) findViewById(R.id.material_toolbar);
-        toolbar.setLogo(R.drawable.ic_bee_menu);
+        toolbar.setLogo(R.drawable.ic_launcher_bee);
         setSupportActionBar(toolbar);
 
         // Set installed experiment list behavior
