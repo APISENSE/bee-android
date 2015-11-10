@@ -90,7 +90,7 @@ public class HomeStoreFragment extends Fragment {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Crop crop = (Crop) parent.getAdapter().getItem(position);
-            if (apisenseSdk.getCropManager().isSubscribed(crop)) {
+            if (apisenseSdk.getCropManager().isInstalled(crop)) {
                 apisenseSdk.getCropManager()
                         .unsubscribe(crop, new StoreCropUnsubscribed(getActivity().getBaseContext(), crop));
             } else {
@@ -115,6 +115,7 @@ public class HomeStoreFragment extends Fragment {
 
         @Override
         public void onError(Exception e) {
+            e.printStackTrace();
         }
     }
 

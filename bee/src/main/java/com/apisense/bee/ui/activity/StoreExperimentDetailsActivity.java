@@ -40,7 +40,7 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
     }
 
     private void updateSubscriptionMenu() {
-        if (apisenseSdk.getCropManager().isSubscribed(crop)) {
+        if (apisenseSdk.getCropManager().isInstalled(crop)) {
             experimentSubBtn.setDrawableIcon(getResources().getDrawable(R.drawable.ic_cancel));
         } else {
             experimentSubBtn.setDrawableIcon(getResources().getDrawable(R.drawable.ic_action_new));
@@ -48,7 +48,7 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
     }
 
     public void doSubscribeUnsubscribe() {
-        if (apisenseSdk.getCropManager().isSubscribed(crop)) {
+        if (apisenseSdk.getCropManager().isInstalled(crop)) {
             apisenseSdk.getCropManager()
                     .unsubscribe(crop, new StoreDetailsCropUnsubscribed());
         } else {
