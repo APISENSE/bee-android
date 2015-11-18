@@ -43,6 +43,8 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile('com.github.navasmdc:MaterialDesign:1.5@aar')
     compile 'com.nineoldandroids:library:2.4.0'
+
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6' // Draw charts
 }
 
 android {

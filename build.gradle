@@ -16,6 +16,7 @@ allprojects {
         // "dl.bintray.com" Must stay before mavenCentral to retrieve the right version of viewPagerIndicator
         maven { url "http://dl.bintray.com/populov/maven" }
         maven { url 'http://spoonware-test.lille.inria.fr/repo' }
+        maven { url "https://jitpack.io" } // Dependency: MPAndroidChart
         jcenter()
         mavenCentral()
         maven{ url '/tmp/sdkRepo' }
