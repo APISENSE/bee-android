@@ -1,18 +1,26 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
+import com.apisense.bee.widget.UploadedDataGraph;
+import com.apisense.sdk.core.statistics.CropUsageStatistics;
+import com.apisense.sdk.core.statistics.UploadedEntry;
 import com.apisense.sdk.core.store.Crop;
+
+import java.util.Collection;
 
 
 public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
-    private static String TAG = "HomeExpDetailsAct";
+    private static final String TAG = "HomeExpDetailsAct";
 
     private MenuItem mStartButton;
     private MenuItem mStopButton;
@@ -22,6 +30,22 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_experiment_details);
         initExperimentDetailsActivity();
+        displayStatistics(apisenseSdk.getStatisticsManager().getCropUsage(crop));
+    }
+
+    private void displayStatistics(CropUsageStatistics cropUsage) {
+        Log.i(TAG, "Got statistics" + cropUsage);
+        TextView nbLocalTraces = (TextView) findViewById(R.id.detail_stats_local_traces);
+        TextView nbTotalTraces = (TextView) findViewById(R.id.detail_stats_total_uploaded);
+
+        nbLocalTraces.setText(Html.fromHtml(getString(R.string.crop_stats_local_traces, cropUsage.getToUpload())));
+        nbTotalTraces.setText(Html.fromHtml(getString(R.string.crop_stats_total_uploaded, cropUsage.getTotalUploaded())));
+        displayStatisticsGraph(cropUsage.getUploaded());
+    }
+
+    private void displayStatisticsGraph(Collection<UploadedEntry> uploaded) {
+        UploadedDataGraph uploadGraph = (UploadedDataGraph) findViewById(R.id.details_stats_upload_graph);
+        uploadGraph.setValues(uploaded);
     }
 
     @Override

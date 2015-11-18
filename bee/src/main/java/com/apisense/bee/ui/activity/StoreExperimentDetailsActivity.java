@@ -1,7 +1,9 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
 
 import com.apisense.bee.Callbacks.OnCropSubscribed;
 import com.apisense.bee.Callbacks.OnCropUnsubscribed;
@@ -10,11 +12,15 @@ import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.sdk.core.store.Crop;
 import com.gc.materialdesign.views.ButtonFloat;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Shows detailed informations about a given available Experiment from the store
  */
 public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
-    private final String TAG = "StoreExpDetailsAct";
+    private static final String TAG = "StoreExpDetailsAct";
+    private static final String CREATION_DATE_PATTERN = "MMMM yyyy";
     private ButtonFloat experimentSubBtn;
 
 
@@ -23,7 +29,18 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_experiment_details);
         initExperimentDetailsActivity();
+        updateCropStats();
         updateSubscriptionMenu();
+    }
+
+    private void updateCropStats() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(CREATION_DATE_PATTERN, Locale.getDefault());
+        TextView creationDateView = (TextView) findViewById(R.id.detail_stats_creation_date);
+        TextView nbSubscribersView = (TextView) findViewById(R.id.detail_stats_subscribers);
+        TextView exportedVolumeView = (TextView) findViewById(R.id.detail_stats_data_volume);
+        creationDateView.setText(Html.fromHtml(getString(R.string.crop_stats_creation_date, dateFormat.format(crop.getStatistics().creationDate()))));
+        nbSubscribersView.setText(Html.fromHtml(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers)));
+        exportedVolumeView.setText(Html.fromHtml(getString(R.string.crop_stats_data_volume, crop.getStatistics().size)));
     }
 
     @Override
