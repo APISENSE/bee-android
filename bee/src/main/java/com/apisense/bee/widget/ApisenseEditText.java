@@ -6,28 +6,29 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 
 public class ApisenseEditText extends EditText {
-
-    private Context mContext;
     private static String mFontName = "Roboto/Roboto-Light.ttf";
+
+    private static Typeface tfs;
+
+    public static Typeface createTypeface(Context context) {
+        if (tfs == null) {
+            tfs = Typeface.createFromAsset(context.getAssets(), mFontName);
+        }
+        return tfs;
+    }
 
     public ApisenseEditText(Context context) {
         super(context);
-        this.mContext = mContext;
-        Typeface tfs = Typeface.createFromAsset(mContext.getAssets(), mFontName);
-        setTypeface(tfs);
+        setTypeface(createTypeface(context));
     }
 
     public ApisenseEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = context;
-        Typeface tfs = Typeface.createFromAsset(mContext.getAssets(), mFontName);
-        setTypeface(tfs);
+        setTypeface(createTypeface(context));
     }
 
     public ApisenseEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.mContext = context;
-        Typeface tfs = Typeface.createFromAsset(mContext.getAssets(), mFontName);
-        setTypeface(tfs);
+        setTypeface(createTypeface(context));
     }
 }
