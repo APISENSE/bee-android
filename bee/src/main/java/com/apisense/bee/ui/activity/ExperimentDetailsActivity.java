@@ -2,7 +2,6 @@ package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -14,10 +13,8 @@ import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.preferences.Sensor;
 import com.apisense.sdk.core.store.Crop;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Common class for Activities showing details of an experiment
@@ -75,7 +72,7 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
         nameView.setText(getString(R.string.exp_details_name, crop.getName()));
         organizationView.setText(getString(R.string.exp_details_organization, crop.getOwner()));
         versionView.setText(getString(R.string.exp_details_version, crop.getVersion()));
-        descriptionView.setText(Html.fromHtml(getString(R.string.exp_details_description, crop.getShortDescription())));
+        descriptionView.setText(getString(R.string.exp_details_description, crop.getShortDescription()));
         List<Integer> sensorIcons = getIconsForStings(crop.getUsedStings());
         IconAdapter sensorIconsAdapter = new IconAdapter(getBaseContext(), R.layout.grid_item_icon, sensorIcons);
         stingGridView.setAdapter(sensorIconsAdapter);

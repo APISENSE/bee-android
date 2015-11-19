@@ -49,6 +49,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/store_exp_common_details_container"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
         android:text="@string/crop_stats_creation_date" />
 
     <com.apisense.bee.widget.ApisenseTextView
@@ -58,6 +60,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/detail_stats_creation_date"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
         android:text="@string/crop_stats_subscribers" />
 
     <com.apisense.bee.widget.ApisenseTextView
@@ -67,6 +71,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/detail_stats_subscribers"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
         android:text="@string/crop_stats_data_volume" />
 
 </RelativeLayout>

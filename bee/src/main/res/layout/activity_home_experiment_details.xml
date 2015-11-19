@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/material_toolbar_container" />
 
-
     <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/detail_stats_local_traces"
         android:layout_width="wrap_content"
@@ -36,6 +35,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/home_exp_common_details_container"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
         android:text="@string/crop_stats_local_traces" />
 
     <com.apisense.bee.widget.ApisenseTextView
@@ -45,6 +46,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/detail_stats_local_traces"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
         android:text="@string/crop_stats_total_uploaded" />
 
     <com.apisense.bee.widget.UploadedDataGraph
@@ -52,8 +55,6 @@
         style="@style/BarGraph"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="25dp"
-        android:paddingLeft="25dp"
         android:layout_below="@id/detail_stats_total_uploaded"
         android:minHeight="80sp" />
 
