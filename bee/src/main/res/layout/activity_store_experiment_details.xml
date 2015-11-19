@@ -23,18 +23,6 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/experimentSubBtn"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_action_new"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/orange" />
-
     <include
         android:id="@+id/store_exp_common_details_container"
         layout="@layout/common_experiment_details"
@@ -74,5 +62,16 @@
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding"
         android:text="@string/crop_stats_data_volume" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/experimentSubBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_new"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/orange" />
 
 </RelativeLayout>
