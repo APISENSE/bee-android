@@ -1,7 +1,6 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,9 +37,9 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
         TextView creationDateView = (TextView) findViewById(R.id.detail_stats_creation_date);
         TextView nbSubscribersView = (TextView) findViewById(R.id.detail_stats_subscribers);
         TextView exportedVolumeView = (TextView) findViewById(R.id.detail_stats_data_volume);
-        creationDateView.setText(Html.fromHtml(getString(R.string.crop_stats_creation_date, dateFormat.format(crop.getStatistics().creationDate()))));
-        nbSubscribersView.setText(Html.fromHtml(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers)));
-        exportedVolumeView.setText(Html.fromHtml(getString(R.string.crop_stats_data_volume, crop.getStatistics().size)));
+        creationDateView.setText(getString(R.string.crop_stats_creation_date, dateFormat.format(crop.getStatistics().creationDate())));
+        nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers));
+        exportedVolumeView.setText(getString(R.string.crop_stats_data_volume, crop.getStatistics().size));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,8 +37,8 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
         TextView nbLocalTraces = (TextView) findViewById(R.id.detail_stats_local_traces);
         TextView nbTotalTraces = (TextView) findViewById(R.id.detail_stats_total_uploaded);
 
-        nbLocalTraces.setText(Html.fromHtml(getString(R.string.crop_stats_local_traces, cropUsage.getToUpload())));
-        nbTotalTraces.setText(Html.fromHtml(getString(R.string.crop_stats_total_uploaded, cropUsage.getTotalUploaded())));
+        nbLocalTraces.setText(getString(R.string.crop_stats_local_traces, cropUsage.getToUpload()));
+        nbTotalTraces.setText(getString(R.string.crop_stats_total_uploaded, cropUsage.getTotalUploaded()));
         displayStatisticsGraph(cropUsage.getUploaded());
     }
 
