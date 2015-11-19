@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:paddingLeft="@dimen/activity_padding"
     android:paddingRight="@dimen/activity_padding"
-    android:paddingLeft="@dimen/activity_padding">
+    android:paddingTop="@dimen/activity_padding">
 
     <ImageView
         android:id="@+id/detail_exp_icon"
@@ -22,6 +23,7 @@
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_toEndOf="@id/detail_exp_icon"
         android:layout_toRightOf="@id/detail_exp_icon"
+        android:paddingLeft="@dimen/game_padding"
         android:text="@string/exp_details_name" />
 
     <com.apisense.bee.widget.ApisenseTextView
@@ -32,6 +34,7 @@
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_toEndOf="@id/detail_exp_icon"
         android:layout_toRightOf="@id/detail_exp_icon"
+        android:paddingLeft="@dimen/game_padding"
         android:text="@string/exp_details_organization" />
 
     <com.apisense.bee.widget.ApisenseTextView
