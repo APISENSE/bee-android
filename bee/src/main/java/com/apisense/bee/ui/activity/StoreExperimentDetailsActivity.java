@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,7 +10,6 @@ import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.sdk.core.store.Crop;
-import com.gc.materialdesign.views.ButtonFloat;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -20,7 +20,7 @@ import java.util.Locale;
 public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
     private static final String TAG = "StoreExpDetailsAct";
     private static final String CREATION_DATE_PATTERN = "MMMM yyyy";
-    private ButtonFloat experimentSubBtn;
+    private FloatingActionButton experimentSubBtn;
 
 
     @Override
@@ -45,7 +45,7 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
     @Override
     public void initializeViews() {
         super.initializeViews();
-        this.experimentSubBtn = (ButtonFloat) findViewById(R.id.experimentSubBtn);
+        this.experimentSubBtn = (FloatingActionButton) findViewById(R.id.experimentSubBtn);
         this.experimentSubBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,9 +57,10 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
 
     private void updateSubscriptionMenu() {
         if (apisenseSdk.getCropManager().isInstalled(crop)) {
-            experimentSubBtn.setDrawableIcon(getResources().getDrawable(R.drawable.ic_cancel));
+            experimentSubBtn.setImageResource(R.drawable.ic_cancel);
+//            experimentSubBtn.setSrc(getResources().getDrawable(R.drawable.ic_cancel));
         } else {
-            experimentSubBtn.setDrawableIcon(getResources().getDrawable(R.drawable.ic_action_new));
+            experimentSubBtn.setImageResource(R.drawable.ic_action_new);
         }
     }
 

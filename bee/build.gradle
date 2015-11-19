@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
-apply plugin: "jacoco"
-jacoco.toolVersion = "0.7.1.201405082137"
-
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
@@ -11,40 +8,20 @@ dependencies {
     compile 'com.apisense.sdk:apisense-android-sdk:1.4.0-SNAPSHOT'
 
     // Google play services
-    compile('com.google.android.gms:play-services-games:8.3.0') {
-        exclude module: 'support-v4'
-    }
-    compile('com.google.android.gms:play-services-plus:8.3.0') {
-        exclude module: 'support-v4'
-    }
+    compile('com.google.android.gms:play-services-games:8.3.0')
+    compile('com.google.android.gms:play-services-plus:8.3.0')
 
-    // Test and monitor
-    compile 'fr.spoonware:spoonware-library-android:0.0.42'
-    androidTestCompile('com.jayway.android.robotium:robotium-solo:5.2.1') {
-        exclude module: 'support-v4'
-    }
+    // Graphic enhancements
+    compile('com.astuetz:pagerslidingtabstrip:1.0.1') // Settings page slider
+    compile('com.viewpagerindicator:library:2.4.1@aar') // Slideshow's slide indicator
+    compile('com.github.PhilJay:MPAndroidChart:v2.1.6') // Draw charts
 
-    // Graphical
-    compile('com.viewpagerindicator:library:2.4.1@aar'){
-        exclude module: 'support-v4'
-    }
-    //// Android Lollipop support animation and views
-    compile 'com.android.support:support-v4:23.1.0'
-    //// Sexy android-L support
-    compile('com.android.support:appcompat-v7:21.0.+') {
-        exclude module: 'support-v4'
-    }
-    compile('com.android.support:cardview-v7:21.0.+') {
-        exclude module: 'support-v4'
-    }
-    compile('com.android.support:recyclerview-v7:21.0.+') {
-        exclude module: 'support-v4'
-    }
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-    compile('com.github.navasmdc:MaterialDesign:1.5@aar')
-    compile 'com.nineoldandroids:library:2.4.0'
-
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6' // Draw charts
+    // Android support animation and views
+    compile 'com.android.support:support-v4:23.1.1'
+    compile('com.android.support:appcompat-v7:23.1.1')
+    compile('com.android.support:cardview-v7:23.1.1')
+    compile('com.android.support:recyclerview-v7:23.1.1')
+    compile('com.android.support:design:23.1.1')
 }
 
 android {
