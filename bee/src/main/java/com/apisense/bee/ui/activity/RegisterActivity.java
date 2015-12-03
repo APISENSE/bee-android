@@ -3,6 +3,7 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -52,7 +53,7 @@ public class RegisterActivity extends Activity {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptRegister();
+                attemptRegister(view);
             }
         });
     }
@@ -62,8 +63,10 @@ public class RegisterActivity extends Activity {
      * <p/>
      * If there are form errors (invalid email, missing fields, etc.),
      * The errors are presented and no actual login attempt is made.
+     *
+     * @param registerButton The button used to call this method.
      */
-    public void attemptRegister() {
+    public void attemptRegister(final View registerButton) {
         resetFieldsError();
         catchFieldValues();
 
@@ -111,6 +114,7 @@ public class RegisterActivity extends Activity {
 
                 @Override
                 public void onError(Exception e) {
+                    Snackbar.make(registerButton, e.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
                     Log.e(TAG, "Error on account creation", e);
                 }
             });
