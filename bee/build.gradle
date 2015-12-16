@@ -6,7 +6,7 @@ dependencies {
 
     // Features
     compile 'com.apisense.sdk:apisense-android-sdk:1.4.0-SNAPSHOT'
-
+    compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
     // Google play services
     compile('com.google.android.gms:play-services-games:8.3.0')
     compile('com.google.android.gms:play-services-plus:8.3.0')

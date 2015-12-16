@@ -103,6 +103,7 @@
     <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
     <string name="action_subscribe">S\'inscrire</string>
     <string name="action_unsubscribe">Se désinscrire</string>
+    <string name="action_read_qrcode">installer depuis un QRCode</string>
     <string name="no_available_experiments">Aucune expérience trouvée !</string>
     <string name="title_activity_store_search">Recherche sur le Store</string>
 
@@ -125,9 +126,11 @@
           \t\t- Julien Duribreux
     </string>
 
-        <string name="about_resources">
+    <string name="about_resources">
         Ressources:\n
-          \t\t- Images issues de <a href="http://www.flaticon.com/">flaticon</a> et <a href="http://iconmonstr.com/">iconmostr</a>
+          \t\t- Images issues de:\n
+            \t\t\t- www.flaticon.com\n
+            \t\t\t- iconmonstr.com
     </string>
 
         <string name="about_copyright">
