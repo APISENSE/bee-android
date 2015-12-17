@@ -16,6 +16,9 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <!-- QR Code reader -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <permission
         android:name="com.apisense.bee.gcm.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
@@ -116,6 +119,12 @@
         <activity
             android:name="com.apisense.bee.ui.activity.StoreExperimentDetailsActivity"
             android:label="@string/title_activity_store_experiment_details"
+            android:parentActivityName="com.apisense.bee.ui.activity.StoreActivity" />
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.QRScannerActivity"
+            android:label="@string/title_activity_store_experiment_details"
+            android:screenOrientation="portrait"
             android:parentActivityName="com.apisense.bee.ui.activity.StoreActivity" />
 
         <activity
