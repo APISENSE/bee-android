@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.SimpleGameAchievement;
@@ -94,13 +95,14 @@ public class StoreActivity extends BeeGameActivity {
             apisenseSdk.getCropManager().installSpecific(cropID, new APSCallback<Crop>() {
                 @Override
                 public void onDone(Crop crop) {
-                    Snackbar.make(
-                            findViewById(android.R.id.content),
-                            String.format(getString(R.string.experiment_subscribed), crop.getName()),
-                            Snackbar.LENGTH_SHORT
-                    ).show();
-                    // Installation complete, return to home activity
-                    finish();
+                    apisenseSdk.getCropManager().start(crop, new OnCropStarted(StoreActivity.this) {
+                        @Override
+                        public void onDone(Crop crop) {
+                            super.onDone(crop);
+                            // Installation complete, return to home activity
+                            finish();
+                        }
+                    });
                 }
 
                 @Override
