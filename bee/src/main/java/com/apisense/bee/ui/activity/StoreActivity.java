@@ -89,9 +89,9 @@ public class StoreActivity extends BeeGameActivity {
     @Override
     protected void onActivityResult(int request, int response, Intent data) {
         super.onActivityResult(request, response, data);
-        String cropID = data.getStringExtra(QRScannerActivity.CROP_ID_KEYWORD);
         // React only if the user actually scanned a QRcode
         if (request == QRScannerActivity.INSTALL_FROM_QR && response == RESULT_OK) {
+            String cropID = data.getStringExtra(QRScannerActivity.CROP_ID_KEYWORD);
             apisenseSdk.getCropManager().installSpecific(cropID, new APSCallback<Crop>() {
                 @Override
                 public void onDone(Crop crop) {
