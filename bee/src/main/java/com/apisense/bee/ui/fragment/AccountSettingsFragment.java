@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.fragment;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -44,11 +45,12 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
 
     protected void doApplicationShare() {
         new SimpleGameAchievement(getString(R.string.achievement_recruiting_bee)).unlock(this);
+        Resources resources = getResources();
         Intent sendIntent = new Intent(Intent.ACTION_SEND)
                 .setAction(Intent.ACTION_SEND)
-                .putExtra(Intent.EXTRA_TEXT, "linktobee");
+                .putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.share_bee_text));
         sendIntent.setType("text/plain");
-        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.action_share)));
+        startActivity(Intent.createChooser(sendIntent, resources.getText(R.string.action_share)));
     }
 
     protected void doDisconnect() {

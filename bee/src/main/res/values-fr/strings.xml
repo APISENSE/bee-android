@@ -142,7 +142,7 @@
 	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
 	    ]]>
     </string>
-
+    <string name="share_bee_text">Aide la science grâce à l\'application Bee! https://play.google.com/store/apps/details?id=com.apisense.bee</string>
 
     <string name="signin_other_error">Erreur GPG</string>
     <string name="gamehelper_unknown_error">Erreur GPG inconnue</string>
