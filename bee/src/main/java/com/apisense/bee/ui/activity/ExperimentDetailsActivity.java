@@ -13,10 +13,8 @@ import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.preferences.Sensor;
 import com.apisense.sdk.core.store.Crop;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Common class for Activities showing details of an experiment
@@ -30,9 +28,6 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
     protected TextView organizationView;
     protected TextView versionView;
     protected TextView descriptionView;
-    private TextView creationDateView;
-    private TextView exportedVolumeView;
-    private TextView nbSubscribersView;
     protected GridView stingGridView;
 
     protected Crop crop;
@@ -69,9 +64,7 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
         organizationView = (TextView) findViewById(R.id.detail_exp_organization);
         stingGridView = (GridView) findViewById(R.id.detail_exp_used_stings);
         descriptionView = (TextView) findViewById(R.id.detail_exp_description);
-        creationDateView = (TextView) findViewById(R.id.detail_stats_creation_date);
-        nbSubscribersView = (TextView) findViewById(R.id.detail_stats_subscribers);
-        exportedVolumeView = (TextView) findViewById(R.id.detail_stats_data_volume);
+
     }
 
     public void displayExperimentInformation() {
@@ -80,18 +73,9 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
         organizationView.setText(getString(R.string.exp_details_organization, crop.getOwner()));
         versionView.setText(getString(R.string.exp_details_version, crop.getVersion()));
         descriptionView.setText(getString(R.string.exp_details_description, crop.getShortDescription()));
-        updateCropStats();
         List<Integer> sensorIcons = getIconsForStings(crop.getUsedStings());
         IconAdapter sensorIconsAdapter = new IconAdapter(getBaseContext(), R.layout.grid_item_icon, sensorIcons);
         stingGridView.setAdapter(sensorIconsAdapter);
-    }
-
-
-    private void updateCropStats() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        creationDateView.setText(getString(R.string.crop_stats_creation_date, dateFormat.format(crop.getStatistics().creationDate())));
-        nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers));
-        exportedVolumeView.setText(getString(R.string.crop_stats_data_volume, crop.getStatistics().size));
     }
 
     protected List<Integer> getIconsForStings(List<String> usedStings) {

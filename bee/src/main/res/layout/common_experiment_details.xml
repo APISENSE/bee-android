@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:paddingLeft="@dimen/activity_padding"
+    android:paddingRight="@dimen/activity_padding"
+    android:paddingTop="@dimen/activity_padding">
 
     <ImageView
         android:id="@+id/detail_exp_icon"
@@ -20,6 +23,7 @@
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_toEndOf="@id/detail_exp_icon"
         android:layout_toRightOf="@id/detail_exp_icon"
+        android:paddingLeft="@dimen/game_padding"
         android:text="@string/exp_details_name" />
 
     <com.apisense.bee.widget.ApisenseTextView
@@ -30,6 +34,7 @@
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_toEndOf="@id/detail_exp_icon"
         android:layout_toRightOf="@id/detail_exp_icon"
+        android:paddingLeft="@dimen/game_padding"
         android:text="@string/exp_details_organization" />
 
     <com.apisense.bee.widget.ApisenseTextView
@@ -58,39 +63,12 @@
         android:stretchMode="columnWidth" />
 
     <com.apisense.bee.widget.ApisenseTextView
-        android:id="@+id/detail_stats_creation_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/detail_exp_used_stings"
-        android:text="@string/crop_stats_creation_date" />
-
-    <com.apisense.bee.widget.ApisenseTextView
-        android:id="@+id/detail_stats_subscribers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/detail_stats_creation_date"
-        android:text="@string/crop_stats_subscribers" />
-
-    <com.apisense.bee.widget.ApisenseTextView
-        android:id="@+id/detail_stats_data_volume"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/detail_stats_subscribers"
-        android:text="@string/crop_stats_data_volume" />
-
-    <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/detail_exp_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/detail_stats_data_volume"
+        android:layout_below="@id/detail_exp_used_stings"
         android:layout_gravity="center_horizontal|center_vertical"
         android:text="@string/exp_details_description" />
 

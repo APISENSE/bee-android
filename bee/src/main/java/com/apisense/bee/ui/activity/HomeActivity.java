@@ -104,6 +104,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         @Override
         public void onDone(Crop crop) {
             Log.d(TAG, "Crop" + crop.getName() + "started back");
+            retrieveActiveExperiments();
             experimentsAdapter.notifyDataSetChanged();
         }
 

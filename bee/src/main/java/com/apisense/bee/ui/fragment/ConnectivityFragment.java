@@ -2,6 +2,7 @@ package com.apisense.bee.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.IntentCompat;
 import android.text.Html;
@@ -19,7 +20,6 @@ import com.apisense.bee.widget.ApisenseTextView;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.bee.Bee;
-import com.gc.materialdesign.widgets.SnackBar;
 import com.google.android.gms.common.SignInButton;
 
 import java.util.UUID;
@@ -89,11 +89,11 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.btnGoogleSignIn:
                 //TODO performGoogleRegistration();
-                new SnackBar(getActivity(), getResources().getString(R.string.registration_not_implemented), null, null).show();
+                Snackbar.make(v, getResources().getString(R.string.registration_not_implemented), Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.btnFacebookSignIn:
                 // TODO
-                new SnackBar(getActivity(), getResources().getString(R.string.registration_not_implemented), null, null).show();
+                Snackbar.make(v, getResources().getString(R.string.registration_not_implemented), Snackbar.LENGTH_SHORT).show();
         }
     }
 
