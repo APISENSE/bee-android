@@ -3,6 +3,7 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,7 +14,7 @@ import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
-import com.gc.materialdesign.widgets.SnackBar;
+
 
 public class SignInActivity extends Activity {
 
@@ -68,9 +69,9 @@ public class SignInActivity extends Activity {
      *
      * @param loginButton button pressed to start task
      */
-    public void doLoginLogout(View loginButton) {
+    public void doLoginLogout(final View loginButton) {
         if (!isInputCorrect()) {
-            new SnackBar(this, getResources().getString(R.string.empty_field), null, null).show();
+            Snackbar.make(loginButton, getResources().getString(R.string.empty_field), Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -79,12 +80,12 @@ public class SignInActivity extends Activity {
                 @Override
                 public void onDone(Void response) {
                     mSignInBtn.setText("Login");
-                    new SnackBar(SignInActivity.this, getResources().getString(R.string.status_changed_to_anonymous), null, null).show();
+                    Snackbar.make(loginButton, getResources().getString(R.string.status_changed_to_anonymous), Snackbar.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onError(Exception e) {
-                    new SnackBar(SignInActivity.this, getResources().getString(R.string.experiment_exception_on_closure), null, null).show();
+                    Snackbar.make(loginButton, getResources().getString(R.string.experiment_exception_on_closure), Snackbar.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -100,7 +101,7 @@ public class SignInActivity extends Activity {
 
                         @Override
                         public void onError(Exception e) {
-                            new SnackBar(SignInActivity.this, getResources().getString(R.string.failed_to_connect), null, null).show();
+                            Snackbar.make(loginButton, getResources().getString(R.string.failed_to_connect), Snackbar.LENGTH_SHORT).show();
                         }
                     });
         }

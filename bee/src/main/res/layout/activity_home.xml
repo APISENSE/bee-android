@@ -1,13 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.apisense.bee.ui.activity.HomeActivity>">
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.Toolbar
         android:id="@+id/material_toolbar"
         style="@style/ApisenseActionBar"
         app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -103,20 +102,17 @@
             android:divider="@null"
             android:dividerHeight="0dp" />
 
-        <com.gc.materialdesign.views.ButtonFloat
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/smallAddButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="@dimen/add_button_margin"
-            android:layout_weight="0"
-            android:background="@color/orange"
+            android:layout_alignParentRight="true"
             android:onClick="doGoToStore"
+            android:src="@drawable/ic_action_new"
             android:textColor="@color/white"
-            materialdesign:animate="false"
-            materialdesign:iconDrawable="@drawable/ic_action_new" />
+            app:backgroundTint="@color/orange" />
     </RelativeLayout>
 
 </LinearLayout>

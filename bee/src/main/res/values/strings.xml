@@ -87,7 +87,9 @@
     <string name="crop_stats_subscribers">Number of subscriptions: %1$s</string>
     <string name="crop_stats_data_volume">Exported data: %1$.2f Kib</string>
     <string name="crop_stats_creation_date">Created: %1$s</string>
-    <string name="exp_details_description">Description:\n %1$s</string>
+    <string name="exp_details_description">Description:\n\t %1$s</string>
+    <string name="crop_stats_local_traces">Local traces: %1$s</string>
+    <string name="crop_stats_total_uploaded">Uploaded traces: %1$s</string>
     <string name="experiment_activity_7_days">Activity for the past 7 days</string>
     <string name="experiment_started">Experiment %1$s started</string>
     <string name="experiment_stopped">Experiment %1$s stopped</string>
@@ -117,6 +119,7 @@
     <string name="experiment_unsubscribed">You don\'t contribute to experiment %1$s anymore</string>
     <string name="action_subscribe">Subscribe</string>
     <string name="action_unsubscribe">UnSubscribe</string>
+    <string name="action_read_qrcode">install from QRCode</string>
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="title_activity_store_search">StoreSearch</string>
 
@@ -142,7 +145,9 @@
 
     <string name="about_resources">
         Resources:\n
-          \t\t- Pictures from <a href="http://www.flaticon.com/">flaticon</a> and <a href="http://iconmonstr.com/">iconmostr</a>
+          \t\t- Pictures from:\n
+            \t\t\t- www.flaticon.com\n
+            \t\t\t- iconmonstr.com
     </string>
     <string name="about_copyright">
         <![CDATA[
@@ -153,6 +158,7 @@
 	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.</p>
 	    ]]>
     </string>
+    <string name="share_bee_text">Help science by using Bee! https://play.google.com/store/apps/details?id=com.apisense.bee</string>
 
     <!-- Google Play Games -->
     <string name="signin_other_error">GPG Error</string>
