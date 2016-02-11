@@ -21,6 +21,7 @@ import com.apisense.bee.ui.activity.StoreExperimentDetailsActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.adapter.SimpleAPSCallback;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 
@@ -112,7 +113,7 @@ public class HomeStoreFragment extends Fragment {
 
     // Callbacks definitions
 
-    private class OnExperimentsRetrieved implements APSCallback<List<Crop>> {
+    private class OnExperimentsRetrieved extends SimpleAPSCallback<List<Crop>> {
         @Override
         public void onDone(List<Crop> crops) {
             Log.i(TAG, "Number of Active Experiments: " + crops.size());
@@ -120,11 +121,6 @@ public class HomeStoreFragment extends Fragment {
             // Updating listview
             setExperiments(crops);
             experimentsAdapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onError(Exception e) {
-            e.printStackTrace();
         }
     }
 
