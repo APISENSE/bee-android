@@ -2,6 +2,7 @@ package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,7 @@ import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.fragment.CategoryStoreFragment;
 import com.apisense.bee.ui.fragment.HomeStoreFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
+import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
@@ -42,6 +44,7 @@ public class StoreActivity extends BeeGameActivity {
      * The pager adapter, which provides the pages to the view pager widget.
      */
     private PagerAdapter mPagerAdapter;
+    private CropPermissionHandler lastCropPermissionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,14 +98,16 @@ public class StoreActivity extends BeeGameActivity {
             apisenseSdk.getCropManager().installSpecific(cropID, new APSCallback<Crop>() {
                 @Override
                 public void onDone(Crop crop) {
-                    apisenseSdk.getCropManager().start(crop, new OnCropStarted(StoreActivity.this) {
-                        @Override
-                        public void onDone(Crop crop) {
-                            super.onDone(crop);
-                            // Installation complete, return to home activity
-                            finish();
-                        }
-                    });
+                    lastCropPermissionHandler = new CropPermissionHandler(StoreActivity.this, crop,
+                            new OnCropStarted(StoreActivity.this) {
+                                @Override
+                                public void onDone(Crop crop) {
+                                    super.onDone(crop);
+                                    // Installation complete, return to home activity
+                                    finish();
+                                }
+                            });
+                    lastCropPermissionHandler.startOrRequestPermissions();
                 }
 
                 @Override
@@ -157,6 +162,13 @@ public class StoreActivity extends BeeGameActivity {
         @Override
         public int getCount() {
             return NUM_PAGES;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (lastCropPermissionHandler != null) {
+            lastCropPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

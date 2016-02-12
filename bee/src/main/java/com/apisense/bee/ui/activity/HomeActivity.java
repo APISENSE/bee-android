@@ -2,6 +2,7 @@ package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.R;
@@ -38,6 +40,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     private ApisenseTextView achievementsCounts;
 
     private APISENSE.Sdk apisenseSdk;
+    private CropPermissionHandler lastCropPermissionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,15 +215,24 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
                     }
                 });
             } else {
-                apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext()) {
-                    @Override
-                    public void onDone(Crop crop) {
-                        super.onDone(crop);
-                        experimentsAdapter.notifyDataSetChanged();
-                    }
-                });
+                lastCropPermissionHandler = new CropPermissionHandler(HomeActivity.this, crop,
+                        new OnCropStarted(getBaseContext()) {
+                            @Override
+                            public void onDone(Crop crop) {
+                                super.onDone(crop);
+                                experimentsAdapter.notifyDataSetChanged();
+                            }
+                        });
+                lastCropPermissionHandler.startOrRequestPermissions();
             }
             return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (lastCropPermissionHandler != null) {
+            lastCropPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
