@@ -1,12 +1,15 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +42,7 @@ public class StoreActivity extends BeeGameActivity {
     protected Toolbar toolbar;
     private ViewPager mPager;
     private APISENSE.Sdk apisenseSdk;
+    private static final int REQUEST_PERMISSION_QR_CODE = 1;
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
@@ -78,7 +82,12 @@ public class StoreActivity extends BeeGameActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_read_qrcode:
-                installFromQRCode();
+                if (cameraPermissionGranted()) {
+                    installFromQRCode();
+                } else {
+                    String[] permissions = {android.Manifest.permission.CAMERA};
+                    ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION_QR_CODE);
+                }
                 break;
         }
         return false;
@@ -87,6 +96,11 @@ public class StoreActivity extends BeeGameActivity {
     private void installFromQRCode() {
         Intent qrActivity = new Intent(this, QRScannerActivity.class);
         startActivityForResult(qrActivity, QRScannerActivity.INSTALL_FROM_QR);
+    }
+
+    private boolean cameraPermissionGranted() {
+        return ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
@@ -167,8 +181,18 @@ public class StoreActivity extends BeeGameActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (lastCropPermissionHandler != null) {
-            lastCropPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_QR_CODE) {
+            boolean auth = true;
+            for (int grantResult : grantResults) {
+                auth = auth && grantResult == PackageManager.PERMISSION_GRANTED;
+            }
+            if (auth) {
+                installFromQRCode();
+            }
+        } else {
+            if (lastCropPermissionHandler != null) {
+                lastCropPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
         }
     }
 }
