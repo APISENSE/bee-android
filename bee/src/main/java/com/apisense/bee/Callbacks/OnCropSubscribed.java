@@ -1,30 +1,30 @@
 package com.apisense.bee.Callbacks;
 
-import android.content.Context;
+import android.app.Activity;
 import android.widget.Toast;
 
 import com.apisense.bee.R;
-import com.apisense.sdk.APISENSE;
+import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 import com.rollbar.android.Rollbar;
 
 public class OnCropSubscribed implements APSCallback<Crop> {
-    private Context context;
+    private Activity context;
     private Crop crop;
-    private APISENSE.Sdk sdk;
+    private CropPermissionHandler permissionHandler;
 
-    public OnCropSubscribed(Context context, Crop crop, APISENSE.Sdk sdk) {
+    public OnCropSubscribed(Activity context, Crop crop, CropPermissionHandler permissionHandler) {
         this.context = context;
         this.crop = crop;
-        this.sdk = sdk;
+        this.permissionHandler = permissionHandler;
     }
 
     @Override
     public void onDone(Crop crop) {
         String toastMessage = String.format(context.getString(R.string.experiment_subscribed), crop.getName());
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
-        sdk.getCropManager().start(crop, new OnCropStarted(context));
+        permissionHandler.startOrRequestPermissions();
     }
 
     @Override

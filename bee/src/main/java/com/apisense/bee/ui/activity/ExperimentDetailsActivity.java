@@ -1,15 +1,19 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.adapter.IconAdapter;
+import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.preferences.Sensor;
 import com.apisense.sdk.core.store.Crop;
 
@@ -29,6 +33,7 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
     protected TextView versionView;
     protected TextView descriptionView;
     protected GridView stingGridView;
+    protected CropPermissionHandler cropPermissionHandler;
 
     protected Crop crop;
     protected APISENSE.Sdk apisenseSdk;
@@ -47,9 +52,14 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
 
         Bundle b = getIntent().getExtras();
         crop = b.getParcelable("crop");
+        cropPermissionHandler = prepareCropPermissionHandler();
 
         initializeViews();
         displayExperimentInformation();
+    }
+
+    protected CropPermissionHandler prepareCropPermissionHandler() {
+        return new CropPermissionHandler(this, crop, new OnCropStarted(this));
     }
 
     @Override
@@ -90,5 +100,8 @@ public abstract class ExperimentDetailsActivity extends BeeGameActivity {
         return result;
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        cropPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

@@ -10,6 +10,7 @@ import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
+import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.UploadedDataGraph;
 import com.apisense.sdk.core.statistics.CropUsageStatistics;
 import com.apisense.sdk.core.statistics.UploadedEntry;
@@ -30,6 +31,17 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
         setContentView(R.layout.activity_home_experiment_details);
         initExperimentDetailsActivity();
         displayStatistics(apisenseSdk.getStatisticsManager().getCropUsage(crop));
+    }
+
+    @Override
+    protected CropPermissionHandler prepareCropPermissionHandler() {
+        return new CropPermissionHandler(this, crop, new OnCropStarted(getBaseContext()) {
+            @Override
+            public void onDone(Crop crop) {
+                super.onDone(crop);
+                displayStopButton();
+            }
+        });
     }
 
     private void displayStatistics(CropUsageStatistics cropUsage) {
@@ -101,13 +113,7 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
                 }
             });
         } else {
-            apisenseSdk.getCropManager().start(crop, new OnCropStarted(getBaseContext()) {
-                @Override
-                public void onDone(Crop crop) {
-                    super.onDone(crop);
-                    displayStopButton();
-                }
-            });
+            cropPermissionHandler.startOrRequestPermissions();
         }
 
     }
