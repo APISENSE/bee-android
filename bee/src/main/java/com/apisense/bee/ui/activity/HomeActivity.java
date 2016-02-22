@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.utils.CropPermissionHandler;
+import com.apisense.bee.Callbacks.BeeAPSCallback;
 import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.R;
@@ -21,7 +22,6 @@ import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 
 import java.util.ArrayList;
@@ -103,17 +103,16 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     }
 
 
-    private class OnCropModifiedOnStartup implements APSCallback<Crop> {
+    private class OnCropModifiedOnStartup extends BeeAPSCallback<Crop> {
+        public OnCropModifiedOnStartup() {
+            super(HomeActivity.this);
+        }
+
         @Override
         public void onDone(Crop crop) {
             Log.d(TAG, "Crop" + crop.getName() + "started back");
             retrieveActiveExperiments();
             experimentsAdapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onError(Exception e) {
-
         }
     }
 
@@ -173,7 +172,11 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         startActivity(storeIntent);
     }
 
-    public class ExperimentListRetrievedCallback implements APSCallback<List<Crop>> {
+    public class ExperimentListRetrievedCallback  extends BeeAPSCallback<List<Crop>> {
+        public ExperimentListRetrievedCallback() {
+            super(HomeActivity.this);
+        }
+
         @Override
         public void onDone(List<Crop> response) {
             Log.i(TAG, "number of Active Experiments: " + response.size());
@@ -181,11 +184,6 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
             // Updating listView
             setExperiments(response);
             experimentsAdapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onError(Exception e) {
-
         }
     }
 

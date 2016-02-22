@@ -14,7 +14,7 @@ import com.apisense.bee.R;
 import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.adapter.SensorListAdapter;
 import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.adapter.SimpleAPSCallback;
 import com.apisense.sdk.core.preferences.Preferences;
 import com.apisense.sdk.core.preferences.Sensor;
 
@@ -47,7 +47,6 @@ public class PrivacySettingsFragment extends Fragment {
         sensorsAdapter.setDataSet(sensorList);
         sensorsAdapter.notifyDataSetChanged();
         apisenseSdk.getPreferencesManager().retrievePreferences(new OnPreferencesReturned());
-
         new SimpleGameAchievement(getString(R.string.achievement_secretive_bee)).unlock(this);
 
         return root;
@@ -57,10 +56,13 @@ public class PrivacySettingsFragment extends Fragment {
     public void onStop() {
         super.onStop();
         preferences.privacyPreferences.disabledSensors = sensorsAdapter.getDisabledSensors();
-        apisenseSdk.getPreferencesManager().savePreferences(preferences, new EmptyCallback());
+        if (apisenseSdk.getSessionManager().isConnected()) {
+            // Avoid saving preferences if user used the logout button.
+            apisenseSdk.getPreferencesManager().savePreferences(preferences, new OnPreferencesSaved());
+        }
     }
 
-    private class OnPreferencesReturned implements APSCallback<Preferences> {
+    private class OnPreferencesReturned extends SimpleAPSCallback<Preferences> {
         @Override
         public void onDone(Preferences prefs) {
             preferences = prefs;
@@ -71,22 +73,12 @@ public class PrivacySettingsFragment extends Fragment {
             }
             sensorsAdapter.notifyDataSetChanged();
         }
-
-        @Override
-        public void onError(Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    private class EmptyCallback implements APSCallback<Void> {
+    private class OnPreferencesSaved extends SimpleAPSCallback<Void> {
         @Override
         public void onDone(Void aVoid) {
-
-        }
-
-        @Override
-        public void onError(Exception e) {
-            e.printStackTrace();
+            // Nothing to do here
         }
     }
 }

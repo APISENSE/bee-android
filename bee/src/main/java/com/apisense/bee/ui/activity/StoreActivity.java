@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.Callbacks.BeeAPSCallback;
 import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
@@ -26,7 +27,6 @@ import com.apisense.bee.ui.fragment.HomeStoreFragment;
 import com.apisense.bee.ui.fragment.NotFoundFragment;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -109,7 +109,7 @@ public class StoreActivity extends BeeGameActivity {
         // React only if the user actually scanned a QRcode
         if (request == QRScannerActivity.INSTALL_FROM_QR && response == RESULT_OK) {
             String cropID = data.getStringExtra(QRScannerActivity.CROP_ID_KEYWORD);
-            apisenseSdk.getCropManager().installSpecific(cropID, new APSCallback<Crop>() {
+            apisenseSdk.getCropManager().installSpecific(cropID, new BeeAPSCallback<Crop>(this) {
                 @Override
                 public void onDone(Crop crop) {
                     lastCropPermissionHandler = new CropPermissionHandler(StoreActivity.this, crop,
@@ -126,6 +126,7 @@ public class StoreActivity extends BeeGameActivity {
 
                 @Override
                 public void onError(Exception e) {
+                    super.onError(e);
                     Snackbar.make(
                             findViewById(android.R.id.content),
                             e.getMessage(),
