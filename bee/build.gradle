@@ -63,12 +63,17 @@ android {
             testCoverageEnabled = true
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
+            buildConfigField "String", "SDK_KEY", "\"${debug_sdk_key}\""
+            buildConfigField "String", "ROLLBAR_KEY", '""' // Empty init key
+
         }
 
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.customRelease
+            buildConfigField "String", "SDK_KEY", "\"${release_sdk_key}\""
+            buildConfigField "String", "ROLLBAR_KEY", "\"${rollbar_key}\""
         }
     }
 }
