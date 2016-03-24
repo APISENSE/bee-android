@@ -14,5 +14,7 @@ bee/.idea
 /target
 /out
 
+**/release.keystore
+
 #Mac
 .DS_Store
