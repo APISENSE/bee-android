@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#FFFFFF</color>
+    <color name="orange_light">#fffdab23</color>
+    <color name="orange">#FD9028</color>
+    <color name="orange_dark">#FF5722</color>
+    <color name="red">#ef4444</color>
+    <color name="grey">#727272</color>
+    <color name="light_grey">#B6B6B6</color>
+    <color name="black">#212121</color>
+
+    <color name="green">#ff49c265</color>
+    <color name="light_blue">#2196F3</color>
+    <color name="dark_blue">#1976D2</color>
+
+    <color name="actionbar_background">#5DCFF3</color>
+    <color name="actionbar_dropdown_bg">#2A9CC0</color>
+    <color name="actionBar_textColor">#000000</color>
+    <color name="sliding_nav_background">#2A9CC0</color>
+    <color name="sliding_nav_text">#E7F8FE</color>
+
+    <color name="barchart_weekday">#FF7E00</color>
+    <color name="barchart_weekend">#DD5C00</color>
+    <color name="barchart_weekday_deactived">#CCCCCC</color>
+    <color name="barchart_weekend_deactived">#AAAAAA</color>
+
+</resources>

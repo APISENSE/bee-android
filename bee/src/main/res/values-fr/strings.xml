@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Titles -->
+    <string name="title_activity_slideshow">Bee</string>
+    <string name="title_activity_home">Bee</string>
+    <string name="title_activity_store">Magasin Bee</string>
+    <string name="title_activity_settings">Réglages</string>
+    <string name="title_activity_experiment_details">Détails</string>
+    <string name="title_activity_about">A propos</string>
+    <string name="title_activity_reward">Récompenses</string>
+    <string name="title_activity_store_experiment_details">Aperçu</string>
+
+    <!-- Global -->
+    <string name="action_settings">Paramètres</string>
+    <string name="action_about">A propos</string>
+    <string name="action_privacy">Intimité</string>
+    <string name="action_share">Partager</string>
+    <string name="search_hint">Nom de l\'expérience</string>
+
+    <!-- User feedbacks -->
+    <string name="error">Erreur</string>
+    <string name="failed_to_connect">Impossible de se connecter. Vérifier votre pseudo / mot de passe</string>
+    <string name="empty_field">Tous les champs doivent être renseignés</string>
+    <string name="experiment_exception_on_closure">Une expérience ne s\'est pas fermée correctement</string>
+    <string name="status_changed_to_anonymous">Vous êtes déconnecté(e)</string>
+    <string name="error_field_required">Champ requis</string>
+    <string name="signin_error_invalid_password">Mot de passe trop court</string>
+    <string name="register_error_invalid_repeat_password">Les mots de passe sont différents</string>
+
+    <!-- Register / Sign in / User infos -->
+    <string name="register">S\'enregistrer</string>
+    <string name="register_anonymous">S\'enregistrer anonymement</string>
+    <string name="login">Connexion</string>
+    <string name="logout">Déconnexion</string>
+    <string name="user_identity">%1$s</string>
+    <string name="pseudo">Adresse Email</string>
+    <string name="anonymous_user">Abeille inconnue</string>
+    <string name="forgotPass">Mot de passe oublié ?</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="passwordConfirm">Confirmez mot de passe</string>
+    <string name="registration_not_implemented">Ce type d\'inscription n\'est pas encore disponible.</string>
+
+    <!-- Slides text -->
+    <string name="slide_welcome_back">Bonjour</string>
+    <string name="slide_what">APISENSE rend la collecte massive de données facile grace aux capteurs des téléphones portables.
+        Ouvrez votre esprit et rejoingnez le top de la collecte en temps réel !</string>
+    <string name="slide_how">Partagez vos données et aidez la science à progresser !</string>
+    <string name="slide_reward_title">Obtenez des récompenses en partageant des données</string>
+    <string name="slide_reward_desc">Aidez des entreprises, chercheurs ou votre ville à développer de meilleurs produits, services ou recherches en partageant des données</string>
+    <string name="slide_connect_join">
+                <![CDATA[
+                <p>
+                    En vous vous inscrivant, vous acceptez les <a href="http://www.apisense.com/terms/bee">termes d\'utilisation</a> et
+                    <a href="http://www.apisense.com/privacy/bee">conditions générales</a>.
+                </p>
+        	    ]]>
+    </string>
+    <string name="slide_connect_anonym">
+        <![CDATA[
+            <p>
+            Enregistrez vous <u>comme anonyme</u> sans aucune récompense.
+            </p>
+        ]]>
+        </string>
+    <string name="slide_connect_continue">OU CONTINUEZ AVEC</string>
+
+    <!-- Experiments -->
+    <string name="exp_details_name">%1$s</string>
+    <string name="exp_details_organization">par %1$s</string>
+    <string name="exp_details_version">v%1$d</string>
+    <string name="crop_stats_subscribers">Nombre de souscriptions: %1$s</string>
+    <string name="crop_stats_data_volume">Volume de données exporté: %1$.2f Kib</string>
+    <string name="crop_stats_creation_date">Création: %1$s</string>
+    <string name="exp_details_description">Description:\n\t %1$s</string>
+    <string name="crop_stats_local_traces">Traces locales: %1$s</string>
+    <string name="crop_stats_total_uploaded">Traces téléversées: %1$s</string>
+    <string name="experiment_activity_7_days">Activité des 7 derniers jours</string>
+    <string name="experiment_started">Expérience %1$s démarrée</string>
+    <string name="experiment_stopped">Expérience %1$s stoppée</string>
+    <string name="add_new_experiments">Aucune mission :\'(\n\nCliquez sur le bouton Bee store pour en ajouter !</string>
+    <string name="action_start">Démarrer</string>
+    <string name="action_stop">Stopper</string>
+    <string name="experiment_image_desc">Logo de l\'expérience</string>
+    <string name="running">Récolte</string>
+    <string name="not_running">Eteinte</string>
+
+    <!-- Settings -->
+    <string name="settings_section_account">Compte</string>
+    <string name="settings_action_register">Créer un compte</string>
+    <string name="settings_action_logout">Déconnexion</string>
+    <string name="settings_label_version">Version de l\'application</string>
+    <string name="settings_btn_update">Vérifier les mises à jour</string>
+    <string name="settings_placeholder_version">%1$d</string>
+    <string name="settings_section_about">A propos</string>
+    <string name="no_available_sensors">Pas de capteur disponible</string>
+
+    <!-- Store -->
+    <string name="store_section_categories">Catégories</string>
+    <string name="store_section_general">Général</string>
+    <string name="store_section_home">Accueil</string>
+    <string name="experiment_subscribed">Vous participez désormais à l\'expérience %1$s</string>
+    <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
+    <string name="action_subscribe">S\'inscrire</string>
+    <string name="action_unsubscribe">Se désinscrire</string>
+    <string name="action_read_qrcode">installer depuis un QRCode</string>
+    <string name="no_available_experiments">Aucune expérience trouvée !</string>
+    <string name="title_activity_store_search">Recherche sur le Store</string>
+
+    <!-- Rewards -->
+    <string name="reward_dollars">DOLLARS</string>
+    <string name="reward_badges">BADGES</string>
+    <string name="reward_thanks">THANKS</string>
+    <string name="reward_monthly">REWARDS THIS MONTH</string>
+
+
+    <!-- About -->
+    <string name="about_versions_title">Version de logicels:</string>
+    <string name="about_team">
+        Equipe APISENSE®:\n
+          \t\t- Romain Rouvoy\n
+          \t\t- Nicolas Haderer\n
+          \t\t- Christophe Ribeiro\n
+          \t\t- Clive Ferret-Canape\n
+          \t\t- Antoine Veuiller\n
+          \t\t- Julien Duribreux
+    </string>
+
+    <string name="about_resources">
+        Ressources:\n
+          \t\t- Images issues de:\n
+            \t\t\t- www.flaticon.com\n
+            \t\t\t- iconmonstr.com
+    </string>
+
+        <string name="about_copyright">
+        <![CDATA[
+	    	<p>
+	    		L\'application Bee fait partie de la plateforme APISENSE (http://www.apisense.com),
+	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.fr">contact@apisense.com</a>.
+			</p>
+	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés.</p>
+	    ]]>
+    </string>
+    <string name="share_bee_text">Aide la science grâce à l\'application Bee! https://play.google.com/store/apps/details?id=com.apisense.bee</string>
+
+    <string name="signin_other_error">Erreur GPG</string>
+    <string name="gamehelper_unknown_error">Erreur GPG inconnue</string>
+    <string name="gamehelper_app_misconfigured">GPG mal configuré</string>
+    <string name="gamehelper_sign_in_failed">Erreur de connexion GPG</string>
+    <string name="gamehelper_license_failed">Erreur de licence GPG</string>
+    <string name="settings_section_privacy">Paramètres d\'intimité</string>
+</resources>

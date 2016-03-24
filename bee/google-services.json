@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_id": "api-project-380173086743",
+    "project_number": "380173086743",
+    "name": "Apisense Bee"
+  },
+  "client": [
+    {
+      "client_info": {
+        "client_id": "android:com.apisense.bee",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.apisense.bee"
+        }
+      },
+      "oauth_client": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "ARTIFACT_VERSION": "1"
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/registerView"
+    android:background="@drawable/fondsanslogo"
+    android:padding="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="com.apisense.bee.ui.activity.RegisterActivity">
+
+    <LinearLayout
+        android:id="@+id/material_toolbar_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/material_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f39706" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="150dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <EditText
+            android:id="@+id/registerPseudo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="@string/pseudo"
+            android:typeface="sans"
+            android:textColorHint="#cccccc"
+            android:background="#fefee2"
+            android:textColor="#000000" />
+        <EditText
+            android:id="@+id/registerPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:hint="@string/password"
+            android:typeface="sans"
+            android:textColorHint="#cccccc"
+            android:password="true"
+            android:background="#fefee2"
+            android:textColor="#030000" />
+        <EditText
+            android:id="@+id/registerPasswordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:hint="@string/passwordConfirm"
+            android:typeface="sans"
+            android:textColorHint="#cccccc"
+            android:password="true"
+            android:background="#fefee2"
+            android:textColor="#010000" />
+
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:text="@string/register"
+            android:typeface="sans"
+            android:textColor="@color/abc_primary_text_material_dark"
+            android:background="@drawable/api_transparent_button_material" />
+    </LinearLayout>
+
+</RelativeLayout>

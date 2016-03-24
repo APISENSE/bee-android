@@ -1,0 +1,118 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.apisense.bee.ui.activity.HomeActivity>">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/material_toolbar"
+        style="@style/ApisenseActionBar"
+        app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/player_information"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@color/background_material_light"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <!-- Gamification -->
+            <LinearLayout
+                android:id="@+id/gamification_panel"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.apisense.bee.widget.ApisenseTextView
+                    android:id="@+id/home_game_achievements"
+                    style="@style/ApisenseGameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/game_padding"
+                    android:layout_marginRight="@dimen/game_padding"
+                    android:text="0" />
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/big_badge_grey"
+                    android:contentDescription="badge_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/no_gamification_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/game_padding">
+
+
+                <com.apisense.bee.widget.ApisenseTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:text="CONNECT TO G+ TO PLAY GAME" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/add_margin">
+
+        <LinearLayout
+            android:id="@+id/home_empty_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.apisense.bee.widget.ApisenseTextView
+                style="@style/ApisenseSlideText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/add_new_experiments"
+                android:textColor="@color/grey" />
+        </LinearLayout>
+
+
+        <!-- Exp list -->
+        <ListView
+            android:id="@+id/home_experiment_lists"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/smallAddButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:onClick="doGoToStore"
+            android:src="@drawable/ic_action_new"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/orange" />
+    </RelativeLayout>
+
+</LinearLayout>

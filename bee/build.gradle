@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+
+    // Features
+    compile 'com.apisense.sdk:apisense-android-sdk:1.5.0-SNAPSHOT'
+    compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
+    // Google play services
+    compile('com.google.android.gms:play-services-games:8.3.0')
+    compile('com.google.android.gms:play-services-plus:8.3.0')
+
+    // Graphic enhancements
+    compile('com.astuetz:pagerslidingtabstrip:1.0.1') // Settings page slider
+    compile('com.viewpagerindicator:library:2.4.1@aar') // Slideshow's slide indicator
+  //  compile('com.github.PhilJay:MPAndroidChart:v2.1.6') // Draw charts
+
+    // Android support animation and views
+    compile 'com.android.support:support-v4:23.1.1'
+    compile('com.android.support:appcompat-v7:23.1.1')
+    compile('com.android.support:cardview-v7:23.1.1')
+    compile('com.android.support:recyclerview-v7:23.1.1')
+    compile('com.android.support:design:23.1.1')
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
+
+    lintOptions {
+        abortOnError false
+    }
+
+    defaultConfig {
+        applicationId "com.apisense.bee"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 10
+        versionName "1.5.0-SNAPSHOT"
+    }
+
+    signingConfigs {
+        customDebug {
+            storeFile file("KeystoreCertificates/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        customRelease {
+            storeFile file("KeystoreCertificates/release.keystore")
+            storePassword "${release_keystore_password}"
+            keyAlias "bee"
+            keyPassword "${release_key_password}"
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.customDebug
+            testCoverageEnabled = true
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.customRelease
+        }
+    }
+}

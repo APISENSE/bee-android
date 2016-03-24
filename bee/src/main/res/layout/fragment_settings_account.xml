@@ -1,0 +1,42 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+
+        android:paddingBottom="@dimen/activity_padding"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding">
+
+        <Button
+            android:id="@+id/settings_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/api_transparent_button_material"
+            android:text="@string/action_share"
+            android:textColor="@color/abc_primary_text_material_dark" />
+
+        <Button
+            android:id="@+id/settings_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/api_transparent_button_material"
+            android:text="@string/settings_action_logout"
+            android:textColor="@color/abc_primary_text_material_dark" />
+
+        <Button
+            android:id="@+id/settings_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_action_register"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+</ScrollView>

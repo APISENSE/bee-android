@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.apisense.bee">
+
+    <!-- Used  by APISENSE -->
+    <!--===================-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--WIFI -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- GPS -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
+    <!-- Google Cloud Messaging  -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Sound capture -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Picture capture -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                     android:maxSdkVersion="18" />
+
+    <!-- QR Code reader -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <permission
+        android:name="com.apisense.bee.gcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.apisense.bee.gcm.permission.C2D_MESSAGE" />
+
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:name="com.apisense.bee.BeeApplication"
+        android:allowBackup="true"
+        android:allowClearUserData="true"
+        android:icon="@drawable/ic_launcher_bee"
+        android:label="@string/app_name"
+        android:logo="@drawable/ic_launcher_bee"
+        android:theme="@style/ApisenseTheme">
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/gpg_app_id" />
+
+        <meta-data
+            android:name="com.google.android.gms.appstate.APP_ID"
+            android:value="@string/gpg_app_id" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/android_key_app" />
+
+        <!-- GCM Configuration -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.apisense.bee" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.apisense.sdk.push.APSGcmListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.apisense.sdk.push.APSInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.apisense.sdk.push.APSGcmNotificationHandlerActivity">
+            <intent-filter>
+                <action android:name="HANDLE_APISENSE_PUSH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--Activities-->
+        <activity
+            android:name="com.apisense.bee.ui.activity.SignInActivity"
+            android:label="@string/title_activity_slideshow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.HomeActivity"
+            android:label="@string/title_activity_home" />
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.StoreActivity"
+            android:label="@string/title_activity_store"
+            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
+
+        <activity
+            android:name=".ui.activity.HomeExperimentDetailsActivity"
+            android:label="@string/title_activity_experiment_details"
+            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
+
+        <activity
+            android:name=".ui.activity.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.StoreExperimentDetailsActivity"
+            android:label="@string/title_activity_store_experiment_details"
+            android:parentActivityName="com.apisense.bee.ui.activity.StoreActivity" />
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.QRScannerActivity"
+            android:label="@string/title_activity_store_experiment_details"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.apisense.bee.ui.activity.StoreActivity" />
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.RewardActivity"
+            android:label="@string/title_activity_reward"
+            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
+
+
+        <activity
+            android:name="com.apisense.bee.ui.activity.RegisterActivity"
+            android:parentActivityName="com.apisense.bee.ui.activity.SignInActivity" />
+
+    </application>
+
+</manifest>
