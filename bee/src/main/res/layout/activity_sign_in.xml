@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/signInView"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
-    android:background="@drawable/fond">
+    android:orientation="vertical"
+    android:background="@drawable/fond"
+    tools:context="com.apisense.bee.ui.activity.SignInActivity>">
 
         <!-- Login Form -->
         <LinearLayout
@@ -12,62 +16,60 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="150dp"
+            android:paddingTop="110dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp">
 
-            <com.apisense.bee.widget.TitleTextView
-                android:textAppearance="@style/ApisenseTitle"                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:gravity="center"
-                android:text="BEE"
-                android:textColor="#f7f1f1"
-                android:textIsSelectable="false"
-                android:typeface="sans" />
+        <com.apisense.bee.widget.TitleTextView
+            android:textAppearance="@style/ApisenseTitle"                android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:text="BEE"
+            android:textColor="#f7f1f1"
+            android:textIsSelectable="false"
+            android:typeface="sans" />
 
-            <EditText
-                android:id="@+id/signInPseudo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:hint="@string/pseudo"
-                android:textColorHint="#cccccc"
-                android:drawableLeft="@drawable/user"
-                android:background="#fefee2"
-                android:typeface="sans"
-                android:textColor="#000000" />
-            <EditText
-                android:id="@+id/signInPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:padding="10dp"
-                android:hint="@string/password"
-                android:textColorHint="#cccccc"
-                android:password="true"
-                android:background="#fefee2"
-                android:drawableLeft="@drawable/password"
-                android:typeface="sans"
-                android:textColor="#040000" />
+        <EditText
+            android:id="@+id/signInPseudo"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:padding="10dp"
+            android:hint="@string/pseudo"
+            android:textColorHint="#cccccc"
+            android:drawableLeft="@drawable/user"
+            android:typeface="sans"
+            android:textColor="#000000"
+            android:background="@drawable/custom_border_rounded"
+            />
 
-     <!--       <android.support.design.widget.FloatingActionButton
-                android:id="@+id/signInLoginBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Log"
-                android:textColor="@color/orange"
-                android:layout_gravity="right" />-->
-            <Button
-                android:id="@+id/signInLoginBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="@string/login"
-                android:background="#d4d49a"
-                android:textColor="#f3630a"
-                android:typeface="sans" />
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        <EditText
+            android:id="@+id/signInPassword"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginTop="2dp"
+            android:padding="10dp"
+            android:hint="@string/password"
+            android:textColorHint="#cccccc"
+            android:password="true"
+            android:background="@drawable/custom_border_rounded"
+            android:drawableLeft="@drawable/password"
+            android:typeface="sans"
+            android:textColor="#000000" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/signInLoginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            app:backgroundTint="@color/default_circle_indicator_stroke_color"
+            android:src="@drawable/ic_action_validate"
+            android:layout_centerVertical="true"
+            app:fabSize="normal"/>
+        </RelativeLayout>
             <TextView android:id="@+id/link_forgot"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -90,36 +92,36 @@
                 android:textIsSelectable="false" />
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
-                    <Button
-                        android:id="@+id/btnFacebookSignIn"
-                        android:layout_width="10dip"
-                        android:layout_height="40dip"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="25dip"
-                        android:layout_marginRight="25dip"
-                        android:background="@drawable/fb_button" />
 
-                    <Button
-                        android:id="@+id/btnGoogleSignIn"
-                        android:layout_width="10dip"
-                        android:layout_height="40dip"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="25dip"
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnFacebookSignIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_marginRight="25dip"
-                        android:background="@drawable/google_button" />
-            </LinearLayout>
+                        android:src="@drawable/fb_button"
+                        app:backgroundTint="@color/default_circle_indicator_stroke_color" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnGoogleSignIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:src="@drawable/google_button"
+                        app:backgroundTint="@color/default_circle_indicator_stroke_color" />
+
+                </LinearLayout>
 
 
             <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dip"
+                android:layout_marginTop="8dip"
                 android:text="@string/register"
                 android:textColor="@color/abc_primary_text_material_dark"
                 android:background="@drawable/api_transparent_button_material" />
