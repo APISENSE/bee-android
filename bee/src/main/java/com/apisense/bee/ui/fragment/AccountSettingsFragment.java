@@ -16,6 +16,7 @@ import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.activity.SlideshowActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.exception.UserNotConnectedException;
 
 public class AccountSettingsFragment extends Fragment implements View.OnClickListener {
 
@@ -86,13 +87,20 @@ public class AccountSettingsFragment extends Fragment implements View.OnClickLis
         @Override
         public void onDone(Void aVoid) {
             Toast.makeText(getActivity(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getActivity(), SlideshowActivity.class);
-            startActivity(intent);
+            openSlideShow();
         }
 
         @Override
         public void onError(Exception e) {
+            if (e instanceof UserNotConnectedException) {
+                openSlideShow();
+            }
+        }
 
+        private void openSlideShow() {
+            Intent intent = new Intent(getActivity(), SlideshowActivity.class);
+            startActivity(intent);
+            getActivity().finish();
         }
     }
 

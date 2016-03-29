@@ -16,10 +16,12 @@ public class BeeApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        sdk = new APISENSE(this).enableGCM(getString(R.string.gcm_defaultSenderId))
+        sdk = new APISENSE(this)
+                .enableGCM(getString(R.string.gcm_defaultSenderId))
+                .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
                 .getSdk();
 
-        Rollbar.init(this, "61805ed6db4d4a12832bc706019eeb1e", "production");
+        Rollbar.init(this, com.apisense.bee.BuildConfig.ROLLBAR_KEY, "production");
     }
 
 }

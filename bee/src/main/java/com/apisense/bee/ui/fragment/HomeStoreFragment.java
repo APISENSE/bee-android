@@ -1,8 +1,8 @@
 package com.apisense.bee.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,13 +12,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.Callbacks.OnCropStarted;
 import com.apisense.bee.Callbacks.OnCropSubscribed;
 import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.bee.ui.activity.StoreExperimentDetailsActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
+import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.adapter.SimpleAPSCallback;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 
@@ -33,6 +36,7 @@ public class HomeStoreFragment extends Fragment {
     protected AvailableExperimentsListAdapter experimentsAdapter;
 
     private APISENSE.Sdk apisenseSdk;
+    private CropPermissionHandler lastCropPermissionHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,11 +95,17 @@ public class HomeStoreFragment extends Fragment {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             Crop crop = (Crop) parent.getAdapter().getItem(position);
             if (apisenseSdk.getCropManager().isInstalled(crop)) {
-                apisenseSdk.getCropManager()
-                        .unsubscribe(crop, new StoreCropUnsubscribed(getActivity().getBaseContext(), crop));
+                apisenseSdk.getCropManager().unsubscribe(crop, new StoreCropUnsubscribed(crop));
             } else {
-                apisenseSdk.getCropManager()
-                        .subscribe(crop, new StoreCropSubscribed(getActivity().getBaseContext(), crop));
+                lastCropPermissionHandler = new CropPermissionHandler(getActivity(), crop,
+                        new OnCropStarted(getContext()) {
+                            @Override
+                            public void onDone(Crop crop) {
+                                super.onDone(crop);
+                                experimentsAdapter.notifyDataSetChanged();
+                            }
+                        });
+                apisenseSdk.getCropManager().subscribe(crop, new StoreCropSubscribed(crop));
             }
             return true;
         }
@@ -103,7 +113,7 @@ public class HomeStoreFragment extends Fragment {
 
     // Callbacks definitions
 
-    private class OnExperimentsRetrieved implements APSCallback<List<Crop>> {
+    private class OnExperimentsRetrieved extends SimpleAPSCallback<List<Crop>> {
         @Override
         public void onDone(List<Crop> crops) {
             Log.i(TAG, "Number of Active Experiments: " + crops.size());
@@ -112,16 +122,11 @@ public class HomeStoreFragment extends Fragment {
             setExperiments(crops);
             experimentsAdapter.notifyDataSetChanged();
         }
-
-        @Override
-        public void onError(Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private class StoreCropUnsubscribed extends OnCropUnsubscribed {
-        public StoreCropUnsubscribed(Context context, Crop crop) {
-            super(context, crop.getName());
+        public StoreCropUnsubscribed(Crop crop) {
+            super(getActivity(), crop.getName());
         }
 
         @Override
@@ -136,8 +141,15 @@ public class HomeStoreFragment extends Fragment {
     }
 
     private class StoreCropSubscribed extends OnCropSubscribed {
-        public StoreCropSubscribed(Context context, Crop crop) {
-            super(context, crop, apisenseSdk);
+        public StoreCropSubscribed(Crop crop) {
+            super(getActivity(), crop, lastCropPermissionHandler);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (lastCropPermissionHandler != null) {
+            lastCropPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
