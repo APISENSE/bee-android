@@ -11,6 +11,8 @@
     tools:context="com.apisense.bee.ui.activity.SignInActivity>">
 
         <!-- Login Form -->
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -30,46 +32,50 @@
             android:textIsSelectable="false"
             android:typeface="sans" />
 
-        <EditText
-            android:id="@+id/signInPseudo"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:padding="10dp"
-            android:hint="@string/pseudo"
-            android:textColorHint="#cccccc"
-            android:drawableLeft="@drawable/user"
-            android:typeface="sans"
-            android:textColor="#000000"
-            android:background="@drawable/custom_border_rounded"
-            />
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-        <EditText
-            android:id="@+id/signInPassword"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginTop="2dp"
-            android:padding="10dp"
-            android:hint="@string/password"
-            android:textColorHint="#cccccc"
-            android:password="true"
-            android:background="@drawable/custom_border_rounded"
-            android:drawableLeft="@drawable/password"
-            android:typeface="sans"
-            android:textColor="#000000" />
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:background="@drawable/custom_border_rounded2">
+            <EditText
+                android:id="@+id/signInPseudo"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:padding="10dp"
+                android:hint="@string/pseudo"
+                android:textColorHint="#cccccc"
+                android:drawableLeft="@drawable/user"
+                android:typeface="sans"
+                android:textColor="#000000"
+                android:background="@drawable/custom_border_rounded" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/signInLoginBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            app:backgroundTint="@color/default_circle_indicator_stroke_color"
-            android:src="@drawable/ic_action_validate"
-            android:layout_centerVertical="true"
-            app:fabSize="normal"/>
-        </RelativeLayout>
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+                <EditText
+                    android:id="@+id/signInPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="2dp"
+                    android:padding="10dp"
+                    android:hint="@string/password"
+                    android:textColorHint="#cccccc"
+                    android:password="true"
+                    android:background="@drawable/custom_border_rounded"
+                    android:drawableLeft="@drawable/password"
+                    android:typeface="sans"
+                    android:textColor="#000000" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/signInLoginBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    app:backgroundTint="@color/default_circle_indicator_stroke_color"
+                    android:src="@drawable/ic_action_validate"
+                    app:fabSize="normal"/>
+            </RelativeLayout>
+        </LinearLayout>
             <TextView android:id="@+id/link_forgot"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -116,12 +122,11 @@
 
                 </LinearLayout>
 
-
             <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dip"
+                android:layout_marginTop="16dip"
                 android:text="@string/register"
                 android:textColor="@color/abc_primary_text_material_dark"
                 android:background="@drawable/api_transparent_button_material" />

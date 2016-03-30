@@ -110,6 +110,8 @@
         <item name="android:background">@null</item>
         <!-- Support library compatibility -->
         <item name="background">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
     <style name="ApisenseActionBar.Text" parent="@android:style/TextAppearance">

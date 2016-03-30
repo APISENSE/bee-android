@@ -3,6 +3,7 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity  {
     private EditText mPseudoEditText;
     private EditText mPasswordEditText;
     private EditText mPasswordConfirmEditText;
-    private Button mRegisterButton;
+    private FloatingActionButton mRegisterButton;
 
 
     public RegisterActivity() {
@@ -52,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity  {
         mPseudoEditText = (EditText) findViewById(R.id.registerPseudo);
         mPasswordEditText = (EditText) findViewById(R.id.registerPassword);
         mPasswordConfirmEditText = (EditText) findViewById(R.id.registerPasswordConfirm);
-        mRegisterButton = (Button) findViewById(R.id.registerBtn);
+        mRegisterButton = (FloatingActionButton) findViewById(R.id.registerBtn);
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,6 +3,7 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
@@ -20,11 +21,11 @@ import com.google.android.gms.common.SignInButton;
 public class SignInActivity extends Activity {
     public static final String ON_THE_FLY = "com.apisense.bee.signin.onTheFly";
     private final String TAG = "SignInFragment";
-    private Button mSignInBtn;
+    private FloatingActionButton mSignInBtn;
     private Button btnRegister;
 
-    private Button btnGoogleSignIn;
-    private Button btnFacebookSignIn;
+    private FloatingActionButton btnGoogleSignIn;
+    private FloatingActionButton btnFacebookSignIn;
 
     private EditText mPseudoEditText;
     private EditText mPasswordEditText;
@@ -47,12 +48,12 @@ public class SignInActivity extends Activity {
         apisenseSdk = ((BeeApplication) getApplication()).getSdk();
 
         // Views
-        this.mSignInBtn = (Button) findViewById(R.id.signInLoginBtn);
+        this.mSignInBtn = (FloatingActionButton) findViewById(R.id.signInLoginBtn);
         this.mPseudoEditText = (EditText) findViewById(R.id.signInPseudo);
         this.mPasswordEditText = (EditText) findViewById(R.id.signInPassword);
         this.btnRegister = (Button) findViewById(R.id.btnRegister);
-        this.btnGoogleSignIn = (Button) findViewById(R.id.btnGoogleSignIn);
-        this.btnFacebookSignIn = (Button) findViewById(R.id.btnFacebookSignIn);
+        this.btnGoogleSignIn = (FloatingActionButton) findViewById(R.id.btnGoogleSignIn);
+        this.btnFacebookSignIn = (FloatingActionButton) findViewById(R.id.btnFacebookSignIn);
 
 
         // Sign in onClick
@@ -115,7 +116,6 @@ public class SignInActivity extends Activity {
             apisenseSdk.getSessionManager().logout(new APSCallback<Void>() {
                 @Override
                 public void onDone(Void response) {
-                    mSignInBtn.setText("Login");
                     Snackbar.make(loginButton, getResources().getString(R.string.status_changed_to_anonymous), Snackbar.LENGTH_SHORT).show();
                 }
 
@@ -129,7 +129,6 @@ public class SignInActivity extends Activity {
                     new APSCallback<Void>() {
                         @Override
                         public void onDone(Void response) {
-                            mSignInBtn.setText(getString(R.string.logout));
                             if (loginOnTheFly) {
                                 finish();
                             } else {
