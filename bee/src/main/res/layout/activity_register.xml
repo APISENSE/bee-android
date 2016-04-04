@@ -38,7 +38,7 @@
         android:background="@drawable/custom_border_rounded2">
     >
 
-        <EditText
+        <com.apisense.bee.widget.ApisenseEditText
             android:id="@+id/registerPseudo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:textColorHint="#cccccc"
             android:background="@drawable/custom_border_rounded"
             android:textColor="#000000" />
-        <EditText
+        <com.apisense.bee.widget.ApisenseEditText
             android:id="@+id/registerPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:password="true"
             android:background="@drawable/custom_border_rounded"
             android:textColor="#030000" />
-        <EditText
+        <com.apisense.bee.widget.ApisenseEditText
             android:id="@+id/registerPasswordConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

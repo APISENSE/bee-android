@@ -16,7 +16,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:paddingTop="110dp"
             android:paddingLeft="24dp"
@@ -37,7 +37,7 @@
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:background="@drawable/custom_border_rounded2">
-            <EditText
+            <com.apisense.bee.widget.ApisenseEditText
                 android:id="@+id/signInPseudo"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
@@ -52,7 +52,7 @@
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
-                <EditText
+                <com.apisense.bee.widget.ApisenseEditText
                     android:id="@+id/signInPassword"
                     android:layout_width="match_parent"
                     android:layout_height="46dp"
@@ -71,20 +71,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    app:backgroundTint="@color/default_circle_indicator_stroke_color"
                     android:src="@drawable/ic_action_validate"
-                    app:fabSize="normal"/>
+                    app:fabSize="normal"
+                    app:elevation="7dp"
+                    app:borderWidth="0dp"
+                    app:backgroundTint="@color/default_circle_indicator_stroke_color"/>
             </RelativeLayout>
         </LinearLayout>
-            <TextView android:id="@+id/link_forgot"
+            <com.apisense.bee.widget.ApisenseTextView
+                android:id="@+id/link_forgot"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
                 android:text="@string/forgotPass"
+                android:textColor="#f7f1f1"
                 android:gravity="center"
                 android:textSize="16dip"/>
             <View
-                android:layout_width="325dp"
+                android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="#fffcfc" />
 
@@ -103,34 +107,48 @@
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
 
+
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/btnFacebookSignIn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_marginRight="25dip"
-                        android:src="@drawable/fb_button"
-                        app:backgroundTint="@color/default_circle_indicator_stroke_color" />
+                        android:src="@mipmap/ic_fb"
+                        app:elevation="0dp"
+                        app:borderWidth="3dp"
+                        app:backgroundTint="#50fdf9f9"
+                        />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/btnGoogleSignIn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:src="@drawable/google_button"
-                        app:backgroundTint="@color/default_circle_indicator_stroke_color" />
+                        android:src="@mipmap/ic_google"
+                        app:elevation="0dp"
+                        app:borderWidth="3dp"
+                        app:backgroundTint="#50fdf9f9"
+                        />
 
                 </LinearLayout>
 
-            <Button
-                android:id="@+id/btnRegister"
+            <LinearLayout
+                android:layout_alignParentBottom="true"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dip"
-                android:text="@string/register"
-                android:textColor="@color/abc_primary_text_material_dark"
-                android:background="@drawable/api_transparent_button_material" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
+            <com.apisense.bee.widget.ApisenseButton
+                    android:id="@+id/btnRegister"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dip"
+                    android:text="@string/register"
+                    android:textColor="@color/abc_primary_text_material_dark"
+                    android:background="@drawable/api_transparent_button_material" />
+            </LinearLayout>
+
+    </LinearLayout>
         <!-- Login Form Ends -->
 </ScrollView>

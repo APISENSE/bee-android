@@ -1,11 +1,11 @@
 package com.apisense.bee.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -15,10 +15,9 @@ import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
-import com.google.android.gms.common.SignInButton;
 
 
-public class SignInActivity extends Activity {
+public class SignInActivity extends AppCompatActivity {
     public static final String ON_THE_FLY = "com.apisense.bee.signin.onTheFly";
     private final String TAG = "SignInFragment";
     private FloatingActionButton mSignInBtn;
