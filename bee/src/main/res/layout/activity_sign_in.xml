@@ -11,14 +11,12 @@
     tools:context="com.apisense.bee.ui.activity.SignInActivity>">
 
         <!-- Login Form -->
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:paddingTop="110dp"
+            android:layout_gravity="bottom"
             android:paddingLeft="24dp"
             android:paddingRight="24dp">
 
@@ -28,20 +26,21 @@
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:text="BEE"
+            android:paddingBottom="10dp"
             android:textColor="#f7f1f1"
             android:textIsSelectable="false"
             android:typeface="sans" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/custom_border_rounded2">
+
             <com.apisense.bee.widget.ApisenseEditText
                 android:id="@+id/signInPseudo"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:padding="10dp"
+                android:layout_height="50dp"
                 android:hint="@string/pseudo"
                 android:textColorHint="#cccccc"
                 android:drawableLeft="@drawable/user"
@@ -55,9 +54,8 @@
                 <com.apisense.bee.widget.ApisenseEditText
                     android:id="@+id/signInPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    android:layout_marginTop="2dp"
-                    android:padding="10dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="3dp"
                     android:hint="@string/password"
                     android:textColorHint="#cccccc"
                     android:password="true"
@@ -105,6 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="30dp"
                     android:orientation="horizontal">
 
 
@@ -114,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_marginRight="25dip"
-                        android:src="@mipmap/ic_fb"
+                        android:src="@drawable/ic_facebook"
                         app:elevation="0dp"
                         app:borderWidth="3dp"
                         app:backgroundTint="#50fdf9f9"
@@ -125,7 +124,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:src="@mipmap/ic_google"
+                        android:src="@drawable/ic_google"
                         app:elevation="0dp"
                         app:borderWidth="3dp"
                         app:backgroundTint="#50fdf9f9"
@@ -140,13 +139,13 @@
                 android:layout_height="wrap_content">
 
             <com.apisense.bee.widget.ApisenseButton
-                    android:id="@+id/btnRegister"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dip"
-                    android:text="@string/register"
-                    android:textColor="@color/abc_primary_text_material_dark"
-                    android:background="@drawable/api_transparent_button_material" />
+                android:id="@+id/btnRegister"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dip"
+                android:text="@string/register"
+                android:textColor="@color/abc_primary_text_material_dark"
+                android:background="@drawable/api_transparent_button_material" />
             </LinearLayout>
 
     </LinearLayout>
