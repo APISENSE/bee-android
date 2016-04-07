@@ -44,10 +44,11 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:hint="@string/pseudo"
-            android:typeface="sans"
             android:textColorHint="#cccccc"
             android:background="@drawable/custom_border_rounded"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:textAppearance="@style/ApisenseEditText"
+            />
         <com.apisense.bee.widget.ApisenseEditText
             android:id="@+id/registerPassword"
             android:layout_width="match_parent"
@@ -59,7 +60,9 @@
             android:textColorHint="#cccccc"
             android:password="true"
             android:background="@drawable/custom_border_rounded"
-            android:textColor="#030000" />
+            android:textColor="#000000"
+            android:textAppearance="@style/ApisenseEditText"
+            />
         <com.apisense.bee.widget.ApisenseEditText
             android:id="@+id/registerPasswordConfirm"
             android:layout_width="match_parent"
@@ -71,7 +74,9 @@
             android:textColorHint="#cccccc"
             android:password="true"
             android:background="@drawable/custom_border_rounded"
-            android:textColor="#010000" />
+            android:textColor="#000000"
+            android:textAppearance="@style/ApisenseEditText"
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/registerBtn"

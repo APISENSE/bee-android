@@ -50,11 +50,11 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="user_identity">%1$s</string>
-    <string name="pseudo">Email Address</string>
+    <string name="pseudo"><b>Email Address</b></string>
     <string name="forgotPass">Forgot your password ?</string>
     <string name="anonymous_user">Unknown Bee</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="password"><b>Password</b></string>
     <string name="passwordConfirm">Confirm password</string>
     <string name="registration_not_implemented">This kind of registration is not enabled yet.</string>
 

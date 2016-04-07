@@ -11,7 +11,7 @@ import android.widget.Button;
 
 
 public class ApisenseButton extends Button {
-    private static String mFontName = "Roboto/Roboto-Light.ttf";
+    private static String mFontName = "micross/micross.ttf";
 
     private static Typeface tfs;
 

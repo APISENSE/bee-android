@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/signInView"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
-    android:orientation="vertical"
-    android:background="@drawable/fond"
+    android:layout_gravity="bottom"
+    android:background="@drawable/fond3"
     tools:context="com.apisense.bee.ui.activity.SignInActivity>">
 
         <!-- Login Form -->
@@ -18,15 +18,20 @@
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:paddingLeft="24dp"
-            android:paddingRight="24dp">
+            android:paddingRight="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="65dp">
 
         <com.apisense.bee.widget.TitleTextView
-            android:textAppearance="@style/ApisenseTitle"                android:layout_width="match_parent"
+            android:id="@+id/title"
+            android:textAppearance="@style/ApisenseTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:gravity="center"
             android:text="BEE"
-            android:paddingBottom="10dp"
             android:textColor="#f7f1f1"
             android:textIsSelectable="false"
             android:typeface="sans" />
@@ -35,34 +40,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/custom_border_rounded2">
+            android:background="@drawable/custom_border_rounded2"
+            android:elevation="3pt"
+            >
 
             <com.apisense.bee.widget.ApisenseEditText
                 android:id="@+id/signInPseudo"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_below="@+id/title"
                 android:hint="@string/pseudo"
                 android:textColorHint="#cccccc"
-                android:drawableLeft="@drawable/user"
-                android:typeface="sans"
-                android:textColor="#000000"
-                android:background="@drawable/custom_border_rounded" />
+                android:textAppearance="@style/ApisenseEditText"
+                android:background="@drawable/custom_border_rounded"
+                android:textColor="#000000" />
 
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
                 <com.apisense.bee.widget.ApisenseEditText
                     android:id="@+id/signInPassword"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="2dp"
                     android:hint="@string/password"
                     android:textColorHint="#cccccc"
+                    android:textAppearance="@style/ApisenseEditText"
                     android:password="true"
                     android:background="@drawable/custom_border_rounded"
-                    android:drawableLeft="@drawable/password"
-                    android:typeface="sans"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+
+                    />
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/signInLoginBtn"
@@ -72,15 +80,17 @@
                     android:src="@drawable/ic_action_validate"
                     app:fabSize="normal"
                     app:elevation="7dp"
-                    app:borderWidth="0dp"
-                    app:backgroundTint="@color/default_circle_indicator_stroke_color"/>
+                    app:borderWidth="1dp"
+                    app:backgroundTint="@color/default_circle_indicator_stroke_color"
+                    />
             </RelativeLayout>
         </LinearLayout>
             <com.apisense.bee.widget.ApisenseTextView
                 android:id="@+id/link_forgot"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/forgotPass"
                 android:textColor="#f7f1f1"
                 android:gravity="center"
@@ -103,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="horizontal">
 
 
@@ -132,22 +142,16 @@
 
                 </LinearLayout>
 
-            <LinearLayout
-                android:layout_alignParentBottom="true"
-                android:layout_width="fill_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-
-            <com.apisense.bee.widget.ApisenseButton
-                android:id="@+id/btnRegister"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dip"
-                android:text="@string/register"
-                android:textColor="@color/abc_primary_text_material_dark"
-                android:background="@drawable/api_transparent_button_material" />
-            </LinearLayout>
-
+                <com.apisense.bee.widget.ApisenseButton
+                    android:id="@+id/btnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register"
+                    android:textColor="@color/abc_primary_text_material_dark"
+                    android:textStyle="bold"
+                    android:background="@drawable/api_transparent_button_material"
+                    android:layout_alignParentBottom="true"
+                    />
     </LinearLayout>
         <!-- Login Form Ends -->
-</ScrollView>
+</RelativeLayout>

@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 
 public class ApisenseEditText extends EditText {
-    private static String mFontName = "Roboto/Roboto-Light.ttf";
+    private static String mFontName = "micross/micross.ttf";
 
     private static Typeface tfs;
 
