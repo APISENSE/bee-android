@@ -9,14 +9,14 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/material_toolbar"
         style="@style/ApisenseActionBar"
-        app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:background="#f39c13" />
+        app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
         android:background="#80735f"
+        android:textColor="#f2f2f2"
         app:pstsIndicatorColor="#595042"
         app:pstsUnderlineColor="#595042" />
 
