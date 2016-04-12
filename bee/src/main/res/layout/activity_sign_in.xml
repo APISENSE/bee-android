@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
     android:layout_gravity="bottom"
-    android:background="@drawable/fond3"
+    android:background="@drawable/fond"
     tools:context="com.apisense.bee.ui.activity.SignInActivity>">
 
         <!-- Login Form -->
