@@ -3,20 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f2f2"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/material_toolbar"
         style="@style/ApisenseActionBar"
         app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:background="#f39706" />
+        android:background="#f39c13" />
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
-        app:pstsIndicatorColor="@color/light_blue"
-        app:pstsUnderlineColor="@color/abc_primary_text_material_dark" />
+        android:background="#80735f"
+        app:pstsIndicatorColor="#595042"
+        app:pstsUnderlineColor="#595042" />
 
 
     <android.support.v4.view.ViewPager

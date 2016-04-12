@@ -95,8 +95,8 @@
 
         <!--Activities-->
         <activity
-            android:name="com.apisense.bee.ui.activity.SignInActivity"
-            android:label="@string/title_activity_slideshow">
+            android:name="com.apisense.bee.ui.activity.SettingsActivity"
+            android:label="@string/title_activity_settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -113,13 +113,13 @@
             android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
 
         <activity
-            android:name=".ui.activity.HomeExperimentDetailsActivity"
+            android:name="com.apisense.bee.ui.activity.HomeExperimentDetailsActivity"
             android:label="@string/title_activity_experiment_details"
             android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
 
         <activity
-            android:name=".ui.activity.SettingsActivity"
-            android:label="@string/title_activity_settings"
+            android:name="com.apisense.bee.ui.activity.SignInActivity"
+            android:label="@string/title_activity_slideshow"
             android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
 
         <activity
