@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.utils.RetroCompatibility;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.store.Crop;
 
@@ -94,6 +95,12 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Crop> {
 
         TextView company = (TextView) convertView.findViewById(R.id.experimentelement_company);
         company.setText(item.getOwner());
+
+        if (!item.isActive()) {
+            convertView.setBackgroundColor(
+                    RetroCompatibility.retrieveColor(convertView.getResources(), R.color.aps_disabled_crop)
+            );
+        }
 
         ImageView ivExp = (ImageView) convertView.findViewById(R.id.home_item_icon);
         if (apisenseSdk.getCropManager().isRunning(item)) {

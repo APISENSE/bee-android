@@ -11,7 +11,7 @@
         android:id="@+id/toolbar_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/orange"
+        android:background="@color/aps_orange"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -71,7 +71,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_action_new"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/orange" />
+        android:textColor="@color/aps_white"
+        app:backgroundTint="@color/aps_orange" />
 
 </RelativeLayout>

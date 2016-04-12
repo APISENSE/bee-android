@@ -21,10 +21,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dip"
-        app:fillColor="@color/light_blue"
+        app:fillColor="@color/aps_light_blue"
         app:pageColor="#FFFFFF"
         app:radius="5dp"
-        app:strokeColor="@color/dark_blue"
+        app:strokeColor="@color/aps_dark_blue"
         app:strokeWidth="1dp" />
 
 

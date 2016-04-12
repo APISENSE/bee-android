@@ -14,7 +14,6 @@
         android:layout_margin="@dimen/thumbnail_margin"
         android:contentDescription="@string/experiment_image_desc" />
 
-
     <LinearLayout
         android:id="@+id/experiment_header"
         android:layout_width="match_parent"
@@ -43,7 +42,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="32dp"
 
-            android:background="@color/light_grey" />
+            android:background="@color/aps_light_grey" />
 
     </LinearLayout>
 

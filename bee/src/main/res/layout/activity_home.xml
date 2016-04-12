@@ -90,7 +90,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@string/add_new_experiments"
-                android:textColor="@color/grey" />
+                android:textColor="@color/aps_grey" />
         </LinearLayout>
 
 
@@ -111,8 +111,8 @@
             android:layout_alignParentRight="true"
             android:onClick="doGoToStore"
             android:src="@drawable/ic_action_new"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/orange" />
+            android:textColor="@color/aps_white"
+            app:backgroundTint="@color/aps_orange" />
     </RelativeLayout>
 
 </LinearLayout>

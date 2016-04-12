@@ -123,7 +123,7 @@ public class UploadedDataGraph extends LineChart {
         LineDataSet set = new LineDataSet(yVals, getResources().getString(R.string.experiment_activity_7_days));
 
         // Colors
-        int mainColor = RetroCompatibility.retrieveColor(getResources(), R.color.orange_dark);
+        int mainColor = RetroCompatibility.retrieveColor(getResources(), R.color.aps_orange_dark);
         set.setColor(mainColor);
         set.setCircleColor(mainColor);
         set.setFillColor(mainColor);
