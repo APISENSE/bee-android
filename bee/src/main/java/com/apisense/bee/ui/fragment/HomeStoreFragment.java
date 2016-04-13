@@ -12,9 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
-import com.apisense.bee.Callbacks.OnCropStarted;
-import com.apisense.bee.Callbacks.OnCropSubscribed;
-import com.apisense.bee.Callbacks.OnCropUnsubscribed;
+import com.apisense.bee.callbacks.OnCropStarted;
+import com.apisense.bee.callbacks.OnCropSubscribed;
+import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.bee.ui.activity.StoreExperimentDetailsActivity;
@@ -22,7 +22,6 @@ import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.adapter.SimpleAPSCallback;
-import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 
 import java.util.ArrayList;

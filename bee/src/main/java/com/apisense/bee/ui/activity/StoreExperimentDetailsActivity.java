@@ -1,17 +1,14 @@
 package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.TextView;
 
-import com.apisense.bee.Callbacks.OnCropStarted;
-import com.apisense.bee.Callbacks.OnCropSubscribed;
-import com.apisense.bee.Callbacks.OnCropUnsubscribed;
+import com.apisense.bee.callbacks.OnCropSubscribed;
+import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.games.IncrementalGameAchievement;
-import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.core.store.Crop;
 
 import java.text.SimpleDateFormat;

@@ -6,9 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.apisense.bee.Callbacks.OnCropStarted;
-import com.apisense.bee.Callbacks.OnCropStopped;
-import com.apisense.bee.Callbacks.OnCropUnsubscribed;
+import com.apisense.bee.callbacks.OnCropStarted;
+import com.apisense.bee.callbacks.OnCropStopped;
+import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.UploadedDataGraph;

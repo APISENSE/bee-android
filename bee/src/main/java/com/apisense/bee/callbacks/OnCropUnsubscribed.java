@@ -1,4 +1,4 @@
-package com.apisense.bee.Callbacks;
+package com.apisense.bee.callbacks;
 
 
 import android.content.Context;
