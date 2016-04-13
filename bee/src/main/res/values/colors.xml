@@ -7,7 +7,7 @@
     <color name="aps_orange_dark">#FF5722</color>
     <color name="aps_red">#ef4444</color>
     <color name="aps_grey">#727272</color>
-    <color name="aps_light_grey">#B6B6B6</color>
+    <color name="aps_light_grey">#D3D3D3</color>
     <color name="aps_black">#212121</color>
 
     <color name="aps_green">#ff49c265</color>
@@ -25,5 +25,5 @@
     <color name="aps_barchart_weekday_deactived">#CCCCCC</color>
     <color name="aps_barchart_weekend_deactived">#AAAAAA</color>
 
-    <color name="aps_disabled_crop">#EFEFEF</color>
+    <color name="aps_disabled_crop">#CCCCCC</color>
 </resources>

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
@@ -102,11 +102,15 @@ public class SubscribedExperimentsListAdapter extends ArrayAdapter<Crop> {
             );
         }
 
-        ImageView ivExp = (ImageView) convertView.findViewById(R.id.home_item_icon);
+        SurfaceView ivExp = (SurfaceView) convertView.findViewById(R.id.home_item_icon);
         if (apisenseSdk.getCropManager().isRunning(item)) {
-            ivExp.setBackgroundResource(R.drawable.icon_mission_running);
+            ivExp.setBackgroundColor(
+                    RetroCompatibility.retrieveColor(convertView.getResources(), R.color.aps_green)
+            );
         } else {
-            ivExp.setBackgroundResource(R.drawable.icon_mission_break);
+            ivExp.setBackgroundColor(
+                    RetroCompatibility.retrieveColor(convertView.getResources(), R.color.aps_red)
+            );
         }
 
         return convertView;
