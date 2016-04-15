@@ -14,7 +14,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
-        android:background="@color/orange"
+        android:background="@color/aps_orange"
         android:textColor="@color/background_material_light"
         app:pstsIndicatorColor="@color/background_material_light" />
 
