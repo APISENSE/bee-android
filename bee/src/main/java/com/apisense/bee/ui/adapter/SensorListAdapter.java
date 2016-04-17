@@ -2,6 +2,7 @@ package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.apisense.bee.R;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SensorListAdapter extends ArrayAdapter<Sensor> {
+public class SensorListAdapter extends ArrayAdapter<Sensor>{
     private final String TAG = "SensorListAdapter";
     private List<Sensor> data;
     private Map<String, Boolean> enabledStings;
@@ -130,7 +130,7 @@ public class SensorListAdapter extends ArrayAdapter<Sensor> {
         ImageView icon = (ImageView) convertView.findViewById(R.id.sensor_icon);
         icon.setImageDrawable(getContext().getResources().getDrawable(item.iconID));
 
-        Switch enabled = (Switch) convertView.findViewById(R.id.sensor_enabled);
+        SwitchCompat enabled = (SwitchCompat) convertView.findViewById(R.id.sensor_enabled);
         if (enabledStings.containsKey(item.stingName)) {
             enabled.setChecked(enabledStings.get(item.stingName));
         }

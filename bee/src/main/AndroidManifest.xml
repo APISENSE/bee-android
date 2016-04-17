@@ -19,8 +19,9 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- Picture capture -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-                     android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <!-- QR Code reader -->
     <uses-permission android:name="android.permission.CAMERA" />

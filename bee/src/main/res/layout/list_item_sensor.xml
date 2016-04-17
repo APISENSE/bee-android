@@ -14,14 +14,18 @@
         android:padding="@dimen/game_padding"
         android:src="@drawable/ic_launcher_bee" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/sensor_enabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:checked="true" />
+        android:checked="true"
+        android:background="@drawable/switch_design"
+        android:thumb="@android:color/transparent"
+        android:track="@android:color/transparent"
+        />
 
     <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/sensor_name"
