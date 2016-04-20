@@ -2,13 +2,18 @@ package com.apisense.bee.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.apisense.bee.R;
 import com.apisense.bee.callbacks.OnCropSubscribed;
 import com.apisense.bee.callbacks.OnCropUnsubscribed;
-import com.apisense.bee.R;
 import com.apisense.bee.games.IncrementalGameAchievement;
+import com.apisense.sdk.adapter.SimpleAPSCallback;
 import com.apisense.sdk.core.store.Crop;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +27,7 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
     private static final String CREATION_DATE_PATTERN = "MMMM yyyy";
     private FloatingActionButton experimentSubBtn;
 
+    MenuItem updateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,36 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
         initExperimentDetailsActivity();
         updateCropStats();
         updateSubscriptionMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.store_experiment_details, menu);
+
+        updateButton = menu.findItem(R.id.detail_action_update);
+        updateButton.setVisible(apisenseSdk.getCropManager().isInstalled(crop));
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.detail_action_update:
+                apisenseSdk.getCropManager().update(crop.getLocation(), new SimpleAPSCallback<Crop>() {
+                    @Override
+                    public void onDone(Crop crop) {
+                        Toast.makeText(
+                                StoreExperimentDetailsActivity.this,
+                                getString(R.string.experiment_updated, crop.getName()),
+                                Snackbar.LENGTH_SHORT
+                        ).show();
+                    }
+                });
+                break;
+        }
+        return false;
     }
 
     private void updateCropStats() {
