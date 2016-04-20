@@ -4,50 +4,52 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.Callbacks.BeeAPSCallback;
 import com.apisense.bee.Callbacks.OnCropStarted;
+import com.apisense.bee.Callbacks.OnCropSubscribed;
+import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.bee.games.SimpleGameAchievement;
-import com.apisense.bee.ui.fragment.CategoryStoreFragment;
-import com.apisense.bee.ui.fragment.HomeStoreFragment;
-import com.apisense.bee.ui.fragment.NotFoundFragment;
+import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
+import com.apisense.sdk.adapter.SimpleAPSCallback;
 import com.apisense.sdk.core.store.Crop;
-import com.astuetz.PagerSlidingTabStrip;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StoreActivity extends BeeGameActivity {
     /**
      * The number of pages (wizard steps) to show
      * Be careful if you are adding some slides, button listeners may not match
      */
-    private static final int NUM_PAGES = 2;
-    /* Page order */
-    private final static int CATEGORIES = 0;
-    private final static int HOME = 1;
+    private final String TAG = getClass().getSimpleName();
+
+    private FloatingActionButton qrcodebutton;
     protected Toolbar toolbar;
-    private ViewPager mPager;
-    private APISENSE.Sdk apisenseSdk;
-    private static final int REQUEST_PERMISSION_QR_CODE = 1;
+    private APISENSE.Sdk apisenseSdk;    private static final int REQUEST_PERMISSION_QR_CODE = 1;
+    // Content Adapter
+    protected AvailableExperimentsListAdapter experimentsAdapter;
 
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
-    private PagerAdapter mPagerAdapter;
     private CropPermissionHandler lastCropPermissionHandler;
 
     @Override
@@ -58,17 +60,33 @@ public class StoreActivity extends BeeGameActivity {
         toolbar = (Toolbar) findViewById(R.id.material_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         setSupportActionBar(toolbar);
+
         apisenseSdk = ((BeeApplication) getApplication()).getSdk();
 
-        // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new StorePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(HOME);
+        // Setting up available experiments list behavior
+        experimentsAdapter = new AvailableExperimentsListAdapter(getBaseContext(),
+                R.layout.list_item_store_experiment,
+                new ArrayList<Crop>());
+        ListView subscribedExperiments = (ListView) findViewById(R.id.store_experiment_lists);
+        subscribedExperiments.setEmptyView(findViewById(R.id.store_empty_list));
+        subscribedExperiments.setAdapter(experimentsAdapter);
+        subscribedExperiments.setOnItemClickListener(new OpenExperimentDetailsListener());
+        subscribedExperiments.setOnItemLongClickListener(new SubscriptionListener());
 
-        // Bind the tabs to the ViewPager
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setViewPager(mPager);
+        getExperiments();
+
+        this.qrcodebutton = (FloatingActionButton) findViewById(R.id.QRButton);
+        this.qrcodebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cameraPermissionGranted()) {
+                    installFromQRCode();
+                } else {
+                    String[] permissions = {android.Manifest.permission.CAMERA};
+                    ActivityCompat.requestPermissions(StoreActivity.this, permissions, REQUEST_PERMISSION_QR_CODE);
+                }
+            }
+        });
     }
 
     @Override
@@ -144,42 +162,6 @@ public class StoreActivity extends BeeGameActivity {
         new SimpleGameAchievement(getString(R.string.achievement_curious_bee)).unlock(this);
     }
 
-    private class StorePagerAdapter extends FragmentPagerAdapter {
-        public StorePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case CATEGORIES:
-                    return new CategoryStoreFragment();
-                case HOME:
-                    return new HomeStoreFragment();
-                default:
-                    return new NotFoundFragment();
-            }
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case CATEGORIES:
-                    return getString(R.string.store_section_categories).toUpperCase();
-                case HOME:
-                    return getString(R.string.store_section_home).toUpperCase();
-                default:
-                    return "";
-            }
-
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_PERMISSION_QR_CODE) {
@@ -196,4 +178,89 @@ public class StoreActivity extends BeeGameActivity {
             }
         }
     }
+
+    /**
+     * Change the adapter dataSet with a newly fetched List of Experiment
+     *
+     * @param experiments The new list of experiments to show
+     */
+    public void setExperiments(List<Crop> experiments) {
+        this.experimentsAdapter.setDataSet(experiments);
+    }
+
+    public void getExperiments() {
+        apisenseSdk.getStoreManager().findAllCrops(new OnExperimentsRetrieved());
+    }
+
+    // Listeners definitions
+
+    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(view.getContext(), StoreExperimentDetailsActivity.class);
+            Crop crop = (Crop) parent.getAdapter().getItem(position);
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("crop", crop);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    }
+
+    private class SubscriptionListener implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            Crop crop = (Crop) parent.getAdapter().getItem(position);
+            if (apisenseSdk.getCropManager().isInstalled(crop)) {
+                apisenseSdk.getCropManager().unsubscribe(crop, new StoreCropUnsubscribed(crop));
+            } else {
+                lastCropPermissionHandler = new CropPermissionHandler(StoreActivity.this, crop,
+                        new OnCropStarted(view.getContext()) {
+                            @Override
+                            public void onDone(Crop crop) {
+                                super.onDone(crop);
+                                experimentsAdapter.notifyDataSetChanged();
+                            }
+                        });
+                apisenseSdk.getCropManager().subscribe(crop, new StoreCropSubscribed(crop));
+            }
+            return true;
+        }
+    }
+
+    // Callbacks definitions
+
+    private class OnExperimentsRetrieved extends SimpleAPSCallback<List<Crop>> {
+        @Override
+        public void onDone(List<Crop> crops) {
+            Log.i(TAG, "Number of Active Experiments: " + crops.size());
+
+            // Updating listview
+            setExperiments(crops);
+            experimentsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class StoreCropUnsubscribed extends OnCropUnsubscribed {
+        public StoreCropUnsubscribed(Crop crop) {
+            super(StoreActivity.this, crop.getName());
+        }
+
+        @Override
+        public void onDone(Crop crop) {
+            super.onDone(crop);
+            // Increment every subscription related achievements
+            new IncrementalGameAchievement(getString(R.string.achievement_bronze_wings)).increment(StoreActivity.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_silver_wings)).increment(StoreActivity.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_gold_wings)).increment(StoreActivity.this);
+            new IncrementalGameAchievement(getString(R.string.achievement_crystal_wings)).increment(StoreActivity.this);
+        }
+    }
+
+    private class StoreCropSubscribed extends OnCropSubscribed {
+        public StoreCropSubscribed(Crop crop) {
+            super(StoreActivity.this, crop, lastCropPermissionHandler);
+        }
+    }
+
 }

@@ -10,29 +10,56 @@
         app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
         android:background="#f39706" />
 
-
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="48dip"
-        android:background="#f39706"
-        android:textColor="@color/background_material_light"
-        app:pstsIndicatorColor="@color/background_material_light" />
-
     <View
         android:id="@+id/toolbar_shadow"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:background="@drawable/toolbar_dropshadow" />
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/add_margin">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        <ListView
+            android:id="@+id/store_experiment_lists"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    </android.support.v4.view.ViewPager>
+        <!-- The menu elements ListView. -->
+        <ListView
+            android:id="@+id/left_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@drawable/grandient_background"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp" />
 
+        <LinearLayout
+            android:id="@+id/store_empty_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin">
 
+            <com.apisense.bee.widget.ApisenseTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_available_experiments" />
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/QRButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_qr_code"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/orange" />
+
+    </RelativeLayout>>
 </LinearLayout>

@@ -1,4 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <color name="orangeAPI">#f39c13</color>
 
     <!-- Base application theme. -->
     <style name="ApisenseTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -96,7 +97,7 @@
     </style>
 
     <style name="ApisenseActionBarStore" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:background">@color/orange</item>
+        <item name="android:background">@color/orangeAPI</item>
         <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:minHeight">?attr/actionBarSize</item>

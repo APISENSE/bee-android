@@ -97,10 +97,6 @@
         <activity
             android:name="com.apisense.bee.ui.activity.SignInActivity"
             android:label="@string/title_activity_slideshow">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -110,7 +106,12 @@
         <activity
             android:name="com.apisense.bee.ui.activity.StoreActivity"
             android:label="@string/title_activity_store"
-            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
+            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activity.HomeExperimentDetailsActivity"
