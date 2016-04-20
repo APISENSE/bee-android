@@ -101,9 +101,11 @@
     <string name="store_section_home">Accueil</string>
     <string name="experiment_subscribed">Vous participez désormais à l\'expérience %1$s</string>
     <string name="experiment_unsubscribed">Vous ne participez plus à l\'expérience %1$s</string>
+    <string name="experiment_updated">Expérience %1$s mise à jour</string>
     <string name="action_subscribe">S\'inscrire</string>
     <string name="action_unsubscribe">Se désinscrire</string>
     <string name="action_read_qrcode">installer depuis un QRCode</string>
+    <string name="action_update">Mettre à jour l\'expérience</string>
     <string name="no_available_experiments">Aucune expérience trouvée !</string>
     <string name="title_activity_store_search">Recherche sur le Store</string>
 

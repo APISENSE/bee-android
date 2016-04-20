@@ -117,9 +117,11 @@
     <string name="store_section_home">Home</string>
     <string name="experiment_subscribed">You now contribute to experiment %1$s</string>
     <string name="experiment_unsubscribed">You don\'t contribute to experiment %1$s anymore</string>
+    <string name="experiment_updated">Experiment %1$s has been updated</string>
     <string name="action_subscribe">Subscribe</string>
     <string name="action_unsubscribe">UnSubscribe</string>
     <string name="action_read_qrcode">install from QRCode</string>
+    <string name="action_update">Update crop</string>
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="title_activity_store_search">StoreSearch</string>
 
