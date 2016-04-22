@@ -63,8 +63,8 @@ android {
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
             buildConfigField "String", "SDK_KEY", "\"${debug_sdk_key}\""
-            buildConfigField "String", "ROLLBAR_KEY", '""' // Empty init key
-
+            buildConfigField "String", "ROLLBAR_KEY", "\"${rollbar_key}\"" // Empty init key
+            buildConfigField "String", "ROLLBAR_ENV", '"development"'
         }
 
         release {
@@ -73,6 +73,7 @@ android {
             signingConfig signingConfigs.customRelease
             buildConfigField "String", "SDK_KEY", "\"${release_sdk_key}\""
             buildConfigField "String", "ROLLBAR_KEY", "\"${rollbar_key}\""
+            buildConfigField "String", "ROLLBAR_ENV", '"production"'
         }
     }
 }

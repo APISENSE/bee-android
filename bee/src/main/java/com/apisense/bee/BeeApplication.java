@@ -21,7 +21,10 @@ public class BeeApplication extends Application {
                 .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
                 .getSdk();
 
-        Rollbar.init(this, com.apisense.bee.BuildConfig.ROLLBAR_KEY, "production");
+        Rollbar.init(this,
+                com.apisense.bee.BuildConfig.ROLLBAR_KEY,
+                com.apisense.bee.BuildConfig.ROLLBAR_ENV
+        );
     }
 
 }
