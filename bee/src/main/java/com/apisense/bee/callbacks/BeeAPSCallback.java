@@ -1,8 +1,11 @@
 package com.apisense.bee.callbacks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
+import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.SignInActivity;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.exception.UserNotConnectedException;
@@ -16,22 +19,24 @@ import com.apisense.sdk.exception.UserNotConnectedException;
  * @param <T> Type of the returned object.
  */
 public abstract class BeeAPSCallback<T> implements APSCallback<T> {
+    protected Activity activity;
 
-    private Context context;
-
-    public BeeAPSCallback(Context context) {
-        this.context = context;
+    public BeeAPSCallback(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
     public void onError(Exception e) {
         // Retrofit encapsulate the APISENSE Exception.
         if (e.getCause() instanceof UserNotConnectedException) {
-            Intent loginIntent = new Intent(context, SignInActivity.class);
+            Intent loginIntent = new Intent(activity, SignInActivity.class);
             loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             loginIntent.putExtra(SignInActivity.ON_THE_FLY, true);
-            context.startActivity(loginIntent);
-            return;
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Toast.makeText(activity, R.string.error_invalid_session, Toast.LENGTH_LONG).show();
+            activity.startActivity(loginIntent);
+            activity.finish();
         }
     }
 }

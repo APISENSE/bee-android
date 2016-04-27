@@ -10,10 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apisense.bee.R;
+import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.callbacks.OnCropSubscribed;
 import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.games.IncrementalGameAchievement;
-import com.apisense.sdk.adapter.SimpleAPSCallback;
 import com.apisense.sdk.core.store.Crop;
 
 import java.text.SimpleDateFormat;
@@ -53,7 +53,7 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.detail_action_update:
-                apisenseSdk.getCropManager().update(crop.getLocation(), new SimpleAPSCallback<Crop>() {
+                apisenseSdk.getCropManager().update(crop.getLocation(), new BeeAPSCallback<Crop>(this) {
                     @Override
                     public void onDone(Crop crop) {
                         Toast.makeText(
@@ -73,9 +73,12 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
         TextView creationDateView = (TextView) findViewById(R.id.detail_stats_creation_date);
         TextView nbSubscribersView = (TextView) findViewById(R.id.detail_stats_subscribers);
         TextView exportedVolumeView = (TextView) findViewById(R.id.detail_stats_data_volume);
-        creationDateView.setText(getString(R.string.crop_stats_creation_date, dateFormat.format(crop.getStatistics().creationDate())));
-        nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers));
-        exportedVolumeView.setText(getString(R.string.crop_stats_data_volume, crop.getStatistics().size));
+        if (creationDateView != null)
+            creationDateView.setText(getString(R.string.crop_stats_creation_date, dateFormat.format(crop.getStatistics().creationDate())));
+        if (nbSubscribersView != null)
+            nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers));
+        if (exportedVolumeView != null)
+            exportedVolumeView.setText(getString(R.string.crop_stats_data_volume, crop.getStatistics().size));
     }
 
     @Override
@@ -110,7 +113,7 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
 
     private class StoreDetailsCropUnsubscribed extends OnCropUnsubscribed {
         public StoreDetailsCropUnsubscribed() {
-            super(getBaseContext(), crop.getName());
+            super(StoreExperimentDetailsActivity.this, crop.getName());
         }
 
         @Override
