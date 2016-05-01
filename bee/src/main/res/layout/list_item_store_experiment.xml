@@ -34,11 +34,25 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:layout_below="@+id/store_item_icon"
+            android:layout_toRightOf="@+id/store_item_icon"
+            android:layout_toEndOf="@+id/store_item_icon" />
+
         <!-- Description -->
+        <!--
         <com.apisense.bee.widget.ApisenseTextView
             android:id="@+id/store_item_description"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-
+            -->
+
     </LinearLayout>
+
+
 
 </RelativeLayout>
