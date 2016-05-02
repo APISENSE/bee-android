@@ -17,15 +17,12 @@ import com.apisense.sdk.core.APSCallback;
 
 
 public class SignInActivity extends Activity {
-    public static final String ON_THE_FLY = "com.apisense.bee.signin.onTheFly";
     private final String TAG = "SignInFragment";
     private Button mSignInBtn;
     private EditText mPseudoEditText;
     private EditText mPasswordEditText;
 
     private APISENSE.Sdk apisenseSdk;
-
-    private boolean loginOnTheFly;
 
     /**
      * Default constructor
@@ -51,7 +48,6 @@ public class SignInActivity extends Activity {
                 doLoginLogout(v);
             }
         });
-        loginOnTheFly = getIntent().getBooleanExtra(ON_THE_FLY, false);
     }
 
     /**
@@ -96,13 +92,9 @@ public class SignInActivity extends Activity {
                         @Override
                         public void onDone(Void response) {
                             mSignInBtn.setText(getString(R.string.logout));
-                            if (loginOnTheFly) {
-                                finish();
-                            } else {
-                                Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                            }
+                            Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         }
 
                         @Override

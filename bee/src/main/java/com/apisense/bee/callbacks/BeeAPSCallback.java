@@ -30,13 +30,10 @@ public abstract class BeeAPSCallback<T> implements APSCallback<T> {
         // Retrofit encapsulate the APISENSE Exception.
         if (e.getCause() instanceof UserNotConnectedException) {
             Intent loginIntent = new Intent(activity, SignInActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            loginIntent.putExtra(SignInActivity.ON_THE_FLY, true);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Toast.makeText(activity, R.string.error_invalid_session, Toast.LENGTH_LONG).show();
             activity.startActivity(loginIntent);
-            activity.finish();
         }
     }
 }
