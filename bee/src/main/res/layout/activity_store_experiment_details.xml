@@ -27,19 +27,8 @@
         android:id="@+id/store_exp_common_details_container"
         layout="@layout/common_experiment_details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_container" />
-
-    <com.apisense.bee.widget.ApisenseTextView
-        android:id="@+id/detail_stats_creation_date"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/store_exp_common_details_container"
-        android:paddingLeft="@dimen/activity_padding"
-        android:paddingRight="@dimen/activity_padding"
-        android:text="@string/crop_stats_creation_date" />
+        android:layout_below="@id/toolbar_container" />
 
     <com.apisense.bee.widget.ApisenseTextView
         android:id="@+id/detail_stats_subscribers"
@@ -47,21 +36,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/detail_stats_creation_date"
+        android:layout_below="@id/store_exp_common_details_container"
         android:paddingLeft="@dimen/activity_padding"
         android:paddingRight="@dimen/activity_padding"
         android:text="@string/crop_stats_subscribers" />
-
-    <com.apisense.bee.widget.ApisenseTextView
-        android:id="@+id/detail_stats_data_volume"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/detail_stats_subscribers"
-        android:paddingLeft="@dimen/activity_padding"
-        android:paddingRight="@dimen/activity_padding"
-        android:text="@string/crop_stats_data_volume" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/experimentSubBtn"
