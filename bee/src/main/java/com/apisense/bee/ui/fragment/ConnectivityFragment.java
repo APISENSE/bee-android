@@ -18,7 +18,7 @@ import com.apisense.bee.ui.activity.RegisterActivity;
 import com.apisense.bee.ui.activity.SignInActivity;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.adapter.SimpleAPSCallback;
 import com.apisense.sdk.core.bee.Bee;
 import com.google.android.gms.common.SignInButton;
 
@@ -110,17 +110,12 @@ public class ConnectivityFragment extends Fragment implements View.OnClickListen
         // TODO: [Implement] apisenseSdk.getSessionManager().createBeeFromGoogle()
     }
 
-    private class OnUserRegisteredCallback implements APSCallback<Bee> {
+    private class OnUserRegisteredCallback extends SimpleAPSCallback<Bee> {
         @Override
         public void onDone(Bee bee) {
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }
-
-        @Override
-        public void onError(Exception e) {
-
         }
     }
 }

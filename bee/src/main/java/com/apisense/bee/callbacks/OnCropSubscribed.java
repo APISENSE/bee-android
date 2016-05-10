@@ -31,6 +31,5 @@ public class OnCropSubscribed extends BeeAPSCallback<Crop> {
         super.onError(e);
         String toastMessage = String.format("Error while subscribing to %s", crop.getName());
         Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show();
-        Rollbar.reportException(e);
     }
 }

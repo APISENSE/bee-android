@@ -27,6 +27,5 @@ public class OnCropUnsubscribed extends BeeAPSCallback<Crop> {
         super.onError(e);
         String toastMessage = String.format("Error while unsubscribing from %s", cropName);
         Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show();
-        Rollbar.reportException(e);
     }
 }

@@ -3,17 +3,15 @@ package com.apisense.bee.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.sdk.core.APSCallback;
+import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.sdk.core.bee.Bee;
 
 
@@ -93,29 +91,17 @@ public class RegisterActivity extends Activity {
             // form field with an error.
             focusView.requestFocus();
         else {
-            ((BeeApplication) getApplication()).getSdk().getSessionManager().createBee(mPseudo, mPassword, new APSCallback<Bee>() {
+            ((BeeApplication) getApplication()).getSdk().getSessionManager().createBee(mPseudo, mPassword, new BeeAPSCallback<Bee>(this) {
                 @Override
                 public void onDone(Bee bee) {
-                    ((BeeApplication) getApplication()).getSdk().getSessionManager().login(bee.email, mPassword, new APSCallback<Void>() {
-
+                    ((BeeApplication) getApplication()).getSdk().getSessionManager().login(bee.email, mPassword, new BeeAPSCallback<Void>(RegisterActivity.this) {
                         @Override
                         public void onDone(Void aVoid) {
                             Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         }
-
-                        @Override
-                        public void onError(Exception e) {
-                            Log.e(TAG, "Error on login", e);
-                        }
                     });
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    Snackbar.make(registerButton, e.getLocalizedMessage(), Snackbar.LENGTH_SHORT).show();
-                    Log.e(TAG, "Error on account creation", e);
                 }
             });
         }
