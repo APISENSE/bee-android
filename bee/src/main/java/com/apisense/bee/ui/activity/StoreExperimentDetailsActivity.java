@@ -15,6 +15,7 @@ import com.apisense.bee.callbacks.OnCropSubscribed;
 import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.sdk.core.store.Crop;
+import com.apisense.sdk.core.store.CropGlobalStatistics;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -69,16 +70,15 @@ public class StoreExperimentDetailsActivity extends ExperimentDetailsActivity {
     }
 
     private void updateCropStats() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(CREATION_DATE_PATTERN, Locale.getDefault());
-        TextView creationDateView = (TextView) findViewById(R.id.detail_stats_creation_date);
-        TextView nbSubscribersView = (TextView) findViewById(R.id.detail_stats_subscribers);
-        TextView exportedVolumeView = (TextView) findViewById(R.id.detail_stats_data_volume);
-        if (creationDateView != null)
-            creationDateView.setText(getString(R.string.crop_stats_creation_date, dateFormat.format(crop.getStatistics().creationDate())));
-        if (nbSubscribersView != null)
-            nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, crop.getStatistics().numberOfSubscribers));
-        if (exportedVolumeView != null)
-            exportedVolumeView.setText(getString(R.string.crop_stats_data_volume, crop.getStatistics().size));
+        final SimpleDateFormat dateFormat = new SimpleDateFormat(CREATION_DATE_PATTERN, Locale.getDefault());
+        final TextView nbSubscribersView = (TextView) findViewById(R.id.detail_stats_subscribers);
+        apisenseSdk.getStatisticsManager().findGlobalStatistics(crop.getSlug(), new BeeAPSCallback<CropGlobalStatistics>(this) {
+            @Override
+            public void onDone(CropGlobalStatistics stats) {
+                if (nbSubscribersView != null)
+                    nbSubscribersView.setText(getString(R.string.crop_stats_subscribers, stats.numberOfSubscribers));
+            }
+        });
     }
 
     @Override

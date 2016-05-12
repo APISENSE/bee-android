@@ -12,7 +12,7 @@ import com.apisense.bee.callbacks.OnCropStopped;
 import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.UploadedDataGraph;
-import com.apisense.sdk.core.statistics.CropUsageStatistics;
+import com.apisense.sdk.core.statistics.CropLocalStatistics;
 import com.apisense.sdk.core.statistics.UploadedEntry;
 import com.apisense.sdk.core.store.Crop;
 
@@ -44,7 +44,7 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
         });
     }
 
-    private void displayStatistics(CropUsageStatistics cropUsage) {
+    private void displayStatistics(CropLocalStatistics cropUsage) {
         Log.i(TAG, "Got statistics" + cropUsage);
         TextView nbLocalTraces = (TextView) findViewById(R.id.detail_stats_local_traces);
         TextView nbTotalTraces = (TextView) findViewById(R.id.detail_stats_total_uploaded);
