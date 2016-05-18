@@ -65,7 +65,11 @@ public abstract class BeeGameActivity extends BaseGameActivity {
     }
 
     public void refreshPlayGamesData() {
-        new RetrievePlayGamesData().execute();
+        if (isSignedIn()) {
+            new RetrievePlayGamesData().execute();
+        } else {
+            Log.w(TAG, "User not connected to GPG yet, skip data refresh");
+        }
     }
 
     protected String getUserDisplayName() {
@@ -115,7 +119,7 @@ public abstract class BeeGameActivity extends BaseGameActivity {
             DataBuffer<Achievement> achievementBuffer = loadAchievementsResult.getAchievements();
 
             for (Achievement achievement : achievementBuffer) {
-                Log.d(TAG, "Achievement=" + achievement.getName() + "&status=" + achievement.getState());
+                Log.v(TAG, "Achievement=" + achievement.getName() + "&status=" + achievement.getState());
                 currentAchievements.add(achievement);
             }
 
@@ -123,14 +127,12 @@ public abstract class BeeGameActivity extends BaseGameActivity {
             updateUnlockedAchievementsCount(currentAchievements);
 
             // Close buffers, achievement no more accessible
-            achievementBuffer.close();
+            achievementBuffer.release();
             loadAchievementsResult.release();
         }
 
         /**
          * This method returns the count of finished achievements on the game
-         *
-         * @return int the current count of finished achievements
          */
         private void updateUnlockedAchievementsCount(List<Achievement> currentAchievements) {
             int count = 0;
