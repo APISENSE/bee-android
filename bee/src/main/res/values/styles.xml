@@ -82,9 +82,8 @@
         <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:maxHeight">30dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">76dp</item>
         <item name="android:title">@string/app_name</item>
         <item name="android:textColor">@color/aps_white</item>
     </style>
