@@ -4,7 +4,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
     // Features
-    compile 'com.apisense.sdk:apisense-android-sdk:1.6.0'
+    compile 'com.apisense.sdk:apisense-android-sdk:1.7.0-SNAPSHOT'
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
     // Google play services
     compile('com.google.android.gms:play-services-games:9.0.0')
@@ -35,8 +35,8 @@ android {
         applicationId "com.apisense.bee"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 13
-        versionName "1.6.0"
+        versionCode 14
+        versionName "1.7.0-SNAPSHOT"
     }
 
     signingConfigs {
