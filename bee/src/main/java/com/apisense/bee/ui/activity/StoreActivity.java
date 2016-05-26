@@ -17,8 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.apisense.bee.BeeApplication;
-import com.apisense.bee.Callbacks.BeeAPSCallback;
-import com.apisense.bee.Callbacks.OnCropStarted;
+import com.apisense.bee.callbacks.BeeAPSCallback;
+import com.apisense.bee.callbacks.OnCropStarted;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.games.SimpleGameAchievement;

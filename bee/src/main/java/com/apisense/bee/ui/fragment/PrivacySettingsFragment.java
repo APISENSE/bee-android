@@ -1,5 +1,6 @@
 package com.apisense.bee.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,10 @@ import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.adapter.SensorListAdapter;
 import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.adapter.SimpleAPSCallback;
 import com.apisense.sdk.core.preferences.Preferences;
 import com.apisense.sdk.core.preferences.Sensor;
 
@@ -46,7 +47,7 @@ public class PrivacySettingsFragment extends Fragment {
 
         sensorsAdapter.setDataSet(sensorList);
         sensorsAdapter.notifyDataSetChanged();
-        apisenseSdk.getPreferencesManager().retrievePreferences(new OnPreferencesReturned());
+        apisenseSdk.getPreferencesManager().retrievePreferences(new OnPreferencesReturned(getActivity()));
         new SimpleGameAchievement(getString(R.string.achievement_secretive_bee)).unlock(this);
 
         return root;
@@ -58,11 +59,15 @@ public class PrivacySettingsFragment extends Fragment {
         preferences.privacyPreferences.disabledSensors = sensorsAdapter.getDisabledSensors();
         if (apisenseSdk.getSessionManager().isConnected()) {
             // Avoid saving preferences if user used the logout button.
-            apisenseSdk.getPreferencesManager().savePreferences(preferences, new OnPreferencesSaved());
+            apisenseSdk.getPreferencesManager().savePreferences(preferences, new OnPreferencesSaved(getActivity()));
         }
     }
 
-    private class OnPreferencesReturned extends SimpleAPSCallback<Preferences> {
+    private class OnPreferencesReturned extends BeeAPSCallback<Preferences> {
+        public OnPreferencesReturned(Activity activity) {
+            super(activity);
+        }
+
         @Override
         public void onDone(Preferences prefs) {
             preferences = prefs;
@@ -75,7 +80,11 @@ public class PrivacySettingsFragment extends Fragment {
         }
     }
 
-    private class OnPreferencesSaved extends SimpleAPSCallback<Void> {
+    private class OnPreferencesSaved extends BeeAPSCallback<Void> {
+        public OnPreferencesSaved(Activity activity) {
+            super(activity);
+        }
+
         @Override
         public void onDone(Void aVoid) {
             // Nothing to do here

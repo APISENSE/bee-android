@@ -168,4 +168,6 @@
     <string name="gamehelper_app_misconfigured">GPG app misconfigured</string>
     <string name="gamehelper_sign_in_failed">GPG Sign in failed</string>
     <string name="gamehelper_license_failed">GPG licence failed</string>
+
+    <string name="error_invalid_session">Your session has been invalidated, please login again</string>
 </resources>

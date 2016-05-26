@@ -58,7 +58,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="32dp"
 
-                    android:background="@color/light_grey" />
+                    android:background="@color/aps_light_grey" />
 
             </LinearLayout>
 

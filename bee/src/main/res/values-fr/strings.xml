@@ -152,4 +152,5 @@
     <string name="gamehelper_sign_in_failed">Erreur de connexion GPG</string>
     <string name="gamehelper_license_failed">Erreur de licence GPG</string>
     <string name="settings_section_privacy">Paramètres d\'intimité</string>
+    <string name="error_invalid_session">Votre session est devenue invalide, veuillez vous re-connecter</string>
 </resources>

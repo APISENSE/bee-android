@@ -7,13 +7,12 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
-import com.apisense.bee.Callbacks.OnCropStarted;
+import com.apisense.bee.callbacks.OnCropStarted;
 import com.apisense.bee.R;
 import com.apisense.bee.games.BeeGameActivity;
 import com.apisense.bee.ui.adapter.IconAdapter;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.preferences.Sensor;
 import com.apisense.sdk.core.store.Crop;
 

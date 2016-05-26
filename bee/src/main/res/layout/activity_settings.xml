@@ -14,7 +14,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dip"
-        app:pstsIndicatorColor="@color/light_blue"
+        app:pstsIndicatorColor="@color/aps_light_blue"
         app:pstsUnderlineColor="@color/abc_primary_text_material_dark" />
 
 

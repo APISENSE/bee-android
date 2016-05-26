@@ -6,13 +6,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.apisense.bee.Callbacks.OnCropStarted;
-import com.apisense.bee.Callbacks.OnCropStopped;
-import com.apisense.bee.Callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
+import com.apisense.bee.callbacks.OnCropStarted;
+import com.apisense.bee.callbacks.OnCropStopped;
+import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.UploadedDataGraph;
-import com.apisense.sdk.core.statistics.CropUsageStatistics;
+import com.apisense.sdk.core.statistics.CropLocalStatistics;
 import com.apisense.sdk.core.statistics.UploadedEntry;
 import com.apisense.sdk.core.store.Crop;
 
@@ -44,19 +44,22 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
         });
     }
 
-    private void displayStatistics(CropUsageStatistics cropUsage) {
+    private void displayStatistics(CropLocalStatistics cropUsage) {
         Log.i(TAG, "Got statistics" + cropUsage);
         TextView nbLocalTraces = (TextView) findViewById(R.id.detail_stats_local_traces);
         TextView nbTotalTraces = (TextView) findViewById(R.id.detail_stats_total_uploaded);
 
-        nbLocalTraces.setText(getString(R.string.crop_stats_local_traces, cropUsage.getToUpload()));
-        nbTotalTraces.setText(getString(R.string.crop_stats_total_uploaded, cropUsage.getTotalUploaded()));
+        if (nbLocalTraces != null)
+            nbLocalTraces.setText(getString(R.string.crop_stats_local_traces, cropUsage.getToUpload()));
+        if (nbTotalTraces != null)
+            nbTotalTraces.setText(getString(R.string.crop_stats_total_uploaded, cropUsage.getTotalUploaded()));
         displayStatisticsGraph(cropUsage.getUploaded());
     }
 
     private void displayStatisticsGraph(Collection<UploadedEntry> uploaded) {
         UploadedDataGraph uploadGraph = (UploadedDataGraph) findViewById(R.id.details_stats_upload_graph);
-        uploadGraph.setValues(uploaded);
+        if (uploadGraph != null)
+            uploadGraph.setValues(uploaded);
     }
 
     @Override
@@ -119,7 +122,7 @@ public class HomeExperimentDetailsActivity extends ExperimentDetailsActivity {
     }
 
     public void doSubscribeUnsubscribe() {
-        apisenseSdk.getCropManager().unsubscribe(crop, new OnCropUnsubscribed(getBaseContext(), crop.getName()) {
+        apisenseSdk.getCropManager().unsubscribe(crop, new OnCropUnsubscribed(this, crop.getName()) {
             @Override
             public void onDone(Crop crop) {
                 super.onDone(crop);

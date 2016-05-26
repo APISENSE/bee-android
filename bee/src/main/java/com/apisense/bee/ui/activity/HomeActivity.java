@@ -1,6 +1,8 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -13,22 +15,25 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
-import com.apisense.bee.utils.CropPermissionHandler;
-import com.apisense.bee.Callbacks.BeeAPSCallback;
-import com.apisense.bee.Callbacks.OnCropStarted;
-import com.apisense.bee.Callbacks.OnCropStopped;
 import com.apisense.bee.R;
+import com.apisense.bee.callbacks.BeeAPSCallback;
+import com.apisense.bee.callbacks.OnCropStarted;
+import com.apisense.bee.callbacks.OnCropStopped;
 import com.apisense.bee.games.BeeGameActivity;
+import com.apisense.bee.games.BeePlayer;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
+import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.ApisenseTextView;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.store.Crop;
+import com.google.android.gms.common.images.ImageManager;
+import com.google.android.gms.games.achievement.Achievement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeActivity extends BeeGameActivity implements View.OnClickListener {
+public class HomeActivity extends BeeGameActivity {
     private final String TAG = getClass().getSimpleName();
     // Data
     protected SubscribedExperimentsListAdapter experimentsAdapter;
@@ -49,31 +54,32 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         apisenseSdk = ((BeeApplication) getApplication()).getSdk();
 
         toolbar = (Toolbar) findViewById(R.id.material_toolbar);
-        toolbar.setLogo(R.drawable.ic_launcher_bee);
-        setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            toolbar.setLogo(R.drawable.ic_launcher_bee);
+            setSupportActionBar(toolbar);
+        }
+
+        // Check visibility of gamification panels
+        gamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
+        noGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
+        achievementsCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
 
         // Set installed experiment list behavior
         experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
                 R.layout.list_item_home_experiment,
                 new ArrayList<Crop>());
         ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
-        subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
-        subscribedCollects.setAdapter(experimentsAdapter);
-        subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
-        subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
-
-        // Check visibility of gamification panels
-        gamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
-        gamificationPanel.setOnClickListener(this);
-
-        noGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
-        noGamificationPanel.setOnClickListener(this);
-
-        achievementsCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
-        achievementsCounts.setOnClickListener(this);
+        if (subscribedCollects != null) {
+            subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
+            subscribedCollects.setAdapter(experimentsAdapter);
+            subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
+            subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
+        }
 
         apisenseSdk.getCropManager().synchroniseSubscriptions(new OnCropModifiedOnStartup());
         apisenseSdk.getCropManager().restartActive(new OnCropModifiedOnStartup());
+
+        refreshGPGData();
     }
 
     @Override
@@ -83,16 +89,12 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
     }
 
     @Override
-    protected void onPlayGamesDataRecovered() {
-        updateGamificationPanels();
-    }
-
-
-    @Override
     public void onSignInSucceeded() {
         super.onSignInSucceeded();
         noGamificationPanel.setVisibility(View.GONE);
         gamificationPanel.setVisibility(View.VISIBLE);
+
+        refreshGPGData();
     }
 
     @Override
@@ -100,6 +102,31 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         noGamificationPanel.setVisibility(View.VISIBLE);
         gamificationPanel.setVisibility(View.GONE);
         Log.w(TAG, "Error on GPG signin: " + String.valueOf(getSignInError()));
+    }
+
+    private void refreshGPGData() {
+        refreshPlayGamesData(new Pending<BeePlayer>() {
+            @Override
+            public void onFetched(BeePlayer player) {
+                if (toolbar != null) {
+                    ImageManager.create(HomeActivity.this).loadImage(new ImageManager.OnImageLoadedListener() {
+                        @Override
+                        public void onImageLoaded(Uri uri, Drawable drawable, boolean b) {
+                            toolbar.setLogo(drawable);
+                        }
+                    }, player.userImage);
+                    toolbar.setLogoDescription(player.username);
+                    toolbar.setTitle(player.username);
+                }
+            }
+        });
+
+        refreshAchievements(new Pending<List<Achievement>>() {
+            @Override
+            public void onFetched(List<Achievement> achievements) {
+                achievementsCounts.setText(String.valueOf(countUnlocked(achievements)));
+            }
+        });
     }
 
 
@@ -116,16 +143,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         }
     }
 
-    protected void updateGamificationPanels() {
-        // Refresh gamification text views after the refresh of game data
-        achievementsCounts.setText(String.valueOf(unlockedCount));
-        Toolbar toolbar = (Toolbar) findViewById(R.id.material_toolbar);
-        toolbar.setLogo(getUserImage());
-        toolbar.setTitle(getUserDisplayName());
-    }
-
-    @Override
-    public void onClick(View v) {
+    public void onGamificationPannelClicked(View v) {
         switch (v.getId()) {
             case R.id.no_gamification_panel:
                 beginUserInitiatedSignIn();
@@ -172,7 +190,7 @@ public class HomeActivity extends BeeGameActivity implements View.OnClickListene
         startActivity(storeIntent);
     }
 
-    public class ExperimentListRetrievedCallback  extends BeeAPSCallback<List<Crop>> {
+    public class ExperimentListRetrievedCallback extends BeeAPSCallback<List<Crop>> {
         public ExperimentListRetrievedCallback() {
             super(HomeActivity.this);
         }

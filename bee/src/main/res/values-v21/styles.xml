@@ -5,9 +5,9 @@
 
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
-        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorPrimary">@color/aps_light_blue</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="colorPrimaryDark">@color/aps_dark_blue</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/material_deep_teal_500</item>
 
@@ -17,7 +17,7 @@
         <item name="actionMenuTextColor">@color/abc_primary_text_material_dark</item>
         <item name="android:textColorSecondary">@color/abc_secondary_text_material_dark</item>
         <item name="actionBarStyle">@style/ApisenseActionBar</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/aps_white</item>
 
         <item name="android:windowTranslucentStatus">true</item>
     </style>

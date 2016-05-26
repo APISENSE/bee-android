@@ -5,9 +5,9 @@
 
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
-        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorPrimary">@color/aps_light_blue</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="colorPrimaryDark">@color/aps_dark_blue</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/material_deep_teal_500</item>
 
@@ -15,7 +15,7 @@
         <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
         <item name="android:textColorSecondary">@color/abc_secondary_text_material_dark</item>
         <item name="actionBarStyle">@style/ApisenseActionBar</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/aps_white</item>
 
 
     </style>
@@ -82,15 +82,14 @@
         <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:maxHeight">30dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">76dp</item>
         <item name="android:title">@string/app_name</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/aps_white</item>
     </style>
 
     <style name="ApisenseActionBarStore" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:background">@color/orange</item>
+        <item name="android:background">@color/aps_orange</item>
         <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
@@ -98,7 +97,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:title">@string/app_name</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/aps_white</item>
     </style>
 
     <style name="ApisenseActionBarTransp" parent="ApisenseActionBar">
@@ -108,11 +107,11 @@
     </style>
 
     <style name="ApisenseActionBar.Text" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/aps_white</item>
     </style>
 
     <style name="SearchBar">
-        <item name="android:textColorHint">@color/grey</item>
+        <item name="android:textColorHint">@color/aps_grey</item>
     </style>
 
     <!-- Header style -->
@@ -131,12 +130,12 @@
 
     <!-- Apisense Graph Bar -->
     <style name="BarGraph">
-        <item name="viewsWeekdayColor">@color/barchart_weekday</item>
-        <item name="viewsWeekendColor">@color/barchart_weekend</item>
+        <item name="viewsWeekdayColor">@color/aps_barchart_weekday</item>
+        <item name="viewsWeekendColor">@color/aps_barchart_weekend</item>
     </style>
 
     <style name="BarGraphDeactived">
-        <item name="viewsWeekdayColor">@color/barchart_weekday_deactived</item>
-        <item name="viewsWeekendColor">@color/barchart_weekend_deactived</item>
+        <item name="viewsWeekdayColor">@color/aps_barchart_weekday_deactived</item>
+        <item name="viewsWeekendColor">@color/aps_barchart_weekend_deactived</item>
     </style>
 </resources>

@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.apisense.bee.ui.activity.HomeActivity>">
+    tools:context="com.apisense.bee.ui.activity.HomeActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/material_toolbar"
         style="@style/ApisenseActionBar"
-        app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
+        />
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/player_information"
@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center"
+                android:onClick="onGamificationPannelClicked"
                 android:orientation="horizontal">
 
                 <com.apisense.bee.widget.ApisenseTextView
@@ -57,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:onClick="onGamificationPannelClicked"
                 android:orientation="horizontal"
                 android:padding="@dimen/game_padding">
 
@@ -90,7 +92,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@string/add_new_experiments"
-                android:textColor="@color/grey" />
+                android:textColor="@color/aps_grey" />
         </LinearLayout>
 
 
@@ -111,8 +113,8 @@
             android:layout_alignParentRight="true"
             android:onClick="doGoToStore"
             android:src="@drawable/ic_action_new"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/orange" />
+            android:textColor="@color/aps_white"
+            app:backgroundTint="@color/aps_orange" />
     </RelativeLayout>
 
 </LinearLayout>

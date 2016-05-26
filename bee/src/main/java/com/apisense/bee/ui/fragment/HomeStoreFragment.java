@@ -1,5 +1,6 @@
 package com.apisense.bee.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,17 +13,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
-import com.apisense.bee.Callbacks.OnCropStarted;
-import com.apisense.bee.Callbacks.OnCropSubscribed;
-import com.apisense.bee.Callbacks.OnCropUnsubscribed;
+import com.apisense.bee.callbacks.BeeAPSCallback;
+import com.apisense.bee.callbacks.OnCropStarted;
+import com.apisense.bee.callbacks.OnCropSubscribed;
+import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.R;
 import com.apisense.bee.games.IncrementalGameAchievement;
 import com.apisense.bee.ui.activity.StoreExperimentDetailsActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsListAdapter;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.adapter.SimpleAPSCallback;
-import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.core.store.Crop;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class HomeStoreFragment extends Fragment {
 
 
     public void getExperiments() {
-        apisenseSdk.getStoreManager().findAllCrops(new OnExperimentsRetrieved());
+        apisenseSdk.getStoreManager().findAllCrops(new OnExperimentsRetrieved(getActivity()));
     }
 
     // Listeners definitions
@@ -113,7 +113,11 @@ public class HomeStoreFragment extends Fragment {
 
     // Callbacks definitions
 
-    private class OnExperimentsRetrieved extends SimpleAPSCallback<List<Crop>> {
+    private class OnExperimentsRetrieved extends BeeAPSCallback<List<Crop>> {
+        public OnExperimentsRetrieved(Activity activity) {
+            super(activity);
+        }
+
         @Override
         public void onDone(List<Crop> crops) {
             Log.i(TAG, "Number of Active Experiments: " + crops.size());

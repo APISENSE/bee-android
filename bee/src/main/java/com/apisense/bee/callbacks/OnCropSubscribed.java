@@ -1,4 +1,4 @@
-package com.apisense.bee.Callbacks;
+package com.apisense.bee.callbacks;
 
 import android.app.Activity;
 import android.widget.Toast;
@@ -10,21 +10,19 @@ import com.rollbar.android.Rollbar;
 
 
 public class OnCropSubscribed extends BeeAPSCallback<Crop> {
-    private Activity context;
     private Crop crop;
     private CropPermissionHandler permissionHandler;
 
-    public OnCropSubscribed(Activity context, Crop crop, CropPermissionHandler permissionHandler) {
-        super(context);
-        this.context = context;
+    public OnCropSubscribed(Activity activity, Crop crop, CropPermissionHandler permissionHandler) {
+        super(activity);
         this.crop = crop;
         this.permissionHandler = permissionHandler;
     }
 
     @Override
     public void onDone(Crop crop) {
-        String toastMessage = String.format(context.getString(R.string.experiment_subscribed), crop.getName());
-        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+        String toastMessage = String.format(activity.getString(R.string.experiment_subscribed), crop.getName());
+        Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show();
         permissionHandler.startOrRequestPermissions();
     }
 
@@ -32,7 +30,6 @@ public class OnCropSubscribed extends BeeAPSCallback<Crop> {
     public void onError(Exception e) {
         super.onError(e);
         String toastMessage = String.format("Error while subscribing to %s", crop.getName());
-        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
-        Rollbar.reportException(e);
+        Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show();
     }
 }
