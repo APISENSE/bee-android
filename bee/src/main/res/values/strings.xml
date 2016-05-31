@@ -19,13 +19,15 @@
     <!-- Titles -->
     <string name="app_name" translatable="false">Bee</string>
     <string name="title_activity_slideshow">Bee</string>
-    <string name="title_activity_home">Bee</string>
+    <string name="title_activity_home">My crops</string>
+    <string name="title_activity_account">Account</string>
     <string name="title_activity_store">Bee Store</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_experiment_details">Details</string>
     <string name="title_activity_store_experiment_details">Preview</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_reward">Reward</string>
+    <string name="title_activity_gpg">Play Games</string>
 
     <!-- Global -->
     <string name="action_settings">Settings</string>
@@ -33,6 +35,8 @@
     <string name="action_privacy">Privacy</string>
     <string name="action_share">Share</string>
     <string name="search_hint">Experiment name</string>
+    <string name="next">Next</string>
+    <string name="level">Level</string>
 
     <!-- User feedbacks -->
     <string name="error">Error</string>
@@ -82,14 +86,14 @@
 
     <!-- Experiments -->
     <string name="exp_details_name">%1$s</string>
-    <string name="exp_details_organization">by %1$s</string>
-    <string name="exp_details_version">v%1$d</string>
-    <string name="crop_stats_subscribers">Number of subscriptions: %1$s</string>
+    <string name="exp_details_organization">By %1$s</string>
+    <string name="exp_details_version">Version %1$d</string>
+    <string name="crop_stats_subscribers">Number of subscriptions: %1$d</string>
     <string name="crop_stats_data_volume">Exported data: %1$.2f Kib</string>
     <string name="crop_stats_creation_date">Created: %1$s</string>
     <string name="exp_details_description">Description:\n\t %1$s</string>
-    <string name="crop_stats_local_traces">Local traces: %1$s</string>
-    <string name="crop_stats_total_uploaded">Uploaded traces: %1$s</string>
+    <string name="crop_stats_local_traces">Local traces: %1$d</string>
+    <string name="crop_stats_total_uploaded">Uploaded traces: %1$d</string>
     <string name="experiment_activity_7_days">Activity for the past 7 days</string>
     <string name="experiment_started">Experiment %1$s started</string>
     <string name="experiment_stopped">Experiment %1$s stopped</string>
@@ -99,6 +103,7 @@
     <string name="experiment_image_desc">Experiment logo</string>
     <string name="running">Running</string>
     <string name="not_running">Not running</string>
+    <string name="no_data_last_week">No data uploaded the last 7 days</string>
 
     <!-- Settings -->
     <string name="settings_section_account">Account Management</string>
@@ -110,6 +115,8 @@
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">About</string>
     <string name="no_available_sensors">No sensor available!</string>
+    <string name="account_share">Share Bee experience with your contacts and help to improve research</string>
+    <string name="account_logout">If you want to stop all contributions to your subscribed collects</string>
 
     <!-- Store -->
     <string name="store_section_categories">Categories</string>
@@ -123,6 +130,7 @@
     <string name="action_read_qrcode">install from QRCode</string>
     <string name="action_update">Update crop</string>
     <string name="no_available_experiments">No experiment have been found !</string>
+    <string name="no_installed_experiments">No experiment installed yet !</string>
     <string name="title_activity_store_search">StoreSearch</string>
 
     <!-- Rewards -->
@@ -140,24 +148,17 @@
           \t\t- Romain Rouvoy\n
           \t\t- Nicolas Haderer\n
           \t\t- Christophe Ribeiro\n
-          \t\t- Clive Ferret-Canape\n
           \t\t- Antoine Veuiller\n
           \t\t- Julien Duribreux
     </string>
 
-    <string name="about_resources">
-        Resources:\n
-          \t\t- Pictures from:\n
-            \t\t\t- www.flaticon.com\n
-            \t\t\t- iconmonstr.com
-    </string>
     <string name="about_copyright">
         <![CDATA[
 	    	<p>
-	    	    Bee is a part of APISENSE (http://www.apisense.com) platform and it aims to research.
-	    	    For any informations, contact us at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.
+	    	    Bee is a part of <a href="https://www.apisense.io" >APISENSE</a> platform and it aims to research.<br/>
+	    	    For more information, you can contact us at <a href="mailto:contact@apisense.com">contact@apisense.com</a>.<br/>
 			</p>
-	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, all rights reserved.</p>
+	    	<p>&copy; 2013 <a href="www.inria.fr/">Inria</a>, all rights reserved. <a href="www.apisense.io/terms">Terms Of Service</a>.</p>
 	    ]]>
     </string>
     <string name="share_bee_text">Help science by using Bee! https://play.google.com/store/apps/details?id=com.apisense.bee</string>

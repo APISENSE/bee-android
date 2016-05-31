@@ -1,254 +1,273 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
-import com.apisense.bee.callbacks.BeeAPSCallback;
-import com.apisense.bee.callbacks.OnCropStarted;
-import com.apisense.bee.callbacks.OnCropStopped;
 import com.apisense.bee.games.BeeGameActivity;
-import com.apisense.bee.games.BeePlayer;
-import com.apisense.bee.ui.adapter.SubscribedExperimentsListAdapter;
-import com.apisense.bee.utils.CropPermissionHandler;
-import com.apisense.bee.widget.ApisenseTextView;
+import com.apisense.bee.ui.fragment.AboutFragment;
+import com.apisense.bee.ui.fragment.AccountFragment;
+import com.apisense.bee.ui.fragment.HomeFragment;
+import com.apisense.bee.ui.fragment.PrivacyFragment;
+import com.apisense.bee.ui.fragment.StoreFragment;
 import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.store.Crop;
-import com.google.android.gms.common.images.ImageManager;
-import com.google.android.gms.games.achievement.Achievement;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.Player;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.util.ArrayList;
-import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStoreClickedListener {
+    private static String TAG = "HomeActivity";
 
-public class HomeActivity extends BeeGameActivity {
-    private final String TAG = getClass().getSimpleName();
-    // Data
-    protected SubscribedExperimentsListAdapter experimentsAdapter;
-
-    // Gamification
-    private Toolbar toolbar;
-    private LinearLayout gamificationPanel;
-    private LinearLayout noGamificationPanel;
-    private ApisenseTextView achievementsCounts;
-
+    private AccountHeader headerResult;
+    public Drawer drawer;
     private APISENSE.Sdk apisenseSdk;
-    private CropPermissionHandler lastCropPermissionHandler;
+    private boolean drawerInitializedWithUser;
+
+    // Drawer item identifiers
+    public static final int DRAWER_HOME_IDENTIFIER = 1;
+    public static final int DRAWER_STORE_IDENTIFIER = 2;
+    private static final int DRAWER_PLAY_IDENTIFIER = 3;
+    private static final int DRAWER_PLAY_REWARD_IDENTIFIER = 4;
+    public static final int DRAWER_PRIVACY_IDENTIFIER = 5;
+    public static final int DRAWER_ACCOUNT_IDENTIFIER = 6;
+    public static final int DRAWER_ABOUT_IDENTIFIER = 7;
+
+    // Drawer items
+    public PrimaryDrawerItem home = generateDrawerItem(R.string.title_activity_home, R.drawable.ic_home, DRAWER_HOME_IDENTIFIER);
+    public PrimaryDrawerItem store = generateDrawerItem(R.string.title_activity_store, R.drawable.ic_store_blck, DRAWER_STORE_IDENTIFIER);
+    private PrimaryDrawerItem play = generateDrawerItem(R.string.title_activity_gpg, R.drawable.ic_gpg, DRAWER_PLAY_IDENTIFIER);
+    private PrimaryDrawerItem playReward = generateDrawerItem(R.string.title_activity_reward, R.drawable.ic_gpg, DRAWER_PLAY_REWARD_IDENTIFIER);
+    public PrimaryDrawerItem settings = generateDrawerItem(R.string.title_activity_settings, R.drawable.ic_action_settings, DRAWER_PRIVACY_IDENTIFIER);
+    public PrimaryDrawerItem profile = generateDrawerItem(R.string.title_activity_account, R.drawable.ic_action_person, DRAWER_ACCOUNT_IDENTIFIER);
+    public PrimaryDrawerItem about = generateDrawerItem(R.string.title_activity_about, R.drawable.ic_action_about, DRAWER_ABOUT_IDENTIFIER);
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.title_activity_home);
+
         apisenseSdk = ((BeeApplication) getApplication()).getSdk();
 
-        toolbar = (Toolbar) findViewById(R.id.material_toolbar);
-        if (toolbar != null) {
-            toolbar.setLogo(R.drawable.ic_launcher_bee);
-            setSupportActionBar(toolbar);
+        drawerInitializedWithUser = false;
+        headerResult = generateAccountHeader();
+        drawer = generateNavigationDrawer(savedInstanceState, headerResult);
+        hideHeaderDrawerInformation();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+
+        if (findViewById(R.id.exp_container) != null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            if (!apisenseSdk.getSessionManager().isConnected()) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            } else {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.exp_container, new HomeFragment())
+                        .commit();
+            }
         }
-
-        // Check visibility of gamification panels
-        gamificationPanel = (LinearLayout) findViewById(R.id.gamification_panel);
-        noGamificationPanel = (LinearLayout) findViewById(R.id.no_gamification_panel);
-        achievementsCounts = (ApisenseTextView) findViewById(R.id.home_game_achievements);
-
-        // Set installed experiment list behavior
-        experimentsAdapter = new SubscribedExperimentsListAdapter(getBaseContext(),
-                R.layout.list_item_home_experiment,
-                new ArrayList<Crop>());
-        ListView subscribedCollects = (ListView) findViewById(R.id.home_experiment_lists);
-        if (subscribedCollects != null) {
-            subscribedCollects.setEmptyView(findViewById(R.id.home_empty_list));
-            subscribedCollects.setAdapter(experimentsAdapter);
-            subscribedCollects.setOnItemLongClickListener(new StartStopExperimentListener());
-            subscribedCollects.setOnItemClickListener(new OpenExperimentDetailsListener());
-        }
-
-        apisenseSdk.getCropManager().synchroniseSubscriptions(new OnCropModifiedOnStartup());
-        apisenseSdk.getCropManager().restartActive(new OnCropModifiedOnStartup());
-
-        refreshGPGData();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        retrieveActiveExperiments();
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
     public void onSignInSucceeded() {
         super.onSignInSucceeded();
-        noGamificationPanel.setVisibility(View.GONE);
-        gamificationPanel.setVisibility(View.VISIBLE);
 
-        refreshGPGData();
+        if (!drawerInitializedWithUser) {
+            drawerInitializedWithUser = true;
+            drawer.removeItem(DRAWER_PLAY_IDENTIFIER);
+            drawer.addItemAtPosition(playReward, DRAWER_PLAY_REWARD_IDENTIFIER);
+            refreshGPGData();
+        }
     }
 
     @Override
     public void onSignInFailed() {
-        noGamificationPanel.setVisibility(View.VISIBLE);
-        gamificationPanel.setVisibility(View.GONE);
+        super.onSignInFailed();
         Log.w(TAG, "Error on GPG signin: " + String.valueOf(getSignInError()));
     }
 
+    public void selectDrawerItem(int item) {
+        drawer.setSelectionAtPosition(item, false);
+    }
+
+    // Private methods
+
+    /**
+     * Refresh Google Play Games user information
+     * in the Drawer
+     */
     private void refreshGPGData() {
-        refreshPlayGamesData(new Pending<BeePlayer>() {
+        refreshPlayGamesData(new Pending<Player>() {
             @Override
-            public void onFetched(BeePlayer player) {
-                if (toolbar != null) {
-                    ImageManager.create(HomeActivity.this).loadImage(new ImageManager.OnImageLoadedListener() {
-                        @Override
-                        public void onImageLoaded(Uri uri, Drawable drawable, boolean b) {
-                            toolbar.setLogo(drawable);
-                        }
-                    }, player.userImage);
-                    toolbar.setLogoDescription(player.username);
-                    toolbar.setTitle(player.username);
-                }
-            }
-        });
-
-        refreshAchievements(new Pending<List<Achievement>>() {
-            @Override
-            public void onFetched(List<Achievement> achievements) {
-                achievementsCounts.setText(String.valueOf(countUnlocked(achievements)));
+            public void onFetched(Player player) {
+                setHeaderDrawerInformation(player);
             }
         });
     }
 
-
-    private class OnCropModifiedOnStartup extends BeeAPSCallback<Crop> {
-        public OnCropModifiedOnStartup() {
-            super(HomeActivity.this);
-        }
-
-        @Override
-        public void onDone(Crop crop) {
-            Log.d(TAG, "Crop" + crop.getName() + "started back");
-            retrieveActiveExperiments();
-            experimentsAdapter.notifyDataSetChanged();
-        }
+    /**
+     * Hide avatar bubble and text switcher in the drawer
+     */
+    private void hideHeaderDrawerInformation() {
+        (headerResult.getView().findViewById(R.id.material_drawer_account_header_current)).setVisibility(View.GONE);
+        (headerResult.getView().findViewById(R.id.material_drawer_account_header_text_switcher)).setVisibility(View.GONE);
     }
 
-    public void onGamificationPannelClicked(View v) {
-        switch (v.getId()) {
-            case R.id.no_gamification_panel:
-                beginUserInitiatedSignIn();
-                break;
-            case R.id.gamification_panel:
-                Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
-                startActivity(intent);
-                break;
-        }
+    /**
+     * Set Google Play Games user information
+     *
+     * @param player Player from Google
+     */
+    private void setHeaderDrawerInformation(Player player) {
+        headerResult.addProfiles(
+                new ProfileDrawerItem().withName(getResources().getString(R.string.level) + " " + player.getLevelInfo().getCurrentLevel().getLevelNumber())
+                        .withEmail(player.getDisplayName())
+        );
+
+        hideHeaderDrawerInformation();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                doLaunchSettings();
-                break;
-        }
-        return true;
-    }
-
-    public void setExperiments(List<Crop> experiments) {
-        this.experimentsAdapter.setDataSet(experiments);
-    }
-
-    private void retrieveActiveExperiments() {
-        apisenseSdk.getCropManager().getSubscriptions(new ExperimentListRetrievedCallback());
-    }
-
-    public void doLaunchSettings() {
-        Intent settingsIntent = new Intent(this, SettingsActivity.class);
-        startActivity(settingsIntent);
-    }
-
-    public void doGoToStore(View storeButton) {
-        Intent storeIntent = new Intent(this, StoreActivity.class);
-        startActivity(storeIntent);
-    }
-
-    public class ExperimentListRetrievedCallback extends BeeAPSCallback<List<Crop>> {
-        public ExperimentListRetrievedCallback() {
-            super(HomeActivity.this);
-        }
-
-        @Override
-        public void onDone(List<Crop> response) {
-            Log.i(TAG, "number of Active Experiments: " + response.size());
-
-            // Updating listView
-            setExperiments(response);
-            experimentsAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private class OpenExperimentDetailsListener implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(view.getContext(), HomeExperimentDetailsActivity.class);
-            Crop crop = (Crop) parent.getAdapter().getItem(position);
-
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("crop", crop);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    }
-
-    private class StartStopExperimentListener implements AdapterView.OnItemLongClickListener {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            final Crop crop = (Crop) parent.getAdapter().getItem(position);
-            if (apisenseSdk.getCropManager().isRunning(crop)) {
-                apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getBaseContext()) {
+    /**
+     * Create navigation drawer on every fragment handled by HomeActivity
+     */
+    private Drawer generateNavigationDrawer(Bundle savedInstanceState, AccountHeader headerResult) {
+        return new DrawerBuilder()
+                .withActivity(this)
+                .withSavedInstance(savedInstanceState)
+                .withToolbar(toolbar)
+                .withAccountHeader(headerResult)
+                .addDrawerItems(
+                        home, store,
+                        new DividerDrawerItem(),
+                        play, settings, profile,
+                        new DividerDrawerItem(),
+                        about
+                )
+                .withTranslucentStatusBar(false)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
-                    public void onDone(Crop crop) {
-                        super.onDone(crop);
-                        experimentsAdapter.notifyDataSetChanged();
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        int identifier = (int) drawerItem.getIdentifier();
+                        switch (identifier) { // Based on addDrawerItems order starting from 1..n
+                            case DRAWER_HOME_IDENTIFIER:
+                                startAndAddFragmentToBackStack(new HomeFragment(), false);
+                                break;
+                            case DRAWER_STORE_IDENTIFIER:
+                                startAndAddFragmentToBackStack(new StoreFragment(), true);
+                            case DRAWER_PLAY_IDENTIFIER:
+                                beginUserInitiatedSignIn();
+                                break;
+                            case DRAWER_PLAY_REWARD_IDENTIFIER:
+                                startActivityForResult(
+                                        Games.Achievements.getAchievementsIntent(getApiClient()), 0
+                                );
+                                break;
+                            case DRAWER_PRIVACY_IDENTIFIER:
+                                startAndAddFragmentToBackStack(new PrivacyFragment(), true);
+                                break;
+                            case DRAWER_ACCOUNT_IDENTIFIER:
+                                startAndAddFragmentToBackStack(new AccountFragment(), true);
+                                break;
+                            case DRAWER_ABOUT_IDENTIFIER:
+                                startAndAddFragmentToBackStack(new AboutFragment(), true);
+                                break;
+                            default: // Separator cases, nothing to do.
+                                break;
+                        }
+                        drawer.closeDrawer();
+                        return true;
                     }
-                });
-            } else {
-                lastCropPermissionHandler = new CropPermissionHandler(HomeActivity.this, crop,
-                        new OnCropStarted(getBaseContext()) {
-                            @Override
-                            public void onDone(Crop crop) {
-                                super.onDone(crop);
-                                experimentsAdapter.notifyDataSetChanged();
-                            }
-                        });
-                lastCropPermissionHandler.startOrRequestPermissions();
-            }
-            return true;
+                })
+                .build();
+    }
+
+    /**
+     * Generate Header in the drawer
+     *
+     * @return
+     */
+    @NonNull
+    private AccountHeader generateAccountHeader() {
+        return headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.drawer_background)
+                .build();
+    }
+
+    /**
+     * Generate PrimaryDrawerItem for the Drawer
+     *
+     * @param name       Path to resource name
+     * @param icon       Path to resource icon
+     * @param identifier Static item identifier
+     * @return Drawer item
+     */
+    private PrimaryDrawerItem generateDrawerItem(int name, int icon, int identifier) {
+        return new PrimaryDrawerItem().withName(name)
+                .withIcon(icon).withIdentifier(identifier);
+    }
+
+    /**
+     * Start a new fragment and add it to the back stack
+     *
+     * @param instance Fragment instance to start
+     * @param addToBackStack Replace fragment if true, add otherwise
+     */
+    private void startAndAddFragmentToBackStack(Fragment instance, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(addToBackStack) {
+            getSupportFragmentManager().popBackStack();
+            transaction.replace(R.id.exp_container, instance);
+            transaction.addToBackStack(null);
+        } else {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            transaction.replace(R.id.exp_container, instance);
         }
+        transaction.commit();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (lastCropPermissionHandler != null) {
-            lastCropPermissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
+    public void switchToStore() {
+        startAndAddFragmentToBackStack(new StoreFragment(), true);
     }
 }

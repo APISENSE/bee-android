@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.apisense.bee.R;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.sdk.core.store.Crop;
-import com.rollbar.android.Rollbar;
 
 
 public class OnCropSubscribed extends BeeAPSCallback<Crop> {

@@ -1,48 +1,46 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_container"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingTop="@dimen/recycler_item_vertical_padding"
+    android:paddingBottom="@dimen/recycler_item_vertical_padding"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
 
-    <SurfaceView
-        android:id="@+id/home_item_icon"
-        android:layout_width="10dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/thumbnail_margin"
-        android:contentDescription="@string/experiment_image_desc" />
+    <ImageView
+        android:id="@+id/crop_status"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <LinearLayout
-        android:id="@+id/experiment_header"
+    <TextView
+        android:id="@+id/crop_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_text_margin"
+        android:textStyle="bold"
+        android:textSize="@dimen/primary_text_size"/>
+
+    <TextView
+        android:id="@+id/crop_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/home_item_icon"
-        android:layout_toEndOf="@id/home_item_icon"
-        android:layout_toRightOf="@id/home_item_icon"
-        android:orientation="vertical">
+        android:layout_marginBottom="@dimen/default_text_margin"
+        android:textSize="@dimen/secondary_text_size"
+        android:maxLines="2"
+        android:textColor="@color/aps_secondary_text"
+        android:layout_below="@+id/crop_title"/>
 
-        <!-- Experiment title-->
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/experimentelement_sampletitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <!-- Company -->
-        <com.apisense.bee.widget.ApisenseTextView
-            android:id="@+id/experimentelement_company"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
+    <LinearLayout
+        android:id="@+id/sensors_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/crop_description">
     </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="3dp"
-        android:background="@color/aps_light_grey" />
 
 </RelativeLayout>
