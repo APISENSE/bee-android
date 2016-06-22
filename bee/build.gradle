@@ -1,5 +1,27 @@
 apply plugin: 'com.android.application'
 
+// Default parameters to empty string.
+if (!project.hasProperty("debug_sdk_key")) {
+    ext.debug_sdk_key = ""
+}
+
+if (!project.hasProperty("release_sdk_key")) {
+    ext.release_sdk_key = ""
+}
+
+if (!project.hasProperty("rollbar_key")) {
+    ext.rollbar_key = ""
+}
+
+if (!project.hasProperty("release_keystore_password")) {
+    ext.release_keystore_password = ""
+}
+
+if (!project.hasProperty("release_key_password")) {
+    ext.release_keystore_password = ""
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
@@ -8,8 +30,8 @@ dependencies {
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
 
     // Google play services
-    compile('com.google.android.gms:play-services-games:9.0.0')
-    compile('com.google.android.gms:play-services-plus:9.0.0')
+    compile('com.google.android.gms:play-services-games:9.0.2')
+    compile('com.google.android.gms:play-services-plus:9.0.2')
 
     // Graphic enhancements
     compile('com.astuetz:pagerslidingtabstrip:1.0.1') // Settings page slider
@@ -17,19 +39,19 @@ dependencies {
     compile('com.github.PhilJay:MPAndroidChart:v2.1.6') // Draw charts
 
     // Android support animation and views
-    compile 'com.android.support:support-v4:23.4.0'
-    compile('com.android.support:appcompat-v7:23.1.1')
-    compile('com.android.support:cardview-v7:23.1.1')
-    compile('com.android.support:recyclerview-v7:23.2.1')
-    compile('com.android.support:design:23.1.1')
+    compile 'com.android.support:support-v4:24.0.0'
+    compile('com.android.support:appcompat-v7:24.0.0')
+    compile('com.android.support:cardview-v7:24.0.0')
+    compile('com.android.support:recyclerview-v7:24.0.0')
+    compile('com.android.support:design:24.0.0')
     compile('com.mikepenz:materialdrawer:5.2.9@aar') {
         transitive = true
     }
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.0'
 
     lintOptions {
         abortOnError false
@@ -38,7 +60,7 @@ android {
     defaultConfig {
         applicationId "com.apisense.bee"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 14
         versionName "1.7.0-SNAPSHOT"
     }

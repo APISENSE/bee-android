@@ -1,5 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+// Default parameters to empty string.
+if (!project.hasProperty("artifactory_user")) {
+    ext.artifactory_user = ""
+}
+
+if (!project.hasProperty("artifactory_password")) {
+    ext.artifactory_password = ""
+}
+
 buildscript {
     repositories {
         jcenter()
