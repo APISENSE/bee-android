@@ -1,6 +1,8 @@
 package com.apisense.bee.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,7 @@ import com.apisense.bee.ui.fragment.HomeFragment;
 import com.apisense.bee.ui.fragment.PrivacyFragment;
 import com.apisense.bee.ui.fragment.StoreFragment;
 import com.apisense.sdk.APISENSE;
+import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -52,13 +55,13 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
     public static final int DRAWER_ABOUT_IDENTIFIER = 7;
 
     // Drawer items
-    public PrimaryDrawerItem home = generateDrawerItem(R.string.title_activity_home, R.drawable.ic_home, DRAWER_HOME_IDENTIFIER);
-    public PrimaryDrawerItem store = generateDrawerItem(R.string.title_activity_store, R.drawable.ic_store_blck, DRAWER_STORE_IDENTIFIER);
-    private PrimaryDrawerItem play = generateDrawerItem(R.string.title_activity_gpg, R.drawable.ic_gpg, DRAWER_PLAY_IDENTIFIER);
-    private PrimaryDrawerItem playReward = generateDrawerItem(R.string.title_activity_reward, R.drawable.ic_gpg, DRAWER_PLAY_REWARD_IDENTIFIER);
-    public PrimaryDrawerItem settings = generateDrawerItem(R.string.title_activity_settings, R.drawable.ic_action_settings, DRAWER_PRIVACY_IDENTIFIER);
-    public PrimaryDrawerItem profile = generateDrawerItem(R.string.title_activity_account, R.drawable.ic_action_person, DRAWER_ACCOUNT_IDENTIFIER);
-    public PrimaryDrawerItem about = generateDrawerItem(R.string.title_activity_about, R.drawable.ic_action_about, DRAWER_ABOUT_IDENTIFIER);
+    private final PrimaryDrawerItem home = generateDrawerItem(R.string.title_activity_home, R.drawable.ic_home, DRAWER_HOME_IDENTIFIER);
+    private final PrimaryDrawerItem store = generateDrawerItem(R.string.title_activity_store, R.drawable.ic_store_blck, DRAWER_STORE_IDENTIFIER);
+    private final PrimaryDrawerItem play = generateDrawerItem(R.string.title_activity_gpg, R.drawable.ic_gpg, DRAWER_PLAY_IDENTIFIER);
+    private final PrimaryDrawerItem playReward = generateDrawerItem(R.string.title_activity_reward, R.drawable.ic_gpg, DRAWER_PLAY_REWARD_IDENTIFIER);
+    private final PrimaryDrawerItem settings = generateDrawerItem(R.string.title_activity_settings, R.drawable.ic_action_settings, DRAWER_PRIVACY_IDENTIFIER);
+    private final PrimaryDrawerItem profile = generateDrawerItem(R.string.title_activity_account, R.drawable.ic_action_person, DRAWER_ACCOUNT_IDENTIFIER);
+    private final PrimaryDrawerItem about = generateDrawerItem(R.string.title_activity_about, R.drawable.ic_action_about, DRAWER_ABOUT_IDENTIFIER);
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -149,7 +152,6 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
      * Hide avatar bubble and text switcher in the drawer
      */
     private void hideHeaderDrawerInformation() {
-        (headerResult.getView().findViewById(R.id.material_drawer_account_header_current)).setVisibility(View.GONE);
         (headerResult.getView().findViewById(R.id.material_drawer_account_header_text_switcher)).setVisibility(View.GONE);
     }
 
@@ -158,12 +160,31 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
      *
      * @param player Player from Google
      */
-    private void setHeaderDrawerInformation(Player player) {
-        headerResult.addProfiles(
-                new ProfileDrawerItem().withName(getResources().getString(R.string.level) + " " + player.getLevelInfo().getCurrentLevel().getLevelNumber())
-                        .withEmail(player.getDisplayName())
-        );
+    private void setHeaderDrawerInformation(final Player player) {
+        ImageManager.create(HomeActivity.this).loadImage(new ImageManager.OnImageLoadedListener() {
+            @Override
+            public void onImageLoaded(Uri uri, Drawable drawable, boolean b) {
+                setHeaderContent(drawable, player);
+            }
+        }, player.getIconImageUri());
+    }
 
+    /**
+     * Draw header content using Google Play Games data.
+     *
+     * @param drawable The user icon to draw.
+     * @param player   The player info.
+     */
+    private void setHeaderContent(Drawable drawable, Player player) {
+        headerResult.addProfiles(
+                new ProfileDrawerItem()
+                        .withName(getResources().getString(R.string.level)
+                                + " " + player.getLevelInfo().getCurrentLevel().getLevelNumber()
+                        )
+                        .withEmail(player.getDisplayName())
+                        .withIcon(drawable)
+
+        );
         hideHeaderDrawerInformation();
     }
 
@@ -250,12 +271,12 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
     /**
      * Start a new fragment and add it to the back stack
      *
-     * @param instance Fragment instance to start
+     * @param instance       Fragment instance to start
      * @param addToBackStack Replace fragment if true, add otherwise
      */
     private void startAndAddFragmentToBackStack(Fragment instance, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(addToBackStack) {
+        if (addToBackStack) {
             getSupportFragmentManager().popBackStack();
             transaction.replace(R.id.exp_container, instance);
             transaction.addToBackStack(null);

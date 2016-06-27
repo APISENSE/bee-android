@@ -26,6 +26,7 @@
         android:layout_margin="@dimen/floating_button_margin"
         android:src="@drawable/ic_store"
         app:layout_anchor="@id/home_experiment_lists"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="com.apisense.bee.widget.ScrollAwareFABBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -26,11 +26,12 @@ import butterknife.ButterKnife;
 public class SubscribedExperimentsRecyclerAdapter extends
         RecyclerView.Adapter<SubscribedExperimentsRecyclerAdapter.ViewHolder> {
 
+    private static final float ALPHA_STATUS_ICON = 0.5f;
     private List<Crop> mInstalledCrops;
     private APISENSE.Sdk apisenseSdk;
     private Context context;
     private OnItemClickListener mListener;
-    private Set<Sensor> mAvailableSensors;
+    private SensorsDrawer sensorsDrawer;
 
     public interface OnItemClickListener {
         void onItemClick(Crop crop);
@@ -39,13 +40,15 @@ public class SubscribedExperimentsRecyclerAdapter extends
     public SubscribedExperimentsRecyclerAdapter(List<Crop> installedCrops, OnItemClickListener listener) {
         mInstalledCrops = installedCrops;
         mListener = listener;
+
     }
 
     @Override
     public SubscribedExperimentsRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         apisenseSdk = ((BeeApplication) context.getApplicationContext()).getSdk();
-        mAvailableSensors = apisenseSdk.getPreferencesManager().retrieveAvailableSensors();
+        Set<Sensor> mAvailableSensors = apisenseSdk.getPreferencesManager().retrieveAvailableSensors();
+        sensorsDrawer = new SensorsDrawer(mAvailableSensors);
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View cropView = inflater.inflate(R.layout.list_item_home_experiment, parent, false);
@@ -65,11 +68,21 @@ public class SubscribedExperimentsRecyclerAdapter extends
         } else {
             holder.mCropStatus.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_action_break_blck));
         }
-        holder.mCropStatus.setAlpha(0.5f);
+        holder.mCropStatus.setAlpha(ALPHA_STATUS_ICON);
 
-        SensorsDrawer.draw(context, mAvailableSensors, crop.getUsedStings(), holder.mSensorsContainer);
+        sensorsDrawer.draw(context, holder.mSensorsContainer, crop.getUsedStings());
 
         holder.bind(crop, mListener);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.apisense.bee.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +92,6 @@ public class CommonDetailsFragment extends BaseFragment {
                 " - " + getString(R.string.exp_details_version, crop.getVersion()));
         descriptionView.setText(crop.getShortDescription());
 
-        SensorsDrawer.draw(getContext(), mAvailableSensors, crop.getUsedStings(), stingGridView);
+        new SensorsDrawer(mAvailableSensors).draw(getContext(), stingGridView, crop.getUsedStings());
     }
 }

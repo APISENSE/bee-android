@@ -30,8 +30,7 @@ public class AvailableExperimentsRecyclerAdapter extends
     private List<Crop> mAvailableCrops;
     private OnItemClickListener mListener;
     private Context context;
-    private APISENSE.Sdk apisenseSdk;
-    private Set<Sensor> mAvailableSensors;
+    private SensorsDrawer sensorsDrawer;
 
     public interface OnItemClickListener {
         void onItemClick(Crop crop);
@@ -45,9 +44,9 @@ public class AvailableExperimentsRecyclerAdapter extends
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        apisenseSdk = ((BeeApplication) context.getApplicationContext()).getSdk();
-        mAvailableSensors = apisenseSdk.getPreferencesManager().retrieveAvailableSensors();
-
+        APISENSE.Sdk apisenseSdk = ((BeeApplication) context.getApplicationContext()).getSdk();
+        Set<Sensor> mAvailableSensors = apisenseSdk.getPreferencesManager().retrieveAvailableSensors();
+        sensorsDrawer = new SensorsDrawer(mAvailableSensors);
         LayoutInflater inflater = LayoutInflater.from(context);
         View cropView = inflater.inflate(R.layout.list_item_store_experiment, parent, false);
 
@@ -62,7 +61,7 @@ public class AvailableExperimentsRecyclerAdapter extends
         holder.mCropDescription.setText(crop.getShortDescription());
         holder.mCropVersion.setText(context.getString(R.string.exp_details_version, crop.getVersion()));
 
-        SensorsDrawer.draw(context, mAvailableSensors, crop.getUsedStings(), holder.mSensorsContainer);
+        sensorsDrawer.draw(context, holder.mSensorsContainer,  crop.getUsedStings());
 
         holder.bind(crop, mListener);
     }
