@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Header buttons -->
+
+        <Button
+            android:text="@string/login"
+            android:textColor="@color/aps_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/registerSignInBtn"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_weight="1"
+            android:gravity="start"/>
+
+        <Button
+            android:text="@string/next"
+            android:textColor="@color/aps_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/registerSignUpBtn"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_weight="1"
+            android:gravity="end"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/beeLogo"
+        android:layout_gravity="center_horizontal"/>
+
+    <!-- Fields -->
+
+    <EditText
+        android:layout_marginTop="@dimen/text_vertical_margin"
+        android:layout_width="match_parent"
+        android:textColor="@color/aps_white"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:textColorHint="@color/aps_white"
+        android:id="@+id/registerEmailEditText"
+        android:hint="@string/email"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:textColor="@color/aps_white"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:textColorHint="@color/aps_white"
+        android:id="@+id/registerPasswordEditText"
+        android:hint="@string/password"  />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:textColor="@color/aps_white"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:textColorHint="@color/aps_white"
+        android:id="@+id/registerPasswordRepeatEditText"
+        android:hint="@string/passwordConfirm"  />
+
+</LinearLayout>

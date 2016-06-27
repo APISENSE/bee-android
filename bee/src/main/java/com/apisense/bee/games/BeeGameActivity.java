@@ -1,6 +1,5 @@
 package com.apisense.bee.games;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,9 +21,6 @@ import java.util.List;
 /**
  * This class is used to encapsulate the default Play Games activity.
  * Also handle generic data retrieval about player and game statistics.
- *
- * @author Quentin Warnant
- * @version 1.0
  */
 public abstract class BeeGameActivity extends BaseGameActivity {
     private static final String TAG = "BeeGameActivity";
@@ -53,7 +49,7 @@ public abstract class BeeGameActivity extends BaseGameActivity {
         // Nothing
     }
 
-    public void refreshPlayGamesData(Pending<BeePlayer> onPlayerFetched) {
+    public void refreshPlayGamesData(Pending<Player> onPlayerFetched) {
         if (isSignedIn()) {
             new RetrievePlayerData(onPlayerFetched).execute();
         } else {
@@ -82,27 +78,21 @@ public abstract class BeeGameActivity extends BaseGameActivity {
         return count;
     }
 
-    private class RetrievePlayerData extends AsyncTask<Void, Void, BeePlayer> {
-        private Pending<BeePlayer> onPlayerFetched;
+    private class RetrievePlayerData extends AsyncTask<Void, Void, Player> {
+        private Pending<Player> onPlayerFetched;
 
-        public RetrievePlayerData(Pending<BeePlayer> onPlayerFetched) {
+        public RetrievePlayerData(Pending<Player> onPlayerFetched) {
 
             this.onPlayerFetched = onPlayerFetched;
         }
 
         @Override
-        protected BeePlayer doInBackground(Void... params) {
-            // Retrieve data about player
-            Player player = Games.Players.getCurrentPlayer(getApiClient());
-
-            String username = player.getDisplayName();
-            Uri userImage = player.getIconImageUri();
-
-            return new BeePlayer(username, userImage);
+        protected Player doInBackground(Void... params) {
+            return Games.Players.getCurrentPlayer(getApiClient());
         }
 
         @Override
-        protected void onPostExecute(BeePlayer player) {
+        protected void onPostExecute(Player player) {
             if (onPlayerFetched != null) {
                 onPlayerFetched.onFetched(player);
             }

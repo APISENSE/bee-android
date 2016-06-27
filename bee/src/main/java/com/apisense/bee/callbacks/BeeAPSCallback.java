@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.apisense.bee.R;
-import com.apisense.bee.ui.activity.SignInActivity;
+import com.apisense.bee.ui.activity.LoginActivity;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.exception.UserNotConnectedException;
 import com.rollbar.android.Rollbar;
@@ -32,7 +32,7 @@ public abstract class BeeAPSCallback<T> implements APSCallback<T> {
         Log.e("BEE::" + activity.getClass().getSimpleName(), "Got an error on callback", e);
         // Retrofit encapsulate the APISENSE Exception.
         if (e.getCause() instanceof UserNotConnectedException) {
-            Intent loginIntent = new Intent(activity, SignInActivity.class);
+            Intent loginIntent = new Intent(activity, LoginActivity.class);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Toast.makeText(activity, R.string.error_invalid_session, Toast.LENGTH_LONG).show();
