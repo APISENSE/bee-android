@@ -26,9 +26,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <permission
-        android:name="com.apisense.bee.gcm.permission.C2D_MESSAGE"
+        android:name="${applicationId}.gcm.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.apisense.bee.gcm.permission.C2D_MESSAGE" />
+    <uses-permission android:name="${applicationId}.gcm.permission.C2D_MESSAGE" />
 
 
     <uses-feature
@@ -59,6 +59,16 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/android_key_app" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.APSFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/aps_media_path" />
+        </provider>
+
         <!-- GCM Configuration -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -66,7 +76,7 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.apisense.bee" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
 
