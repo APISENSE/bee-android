@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.callbacks.OnCropStarted;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.utils.SensorsDrawer;
@@ -86,12 +88,29 @@ public class CommonDetailsFragment extends BaseFragment {
         crop = bundle.getParcelable("crop");
     }
 
-    private void displayExperimentInformation() {
+    protected void displayExperimentInformation() {
         nameView.setText(getString(R.string.exp_details_name, crop.getName()));
         organizationView.setText(getString(R.string.exp_details_organization, crop.getOwner()) +
                 " - " + getString(R.string.exp_details_version, crop.getVersion()));
         descriptionView.setText(crop.getShortDescription());
 
         new SensorsDrawer(mAvailableSensors).draw(getContext(), stingGridView, crop.getUsedStings());
+    }
+
+    protected void doUpdate() {
+        apisenseSdk.getCropManager().update(crop.getLocation(), new BeeAPSCallback<Crop>(getActivity()) {
+            @Override
+            public void onDone(Crop crop) {
+                CommonDetailsFragment.this.crop = crop;
+                displayExperimentInformation();
+                apisenseSdk.getCropManager().restart(crop, new OnCropStarted(getContext()));
+
+                Toast.makeText(
+                        getActivity(),
+                        getString(R.string.experiment_updated, crop.getName()),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
     }
 }
