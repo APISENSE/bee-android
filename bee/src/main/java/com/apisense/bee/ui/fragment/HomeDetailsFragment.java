@@ -1,7 +1,6 @@
 package com.apisense.bee.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,8 +38,6 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
     private MenuItem mStopButton;
 
     private static String TAG = "ExpDetailsFragment";
-
-    public HomeDetailsFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,19 +128,6 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
 
     // Actions
 
-    private void doUpdate() {
-        apisenseSdk.getCropManager().update(crop.getLocation(), new BeeAPSCallback<Crop>(getActivity()) {
-            @Override
-            public void onDone(Crop crop) {
-                Toast.makeText(
-                        getActivity(),
-                        getString(R.string.experiment_updated, crop.getName()),
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-        });
-    }
-
     private void doSubscribeUnsubscribe() {
         apisenseSdk.getCropManager().unsubscribe(crop, new OnCropUnsubscribed(getActivity(), crop.getName()) {
             @Override
@@ -160,7 +144,7 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
         nbTotalTraces.setText(getString(R.string.crop_stats_total_uploaded, cropUsage.getTotalUploaded()));
 
         Collection<UploadedEntry> uploaded = cropUsage.getUploaded();
-        if(uploaded.isEmpty()) {
+        if (uploaded.isEmpty()) {
             uploadGraph.setVisibility(View.GONE);
             noUpload.setVisibility(View.VISIBLE);
         } else {

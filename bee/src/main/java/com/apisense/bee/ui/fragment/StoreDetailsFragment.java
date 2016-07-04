@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,8 +41,6 @@ public class StoreDetailsFragment extends CommonDetailsFragment {
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_store_experiment_details);
 
         unbinder = ButterKnife.bind(this, view);
-
-        displayExperimentInformation();
         updateSubscriptionMenu();
 
         return view;
@@ -53,16 +50,7 @@ public class StoreDetailsFragment extends CommonDetailsFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.detail_action_update:
-                apisenseSdk.getCropManager().update(crop.getLocation(), new BeeAPSCallback<Crop>(getActivity()) {
-                    @Override
-                    public void onDone(Crop crop) {
-                        Toast.makeText(
-                                getActivity(),
-                                getString(R.string.experiment_updated, crop.getName()),
-                                Snackbar.LENGTH_SHORT
-                        ).show();
-                    }
-                });
+                doUpdate();
                 break;
         }
         return false;
@@ -93,7 +81,8 @@ public class StoreDetailsFragment extends CommonDetailsFragment {
         updateButton.setVisible(value);
     }
 
-    private void displayExperimentInformation() {
+    protected void displayExperimentInformation() {
+        super.displayExperimentInformation();
         apisenseSdk.getStatisticsManager().findGlobalStatistics(crop.getSlug(), new BeeAPSCallback<CropGlobalStatistics>(getActivity()) {
             @Override
             public void onDone(CropGlobalStatistics stats) {
