@@ -10,8 +10,8 @@ import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 public class QRScannerActivity extends Activity implements ZBarScannerView.ResultHandler {
     private static final String TAG = "QRScannerActivity";
-    static final int INSTALL_FROM_QR = 0;
-    static final String CROP_ID_KEYWORD = "crop_id";
+    public static final int INSTALL_FROM_QR = 0;
+    public static final String CROP_ID_KEYWORD = "crop_id";
     private ZBarScannerView scannerView;
 
     @Override

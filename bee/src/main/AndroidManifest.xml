@@ -26,9 +26,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <permission
-        android:name="com.apisense.bee.gcm.permission.C2D_MESSAGE"
+        android:name="${applicationId}.gcm.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.apisense.bee.gcm.permission.C2D_MESSAGE" />
+    <uses-permission android:name="${applicationId}.gcm.permission.C2D_MESSAGE" />
 
 
     <uses-feature
@@ -42,7 +42,7 @@
         android:icon="@drawable/ic_launcher_bee"
         android:label="@string/app_name"
         android:logo="@drawable/ic_launcher_bee"
-        android:theme="@style/ApisenseTheme">
+        android:theme="@style/Apisense.Light">
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/gpg_app_id" />
@@ -59,6 +59,16 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/android_key_app" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.APSFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/aps_media_path" />
+        </provider>
+
         <!-- GCM Configuration -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -66,7 +76,7 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.apisense.bee" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
 
@@ -95,8 +105,9 @@
 
         <!--Activities-->
         <activity
-            android:name="com.apisense.bee.ui.activity.SlideshowActivity"
-            android:label="@string/title_activity_slideshow">
+            android:name="com.apisense.bee.ui.activity.HomeActivity"
+            android:label="@string/title_activity_slideshow"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -104,47 +115,15 @@
         </activity>
 
         <activity
-            android:name="com.apisense.bee.ui.activity.HomeActivity"
-            android:label="@string/title_activity_home" />
-
-        <activity
-            android:name="com.apisense.bee.ui.activity.StoreActivity"
-            android:label="@string/title_activity_store"
-            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
-
-        <activity
-            android:name=".ui.activity.HomeExperimentDetailsActivity"
-            android:label="@string/title_activity_experiment_details"
-            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
-
-        <activity
-            android:name=".ui.activity.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
-
-        <activity
-            android:name="com.apisense.bee.ui.activity.StoreExperimentDetailsActivity"
-            android:label="@string/title_activity_store_experiment_details"
-            android:parentActivityName="com.apisense.bee.ui.activity.StoreActivity" />
+            android:name="com.apisense.bee.ui.activity.LoginActivity"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.apisense.bee.ui.activity.QRScannerActivity"
             android:label="@string/title_activity_store_experiment_details"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.apisense.bee.ui.activity.StoreActivity" />
+            android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.apisense.bee.ui.activity.RewardActivity"
-            android:label="@string/title_activity_reward"
-            android:parentActivityName="com.apisense.bee.ui.activity.HomeActivity" />
-
-        <activity
-            android:name="com.apisense.bee.ui.activity.SignInActivity"
-            android:parentActivityName="com.apisense.bee.ui.activity.SlideshowActivity" />
-
-        <activity
-            android:name="com.apisense.bee.ui.activity.RegisterActivity"
-            android:parentActivityName="com.apisense.bee.ui.activity.SlideshowActivity" />
 
     </application>
 

@@ -1,134 +1,4 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Base application theme. -->
-    <style name="ApisenseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
-        <!-- Main theme colors -->
-        <!--   your app branding color for the app bar -->
-        <item name="colorPrimary">@color/aps_light_blue</item>
-        <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">@color/aps_dark_blue</item>
-        <!--   theme UI controls like checkboxes and text fields -->
-        <item name="colorAccent">@color/material_deep_teal_500</item>
-
-        <!-- Customize your theme here. -->
-        <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
-        <item name="android:textColorSecondary">@color/abc_secondary_text_material_dark</item>
-        <item name="actionBarStyle">@style/ApisenseActionBar</item>
-        <item name="android:windowBackground">@color/aps_white</item>
-
-
-    </style>
-
-    <!-- TextView Styles -->
-    <style name="ApisenseSlideText" parent="android:Widget.TextView">
-        <item name="android:textSize">15sp</item>
-        <item name="android:typeface">sans</item>
-    </style>
-
-    <style name="ApisenseSlideTextBold" parent="android:Widget.TextView">
-        <item name="android:textSize">25sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ApisenseSlideTinyText" parent="android:Widget.TextView">
-        <item name="android:textSize">12sp</item>
-        <item name="android:typeface">sans</item>
-    </style>
-
-    <style name="ApisenseSlideTitleText" parent="android:Widget.TextView">
-        <item name="android:textSize">30sp</item>
-        <item name="android:typeface">sans</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ApisenseBigText" parent="android:Widget.TextView">
-        <item name="android:textSize">40sp</item>
-        <item name="android:typeface">sans</item>
-        <item name="android:paddingBottom">20sp</item>
-    </style>
-
-    <style name="ApisenseText" parent="android:Widget.TextView">
-        <item name="android:typeface">sans</item>
-    </style>
-
-    <style name="ApisenseGameText" parent="android:Widget.TextView">
-        <item name="android:typeface">monospace</item>
-        <item name="android:textSize">35sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ApisenseBigGameText" parent="android:Widget.TextView">
-        <item name="android:typeface">monospace</item>
-        <item name="android:textSize">40sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ApisenseHugeGameText" parent="android:Widget.TextView">
-        <item name="android:typeface">monospace</item>
-        <item name="android:textSize">90sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <!-- EditText Styles -->
-    <style name="ApisenseEditText" parent="android:Widget.EditText">
-        <item name="android:textColor">@color/material_deep_teal_500</item>
-        <item name="elevation">5dp</item>
-    </style>
-
-    <!-- ActionBar styles -->
-    <style name="ApisenseActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">76dp</item>
-        <item name="android:title">@string/app_name</item>
-        <item name="android:textColor">@color/aps_white</item>
-    </style>
-
-    <style name="ApisenseActionBarStore" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:background">@color/aps_orange</item>
-        <item name="android:titleTextStyle">@style/ApisenseActionBar.Text</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:maxHeight">30dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:title">@string/app_name</item>
-        <item name="android:textColor">@color/aps_white</item>
-    </style>
-
-    <style name="ApisenseActionBarTransp" parent="ApisenseActionBar">
-        <item name="android:background">@null</item>
-        <!-- Support library compatibility -->
-        <item name="background">@null</item>
-    </style>
-
-    <style name="ApisenseActionBar.Text" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/aps_white</item>
-    </style>
-
-    <style name="SearchBar">
-        <item name="android:textColorHint">@color/aps_grey</item>
-    </style>
-
-    <!-- Header style -->
-    <style name="sectionHeader" parent="@android:style/Widget.TextView">
-        <item name="android:drawableBottom">@drawable/section_header</item>
-        <item name="android:drawablePadding">4dp</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingLeft">4dp</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/material_deep_teal_500</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <!-- Apisense Graph Bar -->
     <style name="BarGraph">
         <item name="viewsWeekdayColor">@color/aps_barchart_weekday</item>
         <item name="viewsWeekendColor">@color/aps_barchart_weekend</item>
@@ -137,5 +7,10 @@
     <style name="BarGraphDeactived">
         <item name="viewsWeekdayColor">@color/aps_barchart_weekday_deactived</item>
         <item name="viewsWeekendColor">@color/aps_barchart_weekend_deactived</item>
+    </style>
+
+    <style name="Apisense.Light" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="colorAccent">@color/aps_accent</item>
+        <item name="colorPrimary">@color/aps_primary_dark</item>
     </style>
 </resources>

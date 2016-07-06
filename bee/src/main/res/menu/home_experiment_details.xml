@@ -19,9 +19,16 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/detail_action_update"
+        android:icon="@drawable/ic_update"
+        android:orderInCategory="2"
+        android:title="@string/action_update"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/detail_action_unsubscribe"
         android:icon="@drawable/ic_trash"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/action_unsubscribe"
         app:showAsAction="always" />
 

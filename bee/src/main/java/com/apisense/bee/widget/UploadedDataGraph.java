@@ -6,13 +6,14 @@ import android.util.AttributeSet;
 import com.apisense.bee.R;
 import com.apisense.bee.utils.RetroCompatibility;
 import com.apisense.sdk.core.statistics.UploadedEntry;
-import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -31,7 +32,7 @@ import java.util.Set;
  *
  * Currently display the last 7 days of uploaded data.
  */
-public class UploadedDataGraph extends LineChart {
+public class UploadedDataGraph extends RadarChart {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM", Locale.US);
     private static final int NB_SHOWN_DAYS = 7;
     private static final long ONE_DAY_MS = 86400000l;
@@ -88,20 +89,16 @@ public class UploadedDataGraph extends LineChart {
             drawEverythingBefore = new Date(drawEverythingBefore.getTime() + ONE_DAY_MS);
         }
 
-        LineDataSet set = getConfiguredDataSet(yVals);
-        List<LineDataSet> dataSets = new ArrayList<>();
+        RadarDataSet set = getConfiguredDataSet(yVals);
+        List<RadarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set);
 
-        LineData data = getConfiguredLineData(xVals, dataSets);
+        RadarData data = getConfiguredRadarData(xVals, dataSets);
         setData(data);
     }
 
     private void configureUploadGraph() {
         // Actions on Graph (move, scale, ..)
-        setDragEnabled(false);
-        setScaleXEnabled(false);
-        setScaleYEnabled(false);
-        setHighlightPerDragEnabled(false);
         setDrawMarkerViews(false);
         setOnChartValueSelectedListener(null);
 
@@ -112,20 +109,24 @@ public class UploadedDataGraph extends LineChart {
         xAxis.setAvoidFirstLastClipping(true);
         getLegend().setForm(Legend.LegendForm.CIRCLE);
 
+        this.setWebLineWidth(1.5f);
+        this.setWebLineWidthInner(0.75f);
+        this.setWebAlpha(100);
+        this.animateXY(
+                1400, 1400,
+                Easing.EasingOption.EaseInOutQuad,
+                Easing.EasingOption.EaseInOutQuad);
+
         // Disable unused elements
-        getAxisLeft().setEnabled(false);
-        getAxisRight().setEnabled(false);
         setDescriptionPosition(-1, -1);
-        setDrawGridBackground(false);
     }
 
-    private LineDataSet getConfiguredDataSet(List<Entry> yVals) {
-        LineDataSet set = new LineDataSet(yVals, getResources().getString(R.string.experiment_activity_7_days));
+    private RadarDataSet getConfiguredDataSet(List<Entry> yVals) {
+        RadarDataSet set = new RadarDataSet(yVals, getResources().getString(R.string.experiment_activity_7_days));
 
         // Colors
-        int mainColor = RetroCompatibility.retrieveColor(getResources(), R.color.aps_orange_dark);
+        int mainColor = RetroCompatibility.retrieveColor(getResources(), R.color.aps_orange);
         set.setColor(mainColor);
-        set.setCircleColor(mainColor);
         set.setFillColor(mainColor);
 
         // Elements to show
@@ -136,8 +137,8 @@ public class UploadedDataGraph extends LineChart {
         return set;
     }
 
-    private LineData getConfiguredLineData(List<String> xVals, List<LineDataSet> dataSets) {
-        LineData data = new LineData(xVals, dataSets);
+    private RadarData getConfiguredRadarData(List<String> xVals, List<RadarDataSet> dataSets) {
+        RadarData data = new RadarData(xVals, dataSets);
         // Shown values above chart
         data.setValueTextSize(10f);
         data.setValueFormatter(new valuePrinter());

@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.apisense.bee.R;
 import com.apisense.sdk.core.store.Crop;
-import com.rollbar.android.Rollbar;
 
 public class OnCropUnsubscribed extends BeeAPSCallback<Crop> {
     private String cropName;

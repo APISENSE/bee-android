@@ -18,7 +18,7 @@ package com.apisense.bee.games.utils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -40,7 +40,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
  * @link{#setRequestedClients}, but you must do so before @link{#onCreate}
  * gets called, otherwise the call will have no effect.
  */
-public abstract class BaseGameActivity extends ActionBarActivity implements
+public abstract class BaseGameActivity extends AppCompatActivity implements
         GameHelper.GameHelperListener {
     // We expose these constants here because we don't want users of this class
     // to have to know about GameHelper at all.

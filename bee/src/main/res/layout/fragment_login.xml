@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Header buttons -->
+
+            <Button
+                android:text="@string/register"
+                android:textColor="@color/aps_white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/signInRegisterBtn"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_weight="1"
+                android:gravity="start"/>
+
+            <Button
+                android:text="@string/next"
+                android:textColor="@color/aps_white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/signInLoginBtn"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+                style="?android:attr/borderlessButtonStyle"
+                android:gravity="end"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:src="@drawable/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/beeLogo"/>
+
+        <EditText
+            android:layout_marginTop="@dimen/text_vertical_margin"
+            android:textColor="@color/aps_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/signInPseudo"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email"
+            android:textColorHint="@color/aps_white"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/aps_white"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:textColorHint="@color/aps_white"
+            android:id="@+id/signInPassword"
+            android:hint="@string/password"  />
+
+    </LinearLayout>
+
+
+    <!-- Footer -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal|center_vertical">
+
+        <TextView
+            android:text="Everything you share in Bee is anonymous !"
+            android:textColor="@color/aps_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/about"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+    </LinearLayout>
+</RelativeLayout>
