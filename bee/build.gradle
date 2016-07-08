@@ -61,7 +61,7 @@ android {
         applicationId "com.apisense.bee"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 15
+        versionCode 16
         versionName "1.8.0-SNAPSHOT"
     }
 
