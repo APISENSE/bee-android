@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt' // Used by butterknife
 
 // Default parameters to empty string.
 if (!project.hasProperty("debug_sdk_key")) {
@@ -30,23 +31,23 @@ dependencies {
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
 
     // Google play services
-    compile('com.google.android.gms:play-services-games:9.0.2')
-    compile('com.google.android.gms:play-services-plus:9.0.2')
+    compile('com.google.android.gms:play-services-games:9.4.0')
+    compile('com.google.android.gms:play-services-plus:9.4.0')
 
     // Graphic enhancements
-    compile('com.astuetz:pagerslidingtabstrip:1.0.1') // Settings page slider
-    compile('com.viewpagerindicator:library:2.4.1@aar') // Slideshow's slide indicator
     compile('com.github.PhilJay:MPAndroidChart:v2.1.6') // Draw charts
 
     // Android support animation and views
-    compile 'com.android.support:support-v4:24.0.0'
+    compile('com.android.support:support-v4:24.2.0')
     compile('com.android.support:appcompat-v7:24.0.0')
-    compile('com.android.support:cardview-v7:24.0.0')
     compile('com.android.support:recyclerview-v7:24.0.0')
-    compile('com.android.support:design:24.0.0')
     compile('com.mikepenz:materialdrawer:5.2.9@aar') {
         transitive = true
     }
+
+    // Helpers
+    compile 'com.jakewharton:butterknife:8.0.1'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
 }
 
 android {
@@ -102,13 +103,6 @@ android {
             buildConfigField "String", "ROLLBAR_ENV", '"production"'
         }
     }
-}
-
-apply plugin: 'com.neenbedankt.android-apt'
-
-dependencies {
-    compile 'com.jakewharton:butterknife:8.0.1'
-    apt 'com.jakewharton:butterknife-compiler:8.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
