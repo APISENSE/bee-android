@@ -26,13 +26,15 @@ if (!project.hasProperty("release_key_password")) {
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
+
     // Features
     compile 'com.apisense.sdk:apisense-android-sdk:1.8.0-SNAPSHOT'
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
 
-    // Google play services
+    // Social and Gamification
     compile('com.google.android.gms:play-services-games:9.4.0')
     compile('com.google.android.gms:play-services-plus:9.4.0')
+    compile('com.facebook.android:facebook-android-sdk:4.15.0')
 
     // Graphic enhancements
     compile('com.github.PhilJay:MPAndroidChart:v2.1.6') // Draw charts
