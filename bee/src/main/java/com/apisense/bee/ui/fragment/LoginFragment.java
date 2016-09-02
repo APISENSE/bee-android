@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,15 @@ import com.apisense.bee.callbacks.FacebookLoginCallback;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
+import com.apisense.sdk.core.bee.LoginProvider;
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,12 +44,17 @@ public class LoginFragment extends Fragment {
 
     @BindView(R.id.fb_login_button)
     LoginButton fbButton;
+    @BindView(R.id.google_login_button)
+    SignInButton googleButton;
 
-    private final String TAG = "SignIn Fragment";
+    private static final String TAG = "SignIn Fragment";
+    private static final int GOOGLE_SIGN_IN_REQUEST_CODE = 9001;
+
     private APISENSE.Sdk apisenseSdk;
     private Unbinder unbinder;
     private OnRegisterClickedListener mRegisterCallback;
     private CallbackManager facebookCallbackManager;
+    private GoogleApiClient googleApiClient;
 
     public interface OnRegisterClickedListener {
         void switchToRegister();
@@ -59,8 +72,34 @@ public class LoginFragment extends Fragment {
         if (fbButton != null) {
             prepareFacebookLogin(fbButton);
         }
+        if (googleButton != null) {
+            googleButton.setSize(SignInButton.SIZE_STANDARD);
+            googleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signInWithGoogle();
+                }
+            });
+        }
 
         return view;
+    }
+
+    private void signInWithGoogle() {
+        if (googleApiClient != null) {
+            googleApiClient.disconnect();
+        }
+
+        String gAppId = getString(R.string.google_web_client_id);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(gAppId)
+                .build();
+        googleApiClient = new GoogleApiClient.Builder(getContext())
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        final Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE);
     }
 
     private void prepareFacebookLogin(LoginButton loginButton) {
@@ -73,7 +112,29 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == LoginFragment.GOOGLE_SIGN_IN_REQUEST_CODE) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
+            if (result.isSuccess()) {
+                GoogleSignInAccount account = result.getSignInAccount();
+                if (account != null) {
+                    apisenseSdk.getSessionManager().login(account.getEmail(), account.getIdToken(),
+                            LoginProvider.GOOGLE, new OnLoggedIn(getActivity(), mSignInBtn)
+                    );
+                } else {
+                    Log.e(TAG, "No account retrieved");
+                    Snackbar.make(mSignInBtn,
+                            getString(R.string.failed_to_connect), Snackbar.LENGTH_SHORT).show();
+                }
+            } else {
+                Log.e(TAG, "That's an error: " + result.getStatus());
+                Snackbar.make(mSignInBtn,
+                        getString(R.string.failed_to_connect), Snackbar.LENGTH_SHORT).show();
+            }
+        } else {
+            facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -165,4 +226,5 @@ public class LoginFragment extends Fragment {
                     Snackbar.LENGTH_SHORT).show();
         }
     }
+
 }
