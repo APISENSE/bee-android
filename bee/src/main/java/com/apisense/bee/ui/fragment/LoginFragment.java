@@ -73,7 +73,7 @@ public class LoginFragment extends Fragment {
             prepareFacebookLogin(fbButton);
         }
         if (googleButton != null) {
-            googleButton.setSize(SignInButton.SIZE_STANDARD);
+            googleButton.setSize(SignInButton.SIZE_WIDE);
             googleButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
