@@ -74,6 +74,14 @@
             android:id="@+id/signInPassword"
             android:hint="@string/password"  />
 
+        <TextView
+            android:id="@+id/forgot_password_button"
+            android:textColor="@color/aps_white"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forgotten_password"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -101,7 +109,7 @@
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/fb_login_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -111,13 +119,11 @@
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp" />
+                android:paddingBottom="12dp" />
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/google_login_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -130,7 +136,6 @@
 
     </LinearLayout>
 
-
     <!-- Footer -->
 
     <LinearLayout
@@ -141,7 +146,7 @@
         android:gravity="center_horizontal|center_vertical">
 
         <TextView
-            android:text="Everything you share in Bee is anonymous !"
+            android:text="@string/anonymous_share"
             android:textColor="@color/aps_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
