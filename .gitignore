@@ -15,6 +15,7 @@ bee/.idea
 /out
 
 **/release.keystore
+**/google-services.json
 
 #Mac
 .DS_Store
