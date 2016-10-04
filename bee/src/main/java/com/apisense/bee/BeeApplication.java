@@ -3,6 +3,7 @@ package com.apisense.bee;
 import android.app.Application;
 
 import com.apisense.sdk.APISENSE;
+import com.facebook.FacebookSdk;
 import com.rollbar.android.Rollbar;
 
 public class BeeApplication extends Application {
@@ -25,6 +26,9 @@ public class BeeApplication extends Application {
                 com.apisense.bee.BuildConfig.ROLLBAR_KEY,
                 com.apisense.bee.BuildConfig.ROLLBAR_ENV
         );
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
     }
 
 }

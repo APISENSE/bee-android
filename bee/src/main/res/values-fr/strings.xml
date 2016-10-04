@@ -44,6 +44,7 @@
     <string name="password">Mot de passe</string>
     <string name="passwordConfirm">Confirmez mot de passe</string>
     <string name="registration_not_implemented">Ce type d\'inscription n\'est pas encore disponible.</string>
+    <string name="social_networks">Ou connectez vous avec votre réseau social favori:</string>
 
     <!-- Slides text -->
     <string name="slide_welcome_back">Bonjour</string>
