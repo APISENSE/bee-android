@@ -3,6 +3,7 @@ package com.apisense.bee.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -12,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.callbacks.FacebookLoginCallback;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.sdk.APISENSE;
@@ -41,11 +44,16 @@ public class LoginFragment extends Fragment {
     EditText mPseudoEditText;
     @BindView(R.id.signInPassword)
     EditText mPasswordEditText;
+    @BindView(R.id.forgot_password_button)
+    TextView mForgotPassword;
 
     @BindView(R.id.fb_login_button)
     LoginButton fbButton;
     @BindView(R.id.google_login_button)
     SignInButton googleButton;
+
+    public static final String LOGIN_EMAIL_KW = "login_email";
+    public static final String LOGIN_PASSWORD_KW = "login_psswd";
 
     private static final String TAG = "SignIn Fragment";
     private static final int GOOGLE_SIGN_IN_REQUEST_CODE = 9001;
@@ -85,6 +93,9 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Call google API to log user in
+     */
     private void signInWithGoogle() {
         if (googleApiClient != null) {
             googleApiClient.disconnect();
@@ -102,6 +113,11 @@ public class LoginFragment extends Fragment {
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE);
     }
 
+    /**
+     * Call facebook API to sign user in
+     *
+     * @param loginButton The facebook button.
+     */
     private void prepareFacebookLogin(LoginButton loginButton) {
         loginButton.setReadPermissions("email");
         loginButton.setFragment(this);
@@ -138,6 +154,27 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Bundle extras = getArguments();
+        if (extras != null) {
+            String email = extras.getString(LOGIN_EMAIL_KW);
+            if (email != null) {
+                mPseudoEditText.setText(email);
+            }
+
+            String password = extras.getString(LOGIN_PASSWORD_KW);
+            if (password != null) {
+                mPasswordEditText.setText(password);
+            }
+        }
+    }
+
+    private void askForEmail() {
+        mPseudoEditText.setError(getString(R.string.missing_email_address));
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -153,6 +190,17 @@ public class LoginFragment extends Fragment {
         mRegisterCallback.switchToRegister();
     }
 
+    @OnClick(R.id.forgot_password_button)
+    void requestPasswordReset(View view) {
+        String email = mPseudoEditText.getText().toString();
+        if (email.isEmpty()) {
+            askForEmail();
+        } else {
+            apisenseSdk.getSessionManager().resetPassword(email,
+                    new OnPasswordResetRequested(getActivity(), view));
+        }
+    }
+
     // Private methods
 
     /**
@@ -160,11 +208,8 @@ public class LoginFragment extends Fragment {
      *
      * @return true or false
      */
-    private boolean isInputCorrect() {
-        String mPseudo = mPseudoEditText.getText().toString();
-        String mPassword = mPasswordEditText.getText().toString();
-
-        return !(TextUtils.isEmpty(mPseudo) || TextUtils.isEmpty(mPassword));
+    private boolean isInputCorrect(String email, String password) {
+        return !(TextUtils.isEmpty(email) || TextUtils.isEmpty(password));
     }
 
     /**
@@ -172,8 +217,10 @@ public class LoginFragment extends Fragment {
      *
      * @param loginButton button pressed to start task
      */
-    public void doLogin(final Button loginButton) {
-        if (!isInputCorrect()) {
+    private void doLogin(final Button loginButton) {
+        String email = mPseudoEditText.getText().toString();
+        String password = mPasswordEditText.getText().toString();
+        if (!isInputCorrect(email, password)) {
             Snackbar.make(loginButton, getResources().getString(R.string.empty_field), Snackbar.LENGTH_SHORT).show();
             return;
         }
@@ -213,7 +260,7 @@ public class LoginFragment extends Fragment {
         }
 
         @Override
-        public void onDone(Void aVoid) {
+        public void onDone(Void response) {
             loginButton.setText(activity.getString(R.string.logout));
             Intent intent = new Intent(activity, HomeActivity.class);
             activity.startActivity(intent);
@@ -227,4 +274,26 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Behavior when the password reset request has ended.
+     */
+    private static class OnPasswordResetRequested extends BeeAPSCallback<Void> {
+        private final View source;
+
+        OnPasswordResetRequested(Activity activity, View source) {
+            super(activity);
+            this.source = source;
+        }
+
+        @Override
+        public void onDone(Void aVoid) {
+            Snackbar.make(source, activity.getString(R.string.mail_incoming), Snackbar.LENGTH_LONG)
+                    .show();
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Snackbar.make(source, e.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
+    }
 }

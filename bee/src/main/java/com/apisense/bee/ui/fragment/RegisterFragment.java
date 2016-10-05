@@ -1,20 +1,19 @@
 package com.apisense.bee.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.callbacks.BeeAPSCallback;
-import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.bee.Bee;
 
@@ -24,17 +23,11 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class RegisterFragment extends Fragment {
-
     @BindView(R.id.registerSignUpBtn) Button mSignUpButton;
     @BindView(R.id.registerSignInBtn) Button mSignInButton;
     @BindView(R.id.registerEmailEditText) EditText mPseudoEditText;
     @BindView(R.id.registerPasswordEditText) EditText mPasswordEditText;
     @BindView(R.id.registerPasswordRepeatEditText) EditText mPasswordConfirmEditText;
-
-    // Values for pseudo and password at the time of the login attempt.
-    private String mPseudo = "";
-    private String mPassword = "";
-    private String mPasswordRepeat = "";
 
     /**
      * The default email to populate the email field with.
@@ -47,6 +40,8 @@ public class RegisterFragment extends Fragment {
 
     public interface OnLoginClickedListener {
         void switchToLogin();
+
+        void switchToLogin(String email, String password);
     }
 
     @Override
@@ -66,11 +61,13 @@ public class RegisterFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.registerSignInBtn) void signInClicked(Button view) {
+    @OnClick(R.id.registerSignInBtn)
+    void signInClicked(Button view) {
         mLoginCallback.switchToLogin();
     }
 
-    @OnClick(R.id.registerSignUpBtn) void signUpClicked(Button view) {
+    @OnClick(R.id.registerSignUpBtn)
+    void signUpClicked(Button view) {
         attemptRegister(view);
     }
 
@@ -84,57 +81,71 @@ public class RegisterFragment extends Fragment {
      */
     public void attemptRegister(final View registerButton) {
         resetFieldsError();
-        catchFieldValues();
+        String pseudo = mPseudoEditText.getText().toString();
+        String password = mPasswordEditText.getText().toString();
+        String passwordRepeat = mPasswordConfirmEditText.getText().toString();
 
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password.
-        if (TextUtils.isEmpty(mPassword)) {
-            mPasswordEditText.setError(getString(R.string.error_field_required));
-            focusView = mPasswordEditText;
-            cancel = true;
-        } else if (mPassword.length() < 7) {
-            mPasswordEditText.setError(getString(R.string.signin_error_invalid_password));
-            focusView = mPasswordEditText;
-            cancel = true;
-        } else if (!mPasswordRepeat.equals(mPassword)) {
-            mPasswordConfirmEditText.setError(getString(R.string.register_error_invalid_repeat_password));
-            focusView = mPasswordConfirmEditText;
-            cancel = true;
-        }
-
-        if (cancel)
+        View focusView = findIncorrectField(password, passwordRepeat);
+        if (focusView != null)
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         else {
-            apisenseSdk.getSessionManager().createBee(mPseudo, mPassword, new BeeAPSCallback<Bee>(getActivity()) {
-                @Override
-                public void onDone(Bee bee) {
-                    apisenseSdk.getSessionManager().login(bee.email, mPassword, new BeeAPSCallback<Void>(getActivity()) {
-                        @Override
-                        public void onDone(Void aVoid) {
-                            Intent intent = new Intent(getActivity(), HomeActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            getActivity().finish();
-                        }
-                    });
-                }
-            });
+            createAccount(pseudo, password);
         }
     }
 
-    private void catchFieldValues() {
-        // Store values at the time of the login attempt.
-        mPseudo = mPseudoEditText.getText().toString();
-        mPassword = mPasswordEditText.getText().toString();
-        mPasswordRepeat = mPasswordConfirmEditText.getText().toString();
+    /**
+     * Tells whether a field from the creation form is incorrect.
+     *
+     * @param password       The password to validate.
+     * @param passwordRepeat The password confirmation.
+     * @return The view containing a validation error if any, null if no error found.
+     */
+    private View findIncorrectField(String password, String passwordRepeat) {
+        // Check for a valid password.
+        if (TextUtils.isEmpty(password)) {
+            mPasswordEditText.setError(getString(R.string.error_field_required));
+            return mPasswordEditText;
+        } else if (password.length() < 7) {
+            mPasswordEditText.setError(getString(R.string.signin_error_invalid_password));
+            return mPasswordEditText;
+        } else if (!passwordRepeat.equals(password)) {
+            mPasswordConfirmEditText.setError(getString(R.string.register_error_invalid_repeat_password));
+            return mPasswordConfirmEditText;
+        }
+        return null;
     }
 
+    /**
+     * Actually creates the account, tells the user to check for validation email,
+     * and redirects the application to the already filled login form.
+     *
+     * @param pseudo   The pseudo to use on account creation.
+     * @param password The password to use on account creation.
+     */
+    private void createAccount(final String pseudo, final String password) {
+        apisenseSdk.getSessionManager()
+                .createBee(pseudo, password, new BeeAPSCallback<Bee>(getActivity()) {
+                    @Override
+                    public void onDone(Bee bee) {
+                        Toast.makeText(getActivity(),
+                                getString(R.string.validation_mail_incoming), Toast.LENGTH_LONG).show();
+                        mLoginCallback.switchToLogin(pseudo, password);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        super.onError(e);
+                        Snackbar.make(mPseudoEditText, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    /**
+     * Remove any validation error shown on the form.
+     */
     private void resetFieldsError() {
-        // Reset errors.
         mPseudoEditText.setError(null);
         mPasswordEditText.setError(null);
         mPasswordConfirmEditText.setError(null);

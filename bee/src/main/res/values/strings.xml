@@ -63,6 +63,11 @@
     <string name="passwordConfirm">Confirm password</string>
     <string name="registration_not_implemented">This kind of registration is not enabled yet.</string>
     <string name="social_networks">Or sign in with your favorite social network:</string>
+    <string name="forgotten_password">Forgot your password?</string>
+    <string name="missing_email_address">Please fill in your email address</string>
+    <string name="mail_incoming">A mail should arrive shortly</string>
+    <string name="validation_mail_incoming">You will receive an email to confirm your address</string>
+    <string name="anonymous_share">Everything you share in Bee is anonymous !</string>
 
     <!-- Slides text -->
     <string name="slide_welcome_back">Welcome back</string>

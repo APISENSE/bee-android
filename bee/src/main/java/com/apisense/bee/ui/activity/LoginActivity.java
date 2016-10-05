@@ -40,11 +40,17 @@ public class LoginActivity extends AppCompatActivity
     }
 
     @Override
-    public void switchToLogin() {
+    public void switchToLogin(String email, String password) {
         LoginFragment loginFragment = new LoginFragment();
+        getIntent().putExtra(LoginFragment.LOGIN_EMAIL_KW, email);
+        getIntent().putExtra(LoginFragment.LOGIN_PASSWORD_KW, password);
         loginFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, loginFragment).commit();
+    }
+
+    public void switchToLogin() {
+        switchToLogin(null, null);
     }
 
     @Override
