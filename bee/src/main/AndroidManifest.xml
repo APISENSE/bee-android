@@ -12,9 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
-    <!-- Google Cloud Messaging  -->
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Sound capture -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
@@ -24,12 +21,6 @@
 
     <!-- QR Code reader -->
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <permission
-        android:name="${applicationId}.gcm.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="${applicationId}.gcm.permission.C2D_MESSAGE" />
-
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -75,29 +66,10 @@
         </provider>
 
         <!-- GCM Configuration -->
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="${applicationId}" />
-            </intent-filter>
-        </receiver>
-
         <service
-            android:name="com.apisense.sdk.push.APSGcmListenerService"
-            android:exported="false">
+            android:name="com.apisense.sdk.push.APSGcmListenerService">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name="com.apisense.sdk.push.APSInstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
