@@ -29,7 +29,7 @@ public abstract class BeeAPSCallback<T> implements APSCallback<T> {
     @Override
     public void onError(Exception e) {
         ((BeeApplication) activity.getApplication()).reportException(e);
-        Log.e("BEE::" + activity.getClass().getSimpleName(), "Got an error on callback", e);
+        Log.e("Bee::" + activity.getClass().getSimpleName(), "Got an error on callback", e);
         // Retrofit encapsulate the APISENSE Exception.
         if (e.getCause() instanceof UserNotConnectedException) {
             Intent loginIntent = new Intent(activity, LoginActivity.class);
