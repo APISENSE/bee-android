@@ -73,6 +73,18 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name="com.apisense.sdk.push.RegistrationIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.apisense.sdk.gcm.register"/>
+                <action android:name="com.apisense.sdk.gcm.pubsub.register"/>
+                <action android:name="com.apisense.sdk.gcm.pubsub.unsubscribe"/>
+
+                <category android:name="com.apisense.sdk.push"/>
+            </intent-filter>
+        </service>
+
         <activity android:name="com.apisense.sdk.push.APSGcmNotificationHandlerActivity">
             <intent-filter>
                 <action android:name="HANDLE_APISENSE_PUSH" />
