@@ -103,7 +103,6 @@ public class CommonDetailsFragment extends BaseFragment {
             public void onDone(Crop crop) {
                 CommonDetailsFragment.this.crop = crop;
                 displayExperimentInformation();
-                apisenseSdk.getCropManager().restart(crop, new OnCropStarted(getContext()));
 
                 Toast.makeText(
                         getActivity(),

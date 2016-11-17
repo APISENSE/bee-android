@@ -12,9 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
-    <!-- Google Cloud Messaging  -->
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Sound capture -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
@@ -25,15 +22,14 @@
     <!-- QR Code reader -->
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <permission
-        android:name="${applicationId}.gcm.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="${applicationId}.gcm.permission.C2D_MESSAGE" />
-
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.location.gps" />
+    <uses-feature
+        android:name="android.hardware.location.network" />
 
     <application
         android:name="com.apisense.bee.BeeApplication"
@@ -56,8 +52,8 @@
             android:value="@integer/google_play_services_version" />
 
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/android_key_app" />
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -70,29 +66,22 @@
         </provider>
 
         <!-- GCM Configuration -->
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="${applicationId}" />
-            </intent-filter>
-        </receiver>
-
         <service
-            android:name="com.apisense.sdk.push.APSGcmListenerService"
-            android:exported="false">
+            android:name="com.apisense.sdk.push.APSGcmListenerService">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <service
-            android:name="com.apisense.sdk.push.APSInstanceIDListenerService"
+            android:name="com.apisense.sdk.push.RegistrationIntentService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.apisense.sdk.gcm.register"/>
+                <action android:name="com.apisense.sdk.gcm.pubsub.register"/>
+                <action android:name="com.apisense.sdk.gcm.pubsub.unsubscribe"/>
+
+                <category android:name="com.apisense.sdk.push"/>
             </intent-filter>
         </service>
 
@@ -124,7 +113,22 @@
             android:label="@string/title_activity_store_experiment_details"
             android:screenOrientation="portrait" />
 
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
 
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

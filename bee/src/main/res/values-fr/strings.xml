@@ -44,6 +44,12 @@
     <string name="password">Mot de passe</string>
     <string name="passwordConfirm">Confirmez mot de passe</string>
     <string name="registration_not_implemented">Ce type d\'inscription n\'est pas encore disponible.</string>
+    <string name="social_networks">Ou connectez vous avec votre réseau social favori:</string>
+    <string name="forgotten_password">Mot de passe oublié?</string>
+    <string name="missing_email_address">Veuillez renseigner votre adresse email</string>
+    <string name="mail_incoming">Un email devrait arriver d\'ici peu</string>
+    <string name="validation_mail_incoming">Vous allez recevoir un email afin de confirmer votre adresse</string>
+    <string name="anonymous_share">Tout ce que vous partagez avec bee est anonyme !</string>
 
     <!-- Slides text -->
     <string name="slide_welcome_back">Bonjour</string>

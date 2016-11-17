@@ -17,6 +17,7 @@ import com.apisense.bee.ui.activity.LoginActivity;
 import com.apisense.sdk.APISENSE;
 import com.apisense.sdk.core.APSCallback;
 import com.apisense.sdk.exception.UserNotConnectedException;
+import com.facebook.login.LoginManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +65,7 @@ public class AccountFragment extends BaseFragment {
 
     @OnClick(R.id.account_logout)
     void doDisconnect() {
+        LoginManager.getInstance().logOut();
         apisenseSdk.getSessionManager().logout(new SignedOutCallback());
     }
 
