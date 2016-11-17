@@ -26,6 +26,6 @@ allprojects {
         maven { url "http://dl.bintray.com/populov/maven" }
         maven { url "https://jitpack.io" } // Dependency: MPAndroidChart
         jcenter()
-        maven{ url '/tmp/sdkRepo' }
+        maven{ url '/tmp/sdkRepo/content/repositories/snapshots/' }
     }
 }
