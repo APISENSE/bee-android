@@ -18,7 +18,6 @@ public class BeeApplication extends Application {
         super.onCreate();
 
         sdk = new APISENSE(this)
-                .enableGCM(getString(R.string.gcm_defaultSenderId))
                 .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
                 .getSdk();
 
