@@ -21,7 +21,7 @@ import com.apisense.bee.ui.fragment.AccountFragment;
 import com.apisense.bee.ui.fragment.HomeFragment;
 import com.apisense.bee.ui.fragment.PrivacyFragment;
 import com.apisense.bee.ui.fragment.StoreFragment;
-import com.apisense.sdk.APISENSE;
+import io.apisense.sdk.APISENSE;
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;

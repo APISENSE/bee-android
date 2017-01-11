@@ -7,13 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.apisense.sdk.core.preferences.Sensor;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import io.apisense.sting.lib.Sensor;
 
 public class SensorsDrawer {
     private static final int SENSOR_LATERAL_PADDING = 8;

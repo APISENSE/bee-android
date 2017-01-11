@@ -8,8 +8,8 @@ import android.widget.Toast;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.LoginActivity;
-import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.exception.UserNotConnectedException;
+import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.exception.UserNotConnectedException;
 
 /**
  * Common implementation of the APSCallback

@@ -2,7 +2,7 @@ package com.apisense.bee;
 
 import android.app.Application;
 
-import com.apisense.sdk.APISENSE;
+import io.apisense.sdk.APISENSE;
 import com.facebook.FacebookSdk;
 import com.rollbar.Rollbar;
 import com.rollbar.payload.Payload;

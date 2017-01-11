@@ -4,8 +4,8 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.apisense.bee.R;
-import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.core.store.Crop;
 
 public class OnCropStopped implements APSCallback<Crop> {
 

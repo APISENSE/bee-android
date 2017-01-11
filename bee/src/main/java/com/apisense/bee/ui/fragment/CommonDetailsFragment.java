@@ -16,9 +16,9 @@ import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.callbacks.OnCropStarted;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.utils.SensorsDrawer;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.preferences.Sensor;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sting.lib.Sensor;
+import io.apisense.sdk.core.store.Crop;
 
 import java.util.Set;
 

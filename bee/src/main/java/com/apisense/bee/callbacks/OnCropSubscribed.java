@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import com.apisense.bee.R;
 import com.apisense.bee.utils.CropPermissionHandler;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.core.store.Crop;
 
 
 public class OnCropSubscribed extends BeeAPSCallback<Crop> {

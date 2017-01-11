@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apisense.bee.R;
-import com.apisense.sdk.core.preferences.Sensor;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.core.store.Crop;
+import io.apisense.sting.lib.Sensor;
 
 import java.util.ArrayList;
 import java.util.HashMap;

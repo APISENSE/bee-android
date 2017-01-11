@@ -17,9 +17,9 @@ import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.adapter.DividerItemDecoration;
 import com.apisense.bee.ui.adapter.SensorRecyclerAdapter;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.preferences.Preferences;
-import com.apisense.sdk.core.preferences.Sensor;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.preferences.Preferences;
+import io.apisense.sting.lib.Sensor;
 
 import java.util.ArrayList;
 import java.util.Collections;

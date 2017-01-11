@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.apisense.bee.BeeApplication;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.core.bee.LoginProvider;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.core.bee.LoginProvider;
 import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;

@@ -14,9 +14,9 @@ import com.apisense.bee.R;
 import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.activity.LoginActivity;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.exception.UserNotConnectedException;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.exception.UserNotConnectedException;
 import com.facebook.login.LoginManager;
 
 import butterknife.BindView;

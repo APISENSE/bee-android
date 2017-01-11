@@ -1,21 +1,19 @@
 package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.utils.SensorsDrawer;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.preferences.Sensor;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.store.Crop;
+import io.apisense.sting.lib.Sensor;
 
 import java.util.List;
 import java.util.Set;

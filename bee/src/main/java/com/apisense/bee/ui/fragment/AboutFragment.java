@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.HomeActivity;
-import com.apisense.sdk.APISENSE;
+import io.apisense.sdk.APISENSE;
 
 public class AboutFragment extends BaseFragment {
 
