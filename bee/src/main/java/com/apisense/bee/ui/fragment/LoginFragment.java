@@ -122,7 +122,8 @@ public class LoginFragment extends Fragment {
         loginButton.setReadPermissions("email");
         loginButton.setFragment(this);
         loginButton.registerCallback(facebookCallbackManager,
-                new FacebookLoginCallback(apisenseSdk, new OnLoggedIn(getActivity(), loginButton)));
+                new FacebookLoginCallback(getActivity(), new OnLoggedIn(getActivity(), loginButton))
+        );
     }
 
     @Override

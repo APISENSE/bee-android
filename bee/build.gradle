@@ -24,8 +24,8 @@ if (!project.hasProperty("release_key_password")) {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-
+    // Report
+    compile('com.rollbar:rollbar:0.5.3')
 
     // Features
     compile 'io.apisense.sdk:apisense-android-sdk:1.8.1'
@@ -54,8 +54,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.1'
 
     lintOptions {
         abortOnError false
@@ -64,7 +64,7 @@ android {
     defaultConfig {
         applicationId "com.apisense.bee"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 17
         versionName "1.9.0-SNAPSHOT"
     }
@@ -94,7 +94,7 @@ android {
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
             buildConfigField "String", "SDK_KEY", "\"${debug_sdk_key}\""
-            buildConfigField "String", "ROLLBAR_KEY", "\"${rollbar_key}\"" // Empty init key
+            buildConfigField "String", "ROLLBAR_KEY", "\"${rollbar_key}\""
             buildConfigField "String", "ROLLBAR_ENV", '"development"'
         }
 
