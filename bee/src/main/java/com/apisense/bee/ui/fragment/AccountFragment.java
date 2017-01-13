@@ -3,6 +3,7 @@ package com.apisense.bee.ui.fragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,13 @@ import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
+import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.games.SimpleGameAchievement;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.activity.LoginActivity;
 import io.apisense.sdk.APISENSE;
 import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.core.store.Crop;
 import io.apisense.sdk.exception.UserNotConnectedException;
 import com.facebook.login.LoginManager;
 
@@ -25,7 +28,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class AccountFragment extends BaseFragment {
-
+    private static final String TAG = "Bee::AccountFragment";
     @BindView(R.id.account_logout) Button mLogout;
     @BindView(R.id.account_share) Button mShare;
 
@@ -73,6 +76,12 @@ public class AccountFragment extends BaseFragment {
         @Override
         public void onDone(Void aVoid) {
             Toast.makeText(getActivity(), R.string.status_changed_to_anonymous, Toast.LENGTH_SHORT).show();
+            apisenseSdk.getCropManager().stopAll(new BeeAPSCallback<Crop>(getActivity()) {
+                @Override
+                public void onDone(Crop crop) {
+                    Log.i(TAG, "Crop " + crop.getLocation() + " successfully stopped");
+                }
+            });
             openSlideShow();
         }
 
