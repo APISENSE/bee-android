@@ -67,14 +67,14 @@
 
         <!-- GCM Configuration -->
         <service
-            android:name="com.apisense.sdk.push.APSGcmListenerService">
+            android:name="io.apisense.sdk.push.APSGcmListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <service
-            android:name="com.apisense.sdk.push.RegistrationIntentService"
+            android:name="io.apisense.sdk.push.RegistrationIntentService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.apisense.sdk.gcm.register"/>
@@ -85,7 +85,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name="com.apisense.sdk.push.APSGcmNotificationHandlerActivity">
+        <activity android:name="io.apisense.sdk.push.APSGcmNotificationHandlerActivity">
             <intent-filter>
                 <action android:name="HANDLE_APISENSE_PUSH" />
                 <category android:name="android.intent.category.DEFAULT" />
