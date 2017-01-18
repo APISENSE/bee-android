@@ -2,11 +2,14 @@ package com.apisense.bee;
 
 import android.app.Application;
 
-import io.apisense.sdk.APISENSE;
 import com.facebook.FacebookSdk;
 import com.rollbar.Rollbar;
 import com.rollbar.payload.Payload;
 import com.rollbar.sender.Sender;
+
+import io.apisense.sdk.APISENSE;
+import io.apisense.sting.network.NetworkStingModule;
+import io.apisense.sting.phone.PhoneStingModule;
 
 public class BeeApplication extends Application {
     private APISENSE.Sdk sdk;
@@ -22,6 +25,7 @@ public class BeeApplication extends Application {
 
         sdk = new APISENSE(this)
                 .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
+                .addStingsModules(new PhoneStingModule(), new NetworkStingModule())
                 .getSdk();
 
         Rollbar rollbar = new Rollbar(

@@ -29,6 +29,8 @@ dependencies {
 
     // Features
     compile 'io.apisense.sdk:apisense-android-sdk:1.9.0-SNAPSHOT'
+    compile 'io.apisense.sdk:stings-network:1.9.0-SNAPSHOT'
+    compile 'io.apisense.sdk:stings-phone:1.9.0-SNAPSHOT'
     compile 'io.apisense:java-darts:1.2.0-SNAPSHOT'
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
 
