@@ -1,11 +1,11 @@
 package com.apisense.bee;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import com.facebook.FacebookSdk;
 import com.rollbar.Rollbar;
 import com.rollbar.payload.Payload;
-import com.rollbar.sender.Sender;
 
 import io.apisense.sdk.APISENSE;
 import io.apisense.sting.network.NetworkStingModule;
@@ -13,7 +13,7 @@ import io.apisense.sting.phone.PhoneStingModule;
 
 public class BeeApplication extends Application {
     private APISENSE.Sdk sdk;
-    private Sender rollbarSender;
+    private Rollbar rollbar;
 
     public APISENSE.Sdk getSdk() {
         return sdk;
@@ -28,21 +28,27 @@ public class BeeApplication extends Application {
                 .addStingsModules(new PhoneStingModule(), new NetworkStingModule())
                 .getSdk();
 
-        Rollbar rollbar = new Rollbar(
+        rollbar = new Rollbar(
                 BuildConfig.ROLLBAR_KEY,
                 BuildConfig.ROLLBAR_ENV
         );
-        rollbar.handleUncaughtErrors();
-        this.rollbarSender = rollbar.getSender();
 
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
-    public void reportException(Throwable throwable) {
-        Payload rollbarPayload = Payload.fromError(
-                BuildConfig.ROLLBAR_KEY, BuildConfig.ROLLBAR_ENV,
-                throwable, null
-        );
-        rollbarSender.send(rollbarPayload);
+    public void reportException(final Throwable throwable) {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                Payload rollbarPayload = Payload.fromError(
+                        BuildConfig.ROLLBAR_KEY, BuildConfig.ROLLBAR_ENV,
+                        throwable, null
+                );
+                rollbar.getSender().send(rollbarPayload);
+                return null;
+            }
+        }.execute();
+
     }
 }
