@@ -21,7 +21,6 @@ import com.apisense.bee.ui.fragment.AccountFragment;
 import com.apisense.bee.ui.fragment.HomeFragment;
 import com.apisense.bee.ui.fragment.PrivacyFragment;
 import com.apisense.bee.ui.fragment.StoreFragment;
-import io.apisense.sdk.APISENSE;
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
@@ -36,6 +35,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.apisense.sdk.APISENSE;
 
 public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStoreClickedListener {
     private static String TAG = "HomeActivity";
@@ -215,6 +215,7 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
                                 break;
                             case DRAWER_STORE_IDENTIFIER:
                                 startAndAddFragmentToBackStack(new StoreFragment(), true);
+                                break;
                             case DRAWER_PLAY_IDENTIFIER:
                                 beginUserInitiatedSignIn();
                                 break;
