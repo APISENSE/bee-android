@@ -16,8 +16,6 @@ import io.apisense.sting.lib.Sensor;
 
 public class SensorsDrawer {
     private static final int SENSOR_LATERAL_PADDING = 8;
-    private static final int SENSOR_HEIGHT = 80;
-    private static final int SENSOR_WIDTH = 80;
     private static final float SENSOR_DISABLED_ALPHA = 0.1f;
     private final Set<Sensor> availableSensors;
 
@@ -32,6 +30,7 @@ public class SensorsDrawer {
     }
 
     private void drawSensors(Context context, ViewGroup view, List<String> usedStings) {
+
         for (Sensor sensor : asSortedList(availableSensors)) {
             ImageView sensorView = parametrizedSensorView(context, sensor);
 
@@ -47,9 +46,7 @@ public class SensorsDrawer {
     private ImageView parametrizedSensorView(Context context, Sensor sensor) {
         ImageView sensorView = new ImageView(context);
 
-        RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(SENSOR_WIDTH, SENSOR_HEIGHT);
         sensorView.setImageDrawable(ContextCompat.getDrawable(context, sensor.iconID));
-        sensorView.setLayoutParams(params);
         sensorView.setPadding(SENSOR_LATERAL_PADDING, 0, SENSOR_LATERAL_PADDING, 0);
         return sensorView;
     }
