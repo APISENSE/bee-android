@@ -214,7 +214,7 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
                                 startAndAddFragmentToBackStack(new HomeFragment(), false);
                                 break;
                             case DRAWER_STORE_IDENTIFIER:
-                                startAndAddFragmentToBackStack(new StoreFragment(), true);
+                                switchToStore();
                                 break;
                             case DRAWER_PLAY_IDENTIFIER:
                                 beginUserInitiatedSignIn();
@@ -278,11 +278,11 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
     private void startAndAddFragmentToBackStack(Fragment instance, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (addToBackStack) {
-            getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStackImmediate();
             transaction.replace(R.id.exp_container, instance);
             transaction.addToBackStack(null);
         } else {
-            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             transaction.replace(R.id.exp_container, instance);
         }
         transaction.commit();
