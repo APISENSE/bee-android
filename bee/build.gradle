@@ -29,6 +29,8 @@ dependencies {
 
     // Features
     compile 'io.apisense.sdk:apisense-android-sdk:1.9.0-SNAPSHOT'
+    compile 'io.apisense.sdk:stings-network:1.9.0-SNAPSHOT'
+    compile 'io.apisense.sdk:stings-phone:1.9.0-SNAPSHOT'
     compile 'io.apisense:java-darts:1.2.0-SNAPSHOT'
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
 
@@ -42,9 +44,11 @@ dependencies {
     compile('com.github.PhilJay:MPAndroidChart:v2.1.6') // Draw charts
 
     // Android support animation and views
-    compile('com.android.support:support-v4:24.2.0')
-    compile('com.android.support:appcompat-v7:24.0.0')
-    compile('com.android.support:recyclerview-v7:24.0.0')
+    compile('com.android.support:support-v4:25.1.0')
+    compile('com.android.support:appcompat-v7:25.1.0')
+    compile('com.android.support:recyclerview-v7:25.1.0')
+    compile('com.android.support:design:24.2.0') // Regression on floating action button with 25.1.0
+
     compile('com.mikepenz:materialdrawer:5.2.9@aar') {
         transitive = true
     }
@@ -56,7 +60,7 @@ dependencies {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    buildToolsVersion '25.0.2'
 
     lintOptions {
         abortOnError false
