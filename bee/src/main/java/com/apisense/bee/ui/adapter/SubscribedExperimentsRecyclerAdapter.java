@@ -13,9 +13,9 @@ import android.widget.TextView;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.utils.SensorsDrawer;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.preferences.Sensor;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.store.Crop;
+import io.apisense.sting.lib.Sensor;
 
 import java.util.List;
 import java.util.Set;

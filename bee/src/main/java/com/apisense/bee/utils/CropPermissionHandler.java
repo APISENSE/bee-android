@@ -6,9 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
 import com.apisense.bee.BeeApplication;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.core.store.Crop;
 
 import java.util.Set;
 

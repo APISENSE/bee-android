@@ -21,7 +21,6 @@ import com.apisense.bee.ui.fragment.AccountFragment;
 import com.apisense.bee.ui.fragment.HomeFragment;
 import com.apisense.bee.ui.fragment.PrivacyFragment;
 import com.apisense.bee.ui.fragment.StoreFragment;
-import com.apisense.sdk.APISENSE;
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.Player;
@@ -36,6 +35,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.apisense.sdk.APISENSE;
 
 public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStoreClickedListener {
     private static String TAG = "HomeActivity";
@@ -214,7 +214,8 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
                                 startAndAddFragmentToBackStack(new HomeFragment(), false);
                                 break;
                             case DRAWER_STORE_IDENTIFIER:
-                                startAndAddFragmentToBackStack(new StoreFragment(), true);
+                                switchToStore();
+                                break;
                             case DRAWER_PLAY_IDENTIFIER:
                                 beginUserInitiatedSignIn();
                                 break;
@@ -277,11 +278,11 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
     private void startAndAddFragmentToBackStack(Fragment instance, boolean addToBackStack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (addToBackStack) {
-            getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStackImmediate();
             transaction.replace(R.id.exp_container, instance);
             transaction.addToBackStack(null);
         } else {
-            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             transaction.replace(R.id.exp_container, instance);
         }
         transaction.commit();

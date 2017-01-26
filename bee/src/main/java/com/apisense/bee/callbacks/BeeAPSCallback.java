@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.ui.activity.LoginActivity;
-import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.exception.UserNotConnectedException;
-import com.rollbar.android.Rollbar;
+import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.exception.UserNotConnectedException;
 
 /**
  * Common implementation of the APSCallback
@@ -28,8 +28,8 @@ public abstract class BeeAPSCallback<T> implements APSCallback<T> {
 
     @Override
     public void onError(Exception e) {
-        Rollbar.reportException(e);
-        Log.e("BEE::" + activity.getClass().getSimpleName(), "Got an error on callback", e);
+        ((BeeApplication) activity.getApplication()).reportException(e);
+        Log.e("Bee::" + activity.getClass().getSimpleName(), "Got an error on callback", e);
         // Retrofit encapsulate the APISENSE Exception.
         if (e.getCause() instanceof UserNotConnectedException) {
             Intent loginIntent = new Intent(activity, LoginActivity.class);

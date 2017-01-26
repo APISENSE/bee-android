@@ -18,9 +18,9 @@ import com.apisense.bee.callbacks.OnCropStopped;
 import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.UploadedDataGraph;
-import com.apisense.sdk.core.statistics.CropLocalStatistics;
-import com.apisense.sdk.core.statistics.UploadedEntry;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.core.statistics.CropLocalStatistics;
+import io.apisense.sdk.core.statistics.UploadedEntry;
+import io.apisense.sdk.core.store.Crop;
 
 import java.util.Collection;
 

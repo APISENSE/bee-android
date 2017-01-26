@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 
 import com.apisense.bee.R;
 import com.apisense.bee.utils.RetroCompatibility;
-import com.apisense.sdk.core.statistics.UploadedEntry;
+import io.apisense.sdk.core.statistics.UploadedEntry;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Legend;

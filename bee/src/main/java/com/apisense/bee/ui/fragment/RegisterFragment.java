@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.callbacks.BeeAPSCallback;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.bee.Bee;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.bee.Bee;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

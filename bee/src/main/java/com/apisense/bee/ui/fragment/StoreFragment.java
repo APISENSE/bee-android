@@ -28,8 +28,8 @@ import com.apisense.bee.ui.activity.QRScannerActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsRecyclerAdapter;
 import com.apisense.bee.ui.adapter.DividerItemDecoration;
 import com.apisense.bee.utils.CropPermissionHandler;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.store.Crop;
 
 import java.util.List;
 

@@ -1,27 +1,24 @@
 package com.apisense.bee.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.utils.SensorsDrawer;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.preferences.Sensor;
-import com.apisense.sdk.core.store.Crop;
 
 import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.store.Crop;
+import io.apisense.sting.lib.Sensor;
 
 public class AvailableExperimentsRecyclerAdapter extends
         RecyclerView.Adapter<AvailableExperimentsRecyclerAdapter.ViewHolder> {
@@ -75,7 +72,7 @@ public class AvailableExperimentsRecyclerAdapter extends
 
         @BindView(R.id.store_item_name) TextView mCropTitle;
         @BindView(R.id.store_item_description) TextView mCropDescription;
-        @BindView(R.id.store_sensors_container) LinearLayout mSensorsContainer;
+        @BindView(R.id.store_sensors_container) ViewGroup mSensorsContainer;
         @BindView(R.id.store_item_version) TextView mCropVersion;
 
         public ViewHolder(View itemView) {

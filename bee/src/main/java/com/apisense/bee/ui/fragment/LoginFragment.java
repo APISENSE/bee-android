@@ -20,9 +20,9 @@ import com.apisense.bee.R;
 import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.callbacks.FacebookLoginCallback;
 import com.apisense.bee.ui.activity.HomeActivity;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.core.bee.LoginProvider;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.core.bee.LoginProvider;
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -122,7 +122,8 @@ public class LoginFragment extends Fragment {
         loginButton.setReadPermissions("email");
         loginButton.setFragment(this);
         loginButton.registerCallback(facebookCallbackManager,
-                new FacebookLoginCallback(apisenseSdk, new OnLoggedIn(getActivity(), loginButton)));
+                new FacebookLoginCallback(getActivity(), new OnLoggedIn(getActivity(), loginButton))
+        );
     }
 
     @Override

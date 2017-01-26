@@ -1,10 +1,7 @@
 package com.apisense.bee.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,8 +16,6 @@ import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.adapter.DividerItemDecoration;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsRecyclerAdapter;
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.store.Crop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +23,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.store.Crop;
 
 public class HomeFragment extends BaseFragment {
 

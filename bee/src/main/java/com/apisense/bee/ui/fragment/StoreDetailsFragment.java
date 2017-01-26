@@ -18,8 +18,8 @@ import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.callbacks.OnCropSubscribed;
 import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.games.IncrementalGameAchievement;
-import com.apisense.sdk.core.store.Crop;
-import com.apisense.sdk.core.store.CropGlobalStatistics;
+import io.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.core.store.CropGlobalStatistics;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

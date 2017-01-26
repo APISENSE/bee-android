@@ -152,6 +152,9 @@
     </string>
     <string name="share_bee_text">Aide la science grâce à l\'application Bee! https://play.google.com/store/apps/details?id=com.apisense.bee</string>
 
+    <string name="accessibility_service_name">Bee: Observation des applications</string>
+    <string name="accessibility_service_description">Autorisez Bee à connaitre vos applications en premier plan</string>
+
     <string name="signin_other_error">Erreur GPG</string>
     <string name="gamehelper_unknown_error">Erreur GPG inconnue</string>
     <string name="gamehelper_app_misconfigured">GPG mal configuré</string>

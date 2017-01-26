@@ -23,8 +23,8 @@
 
 ##############
 # apisense specific
--keep public class com.apisense.sdk.** { *; }
--keepclassmembernames class com.apisense.sdk.** { *; }
+-keep public class io.apisense.sdk.** { *; }
+-keepclassmembernames class io.apisense.sdk.** { *; }
 -keep public class io.apisense.** { *; }
 
 -keepclassmembernames class * {

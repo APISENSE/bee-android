@@ -1,18 +1,19 @@
 package com.apisense.bee.callbacks;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.apisense.sdk.APISENSE;
-import com.apisense.sdk.core.APSCallback;
-import com.apisense.sdk.core.bee.LoginProvider;
+import com.apisense.bee.BeeApplication;
+import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.core.APSCallback;
+import io.apisense.sdk.core.bee.LoginProvider;
 import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
-import com.rollbar.android.Rollbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,9 +23,11 @@ public class FacebookLoginCallback implements FacebookCallback<LoginResult> {
     private static final String EMAIL_FIELD = "email";
     private final APISENSE.Sdk apisenseSdk;
     private final APSCallback<Void> onLoggedIn;
+    private final BeeApplication beeApp;
 
-    public FacebookLoginCallback(APISENSE.Sdk apisenseSdk, APSCallback<Void> onLoggedIn) {
-        this.apisenseSdk = apisenseSdk;
+    public FacebookLoginCallback(Activity activity, APSCallback<Void> onLoggedIn) {
+        this.beeApp = (BeeApplication) activity.getApplication();
+        this.apisenseSdk = beeApp.getSdk();
         this.onLoggedIn = onLoggedIn;
     }
 
@@ -57,7 +60,7 @@ public class FacebookLoginCallback implements FacebookCallback<LoginResult> {
 
     @Override
     public void onError(FacebookException exception) {
-        Rollbar.reportException(exception);
+        beeApp.reportException(exception);
         Log.e(TAG, "Error while connecting to facebook", exception);
     }
 }
