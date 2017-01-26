@@ -28,10 +28,10 @@ dependencies {
     compile('com.rollbar:rollbar:0.5.3')
 
     // Features
-    compile 'io.apisense.sdk:apisense-android-sdk:1.9.0-SNAPSHOT'
-    compile 'io.apisense.sdk:stings-network:1.9.0-SNAPSHOT'
-    compile 'io.apisense.sdk:stings-phone:1.9.0-SNAPSHOT'
-    compile 'io.apisense:java-darts:1.2.0-SNAPSHOT'
+    compile 'io.apisense.sdk:apisense-android-sdk:1.9.0'
+    compile 'io.apisense.sdk:stings-network:1.9.0'
+    compile 'io.apisense.sdk:stings-phone:1.9.0'
+    compile 'io.apisense:java-darts:1.2.0'
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
 
     // Social and Gamification
