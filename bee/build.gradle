@@ -71,7 +71,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 17
-        versionName "1.9.0"
+        versionName "1.10.0-SNAPSHOT"
         multiDexEnabled true
     }
 
