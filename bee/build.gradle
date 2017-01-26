@@ -70,7 +70,7 @@ android {
         applicationId "com.apisense.bee"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 17
+        versionCode 18
         versionName "1.10.0-SNAPSHOT"
         multiDexEnabled true
     }
