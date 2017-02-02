@@ -20,6 +20,7 @@ import com.apisense.bee.ui.fragment.AboutFragment;
 import com.apisense.bee.ui.fragment.AccountFragment;
 import com.apisense.bee.ui.fragment.HomeFragment;
 import com.apisense.bee.ui.fragment.PrivacyFragment;
+import com.apisense.bee.ui.fragment.SettingsFragment;
 import com.apisense.bee.ui.fragment.StoreFragment;
 import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.games.Games;
@@ -37,7 +38,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.apisense.sdk.APISENSE;
 
-public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStoreClickedListener {
+public class HomeActivity extends BeeGameActivity implements
+        HomeFragment.OnStoreClickedListener, SettingsFragment.OnSensorClickedListener {
     private static String TAG = "HomeActivity";
 
     private AccountHeader headerResult;
@@ -50,7 +52,7 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
     public static final int DRAWER_STORE_IDENTIFIER = 2;
     private static final int DRAWER_PLAY_IDENTIFIER = 3;
     private static final int DRAWER_PLAY_REWARD_IDENTIFIER = 4;
-    public static final int DRAWER_PRIVACY_IDENTIFIER = 5;
+    public static final int DRAWER_SETTINGS_IDENTIFIER = 5;
     public static final int DRAWER_ACCOUNT_IDENTIFIER = 6;
     public static final int DRAWER_ABOUT_IDENTIFIER = 7;
 
@@ -59,7 +61,7 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
     private final PrimaryDrawerItem store = generateDrawerItem(R.string.title_activity_store, R.drawable.ic_store_blck, DRAWER_STORE_IDENTIFIER);
     private final PrimaryDrawerItem play = generateDrawerItem(R.string.title_activity_gpg, R.drawable.ic_gpg, DRAWER_PLAY_IDENTIFIER);
     private final PrimaryDrawerItem playReward = generateDrawerItem(R.string.title_activity_reward, R.drawable.ic_gpg, DRAWER_PLAY_REWARD_IDENTIFIER);
-    private final PrimaryDrawerItem settings = generateDrawerItem(R.string.title_activity_settings, R.drawable.ic_action_settings, DRAWER_PRIVACY_IDENTIFIER);
+    private final PrimaryDrawerItem settings = generateDrawerItem(R.string.title_activity_settings, R.drawable.ic_action_settings, DRAWER_SETTINGS_IDENTIFIER);
     private final PrimaryDrawerItem profile = generateDrawerItem(R.string.title_activity_account, R.drawable.ic_action_person, DRAWER_ACCOUNT_IDENTIFIER);
     private final PrimaryDrawerItem about = generateDrawerItem(R.string.title_activity_about, R.drawable.ic_action_about, DRAWER_ABOUT_IDENTIFIER);
 
@@ -224,8 +226,8 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
                                         Games.Achievements.getAchievementsIntent(getApiClient()), 0
                                 );
                                 break;
-                            case DRAWER_PRIVACY_IDENTIFIER:
-                                startAndAddFragmentToBackStack(new PrivacyFragment(), true);
+                            case DRAWER_SETTINGS_IDENTIFIER:
+                                startAndAddFragmentToBackStack(new SettingsFragment(), true);
                                 break;
                             case DRAWER_ACCOUNT_IDENTIFIER:
                                 startAndAddFragmentToBackStack(new AccountFragment(), true);
@@ -291,5 +293,10 @@ public class HomeActivity extends BeeGameActivity implements HomeFragment.OnStor
     @Override
     public void switchToStore() {
         startAndAddFragmentToBackStack(new StoreFragment(), true);
+    }
+
+    @Override
+    public void showSensors() {
+        startAndAddFragmentToBackStack(new PrivacyFragment(), true);
     }
 }
