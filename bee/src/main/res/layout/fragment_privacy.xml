@@ -1,22 +1,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:id="@+id/sensors_list_holder"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sensors_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="9"/>
 
-    <LinearLayout
+    <TextView
         android:id="@+id/sensors_list_empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/no_available_sensors"
+        android:layout_weight="9"
+        android:visibility="gone"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/no_available_sensors" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/sensors_list_save"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/settings_save_sensors"
+        android:background="@color/aps_accent"
+        android:textColor="@color/aps_white"
+        />
+
 </LinearLayout>

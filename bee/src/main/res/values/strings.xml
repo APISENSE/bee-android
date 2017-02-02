@@ -117,12 +117,23 @@
     <string name="settings_section_account">Account Management</string>
     <string name="settings_action_register">Create an account</string>
     <string name="settings_action_logout">Logout</string>
-    <string name="settings_section_privacy">Privacy Settings</string>
+    <string name="settings_privacy_description">
+        You can choose to de-activate some sensors,
+         we will then no longer propose you crop using them:
+    </string>
+    <string name="settings_manage_sensors">Privacy Settings</string>
+    <string name="settings_save_sensors">Apply modifications</string>
     <string name="settings_label_version">Application Version</string>
     <string name="settings_btn_update">Look for update</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">About</string>
-    <string name="no_available_sensors">No sensor available!</string>
+    <string name="settings_accessibility_description">
+        Some sensors needs to use an accessibility service
+        to monitor actions outside of this application, you may want to enable it:
+    </string>
+    <string name="settings_accessibility_disabled">Enable \'%0$s\'</string>
+    <string name="settings_accessibility_enabled">\'%0$s\' is enabled</string>
+    <string name="no_available_sensors">We couldn\'t retrieve your sensor preferences</string>
     <string name="account_share">Share Bee experience with your contacts and help to improve research</string>
     <string name="account_logout">If you want to stop all contributions to your subscribed collects</string>
 
