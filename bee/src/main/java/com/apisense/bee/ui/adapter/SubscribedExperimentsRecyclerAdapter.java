@@ -61,6 +61,7 @@ public class SubscribedExperimentsRecyclerAdapter extends
         Crop crop = mInstalledCrops.get(position);
 
         holder.mCropTitle.setText(crop.getName());
+        holder.mCropOwner.setText(context.getString(R.string.exp_details_organization, crop.getOwner()));
         holder.mCropDescription.setText(crop.getShortDescription());
 
         if (apisenseSdk.getCropManager().isRunning(crop)) {
@@ -94,6 +95,7 @@ public class SubscribedExperimentsRecyclerAdapter extends
 
         @BindView(R.id.crop_status) ImageView mCropStatus;
         @BindView(R.id.crop_title) TextView mCropTitle;
+        @BindView(R.id.crop_owner) TextView mCropOwner;
         @BindView(R.id.crop_description) TextView mCropDescription;
         @BindView(R.id.sensors_container) LinearLayout mSensorsContainer;
 
