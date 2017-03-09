@@ -19,7 +19,7 @@ if (!project.hasProperty("release_keystore_password")) {
 }
 
 if (!project.hasProperty("release_key_password")) {
-    ext.release_keystore_password = ""
+    ext.release_key_password = ""
 }
 
 
