@@ -8,6 +8,7 @@ import com.rollbar.Rollbar;
 import com.rollbar.payload.Payload;
 
 import io.apisense.sdk.APISENSE;
+import io.apisense.sting.motion.MotionStingModule;
 import io.apisense.sting.network.NetworkStingModule;
 import io.apisense.sting.phone.PhoneStingModule;
 import io.apisense.sting.visualization.VisualizationStingModule;
@@ -26,7 +27,7 @@ public class BeeApplication extends Application {
 
         sdk = new APISENSE(this)
                 .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
-                .addStingsModules(new PhoneStingModule(), new NetworkStingModule(), new VisualizationStingModule())
+                .addStingsModules(new PhoneStingModule(), new NetworkStingModule(), new MotionStingModule(), new VisualizationStingModule())
                 .getSdk();
 
         rollbar = new Rollbar(

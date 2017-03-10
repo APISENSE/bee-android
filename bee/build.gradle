@@ -31,6 +31,7 @@ dependencies {
     compile 'io.apisense.sdk:apisense-android-sdk:1.10.0-SNAPSHOT'
     compile 'io.apisense.sdk:stings-network:1.10.0-SNAPSHOT'
     compile 'io.apisense.sdk:stings-phone:1.10.0-SNAPSHOT'
+    compile 'io.apisense.sdk:stings-motion:1.10.0-SNAPSHOT'
     compile 'io.apisense.sdk:stings-visualization:1.10.0-SNAPSHOT'
 
     compile 'io.apisense:java-darts:1.2.0' // Import Sensor type
