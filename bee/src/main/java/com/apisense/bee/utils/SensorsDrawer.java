@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -17,14 +18,16 @@ import java.util.Set;
 import io.apisense.sting.lib.Sensor;
 
 public class SensorsDrawer {
-    private static final int SENSOR_LATERAL_PADDING = 8;
+    private static final int SENSOR_LATERAL_PADDING = 2;
     private static final float SENSOR_DISABLED_ALPHA = 0.1f;
     private final Set<Sensor> availableSensors;
     private final int sensorSize;
+    private final int lateralPadding;
 
     public SensorsDrawer(Set<Sensor> availableSensors) {
         this.availableSensors = availableSensors;
         this.sensorSize = sensorDimension(availableSensors.size());
+        this.lateralPadding = dpToPx(SENSOR_LATERAL_PADDING);
     }
 
     /**
@@ -34,7 +37,7 @@ public class SensorsDrawer {
      * @return The size in pixels to use for each sensor.
      */
     private static int sensorDimension(int sensorNumber) {
-        return Resources.getSystem().getDisplayMetrics().widthPixels / (sensorNumber + 1);
+        return (Resources.getSystem().getDisplayMetrics().widthPixels - (2 * dpToPx(SENSOR_LATERAL_PADDING))) / (sensorNumber + 1);
     }
 
     /**
@@ -86,7 +89,7 @@ public class SensorsDrawer {
         RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(sensorSize, sensorSize);
         sensorView.setImageDrawable(ContextCompat.getDrawable(context, sensor.iconID));
         sensorView.setLayoutParams(params);
-        sensorView.setPadding(SENSOR_LATERAL_PADDING, 0, SENSOR_LATERAL_PADDING, 0);
+        sensorView.setPadding(this.lateralPadding, 0, this.lateralPadding, 0);
         return sensorView;
     }
 
@@ -95,5 +98,9 @@ public class SensorsDrawer {
         List<T> list = new ArrayList<>(c);
         Collections.sort(list);
         return list;
+    }
+
+    private static int dpToPx(final int dp) {
+        return Math.round(dp * (Resources.getSystem().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }
