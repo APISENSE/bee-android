@@ -38,6 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_vertical_margin"
             android:layout_marginBottom="@dimen/text_vertical_margin"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:textSize="@dimen/secondary_text_size"
             android:maxLines="2"
             android:textColor="@color/aps_secondary_text"/>

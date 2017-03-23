@@ -31,6 +31,8 @@ dependencies {
     compile 'io.apisense.sdk:apisense-android-sdk:1.10.0-SNAPSHOT'
     compile 'io.apisense.sdk:stings-network:1.10.0-SNAPSHOT'
     compile 'io.apisense.sdk:stings-phone:1.10.0-SNAPSHOT'
+    compile 'io.apisense.sdk:stings-visualization:1.10.0-SNAPSHOT'
+
     compile 'io.apisense:java-darts:1.2.0' // Import Sensor type
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
 
@@ -41,7 +43,7 @@ dependencies {
     compile('com.facebook.android:facebook-android-sdk:4.15.0')
 
     // Graphic enhancements
-    compile('com.github.PhilJay:MPAndroidChart:v2.1.6') // Draw charts
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1' // Draw charts
 
     // Android support animation and views
     compile('com.android.support:support-v4:25.1.0')
