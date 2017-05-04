@@ -63,6 +63,9 @@
 ## JDeferred
 -dontwarn org.slf4j.**
 
+## Visualization Module
+-dontwarn com.google.maps.android.**
+
 # End apisense
 ##############
 

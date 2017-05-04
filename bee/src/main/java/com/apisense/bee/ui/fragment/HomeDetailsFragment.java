@@ -54,7 +54,7 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
 
         displayStatistics(apisenseSdk.getStatisticsManager().getCropUsage(crop));
 
-        VisualizationManager visManager = new VisualizationManager(getContext());
+        VisualizationManager visManager = VisualizationManager.getInstance();
         displayVisualizations(visManager.getCropVisualizations(crop));
 
         return view;
