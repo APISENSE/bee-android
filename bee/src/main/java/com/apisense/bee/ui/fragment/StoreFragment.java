@@ -162,7 +162,7 @@ public class StoreFragment extends BaseFragment {
         // React only if the user actually scanned a QRcode
         if (request == QRScannerActivity.INSTALL_FROM_QR && response == RESULT_OK) {
             String cropID = data.getStringExtra(QRScannerActivity.CROP_ID_KEYWORD);
-            apisenseSdk.getCropManager().installSpecific(cropID, new BeeAPSCallback<Crop>(getActivity()) {
+            apisenseSdk.getCropManager().installOrUpdate(cropID, new BeeAPSCallback<Crop>(getActivity()) {
                 @Override
                 public void onDone(Crop crop) {
                     lastCropPermissionHandler = new CropPermissionHandler(getActivity(), crop,
