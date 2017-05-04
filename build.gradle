@@ -18,3 +18,9 @@ allprojects {
         mavenLocal()
     }
 }
+
+ext {
+    beeVersion = "1.10.0"
+    apkCode = 20
+    apisenseVersion = "1.10.0"
+}

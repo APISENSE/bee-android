@@ -28,12 +28,12 @@ dependencies {
     compile('com.rollbar:rollbar:0.5.3')
 
     // Features
-    compile 'io.apisense.sdk:apisense-android-sdk:1.10.0-SNAPSHOT'
-    compile 'io.apisense.sdk:stings-network:1.10.0-SNAPSHOT'
-    compile 'io.apisense.sdk:stings-phone:1.10.0-SNAPSHOT'
-    compile 'io.apisense.sdk:stings-motion:1.10.0-SNAPSHOT'
-    compile 'io.apisense.sdk:stings-environment:1.10.0-SNAPSHOT'
-    compile 'io.apisense.sdk:stings-visualization:1.10.0-SNAPSHOT'
+    compile 'io.apisense.sdk:apisense-android-sdk:' + apisenseVersion
+    compile 'io.apisense.sdk:stings-network:' + apisenseVersion
+    compile 'io.apisense.sdk:stings-phone:' + apisenseVersion
+    compile 'io.apisense.sdk:stings-motion:' + apisenseVersion
+    compile 'io.apisense.sdk:stings-environment:' + apisenseVersion
+    compile 'io.apisense.sdk:stings-visualization:' + apisenseVersion
 
     compile 'io.apisense:java-darts:1.2.0' // Import Sensor type
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
@@ -75,8 +75,8 @@ android {
         applicationId "com.apisense.bee"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 19
-        versionName "1.10.0-SNAPSHOT"
+        versionCode apkCode
+        versionName beeVersion
         multiDexEnabled true
     }
 
