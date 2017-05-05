@@ -5,17 +5,16 @@ import android.util.AttributeSet;
 
 import com.apisense.bee.R;
 import com.apisense.bee.utils.RetroCompatibility;
-import io.apisense.sdk.core.statistics.UploadedEntry;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,9 +26,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import io.apisense.sdk.core.statistics.UploadedEntry;
+
 /**
  * Graph specifically used to show a collection of {@link UploadedEntry}.
- *
  * Currently display the last 7 days of uploaded data.
  */
 public class UploadedDataGraph extends RadarChart {
@@ -67,8 +67,10 @@ public class UploadedDataGraph extends RadarChart {
         int nbTracesForDate;
         Date uploadDate;
 
-        List<String> xVals = new ArrayList<>();
-        List<Entry> yVals = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+
+        ArrayList<RadarEntry> radarEntries = new ArrayList<>();
+
         for (long i = 0; i < NB_SHOWN_DAYS; i++) {
             nbTracesForDate = 0;
             for (UploadedEntry entry : entries) {
@@ -83,30 +85,34 @@ public class UploadedDataGraph extends RadarChart {
             entries.removeAll(toRemove);
             toRemove.clear();
 
-            xVals.add(DATE_FORMAT.format(drawEverythingBefore));
-            yVals.add(new BarEntry(nbTracesForDate, (int) i));
+            radarEntries.add(new RadarEntry(nbTracesForDate));
+            labels.add(DATE_FORMAT.format(drawEverythingBefore));
+
             drawEverythingAfter = drawEverythingBefore;
             drawEverythingBefore = new Date(drawEverythingBefore.getTime() + ONE_DAY_MS);
         }
 
-        RadarDataSet set = getConfiguredDataSet(yVals);
-        List<RadarDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set);
+        RadarDataSet set = getConfiguredDataSet(radarEntries);
 
-        RadarData data = getConfiguredRadarData(xVals, dataSets);
-        setData(data);
+        ArrayList<IRadarDataSet> sets = new ArrayList<>();
+        sets.add(set);
+
+        RadarData data = getConfiguredRadarData(sets);
+
+        this.setData(data);
+
+        XAxis xAxis = getXAxis();
+        xAxis.setValueFormatter(new valuePrinter(labels.toArray(new String[labels.size()])));
     }
 
     private void configureUploadGraph() {
         // Actions on Graph (move, scale, ..)
-        setDrawMarkerViews(false);
         setOnChartValueSelectedListener(null);
 
         // Configure visible elements
         XAxis xAxis = getXAxis();
         xAxis.setDrawGridLines(false);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAvoidFirstLastClipping(true);
+
         getLegend().setForm(Legend.LegendForm.CIRCLE);
 
         this.setWebLineWidth(1.5f);
@@ -116,13 +122,11 @@ public class UploadedDataGraph extends RadarChart {
                 1400, 1400,
                 Easing.EasingOption.EaseInOutQuad,
                 Easing.EasingOption.EaseInOutQuad);
-
-        // Disable unused elements
-        setDescriptionPosition(-1, -1);
+        this.getDescription().setEnabled(false);
     }
 
-    private RadarDataSet getConfiguredDataSet(List<Entry> yVals) {
-        RadarDataSet set = new RadarDataSet(yVals, getResources().getString(R.string.experiment_activity_7_days));
+    private RadarDataSet getConfiguredDataSet(List<RadarEntry> entries) {
+        RadarDataSet set = new RadarDataSet(entries, getResources().getString(R.string.experiment_activity_7_days));
 
         // Colors
         int mainColor = RetroCompatibility.retrieveColor(getResources(), R.color.aps_orange);
@@ -137,11 +141,9 @@ public class UploadedDataGraph extends RadarChart {
         return set;
     }
 
-    private RadarData getConfiguredRadarData(List<String> xVals, List<RadarDataSet> dataSets) {
-        RadarData data = new RadarData(xVals, dataSets);
-        // Shown values above chart
+    private RadarData getConfiguredRadarData(List<IRadarDataSet> dataSets) {
+        RadarData data = new RadarData(dataSets);
         data.setValueTextSize(10f);
-        data.setValueFormatter(new valuePrinter());
         return data;
     }
 
@@ -157,10 +159,17 @@ public class UploadedDataGraph extends RadarChart {
     /**
      * Defines how to display each entry value.
      */
-    private class valuePrinter implements ValueFormatter {
+    private class valuePrinter implements IAxisValueFormatter {
+
+        private String[] labels;
+
+        valuePrinter(String[] labels) {
+            this.labels = labels;
+        }
+
         @Override
-        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-            return String.valueOf((int) value);
+        public String getFormattedValue(float value, AxisBase axis) {
+            return labels[(int) value % labels.length];
         }
     }
 }

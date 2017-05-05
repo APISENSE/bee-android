@@ -37,6 +37,13 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/store_item_owner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_text_margin"
+        android:textSize="@dimen/secondary_text_size"/>
+
+    <TextView
         android:id="@+id/store_item_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

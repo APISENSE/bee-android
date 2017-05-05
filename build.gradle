@@ -15,5 +15,12 @@ allprojects {
         jcenter()
         maven { url '/tmp/sdkRepo/content/repositories/snapshots/' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" } // APISENSE Snapshots
+        mavenLocal()
     }
+}
+
+ext {
+    beeVersion = "1.10.0"
+    apkCode = 20
+    apisenseVersion = "1.10.0"
 }

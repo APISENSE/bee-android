@@ -100,11 +100,24 @@
     <string name="settings_section_account">Compte</string>
     <string name="settings_action_register">Créer un compte</string>
     <string name="settings_action_logout">Déconnexion</string>
+    <string name="settings_privacy_description">
+        Vous pouvez choisir de désactiver certains capeurs,
+        nous ne vous proposerons alors plus les collectes les utilisant:
+    </string>
+    <string name="settings_manage_sensors">Paramètrer les capteurs</string>
+    <string name="settings_save_sensors">Appliquer les modifications</string>
     <string name="settings_label_version">Version de l\'application</string>
     <string name="settings_btn_update">Vérifier les mises à jour</string>
     <string name="settings_placeholder_version">%1$d</string>
     <string name="settings_section_about">A propos</string>
-    <string name="no_available_sensors">Pas de capteur disponible</string>
+    <string name="settings_accessibility_description">
+        Certains capteurs ont recours au service d\'accessibilité du téléphone
+        afin d\'observer les actions à l\'extérieur de l\'application,
+        nous vous conseillons de l\'activer:
+    </string>
+    <string name="settings_accessibility_disabled">Activer \'%0$s\'</string>
+    <string name="settings_accessibility_enabled">\'%0$s\' est activé</string>
+    <string name="no_available_sensors">Nous n\'avons pas pu récupérer vos préférences de capteur</string>
     <string name="account_share">Partagez l\'expérience Bee avec vos contacts et aidez la recherche</string>
     <string name="account_logout">Si vous souhaitez arrêter toute contribution aux différentes collectes souscrites</string>
 
@@ -160,6 +173,5 @@
     <string name="gamehelper_app_misconfigured">GPG mal configuré</string>
     <string name="gamehelper_sign_in_failed">Erreur de connexion GPG</string>
     <string name="gamehelper_license_failed">Erreur de licence GPG</string>
-    <string name="settings_section_privacy">Paramètres d\'intimité</string>
     <string name="error_invalid_session">Votre session est devenue invalide, veuillez vous re-connecter</string>
 </resources>

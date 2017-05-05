@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apisense.bee.R;
-import io.apisense.sdk.core.store.Crop;
-import io.apisense.sting.lib.Sensor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +22,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.apisense.sdk.core.store.Crop;
+import io.apisense.sting.lib.Sensor;
 
 public class SensorRecyclerAdapter extends RecyclerView.Adapter<SensorRecyclerAdapter.ViewHolder> {
     private final String TAG = "SensorRecyclerAdapter";
@@ -56,6 +56,7 @@ public class SensorRecyclerAdapter extends RecyclerView.Adapter<SensorRecyclerAd
         holder.title.setTypeface(null, Typeface.BOLD);
         holder.description.setText(item.description);
         holder.icon.setImageDrawable(ContextCompat.getDrawable(context, item.iconID));
+        holder.icon.setContentDescription(item.name);
         if (enabledStings.containsKey(item.stingName)) {
             holder.enabled.setChecked(enabledStings.get(item.stingName));
         }
@@ -93,7 +94,7 @@ public class SensorRecyclerAdapter extends RecyclerView.Adapter<SensorRecyclerAd
         }
     }
 
-    public void setSensortActivation(String stingName, boolean enabled) {
+    public void setSensorActivation(String stingName, boolean enabled) {
         enabledStings.put(stingName, enabled);
     }
 
@@ -119,7 +120,7 @@ public class SensorRecyclerAdapter extends RecyclerView.Adapter<SensorRecyclerAd
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean enabled) {
             Log.d(TAG, "Setting sting (" + stingName + ") activation to : " + enabled);
-            setSensortActivation(stingName, enabled);
+            setSensorActivation(stingName, enabled);
         }
     }
 }

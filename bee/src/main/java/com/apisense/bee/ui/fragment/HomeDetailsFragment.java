@@ -8,36 +8,38 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apisense.bee.R;
-import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.callbacks.OnCropStarted;
 import com.apisense.bee.callbacks.OnCropStopped;
 import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.UploadedDataGraph;
-import io.apisense.sdk.core.statistics.CropLocalStatistics;
-import io.apisense.sdk.core.statistics.UploadedEntry;
-import io.apisense.sdk.core.store.Crop;
 
 import java.util.Collection;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.apisense.sdk.core.statistics.CropLocalStatistics;
+import io.apisense.sdk.core.statistics.UploadedEntry;
+import io.apisense.sdk.core.store.Crop;
+import io.apisense.sting.visualization.VisualizationManager;
 
 public class HomeDetailsFragment extends CommonDetailsFragment {
+
+    private static String TAG = "ExpDetailsFragment";
 
     @BindView(R.id.detail_stats_local_traces) TextView nbLocalTraces;
     @BindView(R.id.detail_stats_total_uploaded) TextView nbTotalTraces;
     @BindView(R.id.details_stats_upload_graph) UploadedDataGraph uploadGraph;
     @BindView(R.id.no_upload) TextView noUpload;
+    @BindView(R.id.detail_visualizations) LinearLayout visualizationsView;
 
     private MenuItem mStartButton;
     private MenuItem mStopButton;
-
-    private static String TAG = "ExpDetailsFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +53,9 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
         unbinder = ButterKnife.bind(this, view);
 
         displayStatistics(apisenseSdk.getStatisticsManager().getCropUsage(crop));
+
+        VisualizationManager visManager = VisualizationManager.getInstance();
+        displayVisualizations(visManager.getCropVisualizations(crop));
 
         return view;
     }
@@ -154,5 +159,11 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
 
     private void displayStatisticsGraph(Collection<UploadedEntry> uploaded) {
         uploadGraph.setValues(uploaded);
+    }
+
+    private void displayVisualizations(List<View> visualizations) {
+        for (View vis : visualizations) {
+            visualizationsView.addView(vis);
+        }
     }
 }

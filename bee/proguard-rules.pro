@@ -59,6 +59,13 @@
 -keep class org.mozilla.javascript.** { *; }
 -dontwarn org.mozilla.javascript.**
 -dontwarn sun.**
+
+## JDeferred
+-dontwarn org.slf4j.**
+
+## Visualization Module
+-dontwarn com.google.maps.android.**
+
 # End apisense
 ##############
 

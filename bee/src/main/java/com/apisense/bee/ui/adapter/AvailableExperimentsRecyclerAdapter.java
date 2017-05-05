@@ -55,6 +55,7 @@ public class AvailableExperimentsRecyclerAdapter extends
         Crop crop = mAvailableCrops.get(position);
 
         holder.mCropTitle.setText(crop.getName());
+        holder.mCropOwner.setText(context.getString(R.string.exp_details_organization, crop.getOwner()));
         holder.mCropDescription.setText(crop.getShortDescription());
         holder.mCropVersion.setText(context.getString(R.string.exp_details_version, crop.getVersion()));
 
@@ -71,6 +72,7 @@ public class AvailableExperimentsRecyclerAdapter extends
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.store_item_name) TextView mCropTitle;
+        @BindView(R.id.store_item_owner) TextView mCropOwner;
         @BindView(R.id.store_item_description) TextView mCropDescription;
         @BindView(R.id.store_sensors_container) ViewGroup mSensorsContainer;
         @BindView(R.id.store_item_version) TextView mCropVersion;
