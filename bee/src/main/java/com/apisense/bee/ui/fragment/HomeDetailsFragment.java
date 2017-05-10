@@ -1,14 +1,13 @@
 package com.apisense.bee.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apisense.bee.R;
@@ -17,9 +16,10 @@ import com.apisense.bee.callbacks.OnCropStopped;
 import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.UploadedDataGraph;
+import com.apisense.bee.widget.VisualizationPagerAdapter;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,14 +29,10 @@ import io.apisense.sdk.core.store.Crop;
 import io.apisense.sting.visualization.VisualizationManager;
 
 public class HomeDetailsFragment extends CommonDetailsFragment {
-
-    private static String TAG = "ExpDetailsFragment";
-
-    @BindView(R.id.detail_stats_local_traces) TextView nbLocalTraces;
-    @BindView(R.id.detail_stats_total_uploaded) TextView nbTotalTraces;
-    @BindView(R.id.details_stats_upload_graph) UploadedDataGraph uploadGraph;
-    @BindView(R.id.no_upload) TextView noUpload;
-    @BindView(R.id.detail_visualizations) LinearLayout visualizationsView;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+    VisualizationPagerAdapter pagerAdapter;
+    int currentPagerPosition = 0;
 
     private MenuItem mStartButton;
     private MenuItem mStopButton;
@@ -48,14 +44,39 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_home_details, container, false);
-        homeActivity.getSupportActionBar().setTitle(R.string.title_activity_experiment_details);
+        if (homeActivity.getSupportActionBar() != null) {
+            homeActivity.getSupportActionBar().setTitle(R.string.title_activity_experiment_details);
+        }
 
         unbinder = ButterKnife.bind(this, view);
 
-        displayStatistics(apisenseSdk.getStatisticsManager().getCropUsage(crop));
-
         VisualizationManager visManager = VisualizationManager.getInstance();
-        displayVisualizations(visManager.getCropVisualizations(crop));
+
+        View statisticsGraph = getStatisticsGraph(inflater, apisenseSdk.getStatisticsManager().getCropUsage(crop));
+
+        ArrayList<View> visualizations = new ArrayList<>();
+        visualizations.add(statisticsGraph);
+        visualizations.addAll(visManager.getCropVisualizations(getContext(), crop));
+
+        pagerAdapter = new VisualizationPagerAdapter(visualizations);
+
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (currentPagerPosition != position) {
+                    currentPagerPosition = position;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    //refresh visualization when scroll stops
+                    pagerAdapter.invalidateView(currentPagerPosition);
+                }
+            }
+        });
 
         return view;
     }
@@ -84,8 +105,8 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
         inflater.inflate(R.menu.home_experiment_details, menu);
         super.onCreateOptionsMenu(menu, inflater);
 
-        mStartButton = (MenuItem) menu.getItem(0);
-        mStopButton = (MenuItem) menu.getItem(1);
+        mStartButton = menu.getItem(0);
+        mStopButton = menu.getItem(1);
 
         if (apisenseSdk.getCropManager().isRunning(crop)) {
             displayStopButton();
@@ -143,27 +164,34 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
         });
     }
 
-    private void displayStatistics(CropLocalStatistics cropUsage) {
-        Log.i(TAG, "Got statistics" + cropUsage);
-        nbLocalTraces.setText(getString(R.string.crop_stats_local_traces, cropUsage.getToUpload()));
-        nbTotalTraces.setText(getString(R.string.crop_stats_total_uploaded, cropUsage.getTotalUploaded()));
+    private View getStatisticsGraph(LayoutInflater inflater, CropLocalStatistics cropUsage) {
+        View statisticGraph = inflater.inflate(R.layout.stats_uploaded_data, viewPager, false);
+        UploadedData stats = new UploadedData();
+
+        ButterKnife.bind(stats, statisticGraph);
+
+        stats.localTraces.setText(getString(R.string.crop_stats_local_traces, cropUsage.getToUpload()));
+        stats.totalTraces.setText(getString(R.string.crop_stats_total_uploaded, cropUsage.getTotalUploaded()));
 
         Collection<UploadedEntry> uploaded = cropUsage.getUploaded();
         if (uploaded.isEmpty()) {
-            uploadGraph.setVisibility(View.GONE);
-            noUpload.setVisibility(View.VISIBLE);
+            stats.chart.setVisibility(View.GONE);
+            stats.noUpload.setVisibility(View.VISIBLE);
         } else {
-            displayStatisticsGraph(cropUsage.getUploaded());
+            stats.chart.setValues(cropUsage.getUploaded());
         }
+
+        return statisticGraph;
     }
 
-    private void displayStatisticsGraph(Collection<UploadedEntry> uploaded) {
-        uploadGraph.setValues(uploaded);
-    }
-
-    private void displayVisualizations(List<View> visualizations) {
-        for (View vis : visualizations) {
-            visualizationsView.addView(vis);
-        }
+    class UploadedData {
+        @BindView(R.id.local_traces)
+        TextView localTraces;
+        @BindView(R.id.total_uploaded)
+        TextView totalTraces;
+        @BindView(R.id.uploaded_chart)
+        UploadedDataGraph chart;
+        @BindView(R.id.no_upload)
+        TextView noUpload;
     }
 }

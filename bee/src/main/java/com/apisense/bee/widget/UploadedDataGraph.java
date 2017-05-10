@@ -35,8 +35,7 @@ import io.apisense.sdk.core.statistics.UploadedEntry;
 public class UploadedDataGraph extends RadarChart {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM", Locale.US);
     private static final int NB_SHOWN_DAYS = 7;
-    private static final long ONE_DAY_MS = 86400000l;
-
+    private static final long ONE_DAY_MS = 86400000L;
     public UploadedDataGraph(Context context) {
         super(context);
         configureUploadGraph();
@@ -56,7 +55,7 @@ public class UploadedDataGraph extends RadarChart {
      * Set the given values in the graph.
      * Will display the 7 last days worth of upload.
      *
-     * @param uploaded
+     * @param uploaded Collection of uploaded entries
      */
     public void setValues(Collection<UploadedEntry> uploaded) {
         Date endOfCurrentDay = getEndOfDay();
