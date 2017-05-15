@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'com.google.gms:google-services:3.0.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8' // Used by ButterKnife
     }
@@ -20,7 +20,7 @@ allprojects {
 }
 
 ext {
-    beeVersion = "1.10.0"
+    beeVersion = "1.11.0-SNAPSHOT"
     apkCode = 20
-    apisenseVersion = "1.10.0"
+    apisenseVersion = "1.11.0-SNAPSHOT"
 }
