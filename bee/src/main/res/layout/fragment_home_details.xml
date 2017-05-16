@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -7,10 +8,32 @@
 
     <include layout="@layout/fragment_common_details" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minHeight="300sp" />
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp" />
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/pagerIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="7dp"
+            app:piv_animationType="fill"
+            app:piv_dynamicCount="true"
+            app:piv_padding="@dimen/viewpager_indicator_padding"
+            app:piv_radius="@dimen/viewpager_indicator_radius"
+            app:piv_selectedColor="@color/aps_divider"
+            app:piv_unselectedColor="@color/aps_divider"
+            app:piv_viewPager="@id/viewpager" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

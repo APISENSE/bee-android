@@ -16,4 +16,8 @@
     <dimen name="floating_button_margin">16dp</dimen>
     <dimen name="default_text_margin">5dp</dimen>
 
+    <!-- ViewPager Indicator -->
+    <dimen name="viewpager_indicator_radius">6dp</dimen>
+    <dimen name="viewpager_indicator_padding">8dp</dimen>
+
 </resources>

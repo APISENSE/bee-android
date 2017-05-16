@@ -46,6 +46,7 @@ dependencies {
 
     // Graphic enhancements
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1' // Draw charts
+    compile 'com.romandanylyk:pageindicatorview:0.1.2' // View Pager Indicator
 
     // Android support animation and views
     compile('com.android.support:support-v4:25.1.0')

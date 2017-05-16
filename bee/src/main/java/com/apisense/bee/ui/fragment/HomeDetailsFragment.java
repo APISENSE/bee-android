@@ -17,6 +17,7 @@ import com.apisense.bee.callbacks.OnCropUnsubscribed;
 import com.apisense.bee.utils.CropPermissionHandler;
 import com.apisense.bee.widget.UploadedDataGraph;
 import com.apisense.bee.widget.VisualizationPagerAdapter;
+import com.rd.PageIndicatorView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +32,8 @@ import io.apisense.sting.visualization.VisualizationManager;
 public class HomeDetailsFragment extends CommonDetailsFragment {
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+    @BindView(R.id.pagerIndicator)
+    PageIndicatorView pagerIndicator;
     VisualizationPagerAdapter pagerAdapter;
     int currentPagerPosition = 0;
 
@@ -40,7 +43,6 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         super.onCreateView(inflater, container, savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_home_details, container, false);
@@ -54,7 +56,7 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
 
         View statisticsGraph = getStatisticsGraph(inflater, apisenseSdk.getStatisticsManager().getCropUsage(crop));
 
-        ArrayList<View> visualizations = new ArrayList<>();
+        final ArrayList<View> visualizations = new ArrayList<>();
         visualizations.add(statisticsGraph);
         visualizations.addAll(visManager.getCropVisualizations(getContext(), crop));
 
@@ -74,6 +76,24 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     //refresh visualization when scroll stops
                     pagerAdapter.invalidateView(currentPagerPosition);
+                }
+            }
+        });
+
+        viewPager.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = viewPager.getWidth();
+
+                float indicatorWidth = width / visualizations.size();
+                float indicatorRadius = (indicatorWidth * 6 / 10) / 2;
+                float indicatorPadding = indicatorWidth * 4 / 10;
+
+                int defaultRadius = (int) getResources().getDimension(R.dimen.viewpager_indicator_radius);
+
+                if (defaultRadius > indicatorRadius) {
+                    pagerIndicator.setRadius(indicatorRadius);
+                    pagerIndicator.setPadding(indicatorPadding);
                 }
             }
         });
