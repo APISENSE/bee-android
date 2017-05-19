@@ -28,7 +28,7 @@ public class BeeApplication extends Application {
 
         sdk = new APISENSE(this)
                 .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
-                .addStingsModules(new PhoneStingModule(), new NetworkStingModule(),
+                .bindStingPackage(new PhoneStingModule(), new NetworkStingModule(),
                         new MotionStingModule(), new EnvironmentStingModule(),
                         new VisualizationStingModule())
                 .getSdk();

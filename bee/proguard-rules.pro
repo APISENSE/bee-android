@@ -50,9 +50,6 @@
 -keep interface com.j256.**
 -keepclassmembers interface com.j256.** { *; }
 
-## Dagger
--keep class javax.inject.* { *; }
-
 ## Rhino
 -keep class javax.script.** { *; }
 -keep class com.sun.script.javascript.** { *; }
