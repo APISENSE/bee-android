@@ -1,65 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include layout="@layout/fragment_common_details" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/fragment_common_details" />
-
-        <TextView
-            android:id="@+id/no_upload"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp" />
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/pagerIndicator"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/secondary_text_size"
-            android:gravity="center_horizontal"
-            android:textStyle="bold"
-            android:text="@string/no_data_last_week"
-            android:visibility="invisible"/>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="7dp"
+            app:piv_animationType="fill"
+            app:piv_dynamicCount="true"
+            app:piv_padding="@dimen/viewpager_indicator_padding"
+            app:piv_radius="@dimen/viewpager_indicator_radius"
+            app:piv_selectedColor="@color/aps_divider"
+            app:piv_unselectedColor="@color/aps_divider"
+            app:piv_viewPager="@id/viewpager" />
 
-        <com.apisense.bee.widget.UploadedDataGraph
-            android:id="@+id/details_stats_upload_graph"
-            style="@style/BarGraph"
-            android:layout_width="fill_parent"
-            android:layout_height="300dp"
-            android:minHeight="80sp" />
+    </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/text_vertical_margin">
 
-            <TextView
-                android:id="@+id/detail_stats_local_traces"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/crop_stats_local_traces"
-                android:textSize="@dimen/secondary_text_size"
-                android:gravity="center_horizontal"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/detail_stats_total_uploaded"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/crop_stats_total_uploaded"
-                android:textSize="@dimen/secondary_text_size"
-                android:gravity="center_horizontal"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/detail_visualizations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

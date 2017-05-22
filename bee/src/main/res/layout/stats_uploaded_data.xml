@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/no_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/no_data_last_week"
+        android:textSize="@dimen/secondary_text_size"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_vertical_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/local_traces"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/crop_stats_local_traces"
+            android:textSize="@dimen/secondary_text_size" />
+
+        <TextView
+            android:id="@+id/total_uploaded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/crop_stats_total_uploaded"
+            android:textSize="@dimen/secondary_text_size" />
+
+    </LinearLayout>
+
+    <com.apisense.bee.widget.UploadedDataGraph
+        android:id="@+id/uploaded_chart"
+        style="@style/BarGraph"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:minHeight="80sp" />
+
+</LinearLayout>
