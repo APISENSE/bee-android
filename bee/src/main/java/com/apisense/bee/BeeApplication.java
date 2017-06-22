@@ -1,6 +1,5 @@
 package com.apisense.bee;
 
-import android.app.Application;
 import android.os.AsyncTask;
 
 import com.facebook.FacebookSdk;
@@ -8,30 +7,19 @@ import com.rollbar.Rollbar;
 import com.rollbar.payload.Payload;
 
 import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.APSApplication;
 import io.apisense.sting.environment.EnvironmentStingModule;
 import io.apisense.sting.motion.MotionStingModule;
 import io.apisense.sting.network.NetworkStingModule;
 import io.apisense.sting.phone.PhoneStingModule;
 import io.apisense.sting.visualization.VisualizationStingModule;
 
-public class BeeApplication extends Application {
-    private APISENSE.Sdk sdk;
+public class BeeApplication extends APSApplication {
     private Rollbar rollbar;
-
-    public APISENSE.Sdk getSdk() {
-        return sdk;
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        sdk = new APISENSE(this)
-                .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
-                .bindStingPackage(new PhoneStingModule(), new NetworkStingModule(),
-                        new MotionStingModule(), new EnvironmentStingModule(),
-                        new VisualizationStingModule())
-                .getSdk();
 
         rollbar = new Rollbar(
                 BuildConfig.ROLLBAR_KEY,
@@ -39,6 +27,17 @@ public class BeeApplication extends Application {
         );
 
         FacebookSdk.sdkInitialize(getApplicationContext());
+    }
+
+    @Override
+    protected APISENSE.Sdk generateAPISENSESdk() {
+        return new APISENSE(this)
+                .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
+                .bindStingPackage(new PhoneStingModule(), new NetworkStingModule(),
+                        new MotionStingModule(), new EnvironmentStingModule(),
+                        new VisualizationStingModule())
+                .useScriptExecutionService(true)
+                .getSdk();
     }
 
     public void reportException(final Throwable throwable) {

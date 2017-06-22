@@ -63,6 +63,9 @@
 ## Visualization Module
 -dontwarn com.google.maps.android.**
 
+# Dagger: https://github.com/google/dagger/issues/645
+-dontwarn com.google.errorprone.annotations.*
+
 # End apisense
 ##############
 
