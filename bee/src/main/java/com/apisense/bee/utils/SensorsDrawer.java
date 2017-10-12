@@ -2,12 +2,14 @@ package com.apisense.bee.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.apisense.bee.ui.layout.SensorsLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,26 +20,18 @@ import java.util.Set;
 import io.apisense.sting.lib.Sensor;
 
 public class SensorsDrawer {
-    private static final int SENSOR_LATERAL_PADDING = 2;
-    private static final float SENSOR_DISABLED_ALPHA = 0.1f;
+    private static final int SENSOR_SIZE = 27;
+    private static final int SENSOR_PADDING = 4;
+    private static final float SENSOR_ALPHA = 0.6f;
+
     private final Set<Sensor> availableSensors;
     private final int sensorSize;
-    private final int lateralPadding;
+    private final int sensorPadding;
 
     public SensorsDrawer(Set<Sensor> availableSensors) {
         this.availableSensors = availableSensors;
-        this.sensorSize = sensorDimension(availableSensors.size());
-        this.lateralPadding = dpToPx(SENSOR_LATERAL_PADDING);
-    }
-
-    /**
-     * Retrieve the sensor dimension to set in order to make them all fit on the screen.
-     *
-     * @param sensorNumber The number of sensor to draw.
-     * @return The size in pixels to use for each sensor.
-     */
-    private static int sensorDimension(int sensorNumber) {
-        return (Resources.getSystem().getDisplayMetrics().widthPixels - (2 * dpToPx(SENSOR_LATERAL_PADDING))) / (sensorNumber + 1);
+        sensorSize = dpToPx(SENSOR_SIZE);
+        sensorPadding = dpToPx(SENSOR_PADDING);
     }
 
     /**
@@ -52,8 +46,8 @@ public class SensorsDrawer {
         if (view.getChildCount() != 0) {
             view.removeAllViews();
         }
-        drawSensors(context, view, usedStings);
 
+        drawSensors(context, view, usedStings);
     }
 
     /**
@@ -65,13 +59,10 @@ public class SensorsDrawer {
      */
     private void drawSensors(Context context, ViewGroup view, List<String> usedStings) {
         for (Sensor sensor : asSortedList(availableSensors)) {
-            ImageView sensorView = parametrizedSensorView(context, sensor);
-
-            if (!usedStings.contains(sensor.stingName)) {
-                sensorView.setAlpha(SENSOR_DISABLED_ALPHA);
+            if (usedStings.contains(sensor.stingName)) {
+                ImageView sensorView = parametrizedSensorView(context, sensor);
+                view.addView(sensorView);
             }
-
-            view.addView(sensorView);
         }
     }
 
@@ -86,10 +77,15 @@ public class SensorsDrawer {
     private ImageView parametrizedSensorView(Context context, Sensor sensor) {
         ImageView sensorView = new ImageView(context);
 
-        RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(sensorSize, sensorSize);
-        sensorView.setImageDrawable(ContextCompat.getDrawable(context, sensor.iconID));
+        SensorsLayout.LayoutParams params = new SensorsLayout.LayoutParams(sensorSize, sensorSize);
         sensorView.setLayoutParams(params);
-        sensorView.setPadding(this.lateralPadding, 0, this.lateralPadding, 0);
+
+        Drawable drawable = ContextCompat.getDrawable(context, sensor.iconID);
+        sensorView.setImageDrawable(drawable);
+        sensorView.setPadding(sensorPadding, 0, sensorPadding, 0);
+
+        sensorView.setAlpha(SENSOR_ALPHA);
+
         return sensorView;
     }
 

@@ -97,7 +97,7 @@ public class SubscribedExperimentsRecyclerAdapter extends
         @BindView(R.id.crop_title) TextView mCropTitle;
         @BindView(R.id.crop_owner) TextView mCropOwner;
         @BindView(R.id.crop_description) TextView mCropDescription;
-        @BindView(R.id.sensors_container) LinearLayout mSensorsContainer;
+        @BindView(R.id.sensors_container) ViewGroup mSensorsContainer;
 
         public ViewHolder(View itemView) {
             super(itemView);
