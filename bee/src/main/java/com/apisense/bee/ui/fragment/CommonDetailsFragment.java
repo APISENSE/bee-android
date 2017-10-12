@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +29,7 @@ public class CommonDetailsFragment extends BaseFragment {
     @BindView(R.id.crop_detail_title) TextView nameView;
     @BindView(R.id.crop_detail_owner_and_version) TextView organizationView;
     @BindView(R.id.crop_detail_description) TextView descriptionView;
-    @BindView(R.id.crop_sensors_detail_container) LinearLayout stingGridView;
+    @BindView(R.id.crop_sensors_detail_container) ViewGroup stingGridView;
 
     protected Crop crop;
     protected APISENSE.Sdk apisenseSdk;
