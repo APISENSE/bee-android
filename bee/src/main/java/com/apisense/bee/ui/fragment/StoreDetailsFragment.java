@@ -26,7 +26,7 @@ import butterknife.OnClick;
 public class StoreDetailsFragment extends CommonDetailsFragment {
 
     @BindView(R.id.experimentSubBtn) FloatingActionButton mSubButton;
-    @BindView(R.id.detail_stats_subscribers)  TextView mSubscribers;
+    @BindView(R.id.detail_stats_subscribers) TextView mSubscribers;
 
     MenuItem updateButton;
 
