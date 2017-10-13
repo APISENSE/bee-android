@@ -66,7 +66,6 @@ public class HomeFragment extends BaseFragment {
         retrieveActiveExperiments();
 
         apisenseSdk.getCropManager().synchroniseSubscriptions(new OnCropModifiedOnStartup());
-        apisenseSdk.getCropManager().restartActive(new OnCropModifiedOnStartup());
 
         return view;
     }
