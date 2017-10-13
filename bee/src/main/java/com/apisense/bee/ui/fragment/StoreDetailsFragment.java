@@ -3,6 +3,7 @@ package com.apisense.bee.ui.fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,6 +71,22 @@ public class StoreDetailsFragment extends CommonDetailsFragment {
             apisenseSdk.getCropManager().unsubscribe(crop, new StoreDetailsCropUnsubscribed());
         } else {
             apisenseSdk.getCropManager().subscribe(crop, new StoreDetailsCropSubscribed(this));
+        }
+    }
+
+    @OnClick(R.id.crop_details)
+    void onCLickOnCropDetails() {
+        if (apisenseSdk.getCropManager().isInstalled(crop)) {
+            Bundle extra = new Bundle();
+            extra.putParcelable("crop", crop);
+
+            HomeDetailsFragment homeDetailsFragment = new HomeDetailsFragment();
+            homeDetailsFragment.setArguments(extra);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.exp_container, homeDetailsFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
