@@ -20,6 +20,8 @@ import com.apisense.bee.ui.adapter.SubscribedExperimentsRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +42,7 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private APISENSE.Sdk apisenseSdk;
+    private Timer autoUpdateRunning;
 
     public interface OnStoreClickedListener {
         void switchToStore();
@@ -74,6 +77,23 @@ public class HomeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         retrieveActiveExperiments();
+        autoUpdateRunning = new Timer();
+        autoUpdateRunning.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        retrieveActiveExperiments();
+                    }
+                });
+            }
+        }, 0, 1000); // updates each second
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        autoUpdateRunning.cancel();
     }
 
     /* onClick */
