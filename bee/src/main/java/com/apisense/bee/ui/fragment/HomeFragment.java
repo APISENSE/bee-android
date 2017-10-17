@@ -103,7 +103,7 @@ public class HomeFragment extends BaseFragment {
                     }
                 });
             }
-        }, 0, 1000); // updates each second
+        }, 0, 3000); // updates each 3 seconds
     }
 
     @Override
