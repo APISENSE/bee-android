@@ -38,8 +38,7 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.home_empty_list) TextView mEmptyHome;
 
     private OnStoreClickedListener mStoreListener;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private SubscribedExperimentsRecyclerAdapter mAdapter;
 
     private APISENSE.Sdk apisenseSdk;
     private Timer autoUpdateRunning;
@@ -61,8 +60,25 @@ public class HomeFragment extends BaseFragment {
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_home);
         homeActivity.selectDrawerItem(HomeActivity.DRAWER_HOME_IDENTIFIER);
 
+        mAdapter = new SubscribedExperimentsRecyclerAdapter(new SubscribedExperimentsRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Crop crop) {
+                Bundle extra = new Bundle();
+                extra.putParcelable("crop", crop);
+
+                HomeDetailsFragment homeDetailsFragment = new HomeDetailsFragment();
+                homeDetailsFragment.setArguments(extra);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.exp_container, homeDetailsFragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
+
         mRecyclerView.setHasFixedSize(true); // Performances
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
 
@@ -106,22 +122,8 @@ public class HomeFragment extends BaseFragment {
     /* Crop managment */
 
     public void setExperiments(ArrayList<Crop> experiments) {
-        mAdapter = new SubscribedExperimentsRecyclerAdapter(experiments, new SubscribedExperimentsRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Crop crop) {
-                Bundle extra = new Bundle();
-                extra.putParcelable("crop", crop);
-
-                HomeDetailsFragment homeDetailsFragment = new HomeDetailsFragment();
-                homeDetailsFragment.setArguments(extra);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.exp_container, homeDetailsFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setInstalledCrops(experiments);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void retrieveActiveExperiments() {
@@ -138,7 +140,7 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void onDone(List<Crop> response) {
             Log.i(TAG, "number of Active Experiments: " + response.size());
-            if(response.isEmpty()) {
+            if (response.isEmpty()) {
                 mEmptyHome.setVisibility(View.VISIBLE);
             } else {
                 mEmptyHome.setVisibility(View.GONE);
