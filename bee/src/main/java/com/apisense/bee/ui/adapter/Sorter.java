@@ -12,4 +12,7 @@ public interface Sorter<T> {
      * @param comparator The comparator to apply on data.
      */
     void sort(SortComparator<T> comparator);
+
+
+    void reverseSort(SortComparator<T> comparator);
 }

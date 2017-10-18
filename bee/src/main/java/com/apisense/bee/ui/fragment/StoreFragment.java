@@ -32,6 +32,7 @@ import com.apisense.bee.ui.activity.QRScannerActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsRecyclerAdapter;
 import com.apisense.bee.ui.adapter.CropField;
 import com.apisense.bee.ui.adapter.DividerItemDecoration;
+import com.apisense.bee.ui.adapter.SortComparator;
 import com.apisense.bee.utils.CropPermissionHandler;
 
 import java.util.List;
@@ -62,6 +63,10 @@ public class StoreFragment extends BaseFragment {
     RecyclerView mRecyclerView;
     @BindView(R.id.store_empty_list)
     TextView mEmptyList;
+
+    private boolean authorSortAscending = true;
+    private boolean nameSortAscending = true;
+    private Menu sortMenu;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,6 +116,7 @@ public class StoreFragment extends BaseFragment {
         inflater.inflate(R.menu.store_search, menu);
 
         final MenuItem searchItem = menu.findItem(R.id.menu_store_action_search);
+        sortMenu = menu.findItem(R.id.menu_store_action_sort).getSubMenu();
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -134,15 +140,35 @@ public class StoreFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_store_action_sort_name:
-                mAdapter.getComparator().sort(CropField.NAME);
+                sort(CropField.NAME, nameSortAscending, item);
+                nameSortAscending = !nameSortAscending;
                 break;
             case R.id.menu_store_action_sort_author:
-                mAdapter.getComparator().sort(CropField.AUTHOR);
+                sort(CropField.AUTHOR, authorSortAscending, item);
+                authorSortAscending = !authorSortAscending;
                 break;
             default:
                 Log.w(TAG, "Unable to retrieve id in store menu (" + item.getItemId() + ")");
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sort(SortComparator<Crop> sortComparator, boolean ascending, MenuItem item) {
+        if (ascending) {
+            mAdapter.getComparator().sort(sortComparator);
+            item.setIcon(R.drawable.ic_sort_az_white);
+        } else {
+            mAdapter.getComparator().reverseSort(sortComparator);
+            item.setIcon(R.drawable.ic_sort_za_white);
+        }
+
+        // Set other menus to diamond arrow
+
+        for (int i = 0; i < sortMenu.size(); i++) {
+            if (!item.equals(sortMenu.getItem(i))) {
+                sortMenu.getItem(i).setIcon(R.drawable.ic_sort_unsorted_white);
+            }
+        }
     }
 
     @Override

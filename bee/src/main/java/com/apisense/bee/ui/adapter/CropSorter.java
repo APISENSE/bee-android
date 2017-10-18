@@ -24,4 +24,12 @@ class CropSorter implements Sorter<Crop> {
         adapter.setAvailableCrops(crops);
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void reverseSort(SortComparator<Crop> comparator) {
+        Collections.sort(crops, comparator.getComparator());
+        Collections.reverse(crops);
+        adapter.setAvailableCrops(crops);
+        adapter.notifyDataSetChanged();
+    }
 }

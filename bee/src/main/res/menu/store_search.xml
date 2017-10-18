@@ -18,10 +18,12 @@
         <menu>
             <item
                 android:id="@+id/menu_store_action_sort_name"
+                android:icon="@drawable/ic_sort_unsorted_white"
                 android:title="@string/store_sort_name"/>
 
             <item
                 android:id="@+id/menu_store_action_sort_author"
+                android:icon="@drawable/ic_sort_unsorted_white"
                 android:title="@string/store_sort_author"/>
 
         </menu>
