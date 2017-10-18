@@ -5,12 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.utils.SensorsDrawer;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -21,21 +24,46 @@ import io.apisense.sdk.core.store.Crop;
 import io.apisense.sting.lib.Sensor;
 
 public class AvailableExperimentsRecyclerAdapter extends
-        RecyclerView.Adapter<AvailableExperimentsRecyclerAdapter.ViewHolder> {
+        RecyclerView.Adapter<AvailableExperimentsRecyclerAdapter.ViewHolder> implements Filterable {
 
-    private final String TAG = getClass().getSimpleName();
     private List<Crop> mAvailableCrops;
     private OnItemClickListener mListener;
     private Context context;
     private SensorsDrawer sensorsDrawer;
 
+    private CropFilter filter;
+    private CropSorter comparator;
+
+    @Override
+    public Filter getFilter() {
+        if (filter == null) {
+            filter = new CropFilter(this, mAvailableCrops);
+        }
+        return filter;
+    }
+
+    public Sorter<Crop> getComparator() {
+        if (comparator == null) {
+            this.comparator = new CropSorter(this, mAvailableCrops);
+        }
+        return comparator;
+    }
+
     public interface OnItemClickListener {
         void onItemClick(Crop crop);
+    }
+
+    public AvailableExperimentsRecyclerAdapter(OnItemClickListener listener) {
+        this(Collections.<Crop>emptyList(), listener);
     }
 
     public AvailableExperimentsRecyclerAdapter(List<Crop> installedCrops, OnItemClickListener listener) {
         mAvailableCrops = installedCrops;
         mListener = listener;
+    }
+
+    public void setAvailableCrops(List<Crop> availableCrops) {
+        this.mAvailableCrops = availableCrops;
     }
 
     @Override
@@ -59,7 +87,7 @@ public class AvailableExperimentsRecyclerAdapter extends
         holder.mCropDescription.setText(crop.getShortDescription());
         holder.mCropVersion.setText(context.getString(R.string.exp_details_version, crop.getVersion()));
 
-        sensorsDrawer.draw(context, holder.mSensorsContainer,  crop.getUsedStings());
+        sensorsDrawer.draw(context, holder.mSensorsContainer, crop.getUsedStings());
 
         holder.bind(crop, mListener);
     }
@@ -71,11 +99,16 @@ public class AvailableExperimentsRecyclerAdapter extends
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.store_item_name) TextView mCropTitle;
-        @BindView(R.id.store_item_owner) TextView mCropOwner;
-        @BindView(R.id.store_item_description) TextView mCropDescription;
-        @BindView(R.id.store_sensors_container) ViewGroup mSensorsContainer;
-        @BindView(R.id.store_item_version) TextView mCropVersion;
+        @BindView(R.id.store_item_name)
+        TextView mCropTitle;
+        @BindView(R.id.store_item_owner)
+        TextView mCropOwner;
+        @BindView(R.id.store_item_description)
+        TextView mCropDescription;
+        @BindView(R.id.store_sensors_container)
+        ViewGroup mSensorsContainer;
+        @BindView(R.id.store_item_version)
+        TextView mCropVersion;
 
         public ViewHolder(View itemView) {
             super(itemView);

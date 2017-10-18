@@ -150,7 +150,10 @@
     <string name="action_update">Update crop</string>
     <string name="no_available_experiments">No experiment have been found !</string>
     <string name="no_installed_experiments">No experiment installed yet !</string>
-    <string name="title_activity_store_search">StoreSearch</string>
+    <string name="store_search">Search</string>
+    <string name="store_sort">Sort</string>
+    <string name="store_sort_name">Sort by name</string>
+    <string name="store_sort_author">Sort by author</string>
 
     <!-- Rewards -->
     <string name="reward_dollars">DOLLARS</string>

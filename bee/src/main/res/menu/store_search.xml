@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.apisense.bee.ui.BeeApplication">
+    <item
+        android:id="@+id/menu_store_action_search"
+        android:icon="@drawable/ic_search_white"
+        android:title="@string/store_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_store_action_sort"
+        android:icon="@drawable/ic_sort_white"
+        android:title="@string/store_sort"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/menu_store_action_sort_name"
+                android:title="@string/store_sort_name"/>
+
+            <item
+                android:id="@+id/menu_store_action_sort_author"
+                android:title="@string/store_sort_author"/>
+
+        </menu>
+    </item>
+</menu>
