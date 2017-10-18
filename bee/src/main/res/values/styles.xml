@@ -1,4 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+
     <style name="BarGraph">
         <item name="viewsWeekdayColor">@color/aps_barchart_weekday</item>
         <item name="viewsWeekendColor">@color/aps_barchart_weekend</item>
@@ -9,8 +10,20 @@
         <item name="viewsWeekendColor">@color/aps_barchart_weekend_deactived</item>
     </style>
 
-    <style name="Apisense.Light" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="Apisense.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/aps_accent</item>
         <item name="colorPrimary">@color/aps_primary_dark</item>
     </style>
+
+    <style name="Apisense.ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@color/aps_primary</item>
+        <item name="android:itemTextAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextAppearance">
+        <item name="android:textColor">@color/aps_white</item>
+        <item name="android:textColorPrimary">@color/aps_white</item>
+        <item name="android:textColorSecondary">@color/aps_white</item>
+    </style>
+
 </resources>

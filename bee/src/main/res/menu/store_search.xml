@@ -5,7 +5,6 @@
       tools:context="com.apisense.bee.ui.BeeApplication">
     <item
         android:id="@+id/menu_store_action_search"
-        android:icon="@drawable/ic_search_white"
         android:title="@string/store_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always"/>

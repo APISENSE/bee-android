@@ -118,7 +118,6 @@ public class StoreFragment extends BaseFragment {
         final MenuItem searchItem = menu.findItem(R.id.menu_store_action_search);
         sortMenu = menu.findItem(R.id.menu_store_action_sort).getSubMenu();
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
