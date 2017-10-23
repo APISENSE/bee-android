@@ -50,9 +50,6 @@
 -keep interface com.j256.**
 -keepclassmembers interface com.j256.** { *; }
 
-## Dagger
--keep class javax.inject.* { *; }
-
 ## Rhino
 -keep class javax.script.** { *; }
 -keep class com.sun.script.javascript.** { *; }
@@ -65,6 +62,9 @@
 
 ## Visualization Module
 -dontwarn com.google.maps.android.**
+
+# Dagger: https://github.com/google/dagger/issues/645
+-dontwarn com.google.errorprone.annotations.*
 
 # End apisense
 ##############

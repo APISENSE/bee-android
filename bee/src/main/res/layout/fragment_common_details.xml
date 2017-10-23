@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/crop_detail_title"
@@ -18,13 +18,12 @@
             android:gravity="center_horizontal"
             android:textSize="@dimen/secondary_title_size"/>
 
-        <LinearLayout
+        <com.apisense.bee.ui.layout.SensorsLayout
             android:id="@+id/crop_sensors_detail_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-        </LinearLayout>
+            android:gravity="center_horizontal">
+        </com.apisense.bee.ui.layout.SensorsLayout>
 
         <View
             android:layout_width="match_parent"

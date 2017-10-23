@@ -2,6 +2,7 @@ package com.apisense.bee.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -96,6 +97,7 @@ public class HomeFragment extends BaseFragment {
                 homeDetailsFragment.setArguments(extra);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.exp_container, homeDetailsFragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .addToBackStack(null)
                         .commit();
             }
