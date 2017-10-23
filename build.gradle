@@ -20,7 +20,7 @@ allprojects {
 }
 
 ext {
-    beeVersion = "1.11.0-SNAPSHOT"
-    apkCode = 21
-    apisenseVersion = "1.11.0-SNAPSHOT"
+    beeVersion = "1.11.0"
+    apkCode = 22
+    apisenseVersion = "1.11.0"
 }
