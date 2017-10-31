@@ -1,6 +1,7 @@
 package com.apisense.bee.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -219,6 +221,9 @@ public class LoginFragment extends Fragment {
      * @param loginButton button pressed to start task
      */
     private void doLogin(final Button loginButton) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
         String email = mPseudoEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
         if (!isInputCorrect(email, password)) {
