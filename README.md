@@ -10,4 +10,4 @@ Bee is an Android (and [iOS](https://github.com/APISENSE/bee-ios)) application u
 
 # Contact
 
-For more information, you can contact us using : [contact (at) apisense (dot) com](mailto:contact@apisense.com)
+For more information, you can contact us using : [contact (at) apisense (dot) io](mailto:contact@apisense.io)
