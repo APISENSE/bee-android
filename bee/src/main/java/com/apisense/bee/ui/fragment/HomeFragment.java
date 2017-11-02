@@ -20,6 +20,8 @@ import com.apisense.bee.ui.adapter.SubscribedExperimentsRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,10 +38,10 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.home_empty_list) TextView mEmptyHome;
 
     private OnStoreClickedListener mStoreListener;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private SubscribedExperimentsRecyclerAdapter mAdapter;
 
     private APISENSE.Sdk apisenseSdk;
+    private Timer autoUpdateRunning;
 
     public interface OnStoreClickedListener {
         void switchToStore();
@@ -58,36 +60,7 @@ public class HomeFragment extends BaseFragment {
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_home);
         homeActivity.selectDrawerItem(HomeActivity.DRAWER_HOME_IDENTIFIER);
 
-        mRecyclerView.setHasFixedSize(true); // Performances
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
-
-        retrieveActiveExperiments();
-
-        apisenseSdk.getCropManager().synchroniseSubscriptions(new OnCropModifiedOnStartup());
-        apisenseSdk.getCropManager().restartActive(new OnCropModifiedOnStartup());
-
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        retrieveActiveExperiments();
-    }
-
-    /* onClick */
-
-    @OnClick(R.id.store)
-    public void doGoToStore(View storeButton) {
-        mStoreListener.switchToStore();
-    }
-
-    /* Crop managment */
-
-    public void setExperiments(ArrayList<Crop> experiments) {
-        mAdapter = new SubscribedExperimentsRecyclerAdapter(experiments, new SubscribedExperimentsRecyclerAdapter.OnItemClickListener() {
+        mAdapter = new SubscribedExperimentsRecyclerAdapter(new SubscribedExperimentsRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Crop crop) {
                 Bundle extra = new Bundle();
@@ -103,6 +76,54 @@ public class HomeFragment extends BaseFragment {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setHasFixedSize(true); // Performances
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
+
+        retrieveActiveExperiments();
+
+        apisenseSdk.getCropManager().synchroniseSubscriptions(new OnCropModifiedOnStartup());
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrieveActiveExperiments();
+        autoUpdateRunning = new Timer();
+        autoUpdateRunning.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        retrieveActiveExperiments();
+                    }
+                });
+            }
+        }, 0, 3000); // updates each 3 seconds
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        autoUpdateRunning.cancel();
+    }
+
+    /* onClick */
+
+    @OnClick(R.id.store)
+    public void doGoToStore(View storeButton) {
+        mStoreListener.switchToStore();
+    }
+
+    /* Crop managment */
+
+    public void setExperiments(ArrayList<Crop> experiments) {
+        mAdapter.setInstalledCrops(experiments);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void retrieveActiveExperiments() {
@@ -119,7 +140,7 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void onDone(List<Crop> response) {
             Log.i(TAG, "number of Active Experiments: " + response.size());
-            if(response.isEmpty()) {
+            if (response.isEmpty()) {
                 mEmptyHome.setVisibility(View.VISIBLE);
             } else {
                 mEmptyHome.setVisibility(View.GONE);

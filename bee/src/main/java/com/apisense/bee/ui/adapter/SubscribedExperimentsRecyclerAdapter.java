@@ -16,6 +16,7 @@ import io.apisense.sdk.APISENSE;
 import io.apisense.sdk.core.store.Crop;
 import io.apisense.sting.lib.Sensor;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,10 @@ public class SubscribedExperimentsRecyclerAdapter extends
     private OnItemClickListener mListener;
     private SensorsDrawer sensorsDrawer;
 
+    public SubscribedExperimentsRecyclerAdapter(OnItemClickListener listener) {
+        this(Collections.<Crop>emptyList(), listener);
+    }
+
     public interface OnItemClickListener {
         void onItemClick(Crop crop);
     }
@@ -39,7 +44,10 @@ public class SubscribedExperimentsRecyclerAdapter extends
     public SubscribedExperimentsRecyclerAdapter(List<Crop> installedCrops, OnItemClickListener listener) {
         mInstalledCrops = installedCrops;
         mListener = listener;
+    }
 
+    public void setInstalledCrops(List<Crop> installedCrops) {
+        this.mInstalledCrops = installedCrops;
     }
 
     @Override
