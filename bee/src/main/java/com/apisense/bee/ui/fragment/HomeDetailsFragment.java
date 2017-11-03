@@ -114,7 +114,7 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
                 doSubscribeUnsubscribe();
                 break;
             case R.id.detail_action_update:
-                doUpdate();
+                doStopUpdate();
                 break;
         }
         return false;
@@ -148,6 +148,20 @@ public class HomeDetailsFragment extends CommonDetailsFragment {
         } else {
             cropPermissionHandler.startOrRequestPermissions();
         }
+    }
+
+    private void doStopUpdate() {
+        if (apisenseSdk.getCropManager().isRunning(crop)) {
+            apisenseSdk.getCropManager().stop(crop, new OnCropStopped(getActivity()) {
+                @Override
+                public void onDone(Crop crop) {
+                    super.onDone(crop);
+                    displayStartButton();
+                }
+            });
+        }
+
+        doUpdate();
     }
 
     private void displayStopButton() {
