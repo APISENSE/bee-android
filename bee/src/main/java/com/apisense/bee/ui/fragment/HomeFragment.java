@@ -2,7 +2,6 @@ package com.apisense.bee.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,9 +32,12 @@ public class HomeFragment extends BaseFragment {
 
     private final String TAG = getClass().getSimpleName();
 
-    @BindView(R.id.store) FloatingActionButton storeButton;
-    @BindView(R.id.home_experiment_lists) RecyclerView mRecyclerView;
-    @BindView(R.id.home_empty_list) TextView mEmptyHome;
+    @BindView(R.id.store)
+    FloatingActionButton storeButton;
+    @BindView(R.id.home_experiment_lists)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.home_empty_list)
+    TextView mEmptyHome;
 
     private OnStoreClickedListener mStoreListener;
     private SubscribedExperimentsRecyclerAdapter mAdapter;
@@ -60,21 +62,7 @@ public class HomeFragment extends BaseFragment {
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_home);
         homeActivity.selectDrawerItem(HomeActivity.DRAWER_HOME_IDENTIFIER);
 
-        mAdapter = new SubscribedExperimentsRecyclerAdapter(new SubscribedExperimentsRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Crop crop) {
-                Bundle extra = new Bundle();
-                extra.putParcelable("crop", crop);
-
-                HomeDetailsFragment homeDetailsFragment = new HomeDetailsFragment();
-                homeDetailsFragment.setArguments(extra);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.exp_container, homeDetailsFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+        mAdapter = new SubscribedExperimentsRecyclerAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setHasFixedSize(true); // Performances
@@ -122,7 +110,7 @@ public class HomeFragment extends BaseFragment {
     /* Crop managment */
 
     public void setExperiments(ArrayList<Crop> experiments) {
-        mAdapter.setInstalledCrops(experiments);
+        mAdapter.setCrops(experiments);
         mAdapter.notifyDataSetChanged();
     }
 

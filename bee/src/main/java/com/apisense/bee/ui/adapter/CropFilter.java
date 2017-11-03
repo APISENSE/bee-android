@@ -8,10 +8,10 @@ import java.util.List;
 import io.apisense.sdk.core.store.Crop;
 
 class CropFilter extends Filter {
-    private final AvailableExperimentsRecyclerAdapter adapter;
+    private final ExperimentsRecyclerAdapter adapter;
     private final List<Crop> crops;
 
-    CropFilter(AvailableExperimentsRecyclerAdapter adapter, List<Crop> crops) {
+    CropFilter(ExperimentsRecyclerAdapter adapter, List<Crop> crops) {
         this.adapter = adapter;
         this.crops = crops;
     }
@@ -52,7 +52,7 @@ class CropFilter extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapter.setAvailableCrops((List<Crop>) results.values);
+        adapter.setCrops((List<Crop>) results.values);
         adapter.notifyDataSetChanged();
     }
 }

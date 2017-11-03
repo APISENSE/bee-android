@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,7 +45,6 @@ import io.apisense.sdk.core.store.Crop;
 
 import static android.app.Activity.RESULT_OK;
 
-
 public class StoreFragment extends BaseFragment {
     private final String TAG = getClass().getSimpleName();
 
@@ -82,21 +80,7 @@ public class StoreFragment extends BaseFragment {
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_store);
         homeActivity.selectDrawerItem(HomeActivity.DRAWER_STORE_IDENTIFIER);
 
-        mAdapter = new AvailableExperimentsRecyclerAdapter(new AvailableExperimentsRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Crop crop) {
-                Bundle extra = new Bundle();
-                extra.putParcelable("crop", crop);
-
-                StoreDetailsFragment storeDetailsFragment = new StoreDetailsFragment();
-                storeDetailsFragment.setArguments(extra);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.exp_container, storeDetailsFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+        mAdapter = new AvailableExperimentsRecyclerAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setHasFixedSize(true); // Performances
@@ -192,7 +176,7 @@ public class StoreFragment extends BaseFragment {
      * @param experiments The new list of experiments to show
      */
     private void setExperiments(List<Crop> experiments) {
-        mAdapter.setAvailableCrops(experiments);
+        mAdapter.setCrops(experiments);
         mAdapter.notifyDataSetChanged();
     }
 
