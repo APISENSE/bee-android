@@ -28,8 +28,7 @@ import butterknife.OnClick;
 import io.apisense.sdk.APISENSE;
 import io.apisense.sdk.core.store.Crop;
 
-public class HomeFragment extends BaseFragment {
-
+public class HomeFragment extends SortedCropsFragment {
     private final String TAG = getClass().getSimpleName();
 
     @BindView(R.id.store)
@@ -40,7 +39,6 @@ public class HomeFragment extends BaseFragment {
     TextView mEmptyHome;
 
     private OnStoreClickedListener mStoreListener;
-    private SubscribedExperimentsRecyclerAdapter mAdapter;
 
     private APISENSE.Sdk apisenseSdk;
     private Timer autoUpdateRunning;
@@ -62,8 +60,8 @@ public class HomeFragment extends BaseFragment {
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_home);
         homeActivity.selectDrawerItem(HomeActivity.DRAWER_HOME_IDENTIFIER);
 
-        mAdapter = new SubscribedExperimentsRecyclerAdapter(getActivity());
-        mRecyclerView.setAdapter(mAdapter);
+        experimentsAdapter = new SubscribedExperimentsRecyclerAdapter(getActivity());
+        mRecyclerView.setAdapter(experimentsAdapter);
 
         mRecyclerView.setHasFixedSize(true); // Performances
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -100,28 +98,17 @@ public class HomeFragment extends BaseFragment {
         autoUpdateRunning.cancel();
     }
 
-    /* onClick */
-
     @OnClick(R.id.store)
     public void doGoToStore(View storeButton) {
         mStoreListener.switchToStore();
-    }
-
-    /* Crop managment */
-
-    public void setExperiments(ArrayList<Crop> experiments) {
-        mAdapter.setCrops(experiments);
-        mAdapter.notifyDataSetChanged();
     }
 
     private void retrieveActiveExperiments() {
         apisenseSdk.getCropManager().getSubscriptions(new ExperimentListRetrievedCallback());
     }
 
-    /* Callbacks */
-
     private class ExperimentListRetrievedCallback extends BeeAPSCallback<List<Crop>> {
-        public ExperimentListRetrievedCallback() {
+        ExperimentListRetrievedCallback() {
             super(getActivity());
         }
 
@@ -132,21 +119,21 @@ public class HomeFragment extends BaseFragment {
                 mEmptyHome.setVisibility(View.VISIBLE);
             } else {
                 mEmptyHome.setVisibility(View.GONE);
-                setExperiments(new ArrayList<Crop>(response));
+                setExperiments(new ArrayList<>(response));
             }
         }
     }
 
     private class OnCropModifiedOnStartup extends BeeAPSCallback<Crop> {
-        public OnCropModifiedOnStartup() {
+        OnCropModifiedOnStartup() {
             super(getActivity());
         }
 
         @Override
         public void onDone(Crop crop) {
-            Log.d(TAG, "Crop" + crop.getName() + "started back");
+            Log.d(TAG, "Crop " + crop.getName() + " started back");
             retrieveActiveExperiments();
-            mAdapter.notifyDataSetChanged();
+            experimentsAdapter.notifyDataSetChanged();
         }
     }
 }

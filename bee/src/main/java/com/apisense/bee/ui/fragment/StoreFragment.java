@@ -8,15 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -29,9 +24,7 @@ import com.apisense.bee.callbacks.OnCropStarted;
 import com.apisense.bee.ui.activity.HomeActivity;
 import com.apisense.bee.ui.activity.QRScannerActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsRecyclerAdapter;
-import com.apisense.bee.ui.adapter.CropField;
 import com.apisense.bee.ui.adapter.DividerItemDecoration;
-import com.apisense.bee.ui.adapter.SortComparator;
 import com.apisense.bee.utils.CropPermissionHandler;
 
 import java.util.List;
@@ -45,15 +38,13 @@ import io.apisense.sdk.core.store.Crop;
 
 import static android.app.Activity.RESULT_OK;
 
-public class StoreFragment extends BaseFragment {
+public class StoreFragment extends SortedCropsFragment {
     private final String TAG = getClass().getSimpleName();
 
     private APISENSE.Sdk apisenseSdk;
     private CropPermissionHandler lastCropPermissionHandler;
     private Unbinder unbinder;
     private static final int REQUEST_PERMISSION_QR_CODE = 1;
-
-    private AvailableExperimentsRecyclerAdapter mAdapter;
 
     @BindView(R.id.action_read_qrcode)
     FloatingActionButton QRCodeButton;
@@ -62,15 +53,10 @@ public class StoreFragment extends BaseFragment {
     @BindView(R.id.store_empty_list)
     TextView mEmptyList;
 
-    private boolean authorSortAscending = true;
-    private boolean nameSortAscending = true;
-    private Menu sortMenu;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        setHasOptionsMenu(true);
 
         View root = inflater.inflate(R.layout.fragment_store, container, false);
         unbinder = ButterKnife.bind(this, root);
@@ -80,8 +66,8 @@ public class StoreFragment extends BaseFragment {
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_store);
         homeActivity.selectDrawerItem(HomeActivity.DRAWER_STORE_IDENTIFIER);
 
-        mAdapter = new AvailableExperimentsRecyclerAdapter(getActivity());
-        mRecyclerView.setAdapter(mAdapter);
+        experimentsAdapter = new AvailableExperimentsRecyclerAdapter(getActivity());
+        mRecyclerView.setAdapter(experimentsAdapter);
 
         mRecyclerView.setHasFixedSize(true); // Performances
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -91,67 +77,6 @@ public class StoreFragment extends BaseFragment {
         getExperiments();
 
         return root;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.store_search, menu);
-
-        final MenuItem searchItem = menu.findItem(R.id.menu_store_action_search);
-        sortMenu = menu.findItem(R.id.menu_store_action_sort).getSubMenu();
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.v(TAG, "Looking for crops using substring: " + query);
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                Log.v(TAG, "Looking for crops using substring: " + query);
-                mAdapter.getFilter().filter(query);
-                return false;
-            }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_store_action_sort_name:
-                sort(CropField.NAME, nameSortAscending, item);
-                nameSortAscending = !nameSortAscending;
-                break;
-            case R.id.menu_store_action_sort_author:
-                sort(CropField.AUTHOR, authorSortAscending, item);
-                authorSortAscending = !authorSortAscending;
-                break;
-            default:
-                Log.w(TAG, "Unable to retrieve id in store menu (" + item.getItemId() + ")");
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void sort(SortComparator<Crop> sortComparator, boolean ascending, MenuItem item) {
-        if (ascending) {
-            mAdapter.getComparator().sort(sortComparator);
-            item.setIcon(R.drawable.ic_sort_az_white);
-        } else {
-            mAdapter.getComparator().reverseSort(sortComparator);
-            item.setIcon(R.drawable.ic_sort_za_white);
-        }
-
-        // Set other menus to diamond arrow
-
-        for (int i = 0; i < sortMenu.size(); i++) {
-            if (!item.equals(sortMenu.getItem(i))) {
-                sortMenu.getItem(i).setIcon(R.drawable.ic_sort_unsorted_white);
-            }
-        }
     }
 
     @Override
@@ -168,16 +93,6 @@ public class StoreFragment extends BaseFragment {
             String[] permissions = {android.Manifest.permission.CAMERA};
             ActivityCompat.requestPermissions(getActivity(), permissions, REQUEST_PERMISSION_QR_CODE);
         }
-    }
-
-    /**
-     * Change the adapter dataSet with a newly fetched List of Experiment
-     *
-     * @param experiments The new list of experiments to show
-     */
-    private void setExperiments(List<Crop> experiments) {
-        mAdapter.setCrops(experiments);
-        mAdapter.notifyDataSetChanged();
     }
 
     private void getExperiments() {

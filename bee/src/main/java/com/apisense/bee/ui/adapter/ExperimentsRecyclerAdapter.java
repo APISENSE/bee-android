@@ -2,10 +2,6 @@ package com.apisense.bee.ui.adapter;
 
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +9,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.apisense.bee.BeeApplication;
-import com.apisense.bee.R;
 import com.apisense.bee.utils.SensorsDrawer;
 
 import java.util.Collections;
@@ -25,7 +20,7 @@ import io.apisense.sdk.APISENSE;
 import io.apisense.sdk.core.store.Crop;
 import io.apisense.sting.lib.Sensor;
 
-abstract class ExperimentsRecyclerAdapter<T extends ExperimentsRecyclerAdapter.ViewHolder>
+public abstract class ExperimentsRecyclerAdapter<T extends ExperimentsRecyclerAdapter.ViewHolder>
         extends RecyclerView.Adapter<T> implements Filterable {
 
     private List<Crop> crops;
