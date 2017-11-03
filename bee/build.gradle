@@ -11,7 +11,7 @@ if (!project.hasProperty("release_sdk_key")) {
 }
 
 if (!project.hasProperty("rollbar_key")) {
-    ext.rollbar_key = ""
+    ext.rollbar_key = "-"
 }
 
 if (!project.hasProperty("release_keystore_password")) {
