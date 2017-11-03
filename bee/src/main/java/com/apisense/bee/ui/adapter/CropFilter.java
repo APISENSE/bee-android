@@ -19,7 +19,7 @@ class CropFilter extends Filter {
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
         if (constraint.length() == 0) {
-            return buildResult(crops);
+            return CropResultHolder.buildResult(crops);
         } else {
             return searchSubstring(constraint);
         }
@@ -36,23 +36,38 @@ class CropFilter extends Filter {
                 filtered.add(crop);
             }
         }
-        return buildResult(filtered);
+        return CropResultHolder.buildResult(filtered);
     }
 
     private boolean isContained(String field, String constraint) {
         return field.toLowerCase().contains(constraint.toLowerCase());
     }
 
-    private FilterResults buildResult(List<Crop> filtered) {
-        FilterResults results = new FilterResults();
-        results.values = filtered;
-        results.count = filtered.size();
-        return results;
-    }
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapter.setCrops((List<Crop>) results.values);
-        adapter.notifyDataSetChanged();
+        if (results.values instanceof CropResultHolder) {
+            adapter.setCrops(((CropResultHolder) results.values).results);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Wrap the List of crops in order to avoid a nasty cast.
+     */
+    private static final class CropResultHolder {
+        List<Crop> results;
+
+        private CropResultHolder(List<Crop> results) {
+            this.results = results;
+        }
+
+        static FilterResults buildResult(List<Crop> filtered) {
+            FilterResults results = new FilterResults();
+            results.values = new CropResultHolder(filtered);
+            results.count = filtered.size();
+            return results;
+        }
+
     }
 }
