@@ -87,6 +87,10 @@ public abstract class ExperimentsRecyclerAdapter<T extends ExperimentsRecyclerAd
         this.crops = availableCrops;
     }
 
+    public List<Crop> getCrops() {
+        return Collections.unmodifiableList(crops);
+    }
+
     /**
      * Response to execute when a specific crop is clicked on the {@link ExperimentsRecyclerAdapter}.
      */

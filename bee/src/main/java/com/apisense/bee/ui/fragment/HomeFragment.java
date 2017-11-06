@@ -18,7 +18,9 @@ import com.apisense.bee.ui.adapter.DividerItemDecoration;
 import com.apisense.bee.ui.adapter.SubscribedExperimentsRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.apisense.sdk.APISENSE;
+import io.apisense.sdk.adapter.SimpleAPSCallback;
 import io.apisense.sdk.core.store.Crop;
 
 public class HomeFragment extends SortedCropsFragment {
@@ -85,11 +88,36 @@ public class HomeFragment extends SortedCropsFragment {
             public void run() {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
-                        retrieveActiveExperiments();
+                        updateDisplayedExperiments();
                     }
                 });
             }
         }, 0, 3000); // updates each 3 seconds
+    }
+
+    private void updateDisplayedExperiments() {
+        apisenseSdk.getCropManager().getSubscriptions(new SimpleAPSCallback<List<Crop>>() {
+            @Override
+            public void onDone(List<Crop> crops) {
+                final List<Crop> displayed = ((SubscribedExperimentsRecyclerAdapter) experimentsAdapter).getCrops();
+                final Map<String, Crop> selected = new HashMap<>();
+                final List<Crop> updated = new ArrayList<>();
+
+                // Retrieve the new version of the selected crops.
+                for (Crop crop : crops) {
+                    if (displayed.contains(crop)) {
+                        selected.put(crop.getLocation(), crop);
+                    }
+                }
+
+                // Insert the crop in the same order as before.
+                for (Crop crop : displayed) {
+                    updated.add(selected.get(crop.getLocation()));
+                }
+                experimentsAdapter.setCrops(updated);
+                experimentsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
