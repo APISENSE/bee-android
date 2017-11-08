@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt' // Used by butterknife
 
 // Default parameters to empty string.
 if (!project.hasProperty("debug_sdk_key")) {
@@ -36,15 +35,15 @@ dependencies {
     compile 'io.apisense.sdk:stings-visualization:' + apisenseVersion
 
     // Import Sensor type
-    compile 'io.apisense:java-darts:1.2.0'
+    compile 'io.apisense:java-darts:1.4.2'
 
     // QRCode scanner
     compile 'me.dm7.barcodescanner:zbar:1.8.3'
 
     // Social and Gamification
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
-    compile 'com.google.android.gms:play-services-games:9.8.0'
-    compile 'com.google.android.gms:play-services-plus:9.8.0'
+    compile 'com.google.android.gms:play-services-auth:' + googleServicesVersion
+    compile 'com.google.android.gms:play-services-games:' + googleServicesVersion
+    compile 'com.google.android.gms:play-services-plus:' + googleServicesVersion
     compile 'com.facebook.android:facebook-android-sdk:4.15.0'
 
     // Graphic enhancements
@@ -52,24 +51,23 @@ dependencies {
     compile 'com.romandanylyk:pageindicatorview:0.1.2'
 
     // Android support animation and views
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    // Regression on floating action button with 25.1.0
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:support-v4:' + androidSupportVersion
+    compile 'com.android.support:appcompat-v7:' + androidSupportVersion
+    compile 'com.android.support:recyclerview-v7:' + androidSupportVersion
+    compile 'com.android.support:design:' + androidSupportVersion
 
     compile('com.mikepenz:materialdrawer:5.2.9@aar') {
         transitive = true
     }
 
     // Helpers
-    compile 'com.jakewharton:butterknife:8.0.1'
-    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     lintOptions {
         abortOnError false
@@ -78,7 +76,7 @@ android {
     defaultConfig {
         applicationId "com.apisense.bee"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode apkCode
         versionName beeVersion
         multiDexEnabled true
