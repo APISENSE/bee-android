@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -67,6 +68,8 @@ public class LoginFragment extends Fragment {
     private OnRegisterClickedListener mRegisterCallback;
     private CallbackManager facebookCallbackManager;
     private GoogleApiClient googleApiClient;
+    private IBinder windowToken;
+    private InputMethodManager inputManager;
 
     public interface OnRegisterClickedListener {
         void switchToRegister();
@@ -93,6 +96,10 @@ public class LoginFragment extends Fragment {
                 }
             });
         }
+
+        View currentFocus = getActivity().getCurrentFocus();
+        windowToken = currentFocus != null ? currentFocus.getWindowToken() : null;
+        inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         mPasswordEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -235,8 +242,9 @@ public class LoginFragment extends Fragment {
      * @param loginButton button pressed to start task
      */
     private void doLogin(final Button loginButton) {
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        if (windowToken != null) {
+            inputManager.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
 
         String email = mPseudoEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
