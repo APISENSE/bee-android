@@ -2,6 +2,7 @@ package com.apisense.bee.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -43,6 +44,9 @@ public class RegisterFragment extends Fragment {
     private OnLoginClickedListener mLoginCallback;
     private APISENSE.Sdk apisenseSdk;
 
+    private IBinder windowToken;
+    private InputMethodManager inputManager;
+
     public interface OnLoginClickedListener {
         void switchToLogin();
 
@@ -57,6 +61,10 @@ public class RegisterFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
         mLoginCallback = (OnLoginClickedListener) getActivity();
+
+        View currentFocus = getActivity().getCurrentFocus();
+        windowToken = currentFocus != null ? currentFocus.getWindowToken() : null;
+        inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         mPasswordConfirmEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -98,8 +106,9 @@ public class RegisterFragment extends Fragment {
      * @param registerButton The button used to call this method.
      */
     public void attemptRegister(final View registerButton) {
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        if (windowToken != null) {
+            inputManager.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
 
         resetFieldsError();
         String pseudo = mPseudoEditText.getText().toString();
