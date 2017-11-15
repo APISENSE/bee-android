@@ -7,6 +7,6 @@
     android:background="@color/aps_primary"
     app:titleTextColor="@color/aps_white"
     android:subtitleTextColor="@color/aps_white"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/Apisense.ActionBar">
 
 </android.support.v7.widget.Toolbar>

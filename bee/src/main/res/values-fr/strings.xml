@@ -134,7 +134,10 @@
     <string name="action_update">Mettre à jour l\'expérience</string>
     <string name="no_available_experiments">Aucune expérience trouvée !</string>
     <string name="no_installed_experiments">Aucune expérience installées pour l\'instant !</string>
-    <string name="title_activity_store_search">Recherche sur le Store</string>
+    <string name="store_search">Rechercher</string>
+    <string name="store_sort">Trier</string>
+    <string name="store_sort_name">Trier par nom</string>
+    <string name="store_sort_author">Trier par auteur</string>
 
     <!-- Rewards -->
     <string name="reward_dollars">DOLLARS</string>
