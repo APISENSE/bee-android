@@ -1,18 +1,20 @@
-package com.apisense.bee.ui.adapter;
+package com.apisense.bee.ui.adapter.sort;
 
 import android.util.Log;
+
+import com.apisense.bee.ui.adapter.ExperimentsRecyclerAdapter;
 
 import java.util.Collections;
 import java.util.List;
 
 import io.apisense.sdk.core.store.Crop;
 
-class CropSorter implements Sorter<Crop> {
+public class CropSorter implements Sorter<Crop> {
     private static final String TAG = "CropComparator";
     private final ExperimentsRecyclerAdapter adapter;
     private final List<Crop> crops;
 
-    CropSorter(ExperimentsRecyclerAdapter adapter, List<Crop> crops) {
+    public CropSorter(ExperimentsRecyclerAdapter adapter, List<Crop> crops) {
         this.adapter = adapter;
         this.crops = crops;
     }

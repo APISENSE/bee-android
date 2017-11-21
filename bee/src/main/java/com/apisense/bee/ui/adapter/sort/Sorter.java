@@ -1,4 +1,4 @@
-package com.apisense.bee.ui.adapter;
+package com.apisense.bee.ui.adapter.sort;
 
 /**
  * Sort the elements depending on a comparator.
@@ -13,6 +13,10 @@ public interface Sorter<T> {
      */
     void sort(SortComparator<T> comparator);
 
-
+    /**
+     * Perform the sort with the given comparator, then invert the result.
+     *
+     * @param comparator The comparator to apply on data.
+     */
     void reverseSort(SortComparator<T> comparator);
 }
