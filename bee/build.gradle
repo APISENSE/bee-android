@@ -3,11 +3,11 @@ apply plugin: 'com.neenbedankt.android-apt' // Used by butterknife
 
 // Default parameters to empty string.
 if (!project.hasProperty("debug_sdk_key")) {
-    ext.debug_sdk_key = ""
+    ext.debug_sdk_key = "b34d85a0-a942-4abc-98f8-4039bef10b9e"
 }
 
 if (!project.hasProperty("release_sdk_key")) {
-    ext.release_sdk_key = ""
+    ext.release_sdk_key = "b34d85a0-a942-4abc-98f8-4039bef10b9e"
 }
 
 if (!project.hasProperty("rollbar_key")) {
@@ -28,12 +28,12 @@ dependencies {
     compile('com.rollbar:rollbar:0.5.3')
 
     // Features
-    compile 'io.apisense.sdk:apisense-android-sdk:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-network:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-phone:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-motion:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-environment:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-visualization:' + apisenseVersion
+    compile 'io.apisense.sdk:apisense-android-sdk:1.11.0'
+    compile 'io.apisense.sdk:stings-network:1.11.0'
+    compile 'io.apisense.sdk:stings-phone:1.11.0'
+    compile 'io.apisense.sdk:stings-motion:1.11.0'
+    compile 'io.apisense.sdk:stings-environment:1.11.0'
+    compile 'io.apisense.sdk:stings-visualization:1.11.0'
 
     compile 'io.apisense:java-darts:1.2.0' // Import Sensor type
     compile 'me.dm7.barcodescanner:zbar:1.8.3' // QRCode scanner
@@ -97,11 +97,11 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro', 'proguard-rules.debug.pro'
             signingConfig signingConfigs.customDebug
-            testCoverageEnabled = true
+            testCoverageEnabled = false
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
             buildConfigField "String", "SDK_KEY", "\"${debug_sdk_key}\""

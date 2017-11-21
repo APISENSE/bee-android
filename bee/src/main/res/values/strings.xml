@@ -187,6 +187,8 @@
 
     <string name="accessibility_service_name">Bee application monitor</string>
     <string name="accessibility_service_description">Enable Bee to monitor your foreground applications</string>
+    <string name="event_observer_service_description">Enable Bee to observe all your events</string>
+
 
     <!-- Google Play Games -->
     <string name="signin_other_error">GPG Error</string>

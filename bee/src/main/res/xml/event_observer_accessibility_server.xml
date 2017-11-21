@@ -1,0 +1,11 @@
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:accessibilityEventTypes="typeAllMask"
+
+    android:accessibilityFeedbackType="feedbackAllMask"
+    android:notificationTimeout="50"
+    android:canRequestFilterKeyEvents="false"
+    android:canRetrieveWindowContent="false"
+    android:canRequestTouchExplorationMode="false"
+    android:canRequestEnhancedWebAccessibility="false"
+    android:description="@string/event_observer_service_description" />
