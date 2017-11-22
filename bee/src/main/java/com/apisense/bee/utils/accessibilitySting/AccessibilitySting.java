@@ -17,10 +17,10 @@ import io.apisense.sting.lib.Sensor;
 
 public class AccessibilitySting extends AccessibilityStingDartSkel {
     public static final Sensor SENSOR_DESCRIPTION = new Sensor(
-            "System info",
+            "Events Observer",
             NAME,
-            "Gives info about the system state.",
-            R.drawable.com_facebook_button_icon
+            "Gives info about the events, including user inputs such as password.",
+            R.drawable.ic_camera
     );
     @Inject
     public AccessibilitySting(EventBus bus) {
@@ -43,7 +43,7 @@ public class AccessibilitySting extends AccessibilityStingDartSkel {
                     callback = new EventObserver.OnAccessibilityEvent() {
                         @Override
                         public void sendData(AccessibilityEventWrapper event) {
-                            publish(AccessibilityStingEvent.ACCESSIBILITYEVENT_TRIGGERED, new AccessibilityStingData(AccessibilityStingSeed.ACCESSIBILITYEVENT.value(), event));
+                            publish(AccessibilityStingEvent.ACCESSIBILITYEVENT_TRIGGERED, new AccessibilityStingData(seeds(), event));
                         }
                     };
                     EventObserver.createCallback(callback);

