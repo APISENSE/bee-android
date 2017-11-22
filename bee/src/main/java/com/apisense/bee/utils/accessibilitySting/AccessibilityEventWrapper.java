@@ -1,5 +1,6 @@
 package com.apisense.bee.utils.accessibilitySting;
 
+import android.support.annotation.Nullable;
 import android.view.accessibility.AccessibilityEvent;
 
 import java.util.Date;
@@ -21,7 +22,7 @@ public class AccessibilityEventWrapper {
     public final boolean isFullScreen;
 
 
-    public AccessibilityEventWrapper(AccessibilityEvent event, String text) {
+    public AccessibilityEventWrapper(AccessibilityEvent event, @Nullable String text) {
         this.eventType = AccessibilityEvent.eventTypeToString(event.getEventType());
         this.eventTime = event.getEventTime();
         this.packageName = String.valueOf(event.getPackageName());
