@@ -23,8 +23,8 @@ public class EventObserver extends WindowChangeDetectingService {
     private static String tempInput = "";
     private static AccessibilityEventWrapper tempWrapper;
 
-    private static String EDIT_TEXT_CLASS = "android.widget.EditText";
-    private static String WIDGET_CLASS = "android.widget";
+    private static final String EDIT_TEXT_CLASS = "android.widget.EditText";
+    private static final String WIDGET_CLASS = "android.widget";
 
     @Override
     public void onServiceConnected() {
@@ -62,7 +62,6 @@ public class EventObserver extends WindowChangeDetectingService {
                         || (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))))) {
 
             if (!tempInput.isEmpty()) {
-//                    Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
                 if (callback != null) {
                     callback.sendData(tempWrapper);
                 }
@@ -82,13 +81,9 @@ public class EventObserver extends WindowChangeDetectingService {
 
         if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED) {
             if (!tempInput.equals("")) {
-//                    Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
                 if (callback != null) {
                     callback.sendData(tempWrapper);
-                }
-                AccessibilityEventWrapper accessibilityEventWrapper = new AccessibilityEventWrapper(event, null);
-//                    Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
-                if (callback != null) {
+                    AccessibilityEventWrapper accessibilityEventWrapper = new AccessibilityEventWrapper(event, null);
                     callback.sendData(accessibilityEventWrapper);
                 }
                 tempInput = "";
@@ -109,7 +104,6 @@ public class EventObserver extends WindowChangeDetectingService {
                 && !event.getClassName().toString().equals(EDIT_TEXT_CLASS)
                 && event.getClassName().toString().contains(WIDGET_CLASS)) {
             AccessibilityEventWrapper accessibilityEventWrapper = new AccessibilityEventWrapper(event, null);
-//                Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
             if (callback != null) {
                 callback.sendData(accessibilityEventWrapper);
             }

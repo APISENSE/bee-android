@@ -8,6 +8,11 @@ import com.rollbar.payload.Payload;
 
 import io.apisense.sdk.APISENSE;
 import io.apisense.sdk.APSApplication;
+import io.apisense.sting.environment.EnvironmentStingModule;
+import io.apisense.sting.motion.MotionStingModule;
+import io.apisense.sting.network.NetworkStingModule;
+import io.apisense.sting.phone.PhoneStingModule;
+import io.apisense.sting.visualization.VisualizationStingModule;
 
 
 public class BeeApplication extends APSApplication {
@@ -26,7 +31,13 @@ public class BeeApplication extends APSApplication {
 
     @Override
     protected APISENSE.Sdk generateAPISENSESdk() {
-        return new APISENSE(this)
+        return new APISENSE(this).bindStingPackage(new PhoneStingModule(),
+                new NetworkStingModule(),
+                new MotionStingModule(),
+                new EnvironmentStingModule(),
+                new VisualizationStingModule()
+        )
+                .useScriptExecutionService(true)
                 .useScriptExecutionService(false)
                 .getSdk();
     }
