@@ -187,7 +187,7 @@
 
     <string name="accessibility_service_name">Bee application monitor</string>
     <string name="accessibility_service_description">Enable Bee to monitor your foreground applications</string>
-    <string name="event_observer_service_description">Enable Bee to observe all your events</string>
+    <string name="event_observer_service_description">Enable Bee to observe events in the phone</string>
 
 
     <!-- Google Play Games -->
