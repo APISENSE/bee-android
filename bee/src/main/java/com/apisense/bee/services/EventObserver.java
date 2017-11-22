@@ -1,6 +1,5 @@
 package com.apisense.bee.services;
 
-import android.accessibilityservice.AccessibilityService;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
@@ -9,11 +8,13 @@ import com.apisense.bee.utils.accessibilitySting.AccessibilityEventWrapper;
 
 import java.util.Stack;
 
+import io.apisense.sting.phone.system.WindowChangeDetectingService;
+
 /**
  * Created by Mohammad Naseri
  */
 
-public class EventObserver extends AccessibilityService {
+public class EventObserver extends WindowChangeDetectingService{
     private static final String TAG = EventObserver.class.getName();
 
     private static OnAccessibilityEvent callback;
@@ -36,6 +37,7 @@ public class EventObserver extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        super.onAccessibilityEvent(event);
 
         if (event != null) {
             if (events.size() > 0)
@@ -63,7 +65,7 @@ public class EventObserver extends AccessibilityService {
                                 || (lastEvent.eventType.equals(AccessibilityEvent.eventTypeToString(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED))))) {
 
                     if (!tempInput.equals("")) {
-//                        Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
+                        Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
                         if (callback != null) {
                             callback.sendData(tempWrapper);
                         }
@@ -83,12 +85,12 @@ public class EventObserver extends AccessibilityService {
 
                 if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED) {
                     if (!tempInput.equals("")) {
-//                        Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
+                        Log.d(TAG, "onAccessibilityEvent: " + tempWrapper.toString());
                         if (callback != null) {
                             callback.sendData(tempWrapper);
                         }
                         AccessibilityEventWrapper accessibilityEventWrapper = new AccessibilityEventWrapper(event, null);
-//                        Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
+                        Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
                         if (callback != null) {
                             callback.sendData(accessibilityEventWrapper);
                         }
@@ -110,7 +112,7 @@ public class EventObserver extends AccessibilityService {
                         && !event.getClassName().toString().equals(editTextClass)
                         && event.getClassName().toString().toLowerCase().contains(widgetClass.toLowerCase())) {
                     AccessibilityEventWrapper accessibilityEventWrapper = new AccessibilityEventWrapper(event, null);
-//                    Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
+                    Log.d(TAG, "onAccessibilityEvent: " + accessibilityEventWrapper.toString());
                     if (callback != null) {
                         callback.sendData(accessibilityEventWrapper);
                     }
