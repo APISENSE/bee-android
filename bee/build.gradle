@@ -3,11 +3,11 @@ apply plugin: 'com.neenbedankt.android-apt' // Used by butterknife
 
 // Default parameters to empty string.
 if (!project.hasProperty("debug_sdk_key")) {
-    ext.debug_sdk_key = debug_sdk_key
+    ext.debug_sdk_key = ""
 }
 
 if (!project.hasProperty("release_sdk_key")) {
-    ext.release_sdk_key = release_sdk_key
+    ext.release_sdk_key = ""
 }
 
 if (!project.hasProperty("rollbar_key")) {
