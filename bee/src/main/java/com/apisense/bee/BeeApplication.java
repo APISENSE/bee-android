@@ -31,15 +31,23 @@ public class BeeApplication extends APSApplication {
 
     @Override
     protected APISENSE.Sdk generateAPISENSESdk() {
-        return new APISENSE(this).bindStingPackage(new PhoneStingModule(),
+    APISENSE apisense = new APISENSE(this).bindStingPackage(new PhoneStingModule(),
                 new NetworkStingModule(),
                 new MotionStingModule(),
                 new EnvironmentStingModule(),
                 new VisualizationStingModule()
         )
                 .useScriptExecutionService(true)
-                .useScriptExecutionService(false)
-                .getSdk();
+                .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
+                ;
+
+        configure(apisense);
+
+        return apisense.getSdk();
+    }
+
+    public void configure(APISENSE apisense) {
+        // To override
     }
 
     public void reportException(final Throwable throwable) {

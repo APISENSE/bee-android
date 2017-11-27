@@ -12,15 +12,15 @@ import io.apisense.dart.lib.Tokens;
 import io.apisense.sting.lib.Sensor;
 
 /**
- * Created by mnaseri on 11/15/17.
+ * Created by Mohammad Naseri
  */
 
 public class AccessibilitySting extends AccessibilityStingDartSkel {
     public static final Sensor SENSOR_DESCRIPTION = new Sensor(
-            "Events Observer",
+            "Event Observer",
             NAME,
             "Gives info about the events, including user inputs such as password.",
-            R.drawable.ic_camera
+            R.drawable.ic_accessiblity_sting
     );
     @Inject
     public AccessibilitySting(EventBus bus) {

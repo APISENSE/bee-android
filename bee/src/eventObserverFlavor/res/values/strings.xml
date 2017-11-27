@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- About -->
+    <string name="event_observer_service_description">Enable Bee to observe events in the phone</string>
+</resources>

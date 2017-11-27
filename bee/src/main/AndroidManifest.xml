@@ -76,6 +76,19 @@
                 android:resource="@xml/aps_media_path" />
         </provider>
 
+        <!-- Enable foreground app monitoring -->
+        <service
+            android:label="@string/accessibility_service_name"
+            android:name="io.apisense.sting.phone.system.WindowChangeDetectingService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config"/>
+        </service>
+
         <!-- GCM Configuration -->
         <service
             android:name="io.apisense.sdk.push.APSGcmListenerService">
@@ -140,21 +153,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name="com.apisense.bee.services.EventObserver"
-            android:exported="true"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/event_observer_accessibility_service" />
-
-        </service>
     </application>
 
 </manifest>
