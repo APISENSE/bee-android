@@ -121,11 +121,13 @@ android {
         }
     }
 
+    flavorDimensions "content"
     productFlavors {
         vanilla {
-
+            dimension "content"
         }
         experimental {
+            dimension "content"
             applicationIdSuffix '.experimental'
         }
     }
