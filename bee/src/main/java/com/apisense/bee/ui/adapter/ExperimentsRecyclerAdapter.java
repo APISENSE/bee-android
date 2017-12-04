@@ -9,6 +9,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.apisense.bee.BeeApplication;
+import com.apisense.bee.ui.adapter.filter.CropFilter;
+import com.apisense.bee.ui.adapter.sort.CropSorter;
+import com.apisense.bee.ui.adapter.sort.Sorter;
 import com.apisense.bee.utils.SensorsDrawer;
 
 import java.util.Collections;

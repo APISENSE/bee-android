@@ -1,4 +1,4 @@
-package com.apisense.bee.ui.adapter;
+package com.apisense.bee.ui.adapter.sort;
 
 import java.util.Comparator;
 
@@ -14,4 +14,11 @@ public interface SortComparator<T> {
      * @return The {@link Comparator}.
      */
     Comparator<T> getComparator();
+
+    /**
+     * Define the type of this comparator. The types will define adapted drawables.
+     *
+     * @return The {@link ComparatorType} for this comparator.
+     */
+    ComparatorType getType();
 }

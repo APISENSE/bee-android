@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.apisense.bee.R;
 import com.apisense.bee.ui.fragment.HomeDetailsFragment;
-import com.apisense.bee.ui.fragment.StoreDetailsFragment;
 
 import butterknife.BindView;
 import io.apisense.sdk.core.store.Crop;

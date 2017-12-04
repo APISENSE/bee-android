@@ -1,17 +1,19 @@
-package com.apisense.bee.ui.adapter;
+package com.apisense.bee.ui.adapter.filter;
 
 import android.widget.Filter;
+
+import com.apisense.bee.ui.adapter.ExperimentsRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.apisense.sdk.core.store.Crop;
 
-class CropFilter extends Filter {
+public class CropFilter extends Filter {
     private final ExperimentsRecyclerAdapter adapter;
     private final List<Crop> crops;
 
-    CropFilter(ExperimentsRecyclerAdapter adapter, List<Crop> crops) {
+    public CropFilter(ExperimentsRecyclerAdapter adapter, List<Crop> crops) {
         this.adapter = adapter;
         this.crops = crops;
     }

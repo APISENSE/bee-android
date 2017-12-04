@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.ui.activity.HomeActivity;
@@ -27,7 +26,6 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.apisense.sdk.APISENSE;
 import io.apisense.sdk.adapter.SimpleAPSCallback;
 import io.apisense.sdk.core.store.Crop;
 
@@ -37,13 +35,12 @@ public class HomeFragment extends SortedCropsFragment {
     @BindView(R.id.store)
     FloatingActionButton storeButton;
     @BindView(R.id.home_experiment_lists)
-    RecyclerView mRecyclerView;
+    RecyclerView recyclerView;
     @BindView(R.id.home_empty_list)
-    TextView mEmptyHome;
+    TextView emptyListView;
 
     private OnStoreClickedListener mStoreListener;
 
-    private APISENSE.Sdk apisenseSdk;
     private Timer autoUpdateRunning;
 
     public interface OnStoreClickedListener {
@@ -57,19 +54,18 @@ public class HomeFragment extends SortedCropsFragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-        apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
         mStoreListener = (OnStoreClickedListener) getActivity();
 
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_home);
         homeActivity.selectDrawerItem(HomeActivity.DRAWER_HOME_IDENTIFIER);
 
         experimentsAdapter = new SubscribedExperimentsRecyclerAdapter(getActivity());
-        mRecyclerView.setAdapter(experimentsAdapter);
+        recyclerView.setAdapter(experimentsAdapter);
 
-        mRecyclerView.setHasFixedSize(true); // Performances
+        recyclerView.setHasFixedSize(true); // Performances
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
 
         retrieveActiveExperiments();
 
@@ -132,24 +128,7 @@ public class HomeFragment extends SortedCropsFragment {
     }
 
     private void retrieveActiveExperiments() {
-        apisenseSdk.getCropManager().getSubscriptions(new ExperimentListRetrievedCallback());
-    }
-
-    private class ExperimentListRetrievedCallback extends BeeAPSCallback<List<Crop>> {
-        ExperimentListRetrievedCallback() {
-            super(getActivity());
-        }
-
-        @Override
-        public void onDone(List<Crop> response) {
-            Log.i(TAG, "number of Active Experiments: " + response.size());
-            if (response.isEmpty()) {
-                mEmptyHome.setVisibility(View.VISIBLE);
-            } else {
-                mEmptyHome.setVisibility(View.GONE);
-                setExperiments(new ArrayList<>(response));
-            }
-        }
+        apisenseSdk.getCropManager().getSubscriptions(new OnExperimentsRetrieved(getActivity(), emptyListView));
     }
 
     private class OnCropModifiedOnStartup extends BeeAPSCallback<Crop> {
