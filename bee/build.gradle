@@ -30,15 +30,16 @@ dependencies {
     implementation('io.apisense.sdk:apisense-android-sdk:' + apisenseVersion) {
         exclude module: "com.google.firebase"
     }
-    compile "com.google.firebase:firebase-messaging:" + googleServicesVersion
-
+    implementation "com.google.firebase:firebase-messaging:" + googleServicesVersion
     implementation 'io.apisense.sdk:stings-network:' + apisenseVersion
     implementation 'io.apisense.sdk:stings-phone:' + apisenseVersion
     implementation 'io.apisense.sdk:stings-motion:' + apisenseVersion
     implementation 'io.apisense.sdk:stings-environment:' + apisenseVersion
     implementation 'io.apisense.sdk:stings-visualization:' + apisenseVersion
 
-    compile 'io.apisense:netsense:1.0.0'
+    experimentalImplementation('io.apisense:netsense:1.0.0'){
+        exclude module: "io.apisense.sdk"
+    }
 
     // Import Sensor type
     implementation 'io.apisense:java-darts:1.4.3'

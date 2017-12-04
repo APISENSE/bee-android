@@ -21,6 +21,25 @@
           "current_key": "AIzaSyDrE8NrY7zDk8g5Jz8buQdQiSrDpEkIEOQ"
         }
       ]
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389111852471:android:2b6b002d3a4c2977",
+        "android_client_info": {
+          "package_name": "com.apisense.bee.experimental.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389111852471-2viou2i09brk4f9837jilpmiboj0pk3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrE8NrY7zDk8g5Jz8buQdQiSrDpEkIEOQ"
+        }
+      ]
     }
   ],
   "configuration_version": "1"
