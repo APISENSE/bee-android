@@ -35,6 +35,8 @@ dependencies {
     compile 'io.apisense.sdk:stings-environment:' + apisenseVersion
     compile 'io.apisense.sdk:stings-visualization:' + apisenseVersion
 
+    compile 'io.apisense:netsense:1.0.0'
+
     // Import Sensor type
     compile 'io.apisense:java-darts:1.2.0'
 
