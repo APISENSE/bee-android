@@ -14,6 +14,7 @@ import io.apisense.sting.network.NetworkStingModule;
 import io.apisense.sting.phone.PhoneStingModule;
 import io.apisense.sting.visualization.VisualizationStingModule;
 
+
 public class BeeApplication extends APSApplication {
     private Rollbar rollbar;
 
@@ -25,19 +26,28 @@ public class BeeApplication extends APSApplication {
                 BuildConfig.ROLLBAR_KEY,
                 BuildConfig.ROLLBAR_ENV
         );
-
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     @Override
     protected APISENSE.Sdk generateAPISENSESdk() {
-        return new APISENSE(this)
+        APISENSE apisense = new APISENSE(this)
                 .useSdkKey(com.apisense.bee.BuildConfig.SDK_KEY)
-                .bindStingPackage(new PhoneStingModule(), new NetworkStingModule(),
-                        new MotionStingModule(), new EnvironmentStingModule(),
-                        new VisualizationStingModule())
-                .useScriptExecutionService(true)
-                .getSdk();
+                .bindStingPackage(new PhoneStingModule(),
+                        new NetworkStingModule(),
+                        new MotionStingModule(),
+                        new EnvironmentStingModule(),
+                        new VisualizationStingModule()
+                )
+                .useScriptExecutionService(true);
+
+        configure(apisense);
+
+        return apisense.getSdk();
+    }
+
+    protected void configure(APISENSE apisense) {
+        // To override
     }
 
     public void reportException(final Throwable throwable) {

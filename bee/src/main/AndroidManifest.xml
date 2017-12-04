@@ -88,6 +88,7 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config"/>
         </service>
+
         <!-- GCM Configuration -->
         <service
             android:name="io.apisense.sdk.push.APSGcmListenerService">
