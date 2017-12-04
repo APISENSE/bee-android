@@ -62,6 +62,7 @@
 
 ## Visualization Module
 -dontwarn com.google.maps.android.**
+-dontwarn org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck
 
 # Dagger: https://github.com/google/dagger/issues/645
 -dontwarn com.google.errorprone.annotations.*

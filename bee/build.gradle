@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt' // Used by butterknife
 
 // Default parameters to empty string.
 if (!project.hasProperty("debug_sdk_key")) {
@@ -25,53 +24,56 @@ if (!project.hasProperty("release_key_password")) {
 
 dependencies {
     // Report
-    compile 'com.rollbar:rollbar:0.5.3'
+    implementation 'com.rollbar:rollbar:0.5.3'
 
     // Features
-    compile 'io.apisense.sdk:apisense-android-sdk:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-network:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-phone:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-motion:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-environment:' + apisenseVersion
-    compile 'io.apisense.sdk:stings-visualization:' + apisenseVersion
+    implementation('io.apisense.sdk:apisense-android-sdk:' + apisenseVersion) {
+        exclude module: "com.google.firebase"
+    }
+    compile "com.google.firebase:firebase-messaging:" + googleServicesVersion
+
+    implementation 'io.apisense.sdk:stings-network:' + apisenseVersion
+    implementation 'io.apisense.sdk:stings-phone:' + apisenseVersion
+    implementation 'io.apisense.sdk:stings-motion:' + apisenseVersion
+    implementation 'io.apisense.sdk:stings-environment:' + apisenseVersion
+    implementation 'io.apisense.sdk:stings-visualization:' + apisenseVersion
 
     compile 'io.apisense:netsense:1.0.0'
 
     // Import Sensor type
-    compile 'io.apisense:java-darts:1.2.0'
+    implementation 'io.apisense:java-darts:1.4.3'
 
     // QRCode scanner
-    compile 'me.dm7.barcodescanner:zbar:1.8.3'
+    implementation 'me.dm7.barcodescanner:zbar:1.8.3'
 
     // Social and Gamification
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
-    compile 'com.google.android.gms:play-services-games:9.8.0'
-    compile 'com.google.android.gms:play-services-plus:9.8.0'
-    compile 'com.facebook.android:facebook-android-sdk:4.15.0'
+    implementation 'com.google.android.gms:play-services-auth:' + googleServicesVersion
+    implementation 'com.google.android.gms:play-services-games:' + googleServicesVersion
+    implementation 'com.google.android.gms:play-services-plus:' + googleServicesVersion
+    implementation 'com.facebook.android:facebook-android-sdk:4.15.0'
 
     // Graphic enhancements
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
-    compile 'com.romandanylyk:pageindicatorview:0.1.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+    implementation 'com.romandanylyk:pageindicatorview:0.1.2'
 
     // Android support animation and views
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    // Regression on floating action button with 25.1.0
-    compile 'com.android.support:design:24.2.0'
+    implementation 'com.android.support:support-v4:' + androidSupportVersion
+    implementation 'com.android.support:appcompat-v7:' + androidSupportVersion
+    implementation 'com.android.support:recyclerview-v7:' + androidSupportVersion
+    implementation 'com.android.support:design:' + androidSupportVersion
 
     compile('com.mikepenz:materialdrawer:5.2.9@aar') {
         transitive = true
     }
 
     // Helpers
-    compile 'com.jakewharton:butterknife:8.0.1'
-    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     lintOptions {
         abortOnError false
@@ -80,7 +82,7 @@ android {
     defaultConfig {
         applicationId "com.apisense.bee"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode apkCode
         versionName beeVersion
         multiDexEnabled true
@@ -125,11 +127,13 @@ android {
         }
     }
 
+    flavorDimensions "content"
     productFlavors {
         vanilla {
-
+            dimension "content"
         }
         experimental {
+            dimension "content"
             applicationIdSuffix '.experimental'
         }
     }
