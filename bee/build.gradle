@@ -21,56 +21,6 @@ if (!project.hasProperty("release_key_password")) {
     ext.release_key_password = ""
 }
 
-
-dependencies {
-    // Report
-    implementation 'com.rollbar:rollbar:0.5.3'
-
-    // Features
-    implementation('io.apisense.sdk:apisense-android-sdk:' + apisenseVersion) {
-        exclude module: "com.google.firebase"
-    }
-    compile "com.google.firebase:firebase-messaging:" + googleServicesVersion
-
-    implementation 'io.apisense.sdk:stings-network:' + apisenseVersion
-    implementation 'io.apisense.sdk:stings-phone:' + apisenseVersion
-    implementation 'io.apisense.sdk:stings-motion:' + apisenseVersion
-    implementation 'io.apisense.sdk:stings-environment:' + apisenseVersion
-    implementation 'io.apisense.sdk:stings-visualization:' + apisenseVersion
-
-    compile 'io.apisense:netsense:1.0.0'
-
-    // Import Sensor type
-    implementation 'io.apisense:java-darts:1.4.3'
-
-    // QRCode scanner
-    implementation 'me.dm7.barcodescanner:zbar:1.8.3'
-
-    // Social and Gamification
-    implementation 'com.google.android.gms:play-services-auth:' + googleServicesVersion
-    implementation 'com.google.android.gms:play-services-games:' + googleServicesVersion
-    implementation 'com.google.android.gms:play-services-plus:' + googleServicesVersion
-    implementation 'com.facebook.android:facebook-android-sdk:4.15.0'
-
-    // Graphic enhancements
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
-    implementation 'com.romandanylyk:pageindicatorview:0.1.2'
-
-    // Android support animation and views
-    implementation 'com.android.support:support-v4:' + androidSupportVersion
-    implementation 'com.android.support:appcompat-v7:' + androidSupportVersion
-    implementation 'com.android.support:recyclerview-v7:' + androidSupportVersion
-    implementation 'com.android.support:design:' + androidSupportVersion
-
-    compile('com.mikepenz:materialdrawer:5.2.9@aar') {
-        transitive = true
-    }
-
-    // Helpers
-    implementation 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-}
-
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
@@ -138,6 +88,54 @@ android {
         }
     }
 
+}
+
+dependencies {
+    // Report
+    implementation 'com.rollbar:rollbar:0.5.3'
+
+    // Features
+    implementation('io.apisense.sdk:apisense-android-sdk:' + apisenseVersion) {
+        exclude module: "com.google.firebase"
+    }
+    implementation "com.google.firebase:firebase-messaging:" + googleServicesVersion
+    implementation 'io.apisense.sdk:stings-network:' + apisenseVersion
+    implementation 'io.apisense.sdk:stings-phone:' + apisenseVersion
+    implementation 'io.apisense.sdk:stings-motion:' + apisenseVersion
+    implementation 'io.apisense.sdk:stings-environment:' + apisenseVersion
+    implementation 'io.apisense.sdk:stings-visualization:' + apisenseVersion
+
+    experimentalImplementation('io.apisense:netsense:1.0.0')
+
+    // Import Sensor type
+    implementation 'io.apisense:java-darts:1.4.3'
+
+    // QRCode scanner
+    implementation 'me.dm7.barcodescanner:zbar:1.8.3'
+
+    // Social and Gamification
+    implementation 'com.google.android.gms:play-services-auth:' + googleServicesVersion
+    implementation 'com.google.android.gms:play-services-games:' + googleServicesVersion
+    implementation 'com.google.android.gms:play-services-plus:' + googleServicesVersion
+    implementation 'com.facebook.android:facebook-android-sdk:4.15.0'
+
+    // Graphic enhancements
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+    implementation 'com.romandanylyk:pageindicatorview:0.1.2'
+
+    // Android support animation and views
+    implementation 'com.android.support:support-v4:' + androidSupportVersion
+    implementation 'com.android.support:appcompat-v7:' + androidSupportVersion
+    implementation 'com.android.support:recyclerview-v7:' + androidSupportVersion
+    implementation 'com.android.support:design:' + androidSupportVersion
+
+    compile('com.mikepenz:materialdrawer:5.2.9@aar') {
+        transitive = true
+    }
+
+    // Helpers
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
