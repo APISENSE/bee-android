@@ -1,11 +1,11 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8' // Used by ButterKnife
     }
 }
 
@@ -14,13 +14,19 @@ allprojects {
         maven { url "https://jitpack.io" } // Dependency: MPAndroidChart
         jcenter()
         maven { url '/tmp/sdkRepo/content/repositories/snapshots/' }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" } // APISENSE Snapshots
+        // APISENSE Snapshots
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         mavenLocal()
+        google()
     }
 }
 
 ext {
-    beeVersion = "1.11.0"
-    apkCode = 22
-    apisenseVersion = "1.11.0"
+    beeVersion = "2.0.0"
+    apkCode = 24
+
+    // Libraries
+    apisenseVersion = "1.11.3"
+    googleServicesVersion = "11.6.2"
+    androidSupportVersion = "27.0.1"
 }

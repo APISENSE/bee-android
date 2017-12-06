@@ -79,6 +79,7 @@
     <string name="exp_details_name">%1$s</string>
     <string name="exp_details_organization">Par %1$s</string>
     <string name="exp_details_version">Version %1$d</string>
+    <string name="exp_details_subscribers_description">Nombre de participants</string>
     <string name="crop_stats_subscribers">Nombre de souscriptions: %1$d</string>
     <string name="crop_stats_data_volume">Volume de données exporté: %1$.2f Kib</string>
     <string name="crop_stats_creation_date">Création: %1$s</string>
@@ -134,7 +135,12 @@
     <string name="action_update">Mettre à jour l\'expérience</string>
     <string name="no_available_experiments">Aucune expérience trouvée !</string>
     <string name="no_installed_experiments">Aucune expérience installées pour l\'instant !</string>
-    <string name="title_activity_store_search">Recherche sur le Store</string>
+    <string name="store_search">Rechercher</string>
+    <string name="store_sort">Trier</string>
+    <string name="store_sort_name">Trier par nom</string>
+    <string name="store_sort_author">Trier par auteur</string>
+    <string name="store_sort_subscribers">Trier par nombre d\'utilisateurs</string>
+    <string name="store_sort_update">Trier par date de mise à jour</string>
 
     <!-- Rewards -->
     <string name="reward_dollars">DOLLARS</string>
@@ -158,7 +164,7 @@
         <![CDATA[
 	    	<p>
 	    		L\'application Bee fait partie de la plateforme <a href="https://apisense.io" >APISENSE</a>,
-	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.fr">contact@apisense.com</a>.
+	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.io">contact@apisense.io</a>.
 			</p>
 	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés. <a href="https://apisense.io/terms">Conditions Générales d\'Utilisation</a>.</p>
 	    ]]>

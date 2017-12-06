@@ -8,6 +8,10 @@ Bee is an Android (and [iOS](https://github.com/APISENSE/bee-ios)) application u
 2. Select one or more crop(s) to contribute to
 3. Do nothing more and help science
 
+# Build
+
+See [how to contribute](CONTRIBUTING.md)
+
 # Contact
 
-For more information, you can contact us using : [contact (at) apisense (dot) com](mailto:contact@apisense.com)
+For more information, you can contact us using : [contact (at) apisense (dot) io](mailto:contact@apisense.io)

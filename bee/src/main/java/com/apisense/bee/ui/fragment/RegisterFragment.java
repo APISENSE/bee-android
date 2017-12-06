@@ -1,14 +1,20 @@
 package com.apisense.bee.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apisense.bee.BeeApplication;
@@ -38,6 +44,9 @@ public class RegisterFragment extends Fragment {
     private OnLoginClickedListener mLoginCallback;
     private APISENSE.Sdk apisenseSdk;
 
+    private IBinder windowToken;
+    private InputMethodManager inputManager;
+
     public interface OnLoginClickedListener {
         void switchToLogin();
 
@@ -52,6 +61,23 @@ public class RegisterFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
         mLoginCallback = (OnLoginClickedListener) getActivity();
+
+        View currentFocus = getActivity().getCurrentFocus();
+        windowToken = currentFocus != null ? currentFocus.getWindowToken() : null;
+        inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        mPasswordConfirmEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    mSignUpButton.performClick();
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
         return view;
     }
 
@@ -80,6 +106,10 @@ public class RegisterFragment extends Fragment {
      * @param registerButton The button used to call this method.
      */
     public void attemptRegister(final View registerButton) {
+        if (windowToken != null) {
+            inputManager.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
         resetFieldsError();
         String pseudo = mPseudoEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();

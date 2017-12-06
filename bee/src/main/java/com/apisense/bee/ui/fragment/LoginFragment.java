@@ -1,16 +1,21 @@
 package com.apisense.bee.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -63,6 +68,8 @@ public class LoginFragment extends Fragment {
     private OnRegisterClickedListener mRegisterCallback;
     private CallbackManager facebookCallbackManager;
     private GoogleApiClient googleApiClient;
+    private IBinder windowToken;
+    private InputMethodManager inputManager;
 
     public interface OnRegisterClickedListener {
         void switchToRegister();
@@ -89,6 +96,22 @@ public class LoginFragment extends Fragment {
                 }
             });
         }
+
+        View currentFocus = getActivity().getCurrentFocus();
+        windowToken = currentFocus != null ? currentFocus.getWindowToken() : null;
+        inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        mPasswordEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    mSignInBtn.performClick();
+                    return true;
+                }
+                
+                return false;
+            }
+        });
 
         return view;
     }
@@ -219,6 +242,10 @@ public class LoginFragment extends Fragment {
      * @param loginButton button pressed to start task
      */
     private void doLogin(final Button loginButton) {
+        if (windowToken != null) {
+            inputManager.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
         String email = mPseudoEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
         if (!isInputCorrect(email, password)) {

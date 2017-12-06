@@ -10,9 +10,10 @@ import android.view.View;
 
 /**
  * RecyclerView does not show any separation between items so we use ItemDecoration
+ *
  * @see <a href="http://stackoverflow.com/questions/24618829/how-to-add-dividers-and-spaces-between-items-in-recyclerview">
- *     Stackoverflow: How to add dividers and spaces between items in recycler view
- *     </a>
+ * Stackoverflow: How to add dividers and spaces between items in recycler view
+ * </a>
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};

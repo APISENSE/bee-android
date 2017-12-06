@@ -1,24 +1,20 @@
 package com.apisense.bee.ui.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.apisense.bee.BeeApplication;
 import com.apisense.bee.R;
 import com.apisense.bee.callbacks.BeeAPSCallback;
 import com.apisense.bee.callbacks.OnCropStarted;
@@ -27,33 +23,27 @@ import com.apisense.bee.ui.activity.QRScannerActivity;
 import com.apisense.bee.ui.adapter.AvailableExperimentsRecyclerAdapter;
 import com.apisense.bee.ui.adapter.DividerItemDecoration;
 import com.apisense.bee.utils.CropPermissionHandler;
-import io.apisense.sdk.APISENSE;
-import io.apisense.sdk.core.store.Crop;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.apisense.sdk.core.store.Crop;
+import io.apisense.sdk.core.store.StoreOptions;
 
 import static android.app.Activity.RESULT_OK;
 
-
-public class StoreFragment extends BaseFragment {
-    private final String TAG = getClass().getSimpleName();
-
-    private APISENSE.Sdk apisenseSdk;
+public class StoreFragment extends SortedCropsFragment {
     private CropPermissionHandler lastCropPermissionHandler;
     private Unbinder unbinder;
     private static final int REQUEST_PERMISSION_QR_CODE = 1;
 
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-    @BindView(R.id.action_read_qrcode) FloatingActionButton QRCodeButton;
-    @BindView(R.id.store_experiments_list) RecyclerView mRecyclerView;
-    @BindView(R.id.store_empty_list) TextView mEmptyList;
+    @BindView(R.id.action_read_qrcode)
+    FloatingActionButton QRCodeButton;
+    @BindView(R.id.store_experiments_list)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.store_empty_list)
+    TextView emptyListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,13 +53,14 @@ public class StoreFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_store, container, false);
         unbinder = ButterKnife.bind(this, root);
 
-        apisenseSdk = ((BeeApplication) getActivity().getApplication()).getSdk();
-
         homeActivity.getSupportActionBar().setTitle(R.string.title_activity_store);
         homeActivity.selectDrawerItem(HomeActivity.DRAWER_STORE_IDENTIFIER);
 
+        experimentsAdapter = new AvailableExperimentsRecyclerAdapter(getActivity());
+        mRecyclerView.setAdapter(experimentsAdapter);
+
         mRecyclerView.setHasFixedSize(true); // Performances
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
 
@@ -94,49 +85,9 @@ public class StoreFragment extends BaseFragment {
         }
     }
 
-    /**
-     * Change the adapter dataSet with a newly fetched List of Experiment
-     *
-     * @param experiments The new list of experiments to show
-     */
-    private void setExperiments(List<Crop> experiments) {
-        mAdapter = new AvailableExperimentsRecyclerAdapter(experiments, new AvailableExperimentsRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Crop crop) {
-                Bundle extra = new Bundle();
-                extra.putParcelable("crop", crop);
-
-                StoreDetailsFragment storeDetailsFragment = new StoreDetailsFragment();
-                storeDetailsFragment.setArguments(extra);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.exp_container, storeDetailsFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
     private void getExperiments() {
-        apisenseSdk.getStoreManager().findAllCrops(new OnExperimentsRetrieved(getActivity()));
-    }
-
-    // Callbacks definitions
-
-    private class OnExperimentsRetrieved extends BeeAPSCallback<List<Crop>> {
-        public OnExperimentsRetrieved(Activity activity) {
-            super(activity);
-        }
-
-        @Override
-        public void onDone(List<Crop> crops) {
-            Log.i(TAG, "Number of Active Experiments: " + crops.size());
-            if (crops.size() > 0) {
-                mEmptyList.setVisibility(View.GONE);
-            }
-            setExperiments(crops);
-        }
+        apisenseSdk.getStoreManager().findAllCrops(new StoreOptions(true),
+                new OnExperimentsRetrieved(getActivity(), emptyListView));
     }
 
     @Override
@@ -178,11 +129,7 @@ public class StoreFragment extends BaseFragment {
                 @Override
                 public void onError(Exception e) {
                     super.onError(e);
-                    Toast.makeText(
-                            getActivity(),
-                            e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }
