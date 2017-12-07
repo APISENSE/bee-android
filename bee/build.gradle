@@ -138,4 +138,16 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'io.apisense.sdk:apisense-android-sdk:' + apisenseVersion
+        force "com.google.firebase:firebase-messaging:" + googleServicesVersion
+        force 'io.apisense.sdk:stings-network:' + apisenseVersion
+        force 'io.apisense.sdk:stings-phone:' + apisenseVersion
+        force 'io.apisense.sdk:stings-motion:' + apisenseVersion
+        force 'io.apisense.sdk:stings-environment:' + apisenseVersion
+        force 'io.apisense.sdk:stings-visualization:' + apisenseVersion
+    }
+}
+
 apply plugin: 'com.google.gms.google-services'

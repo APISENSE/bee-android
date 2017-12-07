@@ -15,6 +15,8 @@
   public <init>(android.content.Context);
 }
 
+-keep public class com.apisense.bee.utils.** { public *; }
+
 ##############
 # zbar specific
 -keep class net.sourceforge.zbar.** { *; }
