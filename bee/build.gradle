@@ -91,6 +91,9 @@ android {
 }
 
 dependencies {
+    // Support for android < 5.0, see https://developer.android.com/studio/build/multidex.html
+    implementation 'com.android.support:multidex:1.0.2'
+
     // Report
     implementation 'com.rollbar:rollbar:0.5.3'
 
@@ -141,7 +144,6 @@ dependencies {
 configurations.all {
     resolutionStrategy {
         force 'io.apisense.sdk:apisense-android-sdk:' + apisenseVersion
-        force "com.google.firebase:firebase-messaging:" + googleServicesVersion
         force 'io.apisense.sdk:stings-network:' + apisenseVersion
         force 'io.apisense.sdk:stings-phone:' + apisenseVersion
         force 'io.apisense.sdk:stings-motion:' + apisenseVersion
