@@ -1,6 +1,8 @@
 package com.apisense.bee;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.support.multidex.MultiDex;
 
 import com.facebook.FacebookSdk;
 import com.rollbar.Rollbar;
@@ -17,6 +19,13 @@ import io.apisense.sting.visualization.VisualizationStingModule;
 
 public class BeeApplication extends APSApplication {
     private Rollbar rollbar;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        // Support for android < 5.0
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {
