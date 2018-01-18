@@ -108,7 +108,9 @@ public class HomeFragment extends SortedCropsFragment {
 
                 // Insert the crop in the same order as before.
                 for (Crop crop : displayed) {
-                    updated.add(selected.get(crop.getLocation()));
+                    if (selected.containsKey(crop.getLocation())) {
+                        updated.add(selected.get(crop.getLocation()));
+                    }
                 }
                 experimentsAdapter.setCrops(updated);
                 experimentsAdapter.notifyDataSetChanged();
