@@ -91,6 +91,9 @@ android {
 }
 
 dependencies {
+    // Report
+    implementation 'com.rollbar:rollbar-java:1.0.0'
+
     // Support for android < 5.0, see https://developer.android.com/studio/build/multidex.html
     implementation 'com.android.support:multidex:1.0.2'
 
