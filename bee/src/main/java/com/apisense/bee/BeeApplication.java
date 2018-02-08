@@ -26,7 +26,7 @@ import io.apisense.sting.visualization.VisualizationStingModule;
 
 
 public class BeeApplication extends APSApplication {
-    private Rollbar rollbar;
+    private static Rollbar rollbar;
 
     private static final Map<String, Object> deviceMap;
 
@@ -43,24 +43,10 @@ public class BeeApplication extends APSApplication {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             deviceMap.put("os", Build.VERSION.BASE_OS);
         }
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        // Support for android < 5.0
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
 
         Sender sender = new SyncSender.Builder().accessToken(BuildConfig.ROLLBAR_KEY).build();
         // Rollbar doesn't seems to upload errors with only a SyncSender.
         Sender buffSender = new BufferedSender.Builder().sender(sender).build();
-
         rollbar = Rollbar.init(
                 ConfigBuilder.withAccessToken(BuildConfig.ROLLBAR_KEY)
                         .environment(BuildConfig.ROLLBAR_ENV)
@@ -74,8 +60,19 @@ public class BeeApplication extends APSApplication {
                                 return deviceMap;
                             }
                         })
-                        .build()
-        );
+                        .build());
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        // Support for android < 5.0
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
