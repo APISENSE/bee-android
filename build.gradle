@@ -26,7 +26,7 @@ ext {
     apkCode = 26
 
     // Libraries
-    apisenseVersion = "1.11.3"
+    apisenseVersion = "1.11.6"
     googleServicesVersion = "11.6.2"
     androidSupportVersion = "27.0.1"
 }
