@@ -22,7 +22,7 @@ if (!project.hasProperty("release_key_password")) {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '26.0.2'
 
     lintOptions {
@@ -32,7 +32,7 @@ android {
     defaultConfig {
         applicationId "com.apisense.bee"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode apkCode
         versionName beeVersion
         multiDexEnabled true
@@ -91,6 +91,9 @@ android {
 }
 
 dependencies {
+    // Report
+    implementation 'com.rollbar:rollbar-java:1.0.0'
+
     // Support for android < 5.0, see https://developer.android.com/studio/build/multidex.html
     implementation 'com.android.support:multidex:1.0.2'
 

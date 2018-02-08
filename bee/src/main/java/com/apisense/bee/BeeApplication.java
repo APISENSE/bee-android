@@ -1,12 +1,20 @@
 package com.apisense.bee;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.facebook.FacebookSdk;
-import com.rollbar.Rollbar;
-import com.rollbar.payload.Payload;
+import com.rollbar.notifier.Rollbar;
+import com.rollbar.notifier.config.ConfigBuilder;
+import com.rollbar.notifier.provider.Provider;
+import com.rollbar.notifier.sender.BufferedSender;
+import com.rollbar.notifier.sender.Sender;
+import com.rollbar.notifier.sender.SyncSender;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import io.apisense.sdk.APISENSE;
 import io.apisense.sdk.APSApplication;
@@ -20,6 +28,23 @@ import io.apisense.sting.visualization.VisualizationStingModule;
 public class BeeApplication extends APSApplication {
     private Rollbar rollbar;
 
+    private static final Map<String, Object> deviceMap;
+
+    static {
+        deviceMap = new HashMap<>();
+        deviceMap.put("SDKVersion", Build.VERSION.SDK_INT);
+        deviceMap.put("releaseName", Build.VERSION.RELEASE);
+        deviceMap.put("device", Build.DEVICE);
+        deviceMap.put("model", Build.MODEL);
+        deviceMap.put("brand", Build.BRAND);
+        deviceMap.put("manufacturer", Build.MANUFACTURER);
+        deviceMap.put("product", Build.PRODUCT);
+        deviceMap.put("language", Locale.getDefault().getDisplayLanguage());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            deviceMap.put("os", Build.VERSION.BASE_OS);
+        }
+    }
+
     @Override
     protected void attachBaseContext(Context base) {
         // Support for android < 5.0
@@ -31,9 +56,25 @@ public class BeeApplication extends APSApplication {
     public void onCreate() {
         super.onCreate();
 
-        rollbar = new Rollbar(
-                BuildConfig.ROLLBAR_KEY,
-                BuildConfig.ROLLBAR_ENV
+
+        Sender sender = new SyncSender.Builder().accessToken(BuildConfig.ROLLBAR_KEY).build();
+        // Rollbar doesn't seems to upload errors with only a SyncSender.
+        Sender buffSender = new BufferedSender.Builder().sender(sender).build();
+
+        rollbar = Rollbar.init(
+                ConfigBuilder.withAccessToken(BuildConfig.ROLLBAR_KEY)
+                        .environment(BuildConfig.ROLLBAR_ENV)
+                        .framework("Android")
+                        .handleUncaughtErrors(true)
+                        .sender(buffSender)
+                        .codeVersion(BuildConfig.VERSION_NAME)
+                        .custom(new Provider<Map<String, Object>>() {
+                            @Override
+                            public Map<String, Object> provide() {
+                                return deviceMap;
+                            }
+                        })
+                        .build()
         );
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
@@ -60,18 +101,7 @@ public class BeeApplication extends APSApplication {
     }
 
     public void reportException(final Throwable throwable) {
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                Payload rollbarPayload = Payload.fromError(
-                        BuildConfig.ROLLBAR_KEY, BuildConfig.ROLLBAR_ENV,
-                        throwable, null
-                );
-                rollbar.getSender().send(rollbarPayload);
-                return null;
-            }
-        }.execute();
-
+        // Reported exceptions should not make the application crash, thus the warning state.
+        rollbar.warning(throwable);
     }
 }
