@@ -22,11 +22,11 @@ allprojects {
 }
 
 ext {
-    beeVersion = "2.0.3"
-    apkCode = 28
+    beeVersion = "2.0.4"
+    apkCode = 29
 
     // Libraries
-    apisenseVersion = "1.11.6"
+    apisenseVersion = "1.11.7"
     googleServicesVersion = "11.6.2"
     androidSupportVersion = "27.0.1"
 }

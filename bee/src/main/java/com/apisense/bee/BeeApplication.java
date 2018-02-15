@@ -3,6 +3,7 @@ package com.apisense.bee;
 import android.content.Context;
 import android.os.Build;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.rollbar.notifier.Rollbar;
@@ -44,23 +45,25 @@ public class BeeApplication extends APSApplication {
             deviceMap.put("os", Build.VERSION.BASE_OS);
         }
 
-        Sender sender = new SyncSender.Builder().accessToken(BuildConfig.ROLLBAR_KEY).build();
-        // Rollbar doesn't seems to upload errors with only a SyncSender.
-        Sender buffSender = new BufferedSender.Builder().sender(sender).build();
-        rollbar = Rollbar.init(
-                ConfigBuilder.withAccessToken(BuildConfig.ROLLBAR_KEY)
-                        .environment(BuildConfig.ROLLBAR_ENV)
-                        .framework("Android")
-                        .handleUncaughtErrors(true)
-                        .sender(buffSender)
-                        .codeVersion(BuildConfig.VERSION_NAME)
-                        .custom(new Provider<Map<String, Object>>() {
-                            @Override
-                            public Map<String, Object> provide() {
-                                return deviceMap;
-                            }
-                        })
-                        .build());
+     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+         Sender sender = new SyncSender.Builder().accessToken(BuildConfig.ROLLBAR_KEY).build();
+         // Rollbar doesn't seems to upload errors with only a SyncSender.
+         Sender buffSender = new BufferedSender.Builder().sender(sender).build();
+         rollbar = Rollbar.init(
+                    ConfigBuilder.withAccessToken(BuildConfig.ROLLBAR_KEY)
+                            .environment(BuildConfig.ROLLBAR_ENV)
+                            .framework("Android")
+                            .handleUncaughtErrors(true)
+                            .sender(buffSender)
+                            .codeVersion(BuildConfig.VERSION_NAME)
+                            .custom(new Provider<Map<String, Object>>() {
+                                @Override
+                                public Map<String, Object> provide() {
+                                    return deviceMap;
+                                }
+                            })
+                            .build());
+        }
     }
 
     @Override
@@ -99,6 +102,11 @@ public class BeeApplication extends APSApplication {
 
     public void reportException(final Throwable throwable) {
         // Reported exceptions should not make the application crash, thus the warning state.
-        rollbar.warning(throwable);
+        if (rollbar != null) {
+            rollbar.warning(throwable);
+        } else {
+            // Logging error on devices with API < 19
+            Log.w("BeeException", "An error occurred and could not be transmitted", throwable);
+        }
     }
 }
