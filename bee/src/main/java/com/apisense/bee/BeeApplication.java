@@ -20,6 +20,7 @@ import java.util.Map;
 import io.apisense.sdk.APISENSE;
 import io.apisense.sdk.APSApplication;
 import io.apisense.sting.environment.EnvironmentStingModule;
+import io.apisense.sting.googleservices.GoogleServicesStingModule;
 import io.apisense.sting.motion.MotionStingModule;
 import io.apisense.sting.network.NetworkStingModule;
 import io.apisense.sting.phone.PhoneStingModule;
@@ -45,11 +46,11 @@ public class BeeApplication extends APSApplication {
             deviceMap.put("os", Build.VERSION.BASE_OS);
         }
 
-     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-         Sender sender = new SyncSender.Builder().accessToken(BuildConfig.ROLLBAR_KEY).build();
-         // Rollbar doesn't seems to upload errors with only a SyncSender.
-         Sender buffSender = new BufferedSender.Builder().sender(sender).build();
-         rollbar = Rollbar.init(
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Sender sender = new SyncSender.Builder().accessToken(BuildConfig.ROLLBAR_KEY).build();
+            // Rollbar doesn't seems to upload errors with only a SyncSender.
+            Sender buffSender = new BufferedSender.Builder().sender(sender).build();
+            rollbar = Rollbar.init(
                     ConfigBuilder.withAccessToken(BuildConfig.ROLLBAR_KEY)
                             .environment(BuildConfig.ROLLBAR_ENV)
                             .framework("Android")
@@ -87,7 +88,8 @@ public class BeeApplication extends APSApplication {
                         new NetworkStingModule(),
                         new MotionStingModule(),
                         new EnvironmentStingModule(),
-                        new VisualizationStingModule()
+                        new VisualizationStingModule(),
+                        new GoogleServicesStingModule()
                 )
                 .useScriptExecutionService(true);
 

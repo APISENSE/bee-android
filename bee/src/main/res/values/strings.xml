@@ -5,6 +5,7 @@
     <string translatable="false" name="google_web_client_id" >380173086743-qasd4ru2o2jnblbugg6vkj2em6d2uih1.apps.googleusercontent.com</string>
     <string translatable="false" name="facebook_app_id">1760322360873183</string>
     <string translatable="false" name="fb_login_protocol_scheme">fb1760322360873183</string>
+    <string translatable="false" name="google_places_api_key">AIzaSyBrZsS2athB3s4LGWpQdxh7yvSYHI5R3NI</string>
 
     <string translatable="false" name="achievement_new_bee">CgkIl-DToIgLEAIQAQ</string>
     <string translatable="false" name="achievement_join_the_swarm">CgkIl-DToIgLEAIQBg</string>
