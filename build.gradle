@@ -27,6 +27,6 @@ ext {
 
     // Libraries
     apisenseVersion = "1.11.7"
-    googleServicesVersion = "11.6.2"
+    googleServicesVersion = "11.8.0"
     androidSupportVersion = "27.0.1"
 }

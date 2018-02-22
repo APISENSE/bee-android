@@ -111,7 +111,8 @@ dependencies {
     implementation 'io.apisense.sdk:stings-environment:' + apisenseVersion
     implementation 'io.apisense.sdk:stings-visualization:' + apisenseVersion
 
-    experimentalImplementation('io.apisense:netsense:1.0.0')
+    experimentalImplementation('io.apisense:netsense:1.0.2')
+    experimentalImplementation("io.apisense.sdk:apisense-android-sdk:1.12.0.beta1")
 
     // Import Sensor type
     implementation 'io.apisense:java-darts:1.4.3'
@@ -142,17 +143,6 @@ dependencies {
     // Helpers
     implementation 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-}
-
-configurations.all {
-    resolutionStrategy {
-        force 'io.apisense.sdk:apisense-android-sdk:' + apisenseVersion
-        force 'io.apisense.sdk:stings-network:' + apisenseVersion
-        force 'io.apisense.sdk:stings-phone:' + apisenseVersion
-        force 'io.apisense.sdk:stings-motion:' + apisenseVersion
-        force 'io.apisense.sdk:stings-environment:' + apisenseVersion
-        force 'io.apisense.sdk:stings-visualization:' + apisenseVersion
-    }
 }
 
 apply plugin: 'com.google.gms.google-services'
