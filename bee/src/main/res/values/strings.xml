@@ -176,16 +176,17 @@
           \t\t- Nicolas Haderer\n
           \t\t- Christophe Ribeiro\n
           \t\t- Antoine Veuiller\n
-          \t\t- Julien Duribreux
+          \t\t- Julien Duribreux\n
+          \t\t- Romain Sommerard
     </string>
 
     <string name="about_copyright">
         <![CDATA[
-	    	<p>
-	    	    Bee is a part of <a href="https://www.apisense.io" >APISENSE</a> platform and it aims to research.<br/>
-	    	    For more information, you can contact us at <a href="mailto:contact@apisense.io">contact@apisense.io</a>.<br/>
-			</p>
-	    	<p>&copy; 2013 <a href="www.inria.fr/">Inria</a>, all rights reserved. <a href="www.apisense.io/terms">Terms Of Service</a>.</p>
+            <p>
+                Bee is a part of <a href="https://www.apisense.io" >APISENSE</a> platform and it aims to research.<br/>
+                For more information, you can contact us at <a href="mailto:contact@apisense.io">contact@apisense.io</a>.<br/>
+            </p>
+            <p>&copy; 2018 <a href="www.inria.fr/">Inria</a>, all rights reserved. <a href="www.apisense.io/terms">Terms Of Service</a>.</p>
 	    ]]>
     </string>
     <string name="share_bee_text">Help science by using Bee! https://play.google.com/store/apps/details?id=com.apisense.bee</string>
