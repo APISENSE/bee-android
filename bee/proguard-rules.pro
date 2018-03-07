@@ -28,6 +28,7 @@
 -keep public class io.apisense.sdk.** { *; }
 -keepclassmembernames class io.apisense.sdk.** { *; }
 -keep public class io.apisense.** { *; }
+-keepclassmembernames class io.apisense.** { *; }
 
 -keepclassmembernames class * {
     java.lang.Class class$(java.lang.String);

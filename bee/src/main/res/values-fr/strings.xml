@@ -150,14 +150,15 @@
 
 
     <!-- About -->
-    <string name="about_versions_title">Version de logicels:</string>
+    <string name="about_versions_title">Version de logiciels:</string>
     <string name="about_team">
         Equipe APISENSE®:\n
           \t\t- Romain Rouvoy\n
           \t\t- Nicolas Haderer\n
           \t\t- Christophe Ribeiro\n
           \t\t- Antoine Veuiller\n
-          \t\t- Julien Duribreux
+          \t\t- Julien Duribreux\n
+          \t\t- Romain Sommerard
     </string>
 
     <string name="about_copyright">
@@ -166,7 +167,7 @@
 	    		L\'application Bee fait partie de la plateforme <a href="https://apisense.io" >APISENSE</a>,
 	    		et est à but recherche. Pour toutes informations  complémentaires : <a href="mailto:contact@apisense.io">contact@apisense.io</a>.
 			</p>
-	    	<p>&copy; 2013 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés. <a href="https://apisense.io/terms">Conditions Générales d\'Utilisation</a>.</p>
+			<p>&copy; 2018 <a href="http://www.inria.fr/">Inria</a>, tous droits réservés. <a href="https://apisense.io/terms">Conditions Générales d\'Utilisation</a>.</p>
 	    ]]>
     </string>
     <string name="share_bee_text">Aide la science grâce à l\'application Bee! https://play.google.com/store/apps/details?id=com.apisense.bee</string>
