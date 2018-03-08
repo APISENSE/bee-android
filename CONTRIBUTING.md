@@ -50,3 +50,18 @@ Genymotion uses a specific version of ```adb``` embedded in their installation f
     1. `cd $ANDROID_HOME/platform-tools/`
     2. `mv adb adb-newest`
     3. `ln -s $GENYMOTION_DIR/tool/adb adb`
+    
+    
+# Deploy a release
+
+Currently we have no automatic delivery for the application.
+In order to build a release version, you will have to follow this procedure:
+1. Copy the `release.keystore` file available in the project keepass into the `KeystoreCertificates` directory.
+1. Copy the `google-services.json` file available in the project keepass into the `bee` directory.
+1. Create a `gradle.properties` file at the project root with the right values for the keys:
+    - `release_sdk_key`
+    - `rollbar_key`
+    - `release_keystore_password`
+    - `release_key_password`
+1. Build the Android both vanilla and experimental applications using the command `./gradlew clean assembleRelease`, or select either one or the other using `assembleVanillaRelease` or `assembleExperimentalRelease`.
+1. Upload the artifact to the [play developer console](https://play.google.com/apps/publish/)
