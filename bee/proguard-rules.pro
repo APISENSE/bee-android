@@ -69,6 +69,9 @@
 # Dagger: https://github.com/google/dagger/issues/645
 -dontwarn com.google.errorprone.annotations.*
 
+# Places sting
+-keepclassmembers class com.google.android.gms.location.places.Place { *; }
+
 # End apisense
 ##############
 
